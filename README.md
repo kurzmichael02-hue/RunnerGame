@@ -11,6 +11,8 @@ Ein 2D-Runner-Spiel mit Levelauswahl, Power-ups, Highscore-System und flüssiger
 Entwickelt als DHBW-Projekt 
 
 ## Tools & Engine
-- Godot (geplant)
-- Git & GitHub (Versionsverwaltung)
-- Branch-Workflow mit main/dev/feature-Branches
+
+- **Godot** (geplant)
+- **Git & GitHub** (Versionsverwaltung)
+- **Branch-Workflow** mit `main` / `dev` / `feature-*`
+- **Sound & Musik:** *FL Studio 2025*, *Audacity*, *Serum (Plugin)*
