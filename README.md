@@ -22,6 +22,7 @@ Entwickelt als DHBW-Projekt
 Alle User Stories sind im Repository unter Issues dokumentiert und mit passenden Labels versehen.
 
 ##Projektstruktur
+
 res://
 ├── audio/      → Musik & Soundeffekte  
 ├── scenes/     → Level, Hauptmenü, Game-Logik  
