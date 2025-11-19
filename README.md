@@ -19,7 +19,7 @@ Entwickelt als DHBW-Projekt
 
 ## User Stories
 
-Alle User Stories werden in Taiga angelegt und mit passenden Labels versehene:
+Alle User Stories werden in Taiga angelegt und mit passenden Labels versehen:
 
 ##Projektstruktur
 
