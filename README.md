@@ -1,32 +1,30 @@
-## Team & Rollen
-- Michael – Game Logic Developer
-- Schayan - Level & Environment  
-- Bartolmay – UI & Menü Design  
-- Maksym – Projektleitung & Dokumentation
-- Tim – Sound & FX
-  
+# 2D Runner Game 🎮
 
-## Ziel
-Ein 2D-Runner-Spiel mit Levelauswahl, Power-ups, Highscore-System und flüssiger Steuerung.  
-Entwickelt als DHBW-Projekt 
+A 2D jump 'n' run game developed as a Software Engineering project at DHBW.
+Built with Godot and C#, featuring level selection, power-ups, a highscore system and smooth controls.
 
-## Tools & Engine
+## Team
+| Member | Role |
+|---|---|
+| Michael | Game Logic |
+| Schayan | Level & Environment |
+| Bartolmay | UI & Menu Design |
+| Maksym | Project Lead & Documentation |
+| Tim | Sound & FX |
 
-- **Godot** (geplant)
-- **Git & GitHub** (Versionsverwaltung)
-- **Branch-Workflow** mit `main` / `dev` / `feature-*`
-- **Sound & Musik:** *FL Studio 2025*, *Audacity*, *Serum (Plugin)*
+## Tech Stack
+- **Engine:** Godot + C#
+- **Version Control:** Git & GitHub
+- **Branch Workflow:** `main` / `dev` / `feature-*`
+- **Sound:** FL Studio 2025, Audacity, Serum
 
-## User Stories
-
-Alle User Stories werden in Taiga angelegt und mit passenden Labels versehen:
-
-##Projektstruktur
-
+## Project Structure
 res://
+├── audio/    → Music & Sound Effects
+├── scenes/   → Levels, Main Menu, Game Logic
+├── scripts/  → Gameplay Code (Movement, Collision, Power-ups)
+├── sprites/  → Characters, Backgrounds, Assets
+└── ui/       → Menu & HUD (Buttons, Game Over)
 
-├── audio/      → Musik & Soundeffekte  
-├── scenes/     → Level, Hauptmenü, Game-Logik  
-├── scripts/    → Gameplay-Code (Bewegung, Kollision, Power-ups)  
-├── sprites/    → Charaktere, Hintergründe, Assets  
-└── ui/         → Menü & Anzeigen (Buttons, HUD, Game Over)
+## Status
+🚧 In Development – DHBW Semester 3
