@@ -6,12 +6,12 @@
 size = Vector2(50, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iukft"]
-size = Vector2(1152, 50)
+size = Vector2(5000, 50)
 
 [node name="Node2D" type="Node2D" unique_id=1586631665]
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=666915128]
-position = Vector2(200, 350)
+position = Vector2(290, 260)
 script = ExtResource("1_iukft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1455147005]
@@ -24,12 +24,12 @@ color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(-25, -40, 25, -40, 25, 40, -25, 40)
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=591248435]
-position = Vector2(0, 370)
+position = Vector2(0, 300)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=665067689]
 shape = SubResource("RectangleShape2D_iukft")
 
 [node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1699303299]
-offset_right = 1152.0
+offset_right = 5000.0
 offset_bottom = 50.0
 color = Color(0, 1, 0, 1)
