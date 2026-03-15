@@ -1,9 +1,12 @@
 using Godot;
+
 public partial class Player : CharacterBody2D
 {
 	[Export] public float Speed = 300.0f;
 	[Export] public float JumpVelocity = -600.0f;
+	
 	private Vector2 _gravity;
+	private int _lives = 3;
 
 	public override void _Ready()
 	{
@@ -29,7 +32,6 @@ public partial class Player : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 
-		// Check enemy collision (Story #13)
 		for (int i = 0; i < GetSlideCollisionCount(); i++)
 		{
 			var collision = GetSlideCollision(i);
@@ -42,7 +44,17 @@ public partial class Player : CharacterBody2D
 
 	public void Die()
 	{
-		Position = new Vector2(200, 290); // Respawn
-		GD.Print("Player died!");
+		_lives--;
+		GD.Print("Lives left: " + _lives);
+
+		if (_lives <= 0)
+		{
+			GD.Print("GAME OVER");
+			GetTree().ReloadCurrentScene(); // restart
+		}
+		else
+		{
+			Position = new Vector2(200, 290); // Respawn
+		}
 	}
 }
