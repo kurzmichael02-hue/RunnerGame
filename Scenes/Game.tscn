@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://wkfgl7nu6bsh"]
 
 [ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player.cs" id="1_iukft"]
+[ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/GameManager.cs" id="1_j5yw3"]
+[ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Coin.cs" id="2_gl6un"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -8,7 +10,11 @@ size = Vector2(50, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iukft"]
 size = Vector2(5000, 50)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_j5yw3"]
+radius = 20.0
+
 [node name="Node2D" type="Node2D" unique_id=1586631665]
+script = ExtResource("1_j5yw3")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=666915128]
 position = Vector2(290, 260)
@@ -33,3 +39,47 @@ shape = SubResource("RectangleShape2D_iukft")
 offset_right = 5000.0
 offset_bottom = 50.0
 color = Color(0, 1, 0, 1)
+
+[node name="Coin" type="Area2D" parent="." unique_id=1208660087]
+position = Vector2(400, 290)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin" unique_id=1809639553]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin" unique_id=667955738]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin2" type="Area2D" parent="." unique_id=517046167]
+position = Vector2(600, 290)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin2" unique_id=1906144209]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin2" unique_id=1258841838]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin3" type="Area2D" parent="." unique_id=81492866]
+position = Vector2(800, 290)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin3" unique_id=1794155983]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin3" unique_id=2044890122]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin4" type="Area2D" parent="." unique_id=1947107519]
+position = Vector2(1000, 290)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin4" unique_id=1923080381]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin4" unique_id=699034863]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
