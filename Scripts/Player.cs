@@ -1,10 +1,8 @@
 using Godot;
-
 public partial class Player : CharacterBody2D
 {
 	[Export] public float Speed = 300.0f;
 	[Export] public float JumpVelocity = -600.0f;
-
 	private Vector2 _gravity;
 
 	public override void _Ready()
@@ -14,18 +12,14 @@ public partial class Player : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		GD.Print(IsOnFloor());
 		Vector2 velocity = Velocity;
 
-		// Gravity
 		if (!IsOnFloor())
 			velocity += _gravity * (float)delta;
 
-		// Jump (Story #9)
-if (Input.IsKeyPressed(Key.Space) && IsOnFloor())
-	velocity.Y = JumpVelocity;
+		if (Input.IsKeyPressed(Key.Space) && IsOnFloor())
+			velocity.Y = JumpVelocity;
 
-		// Left/Right Movement
 		float direction = Input.GetAxis("ui_left", "ui_right");
 		if (direction != 0)
 			velocity.X = direction * Speed;
@@ -34,5 +28,21 @@ if (Input.IsKeyPressed(Key.Space) && IsOnFloor())
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+		// Check enemy collision (Story #13)
+		for (int i = 0; i < GetSlideCollisionCount(); i++)
+		{
+			var collision = GetSlideCollision(i);
+			if (collision.GetCollider() is Enemy)
+			{
+				Die();
+			}
+		}
+	}
+
+	public void Die()
+	{
+		Position = new Vector2(200, 290); // Respawn
+		GD.Print("Player died!");
 	}
 }
