@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://wkfgl7nu6bsh"]
+
+[ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player.cs" id="1_iukft"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
+size = Vector2(50, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iukft"]
+size = Vector2(1152, 50)
+
+[node name="Node2D" type="Node2D" unique_id=1586631665]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=666915128]
+position = Vector2(200, 350)
+script = ExtResource("1_iukft")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1455147005]
+shape = SubResource("RectangleShape2D_cg2ps")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=217471102]
+
+[node name="Polygon2D" type="Polygon2D" parent="Player" unique_id=655079140]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-25, -40, 25, -40, 25, 40, -25, 40)
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=591248435]
+position = Vector2(0, 370)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=665067689]
+shape = SubResource("RectangleShape2D_iukft")
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=1699303299]
+offset_right = 1152.0
+offset_bottom = 50.0
+color = Color(0, 1, 0, 1)
