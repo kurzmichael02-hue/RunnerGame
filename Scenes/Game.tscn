@@ -48,7 +48,7 @@ offset_bottom = 50.0
 color = Color(0, 1, 0, 1)
 
 [node name="Coin" type="Area2D" parent="."]
-position = Vector2(400, 290)
+position = Vector2(400, 150)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin"]
@@ -59,7 +59,7 @@ color = Color(1, 1, 0, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="Coin2" type="Area2D" parent="."]
-position = Vector2(600, 290)
+position = Vector2(600, 280)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin2"]
@@ -70,7 +70,7 @@ color = Color(1, 1, 0, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="Coin3" type="Area2D" parent="."]
-position = Vector2(800, 290)
+position = Vector2(801, 150)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin3"]
@@ -81,7 +81,7 @@ color = Color(1, 1, 0, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="Coin4" type="Area2D" parent="."]
-position = Vector2(1000, 290)
+position = Vector2(1000, 280)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin4"]
