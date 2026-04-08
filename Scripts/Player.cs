@@ -10,7 +10,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
-		_gravity = new Vector2(0, 980f);
+		_gravity = new Vector2(0, 1800f);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -50,7 +50,7 @@ public partial class Player : CharacterBody2D
 		if (_lives <= 0)
 		{
 			GD.Print("GAME OVER");
-			GetTree().ReloadCurrentScene(); // restart
+			GetTree().Paused = true;
 		}
 		else
 		{
