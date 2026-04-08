@@ -1,21 +1,26 @@
 # 2D Runner Game 
-A 2D jump 'n' run game developed as a Software Engineering project at DHBW.
-Built with Godot and C#, featuring level selection, power-ups, a highscore system and smooth controls.
+
+2D jump 'n' run built as a group project for the Software Engineering module at DHBW Mannheim.
+Godot 4.5 + C#, five people, one semester.
 
 ## Team
+
 | Member | Role |
 |---|---|
 | Michael Kurz | Game Logic |
 | Schayan | Level & Environment |
-| Bartolmay | UI & Menu Design |
-| Maksym Mykhailych | Project Lead & Documentation |
+| Bartolmay | UI & Menus |
+| Maksym Mykhailych | Project Lead & Docs |
 | Tim | Sound & FX |
 
 ## Tech Stack
-- **Engine:** Godot 4.6 + C#
-- **Version Control:** Git & GitHub
-- **Branch Workflow:** `main` / `dev` / `feature-*`
-- **Sound:** FL Studio 2025, Audacity, Serum
+
+- Godot 4.5 · C#
+- Git / GitHub – branch per feature
+- Taiga – user stories
+- FL Studio, Audacity, Serum – audio
+
+## Project Structure
 
 ## Project Structure
 ```
