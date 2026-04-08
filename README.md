@@ -20,7 +20,6 @@ Godot 4.5 + C#, five people, one semester.
 - Taiga – user stories
 - FL Studio, Audacity, Serum – audio
 
-## Project Structure
 
 ## Project Structure
 ```
