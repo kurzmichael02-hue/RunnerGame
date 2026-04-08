@@ -1,4 +1,4 @@
-# 2D Runner Game 🎮
+# 2D Runner Game 
 A 2D jump 'n' run game developed as a Software Engineering project at DHBW.
 Built with Godot and C#, featuring level selection, power-ups, a highscore system and smooth controls.
 
@@ -51,4 +51,4 @@ res://
 ```
 
 ## Status
-🚧 In Development – DHBW Semester 3
+In Development – DHBW Semester 3
