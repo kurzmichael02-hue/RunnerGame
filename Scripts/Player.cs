@@ -2,93 +2,145 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-	[Export] public float Speed = 300.0f;
-	[Export] public float JumpVelocity = -600.0f;
+	// Movement
+	[Export] public float MaxSpeed = 300f;
+	[Export] public float Acceleration = 2000f;
+	[Export] public float Deceleration = 1500f;
+	[Export] public float AirAcceleration = 1200f;
+	[Export] public float TurnAcceleration = 3000f;
 
-	private Vector2 _gravity;
+	// Jump
+	[Export] public float JumpVelocity = -500f;
+	[Export] public float JumpGravity = 900f;
+	[Export] public float FallGravity = 1800f;
+	[Export] public float MaxFallSpeed = 800f;
+	[Export] public float CoyoteTime = 0.1f;
+	[Export] public float JumpBufferTime = 0.12f;
+
+	// State
 	private int _lives = 3;
+	private int _score = 0;
 	private bool _isDying = false;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
-	private float _invincibilityTimer = 0f; // brief invincibility after getting hit
+	private float _invincibilityTimer = 0f;
+	private float _coyoteTimer = 0f;
+	private float _jumpBufferTimer = 0f;
+	private bool _isJumping = false;
 
 	public int Lives => _lives;
 	public int Score => _score;
-	private int _score = 0;
 
 	public override void _Ready()
 	{
-		_gravity = new Vector2(0, 1800f);
 		GD.Print("Lives: " + _lives);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		float dt = (float)delta;
 		Vector2 velocity = Velocity;
 
-		// Gravity
+		// Asymmetric gravity – hold jump = lower gravity while rising
+		float gravity = (velocity.Y < 0 && Input.IsActionPressed("jump"))
+			? JumpGravity
+			: FallGravity;
 		if (!IsOnFloor())
-			velocity += _gravity * (float)delta;
+			velocity.Y += gravity * dt;
+		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
 
-		// Jump – Space, W or arrow up
-		bool jumpPressed = Input.IsKeyPressed(Key.Space)
-			|| Input.IsKeyPressed(Key.W)
-			|| Input.IsKeyPressed(Key.Up);
-		if (jumpPressed && IsOnFloor())
+		// Coyote time
+		if (IsOnFloor())
+		{
+			_coyoteTimer = CoyoteTime;
+			_isJumping = false;
+		}
+		else
+			_coyoteTimer -= dt;
+
+		// Jump buffer
+		if (Input.IsActionJustPressed("jump"))
+			_jumpBufferTimer = JumpBufferTime;
+		else
+			_jumpBufferTimer -= dt;
+
+		// Short hop on release
+		if (Input.IsActionJustReleased("jump") && velocity.Y < 0)
+			velocity.Y *= 0.5f;
+
+		// Execute jump
+		bool canJump = IsOnFloor() || (_coyoteTimer > 0f && !_isJumping);
+		if (_jumpBufferTimer > 0f && canJump)
+		{
 			velocity.Y = JumpVelocity;
+			_jumpBufferTimer = 0f;
+			_coyoteTimer = 0f;
+			_isJumping = true;
+		}
 
-		// Left/Right – A/D or arrow keys
+		// Horizontal movement with acceleration
 		float direction = 0;
-		if (Input.IsKeyPressed(Key.Left) || Input.IsKeyPressed(Key.A))
-			direction = -1;
-		else if (Input.IsKeyPressed(Key.Right) || Input.IsKeyPressed(Key.D))
-			direction = 1;
+		if (Input.IsActionPressed("move_left")) direction = -1;
+		else if (Input.IsActionPressed("move_right")) direction = 1;
+
+		bool isTurning = (direction > 0 && velocity.X < -10)
+					  || (direction < 0 && velocity.X > 10);
 
 		if (direction != 0)
-			velocity.X = direction * Speed;
+		{
+			float accel = !IsOnFloor() ? AirAcceleration
+						: isTurning    ? TurnAcceleration
+						:                Acceleration;
+			velocity.X = Mathf.MoveToward(velocity.X, direction * MaxSpeed, accel * dt);
+		}
 		else
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+		{
+			float decel = IsOnFloor() ? Deceleration : AirAcceleration;
+			velocity.X = Mathf.MoveToward(velocity.X, 0f, decel * dt);
+		}
+
+		// Left boundary
+		if (Position.X < 0)
+			Position = new Vector2(0, Position.Y);
 
 		Velocity = velocity;
 		MoveAndSlide();
-		
-		// prevent player from going off the left edge
-if (Position.X < 0)
-	Position = new Vector2(0, Position.Y);
 
-		// Invincibility timer after hit
+		// Skip collision when invincible
 		if (_invincibilityTimer > 0)
 		{
-			_invincibilityTimer -= (float)delta;
-			return; // skip collision check while invincible
+			_invincibilityTimer -= dt;
+			return;
 		}
 
-		// Enemy collision – only one hit per contact
+		// Enemy collision
 		for (int i = 0; i < GetSlideCollisionCount(); i++)
 		{
-			var collision = GetSlideCollision(i);
-			if (collision.GetCollider() is Enemy)
+			var col = GetSlideCollision(i);
+			if (col.GetCollider() is Enemy)
 			{
-				if (_shieldActive)
-				{
-					_invincibilityTimer = 1.0f;
-					return;
-				}
+				if (_shieldActive) { _invincibilityTimer = 1f; return; }
 				Die();
-				break; // stop after first hit, prevents multi-hit in same frame
+				break;
 			}
 		}
 
 		// Shield timer
 		if (_shieldActive)
 		{
-			_shieldTimer -= (float)delta;
+			_shieldTimer -= dt;
 			if (_shieldTimer <= 0)
 			{
 				_shieldActive = false;
 				GD.Print("Shield expired!");
 			}
 		}
+	}
+
+	public void AddScore(int amount)
+	{
+		_score += amount;
+		GD.Print("Score: " + _score);
 	}
 
 	public void ActivateShield()
@@ -111,20 +163,13 @@ if (Position.X < 0)
 		{
 			GD.Print("GAME OVER");
 			Visible = false;
-			_lives = 0; // force to 0 so HUD shows correct value before pause
 			GetTree().Paused = true;
 		}
 		else
 		{
-			_invincibilityTimer = 1.5f; // 1.5s invincible after respawn
+			_invincibilityTimer = 1.5f;
 			Position = new Vector2(200, 260);
 			_isDying = false;
 		}
 	}
-	
-	public void AddScore(int amount)
-{
-	_score += amount;
-	GD.Print("Score: " + _score);
-}
 }
