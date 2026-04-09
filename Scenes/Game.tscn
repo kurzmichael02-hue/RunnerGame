@@ -1,15 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://wkfgl7nu6bsh"]
+[gd_scene load_steps=12 format=3 uid="uid://wkfgl7nu6bsh"]
 
 [ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player.cs" id="1_iukft"]
 [ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/GameManager.cs" id="1_j5yw3"]
 [ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Coin.cs" id="2_gl6un"]
 [ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemy.cs" id="4_kldst"]
+[ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/HUD.cs" id="5_b2bpf"]
+[ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/PauseMenu.cs" id="6_7lihs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iukft"]
-size = Vector2(5000, 50)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kldst"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j5yw3"]
 radius = 20.0
@@ -24,7 +25,7 @@ size = Vector2(50, 50)
 script = ExtResource("1_j5yw3")
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(290, 260)
+position = Vector2(200, 300)
 script = ExtResource("1_iukft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -37,13 +38,13 @@ color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(-25, -40, 25, -40, 25, 40, -25, 40)
 
 [node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(0, 300)
+position = Vector2(-2000, 300)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
-shape = SubResource("RectangleShape2D_iukft")
+shape = SubResource("WorldBoundaryShape2D_kldst")
 
 [node name="ColorRect" type="ColorRect" parent="Ground"]
-offset_right = 5000.0
+offset_right = 10000.0
 offset_bottom = 50.0
 color = Color(0, 1, 0, 1)
 
@@ -106,3 +107,58 @@ polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/HitBox"]
 shape = SubResource("RectangleShape2D_kldst")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5_b2bpf")
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 43.0
+
+[node name="LivesLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 60.0
+offset_bottom = 73.0
+
+[node name="PauseMenu" type="Control" parent="HUD"]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("6_7lihs")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PauseMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="Resume" type="Button" parent="HUD/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Resume
+"
+
+[node name="Settings" type="Button" parent="HUD/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Settings
+"
+
+[node name="Exit" type="Button" parent="HUD/PauseMenu/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Exit
+"

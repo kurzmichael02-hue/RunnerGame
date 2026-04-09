@@ -9,10 +9,9 @@ public partial class Coin : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		if (body is Player)
+		if (body is Player player)
 		{
-			GameManager gameManager = GetNode<GameManager>("/root/Node2D");
-			gameManager.AddScore(1);
+			player.AddScore(1);
 			QueueFree();
 		}
 	}
