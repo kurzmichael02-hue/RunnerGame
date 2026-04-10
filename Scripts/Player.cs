@@ -3,19 +3,22 @@ using Godot;
 public partial class Player : CharacterBody2D
 {
 	// Movement
-	[Export] public float MaxSpeed = 300f;
-	[Export] public float Acceleration = 2000f;
-	[Export] public float Deceleration = 1500f;
+	[Export] public float MaxSpeed = 500f;
+	[Export] public float Acceleration = 800f;
+	[Export] public float Deceleration = 900f;
 	[Export] public float AirAcceleration = 1200f;
 	[Export] public float TurnAcceleration = 3000f;
+	
 
 	// Jump
-	[Export] public float JumpVelocity = -500f;
-	[Export] public float JumpGravity = 900f;
+	[Export] public float JumpVelocity = -600f;
+	[Export] public float JumpGravity = 700f;
 	[Export] public float FallGravity = 1800f;
 	[Export] public float MaxFallSpeed = 800f;
 	[Export] public float CoyoteTime = 0.1f;
 	[Export] public float JumpBufferTime = 0.12f;
+	[Export] public float JumpHoldTime = 0.3f;
+	private float JumpHoldTimer = 0f;
 
 	// State
 	private int _lives = 3;
@@ -47,7 +50,9 @@ public void SetCheckpoint(Vector2 position)
 	public override void _PhysicsProcess(double delta)
 	{
 		float dt = (float)delta;
+		JumpHoldTimer = Mathf.Max(JumpHoldTimer - dt, 0f);
 		Vector2 velocity = Velocity;
+		
 
 		// Bounce after stomping enemy (#89)
 		if (StompedEnemy)
@@ -57,8 +62,13 @@ public void SetCheckpoint(Vector2 position)
 		}
 
 		// Asymmetric gravity
-		float gravity = (velocity.Y < 0 && Input.IsActionPressed("jump"))
-			? JumpGravity : FallGravity;
+		float gravity;
+		if (velocity.Y < 0 && Input.IsActionPressed("jump") && JumpHoldTimer > 0f){
+			gravity = JumpGravity;
+		}
+		else {
+			gravity = FallGravity;
+		}
 		if (!IsOnFloor())
 			velocity.Y += gravity * dt;
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
@@ -69,7 +79,7 @@ public void SetCheckpoint(Vector2 position)
 
 		// Jump buffer
 		if (Input.IsActionJustPressed("jump")) _jumpBufferTimer = JumpBufferTime;
-		else _jumpBufferTimer -= dt;
+		else _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - dt, 0f);
 
 		// Short hop on release
 		if (Input.IsActionJustReleased("jump") && velocity.Y < 0)
@@ -83,6 +93,7 @@ public void SetCheckpoint(Vector2 position)
 			_jumpBufferTimer = 0f;
 			_coyoteTimer = 0f;
 			_isJumping = true;
+			JumpHoldTimer = JumpHoldTime;
 		}
 
 		// Horizontal movement
