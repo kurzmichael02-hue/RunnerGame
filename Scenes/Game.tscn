@@ -3,10 +3,12 @@
 [ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player.cs" id="1_iukft"]
 [ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/GameManager.cs" id="1_j5yw3"]
 [ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Coin.cs" id="2_gl6un"]
+[ext_resource type="AudioStream" uid="uid://d1trrsi3oa868" path="res://Sounds/jump.wav" id="3_2irst"]
 [ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemy.cs" id="4_kldst"]
 [ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/HUD.cs" id="5_b2bpf"]
 [ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/PauseMenu.cs" id="6_7lihs"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="7_fgofq"]
+[ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="9_bf53h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -41,6 +43,9 @@ shape = SubResource("RectangleShape2D_cg2ps")
 [node name="Polygon2D" type="Polygon2D" parent="Player" unique_id=124608252]
 color = Color(1, 0, 0, 1)
 polygon = PackedVector2Array(-25, -40, 25, -40, 25, 40, -25, 40)
+
+[node name="JumpFx" type="AudioStreamPlayer" parent="Player" unique_id=536031216]
+stream = ExtResource("3_2irst")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=394806246]
 position = Vector2(-2000, 300)
@@ -260,3 +265,6 @@ shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Polygon2D" type="Polygon2D" parent="Checkpoint" unique_id=1547109945]
 polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+
+[node name="CheckPointFx" type="AudioStreamPlayer" parent="Checkpoint" unique_id=1741858423]
+stream = ExtResource("9_bf53h")

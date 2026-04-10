@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
 	[Export] public float JumpBufferTime = 0.12f;
 	[Export] public float JumpHoldTime = 0.3f;
 	private float JumpHoldTimer = 0f;
-
+	
 	// State
 	private int _lives = 3;
 	private int _score = 0;
@@ -35,6 +35,9 @@ public partial class Player : CharacterBody2D
 	public int Score => _score;
 	public bool StompedEnemy = false;
 	private Vector2 _checkpointPosition = new Vector2(200, 260);
+	
+	//Sounds
+	private AudioStreamPlayer _jumpFx;
 
 public void SetCheckpoint(Vector2 position)
 {
@@ -45,6 +48,8 @@ public void SetCheckpoint(Vector2 position)
 	public override void _Ready()
 	{
 		GD.Print("Lives: " + _lives);
+		_jumpFx = GetNode<AudioStreamPlayer>("JumpFx");
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -94,6 +99,8 @@ public void SetCheckpoint(Vector2 position)
 			_coyoteTimer = 0f;
 			_isJumping = true;
 			JumpHoldTimer = JumpHoldTime;
+			_jumpFx.PitchScale = 1f + (GD.Randf() * 0.04f - 0.02f);
+			_jumpFx.Play();
 		}
 
 		// Horizontal movement
