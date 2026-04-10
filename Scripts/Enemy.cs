@@ -57,7 +57,7 @@ public partial class Enemy : CharacterBody2D
 		if (Type == EnemyType.Jumping && IsOnFloor())
 		{
 			_jumpTimer -= (float)delta;
-			if (_jumpTimer <= 0f) { velocity.Y = -500f; _jumpTimer = 2f; }
+			if (_jumpTimer <= 0f) { velocity.Y = -700f; _jumpTimer = 1.2f; }
 		}
 
 		Velocity = velocity;

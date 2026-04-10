@@ -100,6 +100,7 @@ position = Vector2(700, 290)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
+Type = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=634150711]
 shape = SubResource("RectangleShape2D_j5yw3")
