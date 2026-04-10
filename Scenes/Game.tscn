@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemy.cs" id="4_kldst"]
 [ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/HUD.cs" id="5_b2bpf"]
 [ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/PauseMenu.cs" id="6_7lihs"]
+[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="7_fgofq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -20,6 +21,9 @@ size = Vector2(50, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kldst"]
 size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]
+size = Vector2(30, 80)
 
 [node name="Node2D" type="Node2D" unique_id=1679243187]
 script = ExtResource("1_j5yw3")
@@ -101,6 +105,7 @@ collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
 Type = 2
+MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=634150711]
 shape = SubResource("RectangleShape2D_j5yw3")
@@ -121,6 +126,7 @@ collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
 Type = 1
+MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2" unique_id=1384934600]
 shape = SubResource("RectangleShape2D_j5yw3")
@@ -246,3 +252,13 @@ layout_mode = 2
 [node name="Exit" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=639170337]
 layout_mode = 2
 text = "Exit"
+
+[node name="Checkpoint" type="Area2D" parent="." unique_id=1417984093]
+position = Vector2(700, 260)
+script = ExtResource("7_fgofq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint" unique_id=1410383504]
+shape = SubResource("RectangleShape2D_7lihs")
+
+[node name="Polygon2D" type="Polygon2D" parent="Checkpoint" unique_id=1547109945]
+polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)

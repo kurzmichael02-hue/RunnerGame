@@ -31,6 +31,13 @@ public partial class Player : CharacterBody2D
 	public int Lives => _lives;
 	public int Score => _score;
 	public bool StompedEnemy = false;
+	private Vector2 _checkpointPosition = new Vector2(200, 260);
+
+public void SetCheckpoint(Vector2 position)
+{
+	_checkpointPosition = position;
+	GD.Print("Checkpoint saved at: " + position);
+}
 
 	public override void _Ready()
 	{
@@ -148,7 +155,7 @@ public partial class Player : CharacterBody2D
 		else
 		{
 			_invincibilityTimer = 1.5f;
-			Position = new Vector2(200, 260);
+			Position = _checkpointPosition;
 			_isDying = false;
 		}
 	}
