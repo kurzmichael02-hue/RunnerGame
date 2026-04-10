@@ -30,6 +30,7 @@ public partial class Player : CharacterBody2D
 
 	public int Lives => _lives;
 	public int Score => _score;
+	public bool StompedEnemy = false;
 
 	public override void _Ready()
 	{
@@ -41,28 +42,27 @@ public partial class Player : CharacterBody2D
 		float dt = (float)delta;
 		Vector2 velocity = Velocity;
 
-		// Asymmetric gravity – hold jump = lower gravity while rising
+		// Bounce after stomping enemy (#89)
+		if (StompedEnemy)
+		{
+			velocity.Y = JumpVelocity * 0.6f;
+			StompedEnemy = false;
+		}
+
+		// Asymmetric gravity
 		float gravity = (velocity.Y < 0 && Input.IsActionPressed("jump"))
-			? JumpGravity
-			: FallGravity;
+			? JumpGravity : FallGravity;
 		if (!IsOnFloor())
 			velocity.Y += gravity * dt;
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
 
 		// Coyote time
-		if (IsOnFloor())
-		{
-			_coyoteTimer = CoyoteTime;
-			_isJumping = false;
-		}
-		else
-			_coyoteTimer -= dt;
+		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; }
+		else _coyoteTimer -= dt;
 
 		// Jump buffer
-		if (Input.IsActionJustPressed("jump"))
-			_jumpBufferTimer = JumpBufferTime;
-		else
-			_jumpBufferTimer -= dt;
+		if (Input.IsActionJustPressed("jump")) _jumpBufferTimer = JumpBufferTime;
+		else _jumpBufferTimer -= dt;
 
 		// Short hop on release
 		if (Input.IsActionJustReleased("jump") && velocity.Y < 0)
@@ -78,7 +78,7 @@ public partial class Player : CharacterBody2D
 			_isJumping = true;
 		}
 
-		// Horizontal movement with acceleration
+		// Horizontal movement
 		float direction = 0;
 		if (Input.IsActionPressed("move_left")) direction = -1;
 		else if (Input.IsActionPressed("move_right")) direction = 1;
@@ -106,34 +106,14 @@ public partial class Player : CharacterBody2D
 		Velocity = velocity;
 		MoveAndSlide();
 
-		// Skip collision when invincible
-		if (_invincibilityTimer > 0)
-		{
-			_invincibilityTimer -= dt;
-			return;
-		}
+		// Skip when invincible
+		if (_invincibilityTimer > 0) { _invincibilityTimer -= dt; return; }
 
-		// Enemy collision
-		for (int i = 0; i < GetSlideCollisionCount(); i++)
-		{
-			var col = GetSlideCollision(i);
-			if (col.GetCollider() is Enemy)
-			{
-				if (_shieldActive) { _invincibilityTimer = 1f; return; }
-				Die();
-				break;
-			}
-		}
-
-		// Shield timer
+		// Shield check
 		if (_shieldActive)
 		{
 			_shieldTimer -= dt;
-			if (_shieldTimer <= 0)
-			{
-				_shieldActive = false;
-				GD.Print("Shield expired!");
-			}
+			if (_shieldTimer <= 0) { _shieldActive = false; }
 		}
 	}
 

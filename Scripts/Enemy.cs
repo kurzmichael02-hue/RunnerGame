@@ -1,26 +1,43 @@
 using Godot;
 
+public enum EnemyType { Patrol, Fast, Jumping }
+
 public partial class Enemy : CharacterBody2D
 {
-	[Export] public float Speed = 100.0f;
-	[Export] public float MoveDistance = 200.0f;
+	[Export] public EnemyType Type = EnemyType.Patrol;
+	[Export] public float Speed = 100f;
+	[Export] public float MoveDistance = 200f;
 
-	private Vector2 _startPosition;
-	private Vector2 _gravity;
+	private bool _isDead = false;
 	private int _direction = 1;
+	private float _jumpTimer = 0f;
+	private Vector2 _startPosition;
 
 	public override void _Ready()
 	{
 		_startPosition = Position;
-		_gravity = new Vector2(0, 980f);
-		var hitBox = GetNode<Area2D>("HitBox");
-hitBox.BodyEntered += OnBodyEntered;
-GD.Print("HitBox found: " + hitBox.Name);
+		if (Type == EnemyType.Fast) Speed = 220f;
+
+		GetNode<Area2D>("HitBox").BodyEntered += OnHitBoxBodyEntered;
 	}
 
-	private void OnBodyEntered(Node2D body)
+	private void OnHitBoxBodyEntered(Node2D body)
 	{
-		if (body is Player player)
+		GD.Print("HitBox entered by: " + body.Name);
+		if (_isDead) return;
+		if (body is not Player player) return;
+
+		// Falling down onto enemy = stomp
+		if (player.Velocity.Y > 0 && player.GlobalPosition.Y < GlobalPosition.Y)
+		{
+			player.StompedEnemy = true;
+			_isDead = true;
+			GetNode<Area2D>("HitBox").SetDeferred("monitoring", false);
+			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
+			SetPhysicsProcess(false);
+			QueueFree();
+		}
+		else
 		{
 			player.Die();
 		}
@@ -28,17 +45,20 @@ GD.Print("HitBox found: " + hitBox.Name);
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (_isDead) return;
+
 		Vector2 velocity = Velocity;
-
-		if (!IsOnFloor())
-			velocity += _gravity * (float)delta;
-
+		if (!IsOnFloor()) velocity.Y += 1800f * (float)delta;
 		velocity.X = Speed * _direction;
 
-		if (Position.X > _startPosition.X + MoveDistance)
-			_direction = -1;
-		else if (Position.X < _startPosition.X - MoveDistance)
-			_direction = 1;
+		if (Position.X > _startPosition.X + MoveDistance) _direction = -1;
+		else if (Position.X < _startPosition.X - MoveDistance) _direction = 1;
+
+		if (Type == EnemyType.Jumping && IsOnFloor())
+		{
+			_jumpTimer -= (float)delta;
+			if (_jumpTimer <= 0f) { velocity.Y = -500f; _jumpTimer = 2f; }
+		}
 
 		Velocity = velocity;
 		MoveAndSlide();
