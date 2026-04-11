@@ -46,13 +46,11 @@ graph TD
     PauseMenu -->|Resume/Volume/Keys/Exit| Game
 ```
 
-### UI & Menus (Bartolmay) – coming soon
-### Level & Environment (Schayan) – coming soon
-### Sound & FX (Tim) – in progress
 
 ### UI & Menus (Bartolmay) – coming soon
 ### Level & Environment (Schayan) – coming soon
-### Sound & FX (Tim) – in progress
+### Sound & FX (Tim) – coming soon
+
 
 ## Controls
 | Key | Action |
