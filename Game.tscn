@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bicqfqfebtibt"]
+
+[ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player.cs" id="1_wbfu4"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wbfu4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wbfu4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xkndl"]
+size = Vector2(1152, 50)
+
+[node name="Node2D" type="Node2D" unique_id=1558939916]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=503178957]
+script = ExtResource("1_wbfu4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=381541859]
+texture = SubResource("PlaceholderTexture2D_wbfu4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=431941954]
+shape = SubResource("CapsuleShape2D_wbfu4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player" unique_id=1092862561]
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1843234844]
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=1248981726]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=56410102]
+shape = SubResource("RectangleShape2D_xkndl")
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=983661095]
+offset_top = 600.0
+offset_right = 1152.0
+offset_bottom = 650.0

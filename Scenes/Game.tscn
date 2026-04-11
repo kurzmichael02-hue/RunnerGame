@@ -1,0 +1,332 @@
+[gd_scene format=3 uid="uid://wkfgl7nu6bsh"]
+
+[ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player.cs" id="1_iukft"]
+[ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/GameManager.cs" id="1_j5yw3"]
+[ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Coin.cs" id="2_gl6un"]
+[ext_resource type="AudioStream" uid="uid://d1trrsi3oa868" path="res://Sounds/jump.wav" id="3_2irst"]
+[ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemy.cs" id="4_kldst"]
+[ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/HUD.cs" id="5_b2bpf"]
+[ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/PauseMenu.cs" id="6_7lihs"]
+[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="7_fgofq"]
+[ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="9_bf53h"]
+[ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/LevelGoal.cs" id="10_71axn"]
+[ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/MagnetPowerUp.cs" id="11_dahhg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
+size = Vector2(50, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_71axn"]
+size = Vector2(6000, 50)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j5yw3"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5yw3"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kldst"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]
+size = Vector2(30, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
+size = Vector2(30, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dahhg"]
+size = Vector2(20, 1000)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
+radius = 20.0
+
+[node name="Node2D" type="Node2D" unique_id=1679243187]
+script = ExtResource("1_j5yw3")
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=443440453]
+position = Vector2(200, 300)
+collision_mask = 5
+script = ExtResource("1_iukft")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
+shape = SubResource("RectangleShape2D_cg2ps")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
+
+[node name="Polygon2D" type="Polygon2D" parent="Player" unique_id=124608252]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-25, -40, 25, -40, 25, 40, -25, 40)
+
+[node name="JumpFx" type="AudioStreamPlayer" parent="Player" unique_id=536031216]
+stream = ExtResource("3_2irst")
+
+[node name="Ground" type="StaticBody2D" parent="." unique_id=394806246]
+position = Vector2(0, 300)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1827628569]
+shape = SubResource("RectangleShape2D_71axn")
+
+[node name="ColorRect" type="ColorRect" parent="Ground" unique_id=2129677441]
+offset_right = 5100.0
+offset_bottom = 50.0
+color = Color(0, 1, 0, 1)
+
+[node name="Coin" type="Area2D" parent="." unique_id=1581031963]
+position = Vector2(400, 150)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin" unique_id=2055008763]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin" unique_id=1107863507]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin2" type="Area2D" parent="." unique_id=686530803]
+position = Vector2(600, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin2" unique_id=463434279]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin2" unique_id=996205110]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin3" type="Area2D" parent="." unique_id=168780771]
+position = Vector2(801, 150)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin3" unique_id=2061636987]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin3" unique_id=17917038]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin4" type="Area2D" parent="." unique_id=121221526]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin4" unique_id=920698204]
+shape = SubResource("CircleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Coin4" unique_id=1419941465]
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=263876446]
+position = Vector2(700, 300)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_kldst")
+MoveDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=634150711]
+shape = SubResource("RectangleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy" unique_id=936379036]
+color = Color(0.5019608, 0, 0.5019608, 1)
+polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
+
+[node name="HitBox" type="Area2D" parent="Enemy" unique_id=1405560329]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/HitBox" unique_id=1132804179]
+shape = SubResource("RectangleShape2D_kldst")
+
+[node name="Enemy2" type="CharacterBody2D" parent="." unique_id=148747929]
+position = Vector2(1100, 300)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_kldst")
+Type = 2
+MoveDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2" unique_id=1384934600]
+shape = SubResource("RectangleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy2" unique_id=1829261540]
+color = Color(0.5019608, 0, 0.5019608, 1)
+polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
+
+[node name="HitBox" type="Area2D" parent="Enemy2" unique_id=1451414025]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/HitBox" unique_id=1397591393]
+shape = SubResource("RectangleShape2D_kldst")
+
+[node name="Enemy3" type="CharacterBody2D" parent="." unique_id=1757553526]
+position = Vector2(1500, 300)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_kldst")
+Type = 1
+MoveDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3" unique_id=1298542755]
+shape = SubResource("RectangleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy3" unique_id=1640740471]
+color = Color(0.5019608, 0, 0.5019608, 1)
+polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
+
+[node name="HitBox" type="Area2D" parent="Enemy3" unique_id=30276701]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3/HitBox" unique_id=85454724]
+shape = SubResource("RectangleShape2D_kldst")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
+script = ExtResource("5_b2bpf")
+
+[node name="ScoreLabel" type="Label" parent="HUD" unique_id=1890989925]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 60.0
+offset_bottom = 43.0
+
+[node name="LivesLabel" type="Label" parent="HUD" unique_id=2079994368]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 60.0
+offset_bottom = 73.0
+
+[node name="PauseMenu" type="Control" parent="HUD" unique_id=804085390]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_7lihs")
+
+[node name="MenuPanel" type="Panel" parent="HUD/PauseMenu" unique_id=598116344]
+custom_minimum_size = Vector2(550, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -476.0
+offset_top = -274.0
+offset_right = 74.0
+offset_bottom = 326.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PauseMenu/MenuPanel" unique_id=1249940046]
+custom_minimum_size = Vector2(360, 500)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 380.0
+offset_bottom = 480.0
+
+[node name="PAUSED" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=306054917]
+layout_mode = 2
+text = "PAUSED"
+
+[node name="Resume" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=403074533]
+layout_mode = 2
+text = "Resume"
+
+[node name="Volume" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=2076000748]
+layout_mode = 2
+text = "Volume"
+
+[node name="HSlider" type="HSlider" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=698720291]
+layout_mode = 2
+value = 100.0
+
+[node name="Controls" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1984968726]
+layout_mode = 2
+text = "Controls"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1348822448]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+
+[node name="Jump" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer" unique_id=1400312293]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Jump"
+
+[node name="JumpBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer" unique_id=267424879]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1328932318]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+
+[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=267842414]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Move Left
+"
+
+[node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1333664018]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+
+[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1233098572]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "Move Right"
+
+[node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=911804471]
+layout_mode = 2
+
+[node name="Exit" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=639170337]
+layout_mode = 2
+text = "Exit"
+
+[node name="Checkpoint" type="Area2D" parent="." unique_id=1417984093]
+position = Vector2(700, 260)
+script = ExtResource("7_fgofq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint" unique_id=1410383504]
+shape = SubResource("RectangleShape2D_7lihs")
+
+[node name="Polygon2D" type="Polygon2D" parent="Checkpoint" unique_id=1547109945]
+polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+
+[node name="CheckPointFx" type="AudioStreamPlayer" parent="Checkpoint" unique_id=1741858423]
+stream = ExtResource("9_bf53h")
+
+[node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
+position = Vector2(3000, 260)
+script = ExtResource("10_71axn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
+shape = SubResource("RectangleShape2D_bf53h")
+
+[node name="Polygon2D" type="Polygon2D" parent="LevelGoal" unique_id=140018405]
+color = Color(1, 0.84313726, 0, 1)
+polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+
+[node name="RightWall" type="StaticBody2D" parent="." unique_id=1001432771]
+position = Vector2(3050, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
+shape = SubResource("RectangleShape2D_dahhg")
+
+[node name="MagnetPowerUp" type="Area2D" parent="." unique_id=1529404631]
+position = Vector2(900, 260)
+script = ExtResource("11_dahhg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetPowerUp" unique_id=1963666255]
+shape = SubResource("CircleShape2D_71axn")
+
+[node name="Polygon2D" type="Polygon2D" parent="MagnetPowerUp" unique_id=1669036872]
+color = Color(0, 0, 1, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
