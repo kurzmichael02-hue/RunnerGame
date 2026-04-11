@@ -147,6 +147,18 @@ public void SetCheckpoint(Vector2 position)
 		_score += amount;
 		GD.Print("Score: " + _score);
 	}
+	
+	public void AddScore(int amount)
+{
+	_score += amount;
+	// 100 coins = 1 extra life (#41)
+	if (_score % 100 == 0)
+	{
+		_lives++;
+		GD.Print("Extra life! Lives: " + _lives);
+	}
+	GD.Print("Score: " + _score);
+}
 
 	public void ActivateShield()
 	{
