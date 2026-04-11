@@ -29,30 +29,26 @@ res://
 ## System Design
 
 ### Game Logic (Michael Kurz)
-┌─────────────────────────────────────────────────────────────┐
-│                        GAME SCENE                           │
-│                                                             │
-│  ┌───────────┐    ┌─────────────────┐    ┌──────────────┐  │
-│  │  Player   │───▶│     Enemy       │    │     Coin     │  │
-│  │           │    │ Patrol/Fast/    │    │  (collect)   │  │
-│  │ Movement  │    │ Jumping         │    └──────┬───────┘  │
-│  │ Jump      │    └────────┬────────┘           │ score+1  │
-│  │ Lives: 3  │◀────────────┘ collision/stomp    │          │
-│  └─────┬─────┘                           ┌──────▼───────┐  │
-│        │ die()                           │   PowerUps   │  │
-│        │                                 │ Shield (10s) │  │
-│  ┌─────▼──────┐                          │ Magnet (5s)  │  │
-│  │  Respawn   │◀── Checkpoint            └──────────────┘  │
-│  │  Point     │                                            │
-│  └────────────┘    ┌────────────┐    ┌──────────────────┐  │
-│                    │    HUD     │    │   Level Goal     │  │
-│                    │Score/Lives │    │  (win condition) │  │
-│                    └────────────┘    └──────────────────┘  │
-│                                                             │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │  Pause Menu – Resume / Volume / Key Rebinding / Exit │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
+
+```mermaid
+graph TD
+    Player -->|collision/stomp| Enemy
+    Player -->|collect| Coin
+    Player -->|collect| PowerUp
+    Coin -->|score +1| Player
+    PowerUp -->|Shield 10s| Player
+    PowerUp -->|Magnet 5s| Player
+    Player -->|die| Respawn
+    Checkpoint -->|saves position| Respawn
+    Player -->|reaches| LevelGoal
+    HUD -->|shows| Score
+    HUD -->|shows| Lives
+    PauseMenu -->|Resume/Volume/Keys/Exit| Game
+```
+
+### UI & Menus (Bartolmay) – coming soon
+### Level & Environment (Schayan) – coming soon
+### Sound & FX (Tim) – in progress
 
 ### UI & Menus (Bartolmay) – coming soon
 ### Level & Environment (Schayan) – coming soon
