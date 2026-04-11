@@ -129,6 +129,7 @@ position = Vector2(700, 290)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
+Type = 2
 MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2" unique_id=1384934600]
