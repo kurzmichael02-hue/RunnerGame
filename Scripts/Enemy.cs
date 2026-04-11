@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 public enum EnemyType { Patrol, Fast, Jumping }
 
@@ -11,43 +12,64 @@ public partial class Enemy : CharacterBody2D
 	private bool _isDead = false;
 	private int _direction = 1;
 	private float _jumpTimer = 0f;
+	private float _damageCooldown = 0f;
 	private Vector2 _startPosition;
+	private readonly HashSet<Player> _overlappingPlayers = new();
 
 	public override void _Ready()
 	{
+		// Disable physical collision with player, only HitBox handles interaction
+SetCollisionMaskValue(1, true);  // Ground
 		_startPosition = Position;
 		_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
 
-		GetNode<Area2D>("HitBox").BodyEntered += OnHitBoxBodyEntered;
+		var hitBox = GetNode<Area2D>("HitBox");
+		hitBox.BodyEntered += OnBodyEntered;
+		hitBox.BodyExited += OnBodyExited;
 	}
 
-	private void OnHitBoxBodyEntered(Node2D body)
-	{
-		GD.Print("HitBox entered by: " + body.Name);
-		if (_isDead) return;
-		if (body is not Player player) return;
+	private void OnBodyEntered(Node2D body)
+{
+	GD.Print("Body entered: " + body.Name + " type: " + body.GetType());
+	if (body is Player player)
+		_overlappingPlayers.Add(player);
+}
 
-		// Falling down onto enemy = stomp
-		if (player.Velocity.Y > 0 && player.GlobalPosition.Y < GlobalPosition.Y)
-		{
-			player.StompedEnemy = true;
-			_isDead = true;
-			GetNode<Area2D>("HitBox").SetDeferred("monitoring", false);
-			GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
-			SetPhysicsProcess(false);
-			QueueFree();
-		}
-		else
-		{
-			player.Die();
-		}
+	private void OnBodyExited(Node2D body)
+	{
+		if (body is Player player)
+			_overlappingPlayers.Remove(player);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if (_isDead) return;
 
+		_damageCooldown -= (float)delta;
+
+		foreach (Player player in _overlappingPlayers)
+		{
+			if (!IsInstanceValid(player)) continue;
+
+			bool stompedFromAbove = player.Velocity.Y > 0
+				&& player.GlobalPosition.Y < GlobalPosition.Y;
+
+			if (stompedFromAbove)
+			{
+				player.StompedEnemy = true;
+				Die();
+				return;
+			}
+			else if (_damageCooldown <= 0f)
+			{
+				player.Die();
+				_damageCooldown = 1.5f;
+				return;
+			}
+		}
+
+		// Movement
 		Vector2 velocity = Velocity;
 		if (!IsOnFloor()) velocity.Y += 1800f * (float)delta;
 		velocity.X = Speed * _direction;
@@ -63,5 +85,14 @@ public partial class Enemy : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	private void Die()
+	{
+		_isDead = true;
+		GetNode<Area2D>("HitBox").SetDeferred("monitoring", false);
+		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
+		SetPhysicsProcess(false);
+		CallDeferred("queue_free");
 	}
 }

@@ -47,6 +47,8 @@ public void SetCheckpoint(Vector2 position)
 
 	public override void _Ready()
 	{
+		// Don't physically collide with enemies
+SetCollisionMaskValue(2, false);
 		GD.Print("Lives: " + _lives);
 		_jumpFx = GetNode<AudioStreamPlayer>("JumpFx");
 		
@@ -180,6 +182,11 @@ public void SetCheckpoint(Vector2 position)
 		else
 		{
 			_invincibilityTimer = 1.5f;
+			// Blink effect during invincibility
+var tween = CreateTween();
+tween.SetLoops(6);
+tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
 			Position = _checkpointPosition;
 			_isDying = false;
 		}

@@ -112,6 +112,7 @@ polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="Enemy" type="CharacterBody2D" parent="." unique_id=263876446]
 position = Vector2(700, 300)
+collision_layer = 2
 script = ExtResource("4_kldst")
 MoveDistance = 400.0
 
@@ -129,7 +130,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_kldst")
 
 [node name="Enemy2" type="CharacterBody2D" parent="." unique_id=148747929]
-position = Vector2(700, 300)
+position = Vector2(1100, 300)
+collision_layer = 2
 script = ExtResource("4_kldst")
 Type = 2
 MoveDistance = 400.0
@@ -145,6 +147,26 @@ polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/HitBox" unique_id=1397591393]
+shape = SubResource("RectangleShape2D_kldst")
+
+[node name="Enemy3" type="CharacterBody2D" parent="." unique_id=1757553526]
+position = Vector2(1500, 300)
+collision_layer = 2
+script = ExtResource("4_kldst")
+Type = 1
+MoveDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3" unique_id=1298542755]
+shape = SubResource("RectangleShape2D_j5yw3")
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy3" unique_id=1640740471]
+color = Color(0.5019608, 0, 0.5019608, 1)
+polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
+
+[node name="HitBox" type="Area2D" parent="Enemy3" unique_id=30276701]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3/HitBox" unique_id=85454724]
 shape = SubResource("RectangleShape2D_kldst")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
