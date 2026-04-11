@@ -8,6 +8,7 @@ public partial class Enemy : CharacterBody2D
 	[Export] public EnemyType Type = EnemyType.Patrol;
 	[Export] public float Speed = 100f;
 	[Export] public float MoveDistance = 200f;
+	private AudioStreamPlayer _enemyDeath;
 
 	private bool _isDead = false;
 	private int _direction = 1;
@@ -19,7 +20,8 @@ public partial class Enemy : CharacterBody2D
 	public override void _Ready()
 	{
 		// Disable physical collision with player, only HitBox handles interaction
-SetCollisionMaskValue(1, true);  // Ground
+		SetCollisionMaskValue(1, true);  // Ground
+		_enemyDeath = GetNode<AudioStreamPlayer>("DeathSound");
 		_startPosition = Position;
 		_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
@@ -88,12 +90,20 @@ bool stompedFromAbove = player.Velocity.Y > 100f
 		MoveAndSlide();
 	}
 
-	private void Die()
+	private async void Die()
 	{
 		_isDead = true;
+
 		GetNode<Area2D>("HitBox").SetDeferred("monitoring", false);
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 		SetPhysicsProcess(false);
-		CallDeferred("queue_free");
+
+		if (_enemyDeath != null)
+		{
+			_enemyDeath.Play();
+			await ToSignal(_enemyDeath, AudioStreamPlayer.SignalName.Finished);
+		}
+
+		QueueFree();
 	}
 }

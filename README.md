@@ -15,7 +15,7 @@ Godot 4.5 + C#, five people, one semester.
 
 ## Tech Stack
 
-- Godot 4.5 · C#
+- Godot 4.6.2 · C#
 - Git / GitHub – branch per feature
 - Taiga – user stories
 - FL Studio, Audacity, Serum – audio
@@ -24,7 +24,8 @@ Godot 4.5 + C#, five people, one semester.
 ## Project Structure
 ```
 res://
-├── Audio/    → Music & Sound Effects
+├── Sounds/   → Sound Effects
+├── Music/    → Music
 ├── Scenes/   → Levels, Main Menu, Game Logic
 ├── Scripts/  → Gameplay Code (Movement, Collision, Power-ups)
 ├── Sprites/  → Characters, Backgrounds, Assets
