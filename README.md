@@ -27,20 +27,36 @@ res://
 └── Prefabs/  → Reusable Game Objects
 
 ## System Design
-Player → collides with → Enemy → Die() → lives--
-   │                                        │
-   │                                   lives == 0
-   ▼                                        │
-picks up Coin → score++               Game Over
-   │
-picks up PowerUp → Shield (10s) / Magnet (5s)
-   │
-reaches Checkpoint → respawn point saved
-   │
-reaches LevelGoal → Level Complete
 
-HUD: Score + Lives always visible
-Pause Menu: Resume / Volume / Key Rebinding / Exit
+### Game Logic (Michael Kurz)
+┌─────────────────────────────────────────────────────────────┐
+│                        GAME SCENE                           │
+│                                                             │
+│  ┌───────────┐    ┌─────────────────┐    ┌──────────────┐  │
+│  │  Player   │───▶│     Enemy       │    │     Coin     │  │
+│  │           │    │ Patrol/Fast/    │    │  (collect)   │  │
+│  │ Movement  │    │ Jumping         │    └──────┬───────┘  │
+│  │ Jump      │    └────────┬────────┘           │ score+1  │
+│  │ Lives: 3  │◀────────────┘ collision/stomp    │          │
+│  └─────┬─────┘                           ┌──────▼───────┐  │
+│        │ die()                           │   PowerUps   │  │
+│        │                                 │ Shield (10s) │  │
+│  ┌─────▼──────┐                          │ Magnet (5s)  │  │
+│  │  Respawn   │◀── Checkpoint            └──────────────┘  │
+│  │  Point     │                                            │
+│  └────────────┘    ┌────────────┐    ┌──────────────────┐  │
+│                    │    HUD     │    │   Level Goal     │  │
+│                    │Score/Lives │    │  (win condition) │  │
+│                    └────────────┘    └──────────────────┘  │
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Pause Menu – Resume / Volume / Key Rebinding / Exit │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+
+### UI & Menus (Bartolmay) – coming soon
+### Level & Environment (Schayan) – coming soon
+### Sound & FX (Tim) – in progress
 
 ## Controls
 | Key | Action |
