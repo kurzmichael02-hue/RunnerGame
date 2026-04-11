@@ -18,7 +18,6 @@ Godot 4.6 + C#, five people, one semester.
 - FL Studio, Audacity, Serum – audio
 
 ## Project Structure
-
 res://
 ├── Audio/    → Music & Sound Effects
 ├── Scenes/   → Levels, Main Menu, Game Logic
@@ -28,30 +27,20 @@ res://
 └── Prefabs/  → Reusable Game Objects
 
 ## System Design
-┌──────────────────────────────────────────────────────────────┐
-│                        GAME SCENE                            │
-│                                                              │
-│  ┌──────────┐   ┌──────────────┐   ┌──────────┐             │
-│  │  Player  │──▶│    Enemy     │   │   Coin   │             │
-│  │          │   │ Patrol/Fast/ │   │(collect) │             │
-│  │ Movement │   │   Jumping    │   └────┬─────┘             │
-│  │ Jump     │   └──────────────┘        │ score +1          │
-│  │ Lives    │◀──── collision/stomp ─────┘                   │
-│  └────┬─────┘                     ┌────────────┐            │
-│       │ die()                     │  PowerUps  │            │
-│       │                           │   Shield   │            │
-│  ┌────▼──────┐                    │   Magnet   │            │
-│  │ Respawn   │◀──── checkpoint    └────────────┘            │
-│  │ Point     │                                              │
-│  └───────────┘   ┌────────────┐   ┌────────────┐           │
-│                  │    HUD     │   │ LevelGoal  │           │
-│                  │Score/Lives │   │ (win cond) │           │
-│                  └────────────┘   └────────────┘           │
-│                                                              │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │  Pause Menu – Resume / Volume / Key Rebinding / Exit │    │
-│  └─────────────────────────────────────────────────────┘    │
-└──────────────────────────────────────────────────────────────┘
+Player → collides with → Enemy → Die() → lives--
+   │                                        │
+   │                                   lives == 0
+   ▼                                        │
+picks up Coin → score++               Game Over
+   │
+picks up PowerUp → Shield (10s) / Magnet (5s)
+   │
+reaches Checkpoint → respawn point saved
+   │
+reaches LevelGoal → Level Complete
+
+HUD: Score + Lives always visible
+Pause Menu: Resume / Volume / Key Rebinding / Exit
 
 ## Controls
 | Key | Action |
