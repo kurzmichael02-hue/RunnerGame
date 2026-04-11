@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/PauseMenu.cs" id="6_7lihs"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="7_fgofq"]
 [ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="9_bf53h"]
+[ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/LevelGoal.cs" id="10_71axn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -25,6 +26,9 @@ size = Vector2(50, 50)
 size = Vector2(50, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]
+size = Vector2(30, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
 size = Vector2(30, 80)
 
 [node name="Node2D" type="Node2D" unique_id=1679243187]
@@ -269,3 +273,14 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 
 [node name="CheckPointFx" type="AudioStreamPlayer" parent="Checkpoint" unique_id=1741858423]
 stream = ExtResource("9_bf53h")
+
+[node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
+position = Vector2(2000, 260)
+script = ExtResource("10_71axn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
+shape = SubResource("RectangleShape2D_bf53h")
+
+[node name="Polygon2D" type="Polygon2D" parent="LevelGoal" unique_id=140018405]
+color = Color(1, 0.84313726, 0, 1)
+polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)

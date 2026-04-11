@@ -142,11 +142,6 @@ public void SetCheckpoint(Vector2 position)
 		}
 	}
 
-	public void AddScore(int amount)
-	{
-		_score += amount;
-		GD.Print("Score: " + _score);
-	}
 	
 	public void AddScore(int amount)
 {
