@@ -60,6 +60,29 @@ SetCollisionMaskValue(2, false);
 		JumpHoldTimer = Mathf.Max(JumpHoldTimer - dt, 0f);
 		Vector2 velocity = Velocity;
 		
+		// Magnet – pull nearby coins (#40)
+if (_magnetActive)
+{
+	_magnetTimer -= dt;
+	if (_magnetTimer <= 0f)
+	{
+		_magnetActive = false;
+		GD.Print("Magnet expired!");
+	}
+	else
+	{
+		// Pull all coins within radius toward player
+		foreach (Node node in GetTree().GetNodesInGroup("coin"))
+		{
+			if (node is Area2D coin)
+			{
+				Vector2 diff = GlobalPosition - coin.GlobalPosition;
+				if (diff.Length() < _magnetRadius)
+					coin.GlobalPosition += diff.Normalized() * 300f * dt;
+			}
+		}
+	}
+}
 
 		// Bounce after stomping enemy (#89)
 		if (StompedEnemy)
@@ -163,6 +186,17 @@ SetCollisionMaskValue(2, false);
 		_shieldTimer = 10f;
 		GD.Print("Shield activated!");
 	}
+	
+	private bool _magnetActive = false;
+private float _magnetTimer = 0f;
+private float _magnetRadius = 200f;
+
+public void ActivateMagnet()
+{
+	_magnetActive = true;
+	_magnetTimer = 5f;
+	GD.Print("Magnet activated!");
+}
 
 	public void Die()
 	{

@@ -52,8 +52,9 @@ SetCollisionMaskValue(1, true);  // Ground
 		{
 			if (!IsInstanceValid(player)) continue;
 
-			bool stompedFromAbove = player.Velocity.Y > 0
-				&& player.GlobalPosition.Y < GlobalPosition.Y;
+			// Stomp: Player muss fallen UND sein Fuss muss über Enemy Mitte sein
+bool stompedFromAbove = player.Velocity.Y > 100f
+	&& (player.GlobalPosition.Y + 20f) < GlobalPosition.Y;
 
 			if (stompedFromAbove)
 			{

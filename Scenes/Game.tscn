@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="7_fgofq"]
 [ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="9_bf53h"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/LevelGoal.cs" id="10_71axn"]
+[ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/MagnetPowerUp.cs" id="11_dahhg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -35,11 +36,15 @@ size = Vector2(30, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dahhg"]
 size = Vector2(20, 1000)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
+radius = 20.0
+
 [node name="Node2D" type="Node2D" unique_id=1679243187]
 script = ExtResource("1_j5yw3")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=443440453]
 position = Vector2(200, 300)
+collision_mask = 5
 script = ExtResource("1_iukft")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
@@ -56,6 +61,7 @@ stream = ExtResource("3_2irst")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=394806246]
 position = Vector2(0, 300)
+collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground" unique_id=1827628569]
@@ -113,6 +119,7 @@ polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 [node name="Enemy" type="CharacterBody2D" parent="." unique_id=263876446]
 position = Vector2(700, 300)
 collision_layer = 2
+collision_mask = 4
 script = ExtResource("4_kldst")
 MoveDistance = 400.0
 
@@ -132,6 +139,7 @@ shape = SubResource("RectangleShape2D_kldst")
 [node name="Enemy2" type="CharacterBody2D" parent="." unique_id=148747929]
 position = Vector2(1100, 300)
 collision_layer = 2
+collision_mask = 4
 script = ExtResource("4_kldst")
 Type = 2
 MoveDistance = 400.0
@@ -152,6 +160,7 @@ shape = SubResource("RectangleShape2D_kldst")
 [node name="Enemy3" type="CharacterBody2D" parent="." unique_id=1757553526]
 position = Vector2(1500, 300)
 collision_layer = 2
+collision_mask = 4
 script = ExtResource("4_kldst")
 Type = 1
 MoveDistance = 400.0
@@ -310,3 +319,14 @@ position = Vector2(3050, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
 shape = SubResource("RectangleShape2D_dahhg")
+
+[node name="MagnetPowerUp" type="Area2D" parent="." unique_id=1529404631]
+position = Vector2(900, 260)
+script = ExtResource("11_dahhg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetPowerUp" unique_id=1963666255]
+shape = SubResource("CircleShape2D_71axn")
+
+[node name="Polygon2D" type="Polygon2D" parent="MagnetPowerUp" unique_id=1669036872]
+color = Color(0, 0, 1, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
