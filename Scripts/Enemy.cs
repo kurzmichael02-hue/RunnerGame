@@ -16,6 +16,7 @@ public partial class Enemy : CharacterBody2D
 	public override void _Ready()
 	{
 		_startPosition = Position;
+		_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
 
 		GetNode<Area2D>("HitBox").BodyEntered += OnHitBoxBodyEntered;
