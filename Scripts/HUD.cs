@@ -14,18 +14,28 @@ public partial class HUD : CanvasLayer
 		ProcessMode = ProcessModeEnum.Always; // run even when paused
 	}
 
-	public override void _Process(double delta)
+public override void _Process(double delta)
 {
 	_scoreLabel.Text = "Score: " + _player.Score;
 	_livesLabel.Text = "Lives: " + _player.Lives;
 
-	// ESC toggles pause menu
 	if (Input.IsActionJustPressed("ui_cancel"))
 	{
-		var pauseMenu = GetNode<Control>("PauseMenu");
-		bool isPaused = !GetTree().Paused;
-		GetTree().Paused = isPaused;
-		pauseMenu.Visible = isPaused;
+		TogglePause();
 	}
+}
+
+private void TogglePause()
+{
+	bool isPaused = !GetTree().Paused;
+	GetTree().Paused = isPaused;
+
+	var pauseMenu = GetNode<Control>("PauseMenu");
+	pauseMenu.Visible = isPaused;
+
+	if (isPaused)
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.SettingsMusic);
+	else
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 }
 }

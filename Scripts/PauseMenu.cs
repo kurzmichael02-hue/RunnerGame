@@ -29,6 +29,8 @@ public partial class PauseMenu : Control
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
+		
+		
 
 		UpdateBindLabels();
 	}
@@ -110,8 +112,10 @@ public partial class PauseMenu : Control
 
 	private void OnResumePressed()
 	{
-		Visible = false;
 		GetTree().Paused = false;
+		Visible = false;
+
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 
 	private void OnVolumeChanged(double value)
@@ -124,4 +128,5 @@ public partial class PauseMenu : Control
 	{
 		GetTree().Quit();
 	}
+
 }
