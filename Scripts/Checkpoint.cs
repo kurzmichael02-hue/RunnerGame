@@ -19,6 +19,5 @@ public partial class Checkpoint : Area2D
 		// visual feedback – turn green
 		GetNode<Polygon2D>("Polygon2D").Color = new Color(0, 1, 0);
 		SoundManager.Instance.PlayCheckpoint();
-		GD.Print("Checkpoint activated!");
 	}
 }

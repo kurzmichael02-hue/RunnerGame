@@ -121,7 +121,6 @@ if (_magnetActive)
 			_coyoteTimer = 0f;
 			_isJumping = true;
 			JumpHoldTimer = JumpHoldTime;
-			GD.Print(SoundManager.Instance); 
 			SoundManager.Instance.PlayJump();
 		}
 

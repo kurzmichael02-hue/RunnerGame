@@ -31,7 +31,7 @@ public partial class Enemy : CharacterBody2D
 
 	private void OnBodyEntered(Node2D body)
 {
-	GD.Print("Body entered: " + body.Name + " type: " + body.GetType());
+
 	if (body is Player player)
 		_overlappingPlayers.Add(player);
 }
