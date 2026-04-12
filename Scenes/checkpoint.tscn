@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://biafiu4xrmkkq"]
+
+[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="1_2cwi7"]
+[ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="2_e75gc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]
+size = Vector2(30, 80)
+
+[node name="Checkpoint" type="Area2D" unique_id=677189036]
+script = ExtResource("1_2cwi7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=909314680]
+shape = SubResource("RectangleShape2D_7lihs")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=369632891]
+polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+
+[node name="CheckPointFx" type="AudioStreamPlayer" parent="." unique_id=159198817]
+stream = ExtResource("2_e75gc")
