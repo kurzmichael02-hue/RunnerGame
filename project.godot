@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Mario"
-run/main_scene="uid://wkfgl7nu6bsh"
+run/main_scene="uid://cefdx0nsa8xo8"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
