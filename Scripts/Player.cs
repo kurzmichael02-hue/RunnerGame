@@ -36,8 +36,6 @@ public partial class Player : CharacterBody2D
 	public bool StompedEnemy = false;
 	private Vector2 _checkpointPosition = new Vector2(200, 260);
 	
-	//Sounds
-	private AudioStreamPlayer _jumpFx;
 
 public void SetCheckpoint(Vector2 position)
 {
@@ -50,7 +48,6 @@ public void SetCheckpoint(Vector2 position)
 		// Don't physically collide with enemies
 SetCollisionMaskValue(2, false);
 		GD.Print("Lives: " + _lives);
-		_jumpFx = GetNode<AudioStreamPlayer>("JumpFx");
 		
 	}
 
