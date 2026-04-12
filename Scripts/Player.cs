@@ -124,8 +124,8 @@ if (_magnetActive)
 			_coyoteTimer = 0f;
 			_isJumping = true;
 			JumpHoldTimer = JumpHoldTime;
-			_jumpFx.PitchScale = 1f + (GD.Randf() * 0.04f - 0.02f);
-			_jumpFx.Play();
+			GD.Print(SoundManager.Instance); 
+			SoundManager.Instance.PlayJump();
 		}
 
 		// Horizontal movement

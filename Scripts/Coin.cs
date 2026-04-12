@@ -13,6 +13,7 @@ public partial class Coin : Area2D
 		if (body is Player player)
 		{
 			player.AddScore(1);
+			SoundManager.Instance.PlayCoin();
 			QueueFree();
 		}
 	}
