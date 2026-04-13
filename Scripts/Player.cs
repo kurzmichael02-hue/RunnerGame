@@ -23,7 +23,7 @@ public partial class Player : CharacterBody2D
 	// State
 	private int _lives = 3;
 	private int _score = 0;
-	private bool _isDying = false;
+	public bool IsDying  = false;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private float _invincibilityTimer = 0f;
@@ -196,8 +196,8 @@ public void ActivateMagnet()
 
 	public void Die()
 	{
-		if (_isDying) return;
-		_isDying = true;
+		if (IsDying) return;
+		IsDying  = true;
 
 		_lives--;
 		_lives = Mathf.Max(_lives, 0);
@@ -218,7 +218,7 @@ tween.SetLoops(6);
 tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
 tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
 			Position = _checkpointPosition;
-			_isDying = false;
+			IsDying  = false;
 		}
 	}
 }
