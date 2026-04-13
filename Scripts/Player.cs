@@ -194,31 +194,61 @@ public void ActivateMagnet()
 	GD.Print("Magnet activated!");
 }
 
-	public void Die()
+private void SaveHighscore(int score)
+{
+	string path = "user://highscore.dat";
+	int best = 0;
+
+	// Load existing highscore
+	if (FileAccess.FileExists(path))
 	{
-		if (IsDying) return;
-		IsDying  = true;
-
-		_lives--;
-		_lives = Mathf.Max(_lives, 0);
-		GD.Print("Lives: " + _lives);
-
-		if (_lives <= 0)
-		{
-			GD.Print("GAME OVER");
-			Visible = false;
-			GetTree().Paused = true;
-		}
-		else
-		{
-			_invincibilityTimer = 1.5f;
-			// Blink effect during invincibility
-var tween = CreateTween();
-tween.SetLoops(6);
-tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
-tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
-			Position = _checkpointPosition;
-			IsDying  = false;
-		}
+		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+		best = (int)(uint)file.Get32();
 	}
+
+	// Save if new highscore
+	if (score > best)
+	{
+		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+		file.Store32((uint)score);
+		GD.Print("New highscore: " + score);
+	}
+}
+
+public static int LoadHighscore()
+{
+	string path = "user://highscore.dat";
+	if (!FileAccess.FileExists(path)) return 0;
+	using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+	return (int)(uint)file.Get32();
+}
+
+public void Die()
+{
+	if (IsDying) return;
+	IsDying = true;
+
+	_lives--;
+	_lives = Mathf.Max(_lives, 0);
+	GD.Print("Lives: " + _lives);
+
+	if (_lives <= 0)
+	{
+		SaveHighscore(_score);
+		GD.Print("GAME OVER");
+		Visible = false;
+		SetPhysicsProcess(false);
+		GetTree().Paused = true;
+	}
+	else
+	{
+		_invincibilityTimer = 1.5f;
+		var tween = CreateTween();
+		tween.SetLoops(6);
+		tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+		tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+		Position = _checkpointPosition;
+		IsDying = false;
+	}
+}
 }
