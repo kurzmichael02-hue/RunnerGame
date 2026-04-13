@@ -54,7 +54,7 @@ public partial class Player : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		// Fall death – if player falls too far below the level
-if (Position.Y > 1000f)
+if (Position.Y > 600f)
 	Die();
 		float dt = (float)delta;
 		JumpHoldTimer = Mathf.Max(JumpHoldTimer - dt, 0f);
