@@ -31,9 +31,38 @@ public partial class PauseMenu : Control
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
 		
 		
-
+		LoadKeyBindings();
 		UpdateBindLabels();
 	}
+	
+	private void SaveKeyBindings()
+{
+	var config = new ConfigFile();
+	foreach (string action in new[] { "jump", "move_left", "move_right" })
+	{
+		var events = InputMap.ActionGetEvents(action);
+		if (events.Count > 0 && events[0] is InputEventKey key)
+			config.SetValue("bindings", action, (int)key.PhysicalKeycode);
+	}
+	config.Save("user://keybindings.cfg");
+}
+
+private void LoadKeyBindings()
+{
+	var config = new ConfigFile();
+	if (config.Load("user://keybindings.cfg") != Error.Ok) return;
+
+	foreach (string action in new[] { "jump", "move_left", "move_right" })
+	{
+		if (!config.HasSectionKey("bindings", action)) continue;
+		int keycode = (int)config.GetValue("bindings", action);
+		var keyEvent = new InputEventKey();
+		keyEvent.PhysicalKeycode = (Key)keycode;
+		InputMap.ActionEraseEvents(action);
+		InputMap.ActionAddEvent(action, keyEvent);
+	}
+	UpdateBindLabels();
+}
 
 	private void StartListening(string action, Button button)
 	{
@@ -53,6 +82,7 @@ public partial class PauseMenu : Control
 			_listeningAction = null;
 			SetProcessUnhandledKeyInput(false);
 			UpdateBindLabels();
+			SaveKeyBindings();
 			return;
 		}
 
@@ -79,6 +109,7 @@ public partial class PauseMenu : Control
 		_listeningAction = null;
 		SetProcessUnhandledKeyInput(false);
 		UpdateBindLabels();
+		SaveKeyBindings();
 		GetViewport().SetInputAsHandled();
 	}
 
