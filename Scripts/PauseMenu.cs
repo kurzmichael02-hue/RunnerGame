@@ -15,6 +15,7 @@ public partial class PauseMenu : Control
 
 		GetNode<Button>("MenuPanel/VBoxContainer/Resume").Pressed += OnResumePressed;
 		GetNode<Button>("MenuPanel/VBoxContainer/Exit").Pressed += OnExitPressed;
+		GetNode<Button>("MenuPanel/VBoxContainer/Main Menu").Pressed += OnMainMenuPressed;
 
 		_volumeSlider = GetNode<HSlider>("MenuPanel/VBoxContainer/HSlider");
 		_volumeSlider.MinValue = 0;
@@ -159,5 +160,11 @@ private void LoadKeyBindings()
 	{
 		GetTree().Quit();
 	}
+	
+private void OnMainMenuPressed()
+{
+	GetTree().Paused = false;
+	GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+}
 
 }

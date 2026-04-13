@@ -251,6 +251,7 @@ layout_mode = 2
 text = "Jump"
 
 [node name="JumpBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer" unique_id=267424879]
+custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1328932318]
@@ -264,6 +265,7 @@ text = "Move Left
 "
 
 [node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
+custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1333664018]
@@ -276,10 +278,15 @@ layout_mode = 2
 text = "Move Right"
 
 [node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
+custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=911804471]
 layout_mode = 2
+
+[node name="Main Menu" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=2016534937]
+layout_mode = 2
+text = "Main Menu"
 
 [node name="Exit" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=639170337]
 layout_mode = 2
