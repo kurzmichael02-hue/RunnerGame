@@ -47,28 +47,34 @@ public partial class Enemy : CharacterBody2D
 		if (_isDead) return;
 
 		_damageCooldown -= (float)delta;
+// Also check via GetOverlappingBodies for slow/stationary player
+var hitBox = GetNode<Area2D>("HitBox");
+foreach (var body in hitBox.GetOverlappingBodies())
+{
+	if (body is Player p && !_overlappingPlayers.Contains(p))
+		_overlappingPlayers.Add(p);
+}
 
-		foreach (Player player in _overlappingPlayers)
-		{
-			if (!IsInstanceValid(player)) continue;
+foreach (Player player in _overlappingPlayers)
+{
+	if (!IsInstanceValid(player)) continue;
 
-			// Stomp: Player muss fallen UND sein Fuss muss über Enemy Mitte sein
-bool stompedFromAbove = player.Velocity.Y > 100f
-	&& (player.GlobalPosition.Y + 20f) < GlobalPosition.Y;
+	bool stompedFromAbove = player.Velocity.Y > 100f
+		&& (player.GlobalPosition.Y + 20f) < GlobalPosition.Y;
 
-			if (stompedFromAbove)
-			{
-				player.StompedEnemy = true;
-				Die();
-				return;
-			}
-			else if (_damageCooldown <= 0f)
-			{
-				player.Die();
-				_damageCooldown = 1.5f;
-				return;
-			}
-		}
+	if (stompedFromAbove)
+	{
+		player.StompedEnemy = true;
+		Die();
+		return;
+	}
+	else if (_damageCooldown <= 0f && !player.IsDying)
+	{
+		player.Die();
+		_damageCooldown = 1.5f;
+		return;
+	}
+}
 
 		// Movement
 		Vector2 velocity = Velocity;
