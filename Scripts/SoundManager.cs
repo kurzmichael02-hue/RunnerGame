@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 public partial class SoundManager : Node
 {
@@ -11,6 +12,8 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _jump;
 	private AudioStreamPlayer _settingsMusic;
 	
+	private List<AudioStreamPlayer> _musicPlayers;
+	
 	public AudioStreamPlayer GameMusic => _music;
 	public AudioStreamPlayer SettingsMusic => _settingsMusic;
 
@@ -21,9 +24,21 @@ public partial class SoundManager : Node
 		_coin = GetNode<AudioStreamPlayer>("CoinSound");
 		_enemy = GetNode<AudioStreamPlayer>("EnemyDeathSound");
 		_checkpoint = GetNode<AudioStreamPlayer>("CheckPointSound");
-		_music = GetNode<AudioStreamPlayer>("BackGroundMusic");
 		_jump = GetNode<AudioStreamPlayer>("JumpSound");
-		_settingsMusic = GetNode<AudioStreamPlayer>("SettingsMusic");
+		_music = GetNode<AudioStreamPlayer>("Music/BackGroundMusic");
+		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
+		
+		var musicParent = GetNode<Node>("Music");
+
+		_musicPlayers = new List<AudioStreamPlayer>();
+
+		foreach (Node child in musicParent.GetChildren())
+		{
+			if (child is AudioStreamPlayer player)
+			{
+				_musicPlayers.Add(player);
+			}
+		}
 	}
 
 	public void PlayCoin()
@@ -67,12 +82,14 @@ public partial class SoundManager : Node
 	{
 		_settingsMusic.Stop();
 	}
-
+	
 	public void SwitchMusic(AudioStreamPlayer target)
 	{
-		_music.Stop();
-		_settingsMusic.Stop();
+		foreach (var music in _musicPlayers)
+		{
+			music.Stop();
+		}
 
-		target.Play(); // ohne if
+		target.Play();
 	}
 }
