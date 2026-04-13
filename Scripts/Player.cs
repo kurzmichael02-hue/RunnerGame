@@ -8,7 +8,6 @@ public partial class Player : CharacterBody2D
 	[Export] public float Deceleration = 900f;
 	[Export] public float AirAcceleration = 1200f;
 	[Export] public float TurnAcceleration = 3000f;
-	
 
 	// Jump
 	[Export] public float JumpVelocity = -600f;
@@ -19,11 +18,11 @@ public partial class Player : CharacterBody2D
 	[Export] public float JumpBufferTime = 0.12f;
 	[Export] public float JumpHoldTime = 0.3f;
 	private float JumpHoldTimer = 0f;
-	
+
 	// State
 	private int _lives = 3;
 	private int _score = 0;
-	public bool IsDying  = false;
+	public bool IsDying = false;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private float _invincibilityTimer = 0f;
@@ -31,24 +30,25 @@ public partial class Player : CharacterBody2D
 	private float _jumpBufferTimer = 0f;
 	private bool _isJumping = false;
 
+	// Magnet
+	private bool _magnetActive = false;
+	private float _magnetTimer = 0f;
+	private float _magnetRadius = 200f;
+
 	public int Lives => _lives;
 	public int Score => _score;
 	public bool StompedEnemy = false;
 	private Vector2 _checkpointPosition = new Vector2(200, 260);
-	
 
-public void SetCheckpoint(Vector2 position)
-{
-	_checkpointPosition = position;
-	GD.Print("Checkpoint saved at: " + position);
-}
+	public void SetCheckpoint(Vector2 position)
+	{
+		_checkpointPosition = position;
+	}
 
 	public override void _Ready()
 	{
-		// Don't physically collide with enemies
-SetCollisionMaskValue(2, false);
-		GD.Print("Lives: " + _lives);
-		
+		// Player does not physically collide with enemies (Layer 2)
+		SetCollisionMaskValue(2, false);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -56,30 +56,26 @@ SetCollisionMaskValue(2, false);
 		float dt = (float)delta;
 		JumpHoldTimer = Mathf.Max(JumpHoldTimer - dt, 0f);
 		Vector2 velocity = Velocity;
-		
-		// Magnet – pull nearby coins (#40)
-if (_magnetActive)
-{
-	_magnetTimer -= dt;
-	if (_magnetTimer <= 0f)
-	{
-		_magnetActive = false;
-		GD.Print("Magnet expired!");
-	}
-	else
-	{
-		// Pull all coins within radius toward player
-		foreach (Node node in GetTree().GetNodesInGroup("coin"))
+
+		// Magnet – pull nearby coins toward player (#40)
+		if (_magnetActive)
 		{
-			if (node is Area2D coin)
+			_magnetTimer -= dt;
+			if (_magnetTimer <= 0f)
+				_magnetActive = false;
+			else
 			{
-				Vector2 diff = GlobalPosition - coin.GlobalPosition;
-				if (diff.Length() < _magnetRadius)
-					coin.GlobalPosition += diff.Normalized() * 300f * dt;
+				foreach (Node node in GetTree().GetNodesInGroup("coin"))
+				{
+					if (node is Area2D coin)
+					{
+						Vector2 diff = GlobalPosition - coin.GlobalPosition;
+						if (diff.Length() < _magnetRadius)
+							coin.GlobalPosition += diff.Normalized() * 300f * dt;
+					}
+				}
 			}
 		}
-	}
-}
 
 		// Bounce after stomping enemy (#89)
 		if (StompedEnemy)
@@ -88,14 +84,11 @@ if (_magnetActive)
 			StompedEnemy = false;
 		}
 
-		// Asymmetric gravity
-		float gravity;
-		if (velocity.Y < 0 && Input.IsActionPressed("jump") && JumpHoldTimer > 0f){
-			gravity = JumpGravity;
-		}
-		else {
-			gravity = FallGravity;
-		}
+		// Asymmetric gravity – hold jump for higher arc
+		float gravity = (velocity.Y < 0 && Input.IsActionPressed("jump") && JumpHoldTimer > 0f)
+			? JumpGravity
+			: FallGravity;
+
 		if (!IsOnFloor())
 			velocity.Y += gravity * dt;
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
@@ -129,8 +122,7 @@ if (_magnetActive)
 		if (Input.IsActionPressed("move_left")) direction = -1;
 		else if (Input.IsActionPressed("move_right")) direction = 1;
 
-		bool isTurning = (direction > 0 && velocity.X < -10)
-					  || (direction < 0 && velocity.X > 10);
+		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 
 		if (direction != 0)
 		{
@@ -152,103 +144,87 @@ if (_magnetActive)
 		Velocity = velocity;
 		MoveAndSlide();
 
-		// Skip when invincible
+		// Invincibility timer after hit
 		if (_invincibilityTimer > 0) { _invincibilityTimer -= dt; return; }
 
-		// Shield check
+		// Shield timer
 		if (_shieldActive)
 		{
 			_shieldTimer -= dt;
-			if (_shieldTimer <= 0) { _shieldActive = false; }
+			if (_shieldTimer <= 0) _shieldActive = false;
 		}
 	}
 
-	
 	public void AddScore(int amount)
-{
-	_score += amount;
-	// 100 coins = 1 extra life (#41)
-	if (_score % 100 == 0)
 	{
-		_lives++;
-		GD.Print("Extra life! Lives: " + _lives);
+		_score += amount;
+		// Every 100 coins grants an extra life (#41)
+		if (_score % 100 == 0)
+			_lives++;
 	}
-	GD.Print("Score: " + _score);
-}
 
 	public void ActivateShield()
 	{
 		_shieldActive = true;
 		_shieldTimer = 10f;
-		GD.Print("Shield activated!");
 	}
-	
-	private bool _magnetActive = false;
-private float _magnetTimer = 0f;
-private float _magnetRadius = 200f;
 
-public void ActivateMagnet()
-{
-	_magnetActive = true;
-	_magnetTimer = 5f;
-	GD.Print("Magnet activated!");
-}
-
-private void SaveHighscore(int score)
-{
-	string path = "user://highscore.dat";
-	int best = 0;
-
-	// Load existing highscore
-	if (FileAccess.FileExists(path))
+	public void ActivateMagnet()
 	{
+		_magnetActive = true;
+		_magnetTimer = 5f;
+	}
+
+	private void SaveHighscore(int score)
+	{
+		string path = "user://highscore.dat";
+		int best = 0;
+
+		if (FileAccess.FileExists(path))
+		{
+			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+			best = (int)(uint)file.Get32();
+		}
+
+		if (score > best)
+		{
+			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+			file.Store32((uint)score);
+		}
+	}
+
+	public static int LoadHighscore()
+	{
+		string path = "user://highscore.dat";
+		if (!FileAccess.FileExists(path)) return 0;
 		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-		best = (int)(uint)file.Get32();
+		return (int)(uint)file.Get32();
 	}
 
-	// Save if new highscore
-	if (score > best)
+	public void Die()
 	{
-		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
-		file.Store32((uint)score);
-		GD.Print("New highscore: " + score);
+		if (IsDying) return;
+		IsDying = true;
+
+		_lives--;
+		_lives = Mathf.Max(_lives, 0);
+
+		if (_lives <= 0)
+		{
+			SaveHighscore(_score);
+			Visible = false;
+			SetPhysicsProcess(false);
+			GetTree().Paused = true;
+		}
+		else
+		{
+			_invincibilityTimer = 1.5f;
+			var tween = CreateTween();
+			tween.SetLoops(6);
+			tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+			tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+			Position = _checkpointPosition;
+			IsDying = false;
+		}
 	}
-}
-
-public static int LoadHighscore()
-{
-	string path = "user://highscore.dat";
-	if (!FileAccess.FileExists(path)) return 0;
-	using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-	return (int)(uint)file.Get32();
-}
-
-public void Die()
-{
-	if (IsDying) return;
-	IsDying = true;
-
-	_lives--;
-	_lives = Mathf.Max(_lives, 0);
-	GD.Print("Lives: " + _lives);
-
-	if (_lives <= 0)
-	{
-		SaveHighscore(_score);
-		GD.Print("GAME OVER");
-		Visible = false;
-		SetPhysicsProcess(false);
-		GetTree().Paused = true;
-	}
-	else
-	{
-		_invincibilityTimer = 1.5f;
-		var tween = CreateTween();
-		tween.SetLoops(6);
-		tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
-		tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
-		Position = _checkpointPosition;
-		IsDying = false;
-	}
-}
 }
