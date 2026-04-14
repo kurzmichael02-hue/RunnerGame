@@ -5,6 +5,7 @@ public partial class MainMenu : Control
 {
 	public override void _Ready()
 	{
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 	}
 
 	public override void _Process(double delta)

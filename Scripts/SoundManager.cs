@@ -11,11 +11,13 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _music;
 	private AudioStreamPlayer _jump;
 	private AudioStreamPlayer _settingsMusic;
+	private AudioStreamPlayer _startScreenMusic;
 	
 	private List<AudioStreamPlayer> _musicPlayers;
 	
 	public AudioStreamPlayer GameMusic => _music;
 	public AudioStreamPlayer SettingsMusic => _settingsMusic;
+	public AudioStreamPlayer StartScreenMusic => _startScreenMusic;
 
 	public override void _Ready()
 	{
@@ -27,6 +29,7 @@ public partial class SoundManager : Node
 		_jump = GetNode<AudioStreamPlayer>("JumpSound");
 		_music = GetNode<AudioStreamPlayer>("Music/BackGroundMusic");
 		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
+		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
 		
 		var musicParent = GetNode<Node>("Music");
 
