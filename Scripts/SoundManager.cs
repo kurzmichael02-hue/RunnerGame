@@ -8,10 +8,11 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _coin;
 	private AudioStreamPlayer _enemy;
 	private AudioStreamPlayer _checkpoint;
-	private AudioStreamPlayer _music;
 	private AudioStreamPlayer _jump;
+	private AudioStreamPlayer _menuHover;
 	private AudioStreamPlayer _settingsMusic;
 	private AudioStreamPlayer _startScreenMusic;
+	private AudioStreamPlayer _music;
 	
 	private List<AudioStreamPlayer> _musicPlayers;
 	
@@ -30,6 +31,7 @@ public partial class SoundManager : Node
 		_music = GetNode<AudioStreamPlayer>("Music/BackGroundMusic");
 		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
 		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
+		_menuHover = GetNode<AudioStreamPlayer>("MenuFX/HoverSound");
 		
 		var musicParent = GetNode<Node>("Music");
 
@@ -62,6 +64,11 @@ public partial class SoundManager : Node
 	public void PlayCheckpoint()
 	{
 		_checkpoint.Play();
+	}
+	
+	public void PlayMenuHover()
+	{
+		_menuHover.Play();
 	}
 
 	public void PlayMusic()

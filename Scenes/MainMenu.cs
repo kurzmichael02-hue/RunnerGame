@@ -3,10 +3,26 @@ using System;
 
 public partial class MainMenu : Control
 {
-	public override void _Ready()
+	
+public override void _Ready()
+{
+	SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
+
+	var vbox = GetNode<VBoxContainer>("VBoxContainer");
+
+	foreach (Node child in vbox.GetChildren())
 	{
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
+		if (child is Button button)
+		{
+			button.MouseEntered += OnAnyButtonHovered;
+		}
 	}
+}
+
+private void OnAnyButtonHovered()
+{
+	SoundManager.Instance.PlayMenuHover();
+}
 
 	public override void _Process(double delta)
 	{
