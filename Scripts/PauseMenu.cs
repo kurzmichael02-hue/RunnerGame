@@ -15,6 +15,7 @@ public partial class PauseMenu : Control
 
 		GetNode<Button>("MenuPanel/VBoxContainer/Resume").Pressed += OnResumePressed;
 		GetNode<Button>("MenuPanel/VBoxContainer/Exit").Pressed += OnExitPressed;
+		GetNode<Button>("MenuPanel/VBoxContainer/Main Menu").Pressed += OnMainMenuPressed;
 
 		_volumeSlider = GetNode<HSlider>("MenuPanel/VBoxContainer/HSlider");
 		_volumeSlider.MinValue = 0;
@@ -29,9 +30,40 @@ public partial class PauseMenu : Control
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
-
+		
+		
+		LoadKeyBindings();
 		UpdateBindLabels();
 	}
+	
+	private void SaveKeyBindings()
+{
+	var config = new ConfigFile();
+	foreach (string action in new[] { "jump", "move_left", "move_right" })
+	{
+		var events = InputMap.ActionGetEvents(action);
+		if (events.Count > 0 && events[0] is InputEventKey key)
+			config.SetValue("bindings", action, (int)key.PhysicalKeycode);
+	}
+	config.Save("user://keybindings.cfg");
+}
+
+private void LoadKeyBindings()
+{
+	var config = new ConfigFile();
+	if (config.Load("user://keybindings.cfg") != Error.Ok) return;
+
+	foreach (string action in new[] { "jump", "move_left", "move_right" })
+	{
+		if (!config.HasSectionKey("bindings", action)) continue;
+		int keycode = (int)config.GetValue("bindings", action);
+		var keyEvent = new InputEventKey();
+		keyEvent.PhysicalKeycode = (Key)keycode;
+		InputMap.ActionEraseEvents(action);
+		InputMap.ActionAddEvent(action, keyEvent);
+	}
+	UpdateBindLabels();
+}
 
 	private void StartListening(string action, Button button)
 	{
@@ -51,6 +83,7 @@ public partial class PauseMenu : Control
 			_listeningAction = null;
 			SetProcessUnhandledKeyInput(false);
 			UpdateBindLabels();
+			SaveKeyBindings();
 			return;
 		}
 
@@ -77,6 +110,7 @@ public partial class PauseMenu : Control
 		_listeningAction = null;
 		SetProcessUnhandledKeyInput(false);
 		UpdateBindLabels();
+		SaveKeyBindings();
 		GetViewport().SetInputAsHandled();
 	}
 
@@ -110,8 +144,10 @@ public partial class PauseMenu : Control
 
 	private void OnResumePressed()
 	{
-		Visible = false;
 		GetTree().Paused = false;
+		Visible = false;
+
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 
 	private void OnVolumeChanged(double value)
@@ -124,4 +160,11 @@ public partial class PauseMenu : Control
 	{
 		GetTree().Quit();
 	}
+	
+private void OnMainMenuPressed()
+{
+	GetTree().Paused = false;
+	GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+}
+
 }
