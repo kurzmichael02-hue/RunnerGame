@@ -56,7 +56,8 @@ shape = SubResource("RectangleShape2D_cg2ps")
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
 
 [node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=595602708]
-scale = Vector2(4.5, 4.5)
+texture_filter = 1
+scale = Vector2(3.5, 3.5)
 texture = ExtResource("3_71axn")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=394806246]
@@ -80,6 +81,8 @@ script = ExtResource("2_gl6un")
 shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin" unique_id=546608006]
+texture_filter = 1
+scale = Vector2(4, 4)
 texture = ExtResource("5_dahhg")
 
 [node name="Coin2" type="Area2D" parent="." unique_id=686530803]
@@ -90,6 +93,8 @@ script = ExtResource("2_gl6un")
 shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin2" unique_id=974573623]
+texture_filter = 1
+scale = Vector2(4, 4)
 texture = ExtResource("5_dahhg")
 
 [node name="Coin3" type="Area2D" parent="." unique_id=168780771]
@@ -100,6 +105,8 @@ script = ExtResource("2_gl6un")
 shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin3" unique_id=483352856]
+texture_filter = 1
+scale = Vector2(4, 4)
 texture = ExtResource("5_dahhg")
 
 [node name="Coin4" type="Area2D" parent="." unique_id=121221526]
@@ -110,6 +117,8 @@ script = ExtResource("2_gl6un")
 shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin4" unique_id=276341414]
+texture_filter = 1
+scale = Vector2(4, 4)
 texture = ExtResource("5_dahhg")
 
 [node name="Enemy" type="CharacterBody2D" parent="." unique_id=263876446]
@@ -129,16 +138,16 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_kldst")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=1110267752]
-scale = Vector2(20, 20)
+texture_filter = 1
+scale = Vector2(4.5, 4.5)
 texture = ExtResource("7_3so38")
 
 [node name="Enemy2" type="CharacterBody2D" parent="." unique_id=148747929]
 position = Vector2(1100, 300)
-scale = Vector2(15, 15)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
-Type = 2
+Type = 1
 MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2" unique_id=1384934600]
@@ -151,11 +160,12 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_kldst")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy2" unique_id=1399868777]
+texture_filter = 1
+scale = Vector2(4, 4)
 texture = ExtResource("8_wxwew")
 
 [node name="Enemy3" type="CharacterBody2D" parent="." unique_id=1757553526]
 position = Vector2(1500, 300)
-scale = Vector2(15, 15)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
@@ -172,6 +182,8 @@ collision_layer = 0
 shape = SubResource("RectangleShape2D_kldst")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy3" unique_id=542366519]
+texture_filter = 1
+scale = Vector2(4.5, 4.5)
 texture = ExtResource("9_acvyw")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
