@@ -7,7 +7,6 @@ public partial class PauseMenu : Control
 	private Button _moveLeftBind;
 	private Button _moveRightBind;
 	private string _listeningAction = null;
-	private bool _justRebound = false;
 
 	public override void _Ready()
 	{
@@ -20,7 +19,6 @@ public partial class PauseMenu : Control
 		_volumeSlider = GetNode<HSlider>("MenuPanel/VBoxContainer/HSlider");
 		_volumeSlider.MinValue = 0;
 		_volumeSlider.MaxValue = 100;
-		_volumeSlider.Value = 100;
 		_volumeSlider.ValueChanged += OnVolumeChanged;
 
 		_jumpBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer/JumpBind");
@@ -30,45 +28,22 @@ public partial class PauseMenu : Control
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
-		
-		
-		LoadKeyBindings();
+
+		LoadSettings();
 		UpdateBindLabels();
 	}
-	
-	private void SaveKeyBindings()
-{
-	var config = new ConfigFile();
-	foreach (string action in new[] { "jump", "move_left", "move_right" })
-	{
-		var events = InputMap.ActionGetEvents(action);
-		if (events.Count > 0 && events[0] is InputEventKey key)
-			config.SetValue("bindings", action, (int)key.PhysicalKeycode);
-	}
-	config.Save("user://keybindings.cfg");
-}
-
-private void LoadKeyBindings()
-{
-	var config = new ConfigFile();
-	if (config.Load("user://keybindings.cfg") != Error.Ok) return;
-
-	foreach (string action in new[] { "jump", "move_left", "move_right" })
-	{
-		if (!config.HasSectionKey("bindings", action)) continue;
-		int keycode = (int)config.GetValue("bindings", action);
-		var keyEvent = new InputEventKey();
-		keyEvent.PhysicalKeycode = (Key)keycode;
-		InputMap.ActionEraseEvents(action);
-		InputMap.ActionAddEvent(action, keyEvent);
-	}
-	UpdateBindLabels();
-}
 
 	private void StartListening(string action, Button button)
 	{
 		_listeningAction = action;
 		button.Text = "Press a key...";
+		// Block all input until next frame so the click doesn't register as a bind
+		SetProcessUnhandledKeyInput(false);
+		CallDeferred(nameof(EnableKeyListening));
+	}
+
+	private void EnableKeyListening()
+	{
 		SetProcessUnhandledKeyInput(true);
 	}
 
@@ -76,18 +51,15 @@ private void LoadKeyBindings()
 	{
 		if (_listeningAction == null) return;
 		if (@event is not InputEventKey keyEvent || !keyEvent.Pressed || keyEvent.Echo) return;
-		if (_justRebound) return;
 
+		// ESC cancels rebinding without saving
 		if (keyEvent.Keycode == Key.Escape)
 		{
-			_listeningAction = null;
-			SetProcessUnhandledKeyInput(false);
-			UpdateBindLabels();
-			SaveKeyBindings();
+			CancelListening();
 			return;
 		}
 
-		// Swap if another action already uses this key
+		// Swap if this key is already used by another action
 		foreach (string action in new[] { "jump", "move_left", "move_right" })
 		{
 			if (action == _listeningAction) continue;
@@ -95,6 +67,7 @@ private void LoadKeyBindings()
 			{
 				if (existing.AsText() == @event.AsText())
 				{
+					// Give this action the current binding of _listeningAction
 					var currentEvents = InputMap.ActionGetEvents(_listeningAction);
 					InputMap.ActionEraseEvents(action);
 					foreach (var e in currentEvents)
@@ -103,20 +76,22 @@ private void LoadKeyBindings()
 			}
 		}
 
+		// Assign new key
 		InputMap.ActionEraseEvents(_listeningAction);
 		InputMap.ActionAddEvent(_listeningAction, @event);
 
-		_justRebound = true;
 		_listeningAction = null;
 		SetProcessUnhandledKeyInput(false);
 		UpdateBindLabels();
-		SaveKeyBindings();
+		SaveSettings();
 		GetViewport().SetInputAsHandled();
 	}
 
-	public override void _Process(double delta)
+	private void CancelListening()
 	{
-		_justRebound = false;
+		_listeningAction = null;
+		SetProcessUnhandledKeyInput(false);
+		UpdateBindLabels();
 	}
 
 	private void UpdateBindLabels()
@@ -128,8 +103,7 @@ private void LoadKeyBindings()
 
 	private string GetFirstKey(string action)
 	{
-		var events = InputMap.ActionGetEvents(action);
-		foreach (var e in events)
+		foreach (var e in InputMap.ActionGetEvents(action))
 		{
 			if (e is InputEventKey keyEvent)
 			{
@@ -142,11 +116,53 @@ private void LoadKeyBindings()
 		return "<unbound>";
 	}
 
+	private void SaveSettings()
+	{
+		var config = new ConfigFile();
+
+		// Save key bindings
+		foreach (string action in new[] { "jump", "move_left", "move_right" })
+		{
+			var events = InputMap.ActionGetEvents(action);
+			if (events.Count > 0 && events[0] is InputEventKey key)
+				config.SetValue("bindings", action, (int)key.PhysicalKeycode);
+		}
+
+		// Save volume
+		config.SetValue("audio", "volume", _volumeSlider.Value);
+		config.Save("user://settings.cfg");
+	}
+
+	private void LoadSettings()
+	{
+		var config = new ConfigFile();
+		if (config.Load("user://settings.cfg") != Error.Ok) return;
+
+		// Load key bindings
+		foreach (string action in new[] { "jump", "move_left", "move_right" })
+		{
+			if (!config.HasSectionKey("bindings", action)) continue;
+			int keycode = (int)config.GetValue("bindings", action);
+			var keyEvent = new InputEventKey();
+			keyEvent.PhysicalKeycode = (Key)keycode;
+			InputMap.ActionEraseEvents(action);
+			InputMap.ActionAddEvent(action, keyEvent);
+		}
+
+		// Load volume
+		if (config.HasSectionKey("audio", "volume"))
+		{
+			double volume = (double)config.GetValue("audio", "volume");
+			_volumeSlider.Value = volume;
+			float db = Mathf.LinearToDb((float)(volume / 100.0));
+			AudioServer.SetBusVolumeDb(0, db);
+		}
+	}
+
 	private void OnResumePressed()
 	{
 		GetTree().Paused = false;
 		Visible = false;
-
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 
@@ -154,17 +170,17 @@ private void LoadKeyBindings()
 	{
 		float db = Mathf.LinearToDb((float)(value / 100.0));
 		AudioServer.SetBusVolumeDb(0, db);
+		SaveSettings();
 	}
 
 	private void OnExitPressed()
 	{
 		GetTree().Quit();
 	}
-	
-private void OnMainMenuPressed()
-{
-	GetTree().Paused = false;
-	GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
-}
 
+	private void OnMainMenuPressed()
+	{
+		GetTree().Paused = false;
+		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+	}
 }

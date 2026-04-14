@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 
 public enum EnemyType { Patrol, Fast, Jumping }
 
@@ -14,32 +13,22 @@ public partial class Enemy : CharacterBody2D
 	private float _jumpTimer = 0f;
 	private float _damageCooldown = 0f;
 	private Vector2 _startPosition;
-	private readonly HashSet<Player> _overlappingPlayers = new();
+	private ShapeCast2D _hitBox;
 
 	public override void _Ready()
 	{
-		// Disable physical collision with player, only HitBox handles interaction
-		SetCollisionMaskValue(1, true);  // Ground
 		_startPosition = Position;
 		_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
 
-		var hitBox = GetNode<Area2D>("HitBox");
-		hitBox.BodyEntered += OnBodyEntered;
-		hitBox.BodyExited += OnBodyExited;
-	}
+		_hitBox = GetNode<ShapeCast2D>("HitBox");
+		_hitBox.TargetPosition = Vector2.Zero;
+		_hitBox.ExcludeParent = true;
+		_hitBox.CollideWithBodies = true;
+		_hitBox.CollideWithAreas = false;
+		_hitBox.Enabled = true;
 
-	private void OnBodyEntered(Node2D body)
-{
-
-	if (body is Player player)
-		_overlappingPlayers.Add(player);
-}
-
-	private void OnBodyExited(Node2D body)
-	{
-		if (body is Player player)
-			_overlappingPlayers.Remove(player);
+		SetCollisionMaskValue(1, true);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -47,34 +36,28 @@ public partial class Enemy : CharacterBody2D
 		if (_isDead) return;
 
 		_damageCooldown -= (float)delta;
-// Also check via GetOverlappingBodies for slow/stationary player
-var hitBox = GetNode<Area2D>("HitBox");
-foreach (var body in hitBox.GetOverlappingBodies())
-{
-	if (body is Player p && !_overlappingPlayers.Contains(p))
-		_overlappingPlayers.Add(p);
-}
 
-foreach (Player player in _overlappingPlayers)
-{
-	if (!IsInstanceValid(player)) continue;
+		var playerNode = GetTree().GetFirstNodeInGroup("player") as Player;
+		if (playerNode != null && !playerNode.IsDying)
+		{
+			float dist = GlobalPosition.DistanceTo(playerNode.GlobalPosition);
+			if (dist < 60f && _damageCooldown <= 0f)
+			{
+				bool stompedFromAbove = playerNode.Velocity.Y > 100f
+					&& (playerNode.GlobalPosition.Y + 20f) < GlobalPosition.Y;
 
-	bool stompedFromAbove = player.Velocity.Y > 100f
-		&& (player.GlobalPosition.Y + 20f) < GlobalPosition.Y;
+				if (stompedFromAbove)
+				{
+					playerNode.StompedEnemy = true;
+					Die();
+					return;
+				}
 
-	if (stompedFromAbove)
-	{
-		player.StompedEnemy = true;
-		Die();
-		return;
-	}
-	else if (_damageCooldown <= 0f && !player.IsDying)
-	{
-		player.Die();
-		_damageCooldown = 1.5f;
-		return;
-	}
-}
+				playerNode.Die();
+				_damageCooldown = 1.5f;
+				return;
+			}
+		}
 
 		// Movement
 		Vector2 velocity = Velocity;
@@ -94,11 +77,10 @@ foreach (Player player in _overlappingPlayers)
 		MoveAndSlide();
 	}
 
-	private async void Die()
+	private void Die()
 	{
 		_isDead = true;
-
-		GetNode<Area2D>("HitBox").SetDeferred("monitoring", false);
+		_hitBox.Enabled = false;
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();

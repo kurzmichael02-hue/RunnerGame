@@ -27,7 +27,13 @@ radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j5yw3"]
 size = Vector2(50, 50)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kldst"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxwew"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_acvyw"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_alh3a"]
 size = Vector2(50, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]
@@ -131,16 +137,14 @@ MoveDistance = 400.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=634150711]
 shape = SubResource("RectangleShape2D_j5yw3")
 
-[node name="HitBox" type="Area2D" parent="Enemy" unique_id=1405560329]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/HitBox" unique_id=1132804179]
-shape = SubResource("RectangleShape2D_kldst")
-
 [node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=1110267752]
 texture_filter = 1
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("7_3so38")
+
+[node name="HitBox" type="ShapeCast2D" parent="Enemy" unique_id=609767665]
+shape = SubResource("RectangleShape2D_wxwew")
+target_position = Vector2(0, 0)
 
 [node name="Enemy2" type="CharacterBody2D" parent="." unique_id=148747929]
 position = Vector2(1100, 300)
@@ -153,16 +157,14 @@ MoveDistance = 400.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2" unique_id=1384934600]
 shape = SubResource("RectangleShape2D_j5yw3")
 
-[node name="HitBox" type="Area2D" parent="Enemy2" unique_id=1451414025]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy2/HitBox" unique_id=1397591393]
-shape = SubResource("RectangleShape2D_kldst")
-
 [node name="Sprite2D" type="Sprite2D" parent="Enemy2" unique_id=1399868777]
 texture_filter = 1
 scale = Vector2(4, 4)
 texture = ExtResource("8_wxwew")
+
+[node name="HitBox" type="ShapeCast2D" parent="Enemy2" unique_id=471693211]
+shape = SubResource("RectangleShape2D_acvyw")
+target_position = Vector2(0, 0)
 
 [node name="Enemy3" type="CharacterBody2D" parent="." unique_id=1757553526]
 position = Vector2(1500, 300)
@@ -175,16 +177,14 @@ MoveDistance = 400.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3" unique_id=1298542755]
 shape = SubResource("RectangleShape2D_j5yw3")
 
-[node name="HitBox" type="Area2D" parent="Enemy3" unique_id=30276701]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy3/HitBox" unique_id=85454724]
-shape = SubResource("RectangleShape2D_kldst")
-
 [node name="Sprite2D" type="Sprite2D" parent="Enemy3" unique_id=542366519]
 texture_filter = 1
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("9_acvyw")
+
+[node name="HitBox" type="ShapeCast2D" parent="Enemy3" unique_id=879793035]
+shape = SubResource("RectangleShape2D_alh3a")
+target_position = Vector2(0, 0)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
 script = ExtResource("5_b2bpf")
