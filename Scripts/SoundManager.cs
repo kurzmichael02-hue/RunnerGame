@@ -10,6 +10,7 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _checkpoint;
 	private AudioStreamPlayer _jump;
 	private AudioStreamPlayer _menuHover;
+	private AudioStreamPlayer _button;
 	private AudioStreamPlayer _settingsMusic;
 	private AudioStreamPlayer _startScreenMusic;
 	private AudioStreamPlayer _music;
@@ -32,7 +33,7 @@ public partial class SoundManager : Node
 		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
 		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
 		_menuHover = GetNode<AudioStreamPlayer>("MenuFX/HoverSound");
-		
+		_button = GetNode<AudioStreamPlayer>("MenuFX/ButtonSound");
 		var musicParent = GetNode<Node>("Music");
 
 		_musicPlayers = new List<AudioStreamPlayer>();
@@ -45,7 +46,8 @@ public partial class SoundManager : Node
 			}
 		}
 	}
-
+	
+	//Ingame Objects
 	public void PlayCoin()
 	{
 		_coin.Play();
@@ -66,11 +68,18 @@ public partial class SoundManager : Node
 		_checkpoint.Play();
 	}
 	
+	//Menu Sounds
 	public void PlayMenuHover()
 	{
 		_menuHover.Play();
 	}
-
+	
+	public void PlayButton()
+	{
+		_button.Play();
+	}
+	
+	//Music
 	public void PlayMusic()
 	{
 		if (!_music.Playing)

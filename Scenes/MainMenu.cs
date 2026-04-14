@@ -32,6 +32,7 @@ private void OnAnyButtonHovered()
 	private void _on_start_pressed()
 	{
 		GD.Print("Start gedrückt");
+		SoundManager.Instance.PlayButton();
 		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
 	}
 
@@ -39,18 +40,21 @@ private void OnAnyButtonHovered()
 	private void _on_settings_pressed()
 	{
 		GD.Print("Settings gedrückt");
+		SoundManager.Instance.PlayButton();
 	}
 
 	// HIGHSCORES BUTTON
 	private void _on_highscores_pressed()
 	{
 		GD.Print("Highscores gedrückt");
+		SoundManager.Instance.PlayButton();
 	}
 
 	// EXIT BUTTON
 	private void _on_exit_pressed()
 	{
 		GD.Print("Spiel wird beendet");
+		SoundManager.Instance.PlayButton();
 		GetTree().Quit();
 	}
 }
