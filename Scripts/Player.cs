@@ -205,7 +205,7 @@ if (Position.Y > 600f)
 		return (int)(uint)file.Get32();
 	}
 
-	public void Die()
+	public async void Die()
 	{
 		if (IsDying) return;
 		IsDying = true;
@@ -221,14 +221,25 @@ if (Position.Y > 600f)
 			GetTree().Paused = true;
 		}
 		else
-		{
-			_invincibilityTimer = 1.5f;
-			var tween = CreateTween();
-			tween.SetLoops(6);
-			tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
-			tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
-			Position = _checkpointPosition;
-			IsDying = false;
-		}
+{
+	Visible = false;
+	SetPhysicsProcess(false);
+	
+	// Wait 1 second before respawning
+	var timer = GetTree().CreateTimer(1.0f);
+	await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+	
+	Position = _checkpointPosition;
+	Visible = true;
+	SetPhysicsProcess(true);
+	_invincibilityTimer = 1.5f;
+	IsDying = false;
+	
+	// Blink effect after respawn
+	var tween = CreateTween();
+	tween.SetLoops(6);
+	tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+	tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+}
 	}
 }
