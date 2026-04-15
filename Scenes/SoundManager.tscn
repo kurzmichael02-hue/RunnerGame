@@ -100,7 +100,7 @@ volume_db = -3.588
 
 [node name="StartScreenMusic" type="AudioStreamPlayer" parent="Music" unique_id=1005101336]
 stream = SubResource("AudioStreamOggVorbis_i4wp4")
-volume_db = -11.491
+volume_db = -18.789
 
 [node name="MenuFX" type="Node" parent="." unique_id=60666885]
 
