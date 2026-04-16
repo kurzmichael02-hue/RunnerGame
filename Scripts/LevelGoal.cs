@@ -27,7 +27,6 @@ public partial class LevelGoal : Area2D
 		// Wait 1 second then pause
 		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 
-		GD.Print("Level complete!");
 		GetTree().Paused = true;
 	}
 }

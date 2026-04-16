@@ -4,8 +4,9 @@ public partial class PauseMenu : Control
 {
 	private HSlider _volumeSlider;
 	private Button _jumpBind;
-	private Button _moveLeftBind;
 	private Button _moveRightBind;
+	private Button _moveLeftBind;
+	private Button _duckBind;
 	private string _listeningAction = null;
 
 	public override void _Ready()
@@ -22,12 +23,14 @@ public partial class PauseMenu : Control
 		_volumeSlider.ValueChanged += OnVolumeChanged;
 
 		_jumpBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer/JumpBind");
-		_moveLeftBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer2/MoveLeftBind");
-		_moveRightBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer3/MoveRightBind");
+		_moveRightBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer2/MoveRightBind");
+		_moveLeftBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer3/MoveLeftBind");
+		_duckBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer4/DuckBind");
 
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
-		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
+		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
+		_duckBind.Pressed += () => StartListening("duck", _duckBind);
 
 		LoadSettings();
 		UpdateBindLabels();
@@ -37,7 +40,6 @@ public partial class PauseMenu : Control
 	{
 		_listeningAction = action;
 		button.Text = "Press a key...";
-		// Block all input until next frame so the click doesn't register as a bind
 		SetProcessUnhandledKeyInput(false);
 		CallDeferred(nameof(EnableKeyListening));
 	}
@@ -52,22 +54,19 @@ public partial class PauseMenu : Control
 		if (_listeningAction == null) return;
 		if (@event is not InputEventKey keyEvent || !keyEvent.Pressed || keyEvent.Echo) return;
 
-		// ESC cancels rebinding without saving
 		if (keyEvent.Keycode == Key.Escape)
 		{
 			CancelListening();
 			return;
 		}
 
-		// Swap if this key is already used by another action
-		foreach (string action in new[] { "jump", "move_left", "move_right" })
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
 		{
 			if (action == _listeningAction) continue;
 			foreach (InputEvent existing in InputMap.ActionGetEvents(action))
 			{
 				if (existing.AsText() == @event.AsText())
 				{
-					// Give this action the current binding of _listeningAction
 					var currentEvents = InputMap.ActionGetEvents(_listeningAction);
 					InputMap.ActionEraseEvents(action);
 					foreach (var e in currentEvents)
@@ -76,7 +75,6 @@ public partial class PauseMenu : Control
 			}
 		}
 
-		// Assign new key
 		InputMap.ActionEraseEvents(_listeningAction);
 		InputMap.ActionAddEvent(_listeningAction, @event);
 
@@ -97,8 +95,9 @@ public partial class PauseMenu : Control
 	private void UpdateBindLabels()
 	{
 		_jumpBind.Text = GetFirstKey("jump");
-		_moveLeftBind.Text = GetFirstKey("move_left");
 		_moveRightBind.Text = GetFirstKey("move_right");
+		_moveLeftBind.Text = GetFirstKey("move_left");
+		_duckBind.Text = GetFirstKey("duck");
 	}
 
 	private string GetFirstKey(string action)
@@ -120,15 +119,13 @@ public partial class PauseMenu : Control
 	{
 		var config = new ConfigFile();
 
-		// Save key bindings
-		foreach (string action in new[] { "jump", "move_left", "move_right" })
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
 		{
 			var events = InputMap.ActionGetEvents(action);
 			if (events.Count > 0 && events[0] is InputEventKey key)
 				config.SetValue("bindings", action, (int)key.PhysicalKeycode);
 		}
 
-		// Save volume
 		config.SetValue("audio", "volume", _volumeSlider.Value);
 		config.Save("user://settings.cfg");
 	}
@@ -138,8 +135,7 @@ public partial class PauseMenu : Control
 		var config = new ConfigFile();
 		if (config.Load("user://settings.cfg") != Error.Ok) return;
 
-		// Load key bindings
-		foreach (string action in new[] { "jump", "move_left", "move_right" })
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
 		{
 			if (!config.HasSectionKey("bindings", action)) continue;
 			int keycode = (int)config.GetValue("bindings", action);
@@ -149,7 +145,6 @@ public partial class PauseMenu : Control
 			InputMap.ActionAddEvent(action, keyEvent);
 		}
 
-		// Load volume
 		if (config.HasSectionKey("audio", "volume"))
 		{
 			double volume = (double)config.GetValue("audio", "volume");

@@ -11,6 +11,5 @@ public partial class GameManager : Node2D
 	public void AddScore(int amount)
 	{
 		_score += amount;
-		GD.Print("Score: " + _score);
 	}
 }
