@@ -15,8 +15,11 @@
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/LevelGoal.cs" id="10_71axn"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/MagnetPowerUp.cs" id="11_dahhg"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
-size = Vector2(50, 80)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q8tf"]
+size = Vector2(30, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
+size = Vector2(30, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_71axn"]
 size = Vector2(6000, 50)
@@ -56,15 +59,18 @@ position = Vector2(200, 300)
 collision_mask = 5
 script = ExtResource("1_iukft")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
-shape = SubResource("RectangleShape2D_cg2ps")
-
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
 
 [node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=595602708]
 texture_filter = 1
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("3_71axn")
+
+[node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=1454536069]
+shape = SubResource("RectangleShape2D_4q8tf")
+
+[node name="DuckShape" type="CollisionShape2D" parent="Player" unique_id=1678999841]
+shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=394806246]
 position = Vector2(0, 300)
@@ -271,13 +277,12 @@ layout_mode = 2
 custom_minimum_size = Vector2(360, 40)
 layout_mode = 2
 
-[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=267842414]
+[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=267842414]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "Move Left
-"
+text = "Move Right"
 
-[node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
+[node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
 custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 
@@ -285,13 +290,23 @@ layout_mode = 2
 custom_minimum_size = Vector2(360, 40)
 layout_mode = 2
 
-[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1233098572]
+[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1233098572]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "Move Right"
+text = "Move Left"
 
-[node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
+[node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
 custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1550942221]
+layout_mode = 2
+
+[node name="Duck" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=333798494]
+layout_mode = 2
+text = "Duck"
+
+[node name="DuckBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=1367770000]
 layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=911804471]
