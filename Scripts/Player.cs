@@ -23,6 +23,9 @@ public partial class Player : CharacterBody2D
 	private int _lives = 3;
 	private int _score = 0;
 	public bool IsDying = false;
+	public bool IsSmall = false;
+	private CollisionShape2D _standShape;
+private CollisionShape2D _duckShape;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private float _invincibilityTimer = 0f;
@@ -50,6 +53,9 @@ public partial class Player : CharacterBody2D
 		AddToGroup("player");
 		// Player does not physically collide with enemies (Layer 2)
 		SetCollisionMaskValue(2, false);
+		_standShape = GetNode<CollisionShape2D>("StandShape");
+_duckShape = GetNode<CollisionShape2D>("DuckShape");
+_duckShape.Disabled = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -221,24 +227,50 @@ if (Position.Y > 600f && !IsDying)
 		}
 		else
 {
-	Visible = false;
-	SetPhysicsProcess(false);
-	
-	// Wait 1 second before respawning
-	var timer = GetTree().CreateTimer(1.0f);
-	await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
-	
-	Position = _checkpointPosition;
-	Visible = true;
-	SetPhysicsProcess(true);
-	_invincibilityTimer = 1.5f;
-	IsDying = false;
-	
-	// Blink effect after respawn
-	var tween = CreateTween();
-	tween.SetLoops(6);
-	tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
-	tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
-}
+	if (!IsSmall)
+	{
+		// First hit – shrink player, don't die yet
+		IsSmall = true;
+		_invincibilityTimer = 1.5f;
+		
+		// Shrink collision and scale visually
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 30) };
+		Scale = new Vector2(0.6f, 0.6f);
+		
+		// Blink effect
+		var tween = CreateTween();
+		tween.SetLoops(6);
+		tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+		tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+		
+		IsDying = false;
 	}
+	else
+	{
+		// Second hit – actually die and respawn
+		IsSmall = false;
+		Scale = Vector2.One;
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		
+		Visible = false;
+		SetPhysicsProcess(false);
+
+		var timer = GetTree().CreateTimer(1.0f, true, false, true);
+		await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+
+		Position = _checkpointPosition;
+		Visible = true;
+		SetPhysicsProcess(true);
+		_invincibilityTimer = 1.5f;
+		IsDying = false;
+
+		var tween = CreateTween();
+		tween.SetLoops(6);
+		tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+		tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+	}
+}
+
+}
+
 }
