@@ -326,6 +326,14 @@ offset_top = 20.0
 offset_right = 540.0
 offset_bottom = 43.0
 
+[node name="PositionLabel" type="Label" parent="HUD" unique_id=1082136713]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+
 [node name="Checkpoint" type="Area2D" parent="." unique_id=1417984093]
 position = Vector2(700, 260)
 script = ExtResource("7_fgofq")
