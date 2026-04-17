@@ -15,8 +15,8 @@ public partial class LevelGoal : Area2D
 		if (body is not Player player) return;
 
 		_reached = true;
+		player.SetPhysicsProcess(false);
 
-		// Flash the goal node gold
 		var tween = CreateTween();
 		tween.TweenProperty(GetNode<Polygon2D>("Polygon2D"), "color",
 			new Color(1, 1, 1), 0.1f);
@@ -24,9 +24,7 @@ public partial class LevelGoal : Area2D
 			new Color(1, 0.84f, 0), 0.1f);
 		tween.SetLoops(5);
 
-		// Wait 1 second then pause
 		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
-
 		GetTree().Paused = true;
 	}
 }
