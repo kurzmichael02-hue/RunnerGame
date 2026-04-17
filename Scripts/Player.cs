@@ -32,6 +32,7 @@ private CollisionShape2D _duckShape;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
 	private bool _isJumping = false;
+	private bool _isDucking = false;
 
 	// Magnet
 	private bool _magnetActive = false;
@@ -105,6 +106,37 @@ if (Position.Y > 600f && !IsDying)
 		// Coyote time
 		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; }
 		else _coyoteTimer -= dt;
+		
+		// Duck – only on ground, no jumping while ducking
+bool wantDuck = Input.IsActionPressed("duck") && IsOnFloor();
+if (wantDuck && !_isDucking)
+{
+	_isDucking = true;
+	_jumpBufferTimer = 0f;
+	_standShape.Disabled = true;
+	_duckShape.Disabled = false;
+}
+else if (!wantDuck && _isDucking)
+{
+	_isDucking = false;
+	_standShape.Disabled = false;
+	_duckShape.Disabled = true;
+}
+
+if (_isDucking)
+{
+	float duckDir = 0;
+	if (Input.IsActionPressed("move_left")) duckDir = -1;
+	else if (Input.IsActionPressed("move_right")) duckDir = 1;
+
+	Vector2 vel = Velocity;
+	vel.X = duckDir * MaxSpeed * 0.4f;
+	if (!IsOnFloor()) vel.Y += FallGravity * dt;
+	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
+	Velocity = vel;
+	MoveAndSlide();
+	return;
+}
 
 		// Jump buffer
 		if (Input.IsActionJustPressed("jump")) _jumpBufferTimer = JumpBufferTime;
