@@ -32,7 +32,7 @@ public partial class PauseMenu : Control
 		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_duckBind.Pressed += () => StartListening("duck", _duckBind);
 		
-		var root = GetNode("MenuPanel/VBoxContainer");
+		var root = GetNode("MenuPanel");
 
 		foreach (Node child in root.GetChildren())
 		{
