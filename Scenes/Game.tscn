@@ -20,6 +20,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q8tf"]
+size = Vector2(30, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
+size = Vector2(30, 30)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_71axn"]
 size = Vector2(6000, 50)
 
@@ -202,8 +208,10 @@ scale = Vector2(3.5, 3.5)
 texture = ExtResource("3_71axn")
 
 [node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=327617137]
+shape = SubResource("RectangleShape2D_4q8tf")
 
 [node name="DuckShape" type="CollisionShape2D" parent="Player" unique_id=1483275952]
+shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="Ground" type="StaticBody2D" parent="." unique_id=394806246]
 position = Vector2(0, 300)
@@ -271,7 +279,7 @@ position = Vector2(700, 300)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("4_kldst")
-MoveDistance = 400.0
+MoveDistance = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=634150711]
 position = Vector2(1966, -23)
@@ -342,6 +350,7 @@ offset_right = 60.0
 offset_bottom = 73.0
 
 [node name="PauseMenu" type="Control" parent="HUD" unique_id=804085390]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -408,6 +417,7 @@ text = "Volume"
 
 [node name="HSlider" type="HSlider" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=698720291]
 layout_mode = 2
+focus_mode = 0
 theme_override_styles/slider = SubResource("StyleBoxFlat_rajel")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_vvhu1")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_lbihj")
@@ -448,17 +458,18 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
 custom_minimum_size = Vector2(360, 40)
 layout_mode = 2
 
-[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=267842414]
+[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=267842414]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Move Left"
+text = "Move Right
+"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
+[node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
 custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -472,17 +483,34 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
 custom_minimum_size = Vector2(360, 40)
 layout_mode = 2
 
-[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1233098572]
+[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1233098572]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Move Right"
+text = "Move Left"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
+[node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1917550980]
+layout_mode = 2
+
+[node name="Duck" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=653322350]
+layout_mode = 2
+text = "Duck"
+
+[node name="DuckBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=1156049707]
 custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 size_flags_horizontal = 3
