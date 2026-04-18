@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cefdx0nsa8xo8"]
 
-[ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_8saeu"]
+[ext_resource type="Script" uid="uid://ql2yqk1cwnnn" path="res://Scripts/MainMenu.cs" id="1_8saeu"]
 [ext_resource type="Texture2D" uid="uid://cepbss80lk0y" path="res://leveldesign/Sky.png" id="1_tt5f1"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="2_853f1"]
 
@@ -139,7 +139,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 1
 theme_override_fonts/font = ExtResource("2_853f1")
 theme_override_font_sizes/font_size = 70
-text = "Runner Game"
+text = "Yabloko"
 horizontal_alignment = 1
 vertical_alignment = 1
 
