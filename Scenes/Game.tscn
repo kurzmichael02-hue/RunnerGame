@@ -26,6 +26,12 @@ size = Vector2(6000, 50)
 [sub_resource type="CircleShape2D" id="CircleShape2D_j5yw3"]
 radius = 20.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_alh3a"]
+radius = 20.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4q8tf"]
+load_path = "res://.godot/imported/coins.png-2e4be7fa3d5cbf1127a8ff7432f12f02.ctex"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j5yw3"]
 size = Vector2(50, 50)
 
@@ -141,6 +147,42 @@ size = Vector2(20, 1000)
 [sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
 radius = 20.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8r6kd"]
+size = Vector2(117.375, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tfod6"]
+size = Vector2(476.75, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rajel"]
+size = Vector2(816.375, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vvhu1"]
+size = Vector2(441.375, 70)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbihj"]
+size = Vector2(416.6875, 58)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_raj38"]
+size = Vector2(30, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8e0uq"]
+size = Vector2(50, 50)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i0vto"]
+load_path = "res://.godot/imported/enemy3.png-488b65617ae19288af416b1bc7d6e166.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jf1l"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i0vto"]
+size = Vector2(50, 50)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3jf1l"]
+load_path = "res://.godot/imported/enemy2.png-d829694572805d3829ef3d5cd816f2f3.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_356ba"]
+size = Vector2(50, 50)
+
 [node name="Node2D" type="Node2D" unique_id=1679243187]
 script = ExtResource("1_j5yw3")
 
@@ -172,7 +214,7 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_71axn")
 
 [node name="ColorRect" type="ColorRect" parent="Ground" unique_id=2129677441]
-offset_right = 5100.0
+offset_right = 3002.0
 offset_bottom = 50.0
 color = Color(0, 1, 0, 1)
 
@@ -217,12 +259,12 @@ position = Vector2(1000, 280)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin4" unique_id=920698204]
-shape = SubResource("CircleShape2D_j5yw3")
+shape = SubResource("CircleShape2D_alh3a")
 
-[node name="Sprite2D" type="Sprite2D" parent="Coin4" unique_id=276341414]
+[node name="Sprite2D" type="Sprite2D" parent="Coin4/CollisionShape2D" unique_id=276341414]
 texture_filter = 1
 scale = Vector2(4, 4)
-texture = ExtResource("5_dahhg")
+texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Enemy" type="CharacterBody2D" parent="." unique_id=263876446]
 position = Vector2(700, 300)
@@ -232,6 +274,7 @@ script = ExtResource("4_kldst")
 MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=634150711]
+position = Vector2(1966, -23)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=1110267752]
@@ -505,9 +548,11 @@ position = Vector2(3000, 260)
 script = ExtResource("10_71axn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
+position = Vector2(2035, 8)
 shape = SubResource("RectangleShape2D_bf53h")
 
 [node name="Polygon2D" type="Polygon2D" parent="LevelGoal" unique_id=140018405]
+position = Vector2(2044, 5)
 color = Color(1, 0.84313726, 0, 1)
 polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 
@@ -515,6 +560,7 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 position = Vector2(3050, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
+position = Vector2(2038, -71)
 shape = SubResource("RectangleShape2D_dahhg")
 
 [node name="MagnetPowerUp" type="Area2D" parent="." unique_id=1529404631]
@@ -527,3 +573,234 @@ shape = SubResource("CircleShape2D_71axn")
 [node name="Polygon2D" type="Polygon2D" parent="MagnetPowerUp" unique_id=1669036872]
 color = Color(0, 0, 1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Ground2" type="StaticBody2D" parent="." unique_id=605063566]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground2" unique_id=706327436]
+position = Vector2(3193, 213)
+shape = SubResource("RectangleShape2D_8r6kd")
+
+[node name="ColorRect" type="ColorRect" parent="Ground2/CollisionShape2D" unique_id=1766139731]
+offset_left = -52.0
+offset_top = -13.0
+offset_right = 52.0
+offset_bottom = 51.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Ground2" unique_id=1833867922]
+position = Vector2(3767.625, 169)
+shape = SubResource("RectangleShape2D_tfod6")
+
+[node name="ColorRect" type="ColorRect" parent="Ground2/CollisionShape2D2" unique_id=409730479]
+offset_left = -218.625
+offset_top = -21.0
+offset_right = 234.375
+offset_bottom = 43.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Ground2" unique_id=1426146481]
+position = Vector2(4668, 312)
+shape = SubResource("RectangleShape2D_rajel")
+
+[node name="ColorRect" type="ColorRect" parent="Ground2/CollisionShape2D3" unique_id=1336550660]
+offset_left = -400.0
+offset_top = -21.0
+offset_right = 400.0
+offset_bottom = 43.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Ground2" unique_id=727604866]
+position = Vector2(2245.6875, 123)
+shape = SubResource("RectangleShape2D_vvhu1")
+
+[node name="ColorRect" type="ColorRect" parent="Ground2/CollisionShape2D4" unique_id=629759722]
+offset_left = -217.6875
+offset_top = -13.0
+offset_right = 219.3125
+offset_bottom = 51.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Ground2" unique_id=1647510018]
+position = Vector2(2034, 60.6875)
+rotation = 1.5707964
+shape = SubResource("RectangleShape2D_8r6kd")
+
+[node name="ColorRect" type="ColorRect" parent="Ground2/CollisionShape2D5" unique_id=1815168984]
+offset_left = -66.043274
+offset_top = -13.0
+offset_right = 63.086792
+offset_bottom = 51.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Ground2" unique_id=767714302]
+position = Vector2(2257.6563, -15)
+shape = SubResource("RectangleShape2D_lbihj")
+
+[node name="ColorRect" type="ColorRect" parent="Ground2/CollisionShape2D6" unique_id=1497273229]
+offset_left = -226.65631
+offset_top = -53.0
+offset_right = 211.34369
+offset_bottom = 11.0
+color = Color(0, 1, 0, 1)
+
+[node name="Coin5" type="Area2D" parent="." unique_id=1161870017]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin5" unique_id=404119719]
+position = Vector2(2181, -209)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin5/CollisionShape2D" unique_id=1127930969]
+texture_filter = 1
+position = Vector2(1, 3)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin6" type="Area2D" parent="." unique_id=1609223924]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin6" unique_id=439638209]
+position = Vector2(2389, -174)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin6/CollisionShape2D" unique_id=767892046]
+texture_filter = 1
+position = Vector2(2, 1)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin7" type="Area2D" parent="." unique_id=81764200]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin7" unique_id=105800429]
+position = Vector2(1379, -22)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin7/CollisionShape2D" unique_id=2109363038]
+texture_filter = 1
+position = Vector2(2, 2)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="MagnetPowerUp2" type="Area2D" parent="." unique_id=208422444]
+position = Vector2(900, 260)
+script = ExtResource("11_dahhg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetPowerUp2" unique_id=1505431566]
+position = Vector2(1205, -190)
+shape = SubResource("CircleShape2D_71axn")
+
+[node name="Polygon2D" type="Polygon2D" parent="MagnetPowerUp2" unique_id=1468963834]
+position = Vector2(1207, -189)
+color = Color(0, 0, 1, 1)
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Coin8" type="Area2D" parent="." unique_id=1821734858]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin8" unique_id=505241174]
+position = Vector2(2289, -234)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin8/CollisionShape2D" unique_id=1970758541]
+texture_filter = 1
+position = Vector2(1, 1)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin9" type="Area2D" parent="." unique_id=557738117]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin9" unique_id=1510580295]
+position = Vector2(1848, -229)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin9/CollisionShape2D" unique_id=1988975137]
+texture_filter = 1
+position = Vector2(0, 1)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin10" type="Area2D" parent="." unique_id=1049713406]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin10" unique_id=1022773604]
+position = Vector2(1900, -159)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin10/CollisionShape2D" unique_id=1459562677]
+texture_filter = 1
+position = Vector2(4, 2)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin11" type="Area2D" parent="." unique_id=1440894983]
+position = Vector2(1000, 280)
+script = ExtResource("2_gl6un")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coin11" unique_id=1858538498]
+position = Vector2(1775, -182)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coin11/CollisionShape2D" unique_id=1645379556]
+texture_filter = 1
+position = Vector2(1, 5)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Checkpoint2" type="Area2D" parent="." unique_id=906239222]
+position = Vector2(700, 260)
+script = ExtResource("7_fgofq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint2" unique_id=666897722]
+shape = SubResource("RectangleShape2D_raj38")
+
+[node name="Polygon2D" type="Polygon2D" parent="Checkpoint2" unique_id=1510776201]
+position = Vector2(1966, -13)
+polygon = PackedVector2Array(-15, -40, 15, -40, 15, 6.9039307, 15, 40, -15, 40)
+
+[node name="Enemy4" type="CharacterBody2D" parent="." unique_id=679314473]
+position = Vector2(2500, 300)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_kldst")
+Type = 1
+MoveDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy4" unique_id=246095921]
+shape = SubResource("RectangleShape2D_8e0uq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy4" unique_id=1181938234]
+texture_filter = 1
+scale = Vector2(4.5, 4.5)
+texture = SubResource("CompressedTexture2D_i0vto")
+
+[node name="HitBox" type="ShapeCast2D" parent="Enemy4" unique_id=846997503]
+shape = SubResource("RectangleShape2D_3jf1l")
+target_position = Vector2(0, 0)
+
+[node name="Enemy5" type="CharacterBody2D" parent="." unique_id=2047385679]
+position = Vector2(3767, 150)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_kldst")
+Type = 1
+MoveDistance = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy5" unique_id=1302359908]
+shape = SubResource("RectangleShape2D_i0vto")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy5" unique_id=1495682700]
+texture_filter = 1
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_3jf1l")
+
+[node name="HitBox" type="ShapeCast2D" parent="Enemy5" unique_id=873231589]
+shape = SubResource("RectangleShape2D_356ba")
+target_position = Vector2(0, 0)
