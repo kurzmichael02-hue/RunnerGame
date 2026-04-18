@@ -39,7 +39,6 @@ private void OnAnyButtonHovered()
 	// SETTINGS BUTTON
 	private void _on_settings_pressed()
 	{
-
 		SoundManager.Instance.PlayButton();
 	}
 
