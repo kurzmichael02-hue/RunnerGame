@@ -249,9 +249,12 @@ if (_isDucking)
 	{
 		if (IsDying) return;
 		IsDying = true;
-
+		
+		if (IsSmall)
+		{
 		_lives--;
 		_lives = Mathf.Max(_lives, 0);
+		}
 
 		if (_lives <= 0)
 		{
