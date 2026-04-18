@@ -258,7 +258,7 @@ if (_isDucking)
 			SaveHighscore(_score);
 			Visible = false;
 			SetPhysicsProcess(false);
-			GetTree().Paused = true;
+			GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
 		}
 		else
 {
