@@ -15,6 +15,7 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _settingsMusic;
 	private AudioStreamPlayer _startScreenMusic;
 	private AudioStreamPlayer _music;
+	private AudioStreamPlayer _gameOverMusic;
 	
 	//Declaration of a List of Audio Stream Players, which will later be used to switch the music
 	private List<AudioStreamPlayer> _musicPlayers;
@@ -23,6 +24,7 @@ public partial class SoundManager : Node
 	public AudioStreamPlayer GameMusic => _music;
 	public AudioStreamPlayer SettingsMusic => _settingsMusic;
 	public AudioStreamPlayer StartScreenMusic => _startScreenMusic;
+	public AudioStreamPlayer GameOverMusic => _gameOverMusic;
 
 	public override void _Ready()
 	{
@@ -36,6 +38,7 @@ public partial class SoundManager : Node
 		_music = GetNode<AudioStreamPlayer>("Music/BackGroundMusic");
 		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
 		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
+		_gameOverMusic = GetNode<AudioStreamPlayer>("Music/GameOverMusic");
 		_menuHover = GetNode<AudioStreamPlayer>("MenuFX/HoverSound");
 		_button = GetNode<AudioStreamPlayer>("MenuFX/ButtonSound");
 		var musicParent = GetNode<Node>("Music");

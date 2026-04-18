@@ -5,7 +5,7 @@ public partial class GameOver : Control
 {
 	public override void _Ready()
 	{
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
 
