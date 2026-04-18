@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cefdx0nsa8xo8"]
 
-[ext_resource type="Script" uid="uid://ql2yqk1cwnnn" path="res://Scripts/MainMenu.cs" id="1_8saeu"]
+[ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_8saeu"]
 [ext_resource type="Texture2D" uid="uid://cepbss80lk0y" path="res://leveldesign/Sky.png" id="1_tt5f1"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="2_853f1"]
 
