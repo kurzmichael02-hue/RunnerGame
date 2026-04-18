@@ -139,7 +139,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 1
 theme_override_fonts/font = ExtResource("2_853f1")
 theme_override_font_sizes/font_size = 70
-text = "Runner Game"
+text = "Yabloko"
 horizontal_alignment = 1
 vertical_alignment = 1
 
