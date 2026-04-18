@@ -391,9 +391,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -180.0
-offset_top = -160.0
+offset_top = -178.0
 offset_right = 180.0
-offset_bottom = 272.0
+offset_bottom = 281.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
@@ -458,14 +458,13 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
 custom_minimum_size = Vector2(360, 40)
 layout_mode = 2
 
-[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=267842414]
+[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=22779779]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Move Right
-"
+text = "Move Right"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -508,7 +507,12 @@ layout_mode = 2
 
 [node name="Duck" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=653322350]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
 text = "Duck"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="DuckBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=1156049707]
 custom_minimum_size = Vector2(150, 35)
