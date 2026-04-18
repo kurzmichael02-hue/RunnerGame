@@ -16,9 +16,10 @@ public partial class Enemy : CharacterBody2D
 	private ShapeCast2D _hitBox;
 
 	public override void _Ready()
-	{
-		_startPosition = Position;
-		_direction = GD.Randf() > 0.5f ? 1 : -1;
+{
+	ProcessMode = ProcessModeEnum.Pausable;
+	_startPosition = Position;
+	_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
 
 		_hitBox = GetNode<ShapeCast2D>("HitBox");
@@ -86,4 +87,5 @@ public partial class Enemy : CharacterBody2D
 		SoundManager.Instance.PlayEnemyDeath();
 		QueueFree();
 	}
+	
 }
