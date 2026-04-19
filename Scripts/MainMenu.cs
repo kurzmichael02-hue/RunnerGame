@@ -53,6 +53,7 @@ private void OnAnyButtonHovered()
 	{
 		
 		SoundManager.Instance.PlayButton();
+		GetTree().ChangeSceneToFile("res://Scenes/HighScores.tscn");
 	}
 
 	// EXIT BUTTON
