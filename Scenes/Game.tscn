@@ -376,6 +376,13 @@ offset_top = 50.0
 offset_right = 60.0
 offset_bottom = 73.0
 
+[node name="PowerUpLabel" type="Label" parent="HUD" unique_id=557110042]
+modulate = Color(1, 0.85, 0.2, 1)
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 400.0
+offset_bottom = 103.0
+
 [node name="PauseMenu" type="Control" parent="HUD" unique_id=804085390]
 visible = false
 layout_mode = 3

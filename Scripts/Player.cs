@@ -51,6 +51,10 @@ public partial class Player : CharacterBody2D
 
 	public int Lives => _lives;
 	public int Score => _score;
+	// Read-only timers for the HUD so it can show which power-ups are still running
+	public float ShieldTimeLeft => _shieldActive ? _shieldTimer : 0f;
+	public float MagnetTimeLeft => _magnetActive ? _magnetTimer : 0f;
+	public float StarTimeLeft => _starActive ? _starTimer : 0f;
 	public bool StompedEnemy = false;
 	private Vector2 _checkpointPosition = new Vector2(200, 260);
 
