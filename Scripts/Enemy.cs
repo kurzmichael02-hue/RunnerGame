@@ -1,6 +1,6 @@
 using Godot;
 
-public enum EnemyType { Patrol, Fast, Jumping }
+public enum EnemyType { Patrol, Fast, Jumping, Charger }
 
 public partial class Enemy : CharacterBody2D
 {
@@ -23,6 +23,8 @@ public partial class Enemy : CharacterBody2D
 	// Random initial patrol direction so not every enemy starts the same way
 	_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
+		// Charger sprints when it sees the player, so give it a higher top speed
+		if (Type == EnemyType.Charger) Speed = 380f;
 
 		_hitBox = GetNode<ShapeCast2D>("HitBox");
 		_hitBox.TargetPosition = Vector2.Zero;
@@ -73,13 +75,34 @@ public partial class Enemy : CharacterBody2D
 			}
 		}
 
-		// Patrol – walk back and forth between _startPosition ± MoveDistance
 		Vector2 velocity = Velocity;
 		if (!IsOnFloor()) velocity.Y += 1800f * (float)delta;
-		velocity.X = Speed * _direction;
 
-		if (Position.X > _startPosition.X + MoveDistance) _direction = -1;
-		else if (Position.X < _startPosition.X - MoveDistance) _direction = 1;
+		if (Type == EnemyType.Charger)
+		{
+			// Lurk-and-lunge – no patrolling, wait until the player is close, then sprint at them
+			if (playerNode != null)
+			{
+				float distX = playerNode.GlobalPosition.X - GlobalPosition.X;
+				if (Mathf.Abs(distX) < 350f)
+				{
+					_direction = distX > 0 ? 1 : -1;
+					velocity.X = Speed * _direction;
+				}
+				else
+				{
+					// Coast to a stop when out of range, don't slide forever
+					velocity.X = Mathf.MoveToward(velocity.X, 0f, Speed * (float)delta);
+				}
+			}
+		}
+		else
+		{
+			// Patrol – walk back and forth between _startPosition ± MoveDistance
+			velocity.X = Speed * _direction;
+			if (Position.X > _startPosition.X + MoveDistance) _direction = -1;
+			else if (Position.X < _startPosition.X - MoveDistance) _direction = 1;
+		}
 
 		// Jumping type fires a jump every 1.2s while on the floor
 		if (Type == EnemyType.Jumping && IsOnFloor())
