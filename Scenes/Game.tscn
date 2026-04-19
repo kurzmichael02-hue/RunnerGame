@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/ShieldPowerUp.cs" id="14_shldx"]
 [ext_resource type="PackedScene" uid="uid://c9f7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/moving_platform.tscn" id="16_mvpl"]
+[ext_resource type="PackedScene" uid="uid://bn7r2t4ks9vx6" path="res://Scenes/star_power_up.tscn" id="17_star"]
 [ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="12_alh3a"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="13_4q8tf"]
 
@@ -627,6 +628,9 @@ position = Vector2(1350, 300)
 position = Vector2(1800, 200)
 EndOffset = Vector2(200, 0)
 CycleTime = 4.0
+
+[node name="StarPowerUp" parent="." instance=ExtResource("17_star")]
+position = Vector2(2100, 260)
 
 [node name="Ground2" type="StaticBody2D" parent="." unique_id=605063566]
 

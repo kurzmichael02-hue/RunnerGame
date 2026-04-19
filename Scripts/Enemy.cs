@@ -46,6 +46,13 @@ public partial class Enemy : CharacterBody2D
 			float dist = GlobalPosition.DistanceTo(playerNode.GlobalPosition);
 			if (dist < 60f && _damageCooldown <= 0f)
 			{
+				// Star-powered player plows through enemies on contact (#84)
+				if (playerNode.StarActive)
+				{
+					Die();
+					return;
+				}
+
 				// Stomp detection: player is falling AND is above the enemy's center
 				// (classic Mario stomp – jump on head = kill enemy) (#88)
 				bool stompedFromAbove = playerNode.Velocity.Y > 100f
