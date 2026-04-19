@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/LevelGoal.cs" id="10_71axn"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/MagnetPowerUp.cs" id="11_dahhg"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/ShieldPowerUp.cs" id="14_shldx"]
+[ext_resource type="PackedScene" uid="uid://c9f7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
 [ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="12_alh3a"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="13_4q8tf"]
 
@@ -617,6 +618,9 @@ shape = SubResource("CircleShape2D_71axn")
 [node name="Polygon2D" type="Polygon2D" parent="ShieldPowerUp" unique_id=333111222]
 color = Color(0, 1, 1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+
+[node name="Spike" parent="." instance=ExtResource("15_spike")]
+position = Vector2(1350, 300)
 
 [node name="Ground2" type="StaticBody2D" parent="." unique_id=605063566]
 

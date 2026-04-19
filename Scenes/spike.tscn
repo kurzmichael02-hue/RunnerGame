@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://c9f7kmx2n3p4q"]
+
+[ext_resource type="Script" uid="uid://dkp8n4t5r6v7w" path="res://Scripts/Spike.cs" id="1_spike"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_spk"]
+size = Vector2(60, 25)
+
+[node name="Spike" type="Area2D"]
+script = ExtResource("1_spike")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_spk")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.72, 0.72, 0.78, 1)
+polygon = PackedVector2Array(-30, 0, -20, -25, -10, 0, 0, -25, 10, 0, 20, -25, 30, 0)
