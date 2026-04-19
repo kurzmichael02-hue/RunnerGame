@@ -58,12 +58,50 @@ public partial class Player : CharacterBody2D
 _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
 	}
+	public async void DieFall()
+{
+	if (IsDying) return;
+	IsDying = true;
+
+	IsSmall = false;
+	Scale = Vector2.One;
+	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+
+	_lives--;
+	_lives = Mathf.Max(_lives, 0);
+
+	if (_lives <= 0)
+	{
+		SaveHighscore(_score);
+		Visible = false;
+		SetPhysicsProcess(false);
+		GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+		return;
+	}
+
+	Visible = false;
+	SetPhysicsProcess(false);
+
+	var timer = GetTree().CreateTimer(1.0f, true, false, true);
+	await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+
+	Position = _checkpointPosition;
+	Visible = true;
+	SetPhysicsProcess(true);
+	_invincibilityTimer = 1.5f;
+	IsDying = false;
+
+	var tween = CreateTween();
+	tween.SetLoops(6);
+	tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+	tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		float dt = (float)delta;
 if (Position.Y > 600f && !IsDying)
-	Die();
+	DieFall();
 		JumpHoldTimer = Mathf.Max(JumpHoldTimer - dt, 0f);
 		Vector2 velocity = Velocity;
 
@@ -219,7 +257,8 @@ if (_isDucking)
 		_magnetTimer = 5f;
 	}
 
-	private void SaveHighscore(int score)
+	public void SaveHighscorePublic() => SaveHighscore(_score);
+private void SaveHighscore(int score)
 	{
 		string path = "user://highscore.dat";
 		int best = 0;

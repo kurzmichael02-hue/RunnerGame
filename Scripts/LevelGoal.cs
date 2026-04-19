@@ -3,13 +3,12 @@ using Godot;
 public partial class LevelGoal : Area2D
 {
 	public static bool LevelCompleted = false;
-
 	private bool _reached = false;
-	
+
 	public static void Reset()
-{
-	LevelCompleted = false;
-}
+	{
+		LevelCompleted = false;
+	}
 
 	public override void _Ready()
 	{
@@ -24,6 +23,7 @@ public partial class LevelGoal : Area2D
 		_reached = true;
 		LevelCompleted = true;
 		player.SetPhysicsProcess(false);
+		player.SaveHighscorePublic();
 
 		var hud = GetTree().Root.FindChild("HUD", true, false) as HUD;
 		if (hud != null)
