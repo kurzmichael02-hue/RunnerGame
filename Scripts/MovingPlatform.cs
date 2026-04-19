@@ -24,7 +24,6 @@ public partial class MovingPlatform : AnimatableBody2D
 		float phase = (Mathf.Sin(_time * Mathf.Pi * 2f / CycleTime) + 1f) * 0.5f;
 		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
 		// MoveAndCollide lets the physics engine carry the player standing on top
-		Vector2 motion = target - Position;
-		MoveAndCollide(motion);
+		Position = target;
 	}
 }
