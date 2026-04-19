@@ -17,8 +17,10 @@ public partial class Enemy : CharacterBody2D
 
 	public override void _Ready()
 {
+	// Pausable so ESC freezes enemies with the rest of the world
 	ProcessMode = ProcessModeEnum.Pausable;
 	_startPosition = Position;
+	// Random initial patrol direction so not every enemy starts the same way
 	_direction = GD.Randf() > 0.5f ? 1 : -1;
 		if (Type == EnemyType.Fast) Speed = 220f;
 
@@ -44,6 +46,8 @@ public partial class Enemy : CharacterBody2D
 			float dist = GlobalPosition.DistanceTo(playerNode.GlobalPosition);
 			if (dist < 60f && _damageCooldown <= 0f)
 			{
+				// Stomp detection: player is falling AND is above the enemy's center
+				// (classic Mario stomp – jump on head = kill enemy) (#88)
 				bool stompedFromAbove = playerNode.Velocity.Y > 100f
 					&& (playerNode.GlobalPosition.Y + 20f) < GlobalPosition.Y;
 
@@ -54,13 +58,15 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
+				// Side/bottom contact – player takes damage
 				playerNode.Die();
+				// Cooldown prevents the enemy from triggering Die() every frame
 				_damageCooldown = 1.5f;
 				return;
 			}
 		}
 
-		// Movement
+		// Patrol – walk back and forth between _startPosition ± MoveDistance
 		Vector2 velocity = Velocity;
 		if (!IsOnFloor()) velocity.Y += 1800f * (float)delta;
 		velocity.X = Speed * _direction;
@@ -68,6 +74,7 @@ public partial class Enemy : CharacterBody2D
 		if (Position.X > _startPosition.X + MoveDistance) _direction = -1;
 		else if (Position.X < _startPosition.X - MoveDistance) _direction = 1;
 
+		// Jumping type fires a jump every 1.2s while on the floor
 		if (Type == EnemyType.Jumping && IsOnFloor())
 		{
 			_jumpTimer -= (float)delta;

@@ -58,11 +58,14 @@ public partial class Player : CharacterBody2D
 _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
 	}
+	// Fall into a pit – always costs a life, no shrink animation.
+	// Classic Mario: falling ignores power-up state (#105)
 	public async void DieFall()
 {
 	if (IsDying) return;
 	IsDying = true;
 
+	// Reset size in case player was small before falling
 	IsSmall = false;
 	Scale = Vector2.One;
 	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
@@ -141,7 +144,7 @@ if (Position.Y > 600f && !IsDying)
 			velocity.Y += gravity * dt;
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
 
-		// Coyote time
+		// Coyote time – small forgiveness window to jump right after walking off a ledge (#18)
 		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; }
 		else _coyoteTimer -= dt;
 		
@@ -171,6 +174,7 @@ if (_isDucking)
 
 	_jumpBufferTimer = 0f;
 	Vector2 vel = Velocity;
+	// Ducking slows the player to 40% of max speed – feels heavier, harder to dodge
 	vel.X = duckDir * MaxSpeed * 0.4f;
 	if (!IsOnFloor()) vel.Y += FallGravity * dt;
 	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
@@ -179,7 +183,7 @@ if (_isDucking)
 	return;
 }
 
-		// Jump buffer
+		// Jump buffer – if the player presses jump slightly before landing, we still queue the jump (#18)
 		if (Input.IsActionJustPressed("jump")) _jumpBufferTimer = JumpBufferTime;
 		else _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - dt, 0f);
 

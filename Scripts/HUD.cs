@@ -17,6 +17,7 @@ public partial class HUD : CanvasLayer
 		_timerLabel = GetNode<Label>("TimerLabel");
 		_positionLabel = GetNode<Label>("PositionLabel");
 		_player = GetNode<Player>("/root/Node2D/Player");
+		// Always so the pause menu (child of HUD) still receives input while the tree is paused
 		ProcessMode = ProcessModeEnum.Always;
 	}
 
@@ -42,6 +43,7 @@ _positionLabel.Text = meters + "m";
 
 private void TogglePause()
 {
+	// After the goal is reached, ESC is dead – stops the player opening pause on the win screen
 	if (LevelGoal.LevelCompleted) return;
 	bool isPaused = !GetTree().Paused;
 	GetTree().Paused = isPaused;

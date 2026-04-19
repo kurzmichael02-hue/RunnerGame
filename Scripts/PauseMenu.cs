@@ -11,6 +11,7 @@ public partial class PauseMenu : Control
 
 	public override void _Ready()
 	{
+		// Always so the pause menu stays responsive while GetTree().Paused is true
 		ProcessMode = ProcessModeEnum.Always;
 
 		GetNode<Button>("MenuPanel/VBoxContainer/Resume").Pressed += OnResumePressed;
@@ -79,6 +80,7 @@ public partial class PauseMenu : Control
 			return;
 		}
 
+		// If the new key is already bound to another action, swap them instead of double-binding (#54)
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
 		{
 			if (action == _listeningAction) continue;

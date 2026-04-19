@@ -5,6 +5,7 @@ public partial class Coin : Area2D
 	public override void _Ready()
 	{
 		BodyEntered += OnBodyEntered;
+		// "coin" group is used by the magnet power-up to pull coins toward the player
 		AddToGroup("coin");
 	}
 
