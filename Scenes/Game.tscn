@@ -18,9 +18,10 @@
 [ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="12_alh3a"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="13_4q8tf"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/ShieldPowerUp.cs" id="14_shldx"]
-[ext_resource type="PackedScene" uid="uid://daf7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
+[ext_resource type="PackedScene" uid="uid://c9f7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/moving_platform.tscn" id="16_mvpl"]
-[ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/star_power_up.tscn" id="17_star"]
+[ext_resource type="PackedScene" uid="uid://bn7r2t4ks9vx6" path="res://Scenes/star_power_up.tscn" id="17_star"]
+[ext_resource type="PackedScene" uid="uid://dfgxkpqm5r8v2" path="res://Scenes/projectile.tscn" id="18_proj"]
 [ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="22_vvhu1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
@@ -831,6 +832,28 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("7_3so38")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy9" unique_id=609767669]
+shape = SubResource("RectangleShape2D_wxwew")
+target_position = Vector2(0, 0)
+
+[node name="Enemy10" type="CharacterBody2D" parent="Enemies" unique_id=263876451]
+position = Vector2(-1900, 13)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("4_kldst")
+Type = 4
+ProjectileScene = ExtResource("18_proj")
+ShootInterval = 1.8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
+shape = SubResource("RectangleShape2D_j5yw3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy10" unique_id=1110267757]
+modulate = Color(0.5, 0.5, 1, 1)
+texture_filter = 1
+scale = Vector2(4.5, 4.5)
+texture = ExtResource("7_3so38")
+
+[node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy10" unique_id=609767670]
 shape = SubResource("RectangleShape2D_wxwew")
 target_position = Vector2(0, 0)
 

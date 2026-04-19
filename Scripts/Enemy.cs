@@ -1,17 +1,20 @@
 using Godot;
 
-public enum EnemyType { Patrol, Fast, Jumping, Charger }
+public enum EnemyType { Patrol, Fast, Jumping, Charger, Shooter }
 
 public partial class Enemy : CharacterBody2D
 {
 	[Export] public EnemyType Type = EnemyType.Patrol;
 	[Export] public float Speed = 100f;
 	[Export] public float MoveDistance = 200f;
+	[Export] public PackedScene ProjectileScene;
+	[Export] public float ShootInterval = 2f;
 
 	private bool _isDead = false;
 	private int _direction = 1;
 	private float _jumpTimer = 0f;
 	private float _damageCooldown = 0f;
+	private float _shootTimer = 0f;
 	private Vector2 _startPosition;
 	private ShapeCast2D _hitBox;
 
@@ -96,6 +99,17 @@ public partial class Enemy : CharacterBody2D
 				}
 			}
 		}
+		else if (Type == EnemyType.Shooter)
+		{
+			// Stands still and fires projectiles toward the player on an interval
+			velocity.X = 0f;
+			_shootTimer -= (float)delta;
+			if (_shootTimer <= 0f && playerNode != null)
+			{
+				SpawnProjectile(playerNode);
+				_shootTimer = ShootInterval;
+			}
+		}
 		else
 		{
 			// Patrol – walk back and forth between _startPosition ± MoveDistance
@@ -123,6 +137,19 @@ public partial class Enemy : CharacterBody2D
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();
 		QueueFree();
+	}
+
+	private void SpawnProjectile(Player target)
+	{
+		if (ProjectileScene == null) return;
+		if (ProjectileScene.Instantiate() is not Projectile proj) return;
+
+		// Aim at the player from our current position, constant muzzle speed
+		Vector2 dir = (target.GlobalPosition - GlobalPosition).Normalized();
+		proj.Velocity = dir * 280f;
+		proj.GlobalPosition = GlobalPosition;
+		// Add to the scene root so it survives if this enemy gets stomped mid-flight
+		GetTree().CurrentScene.AddChild(proj);
 	}
 	
 }
