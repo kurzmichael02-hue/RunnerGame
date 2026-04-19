@@ -38,6 +38,7 @@ public partial class Player : CharacterBody2D
 	private bool _isJumping = false;
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
+	private int _stompChain = 0;
 
 	// Camera shake
 	private Camera2D _camera;
@@ -158,6 +159,9 @@ if (Position.Y > 600f && !IsDying)
 			velocity.Y = JumpVelocity * 0.6f;
 			StompedEnemy = false;
 			Shake(3f, 0.08f);
+			// Stomp chain: each consecutive mid-air stomp gives more score, resets on ground
+			_stompChain++;
+			AddScore(_stompChain * 2);
 		}
 
 		// Asymmetric gravity – hold jump for higher arc
@@ -170,8 +174,14 @@ if (Position.Y > 600f && !IsDying)
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
 
 		// Coyote time – small forgiveness window to jump right after walking off a ledge (#18)
-		// Double-jump resets on ground contact so the player can't stack an infinite ladder
-		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; _doubleJumpUsed = false; }
+		// Double-jump and stomp-chain reset on ground contact – chain means consecutive mid-air stomps
+		if (IsOnFloor())
+		{
+			_coyoteTimer = CoyoteTime;
+			_isJumping = false;
+			_doubleJumpUsed = false;
+			_stompChain = 0;
+		}
 		else _coyoteTimer -= dt;
 		
 		// Duck – only on ground, no jumping while ducking
