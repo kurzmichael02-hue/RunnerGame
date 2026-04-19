@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/MagnetPowerUp.cs" id="11_dahhg"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/ShieldPowerUp.cs" id="14_shldx"]
 [ext_resource type="PackedScene" uid="uid://c9f7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
+[ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/moving_platform.tscn" id="16_mvpl"]
 [ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="12_alh3a"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="13_4q8tf"]
 
@@ -621,6 +622,11 @@ polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="Spike" parent="." instance=ExtResource("15_spike")]
 position = Vector2(1350, 300)
+
+[node name="MovingPlatform" parent="." instance=ExtResource("16_mvpl")]
+position = Vector2(1800, 200)
+EndOffset = Vector2(200, 0)
+CycleTime = 4.0
 
 [node name="Ground2" type="StaticBody2D" parent="." unique_id=605063566]
 
