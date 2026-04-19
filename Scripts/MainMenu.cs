@@ -4,6 +4,8 @@ using System;
 public partial class MainMenu : Control
 {
 	
+	private ConfirmationDialog _exitDialog;
+	
 public override void _Ready()
 {
 	SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
@@ -17,6 +19,10 @@ public override void _Ready()
 			button.MouseEntered += OnAnyButtonHovered;
 		}
 	}
+	
+	_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
+	_exitDialog.Confirmed += OnExitConfirmed;
+	
 }
 
 private void OnAnyButtonHovered()
@@ -39,7 +45,6 @@ private void OnAnyButtonHovered()
 	// SETTINGS BUTTON
 	private void _on_settings_pressed()
 	{
-
 		SoundManager.Instance.PlayButton();
 	}
 
@@ -48,13 +53,20 @@ private void OnAnyButtonHovered()
 	{
 		
 		SoundManager.Instance.PlayButton();
+		GetTree().ChangeSceneToFile("res://Scenes/HighScores.tscn");
 	}
 
 	// EXIT BUTTON
 	private void _on_exit_pressed()
 	{
-
 		SoundManager.Instance.PlayButton();
+		_exitDialog.PopupCentered();
+	}
+	
+		//CONFIRM EXIT
+	private void OnExitConfirmed()
+	{
 		GetTree().Quit();
 	}
+
 }

@@ -31,9 +31,28 @@ public partial class PauseMenu : Control
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
 		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_duckBind.Pressed += () => StartListening("duck", _duckBind);
+		
+		var root = GetNode("MenuPanel");
+
+		foreach (Node child in root.GetChildren())
+		{
+			foreach (Node subChild in child.GetChildren())
+			{
+				if (subChild is Button button)
+				{
+					button.MouseEntered += OnAnyButtonHovered;
+				}
+			}
+		}
 
 		LoadSettings();
 		UpdateBindLabels();
+	}
+	
+	private void OnAnyButtonHovered()
+	{	
+		//GD.Print("hover"); 
+		SoundManager.Instance.PlayMenuHover();
 	}
 
 	private void StartListening(string action, Button button)
@@ -158,6 +177,7 @@ public partial class PauseMenu : Control
 	{
 		GetTree().Paused = false;
 		Visible = false;
+		SoundManager.Instance.PlayButton();
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 
@@ -169,13 +189,15 @@ public partial class PauseMenu : Control
 	}
 
 	private void OnExitPressed()
-	{
+	{	
+		SoundManager.Instance.PlayButton();
 		GetTree().Quit();
 	}
 
 	private void OnMainMenuPressed()
-	{
+	{	
 		GetTree().Paused = false;
+		SoundManager.Instance.PlayButton();
 		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
 	}
 }

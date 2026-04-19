@@ -1,50 +1,53 @@
-[gd_scene format=3 uid="uid://cefdx0nsa8xo8"]
+[gd_scene format=3 uid="uid://cotmx61mhrrp6"]
 
-[ext_resource type="Script" uid="uid://ql2yqk1cwnnn" path="res://Scripts/MainMenu.cs" id="1_8saeu"]
-[ext_resource type="Texture2D" uid="uid://cepbss80lk0y" path="res://leveldesign/Sky.png" id="1_tt5f1"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="2_853f1"]
+[ext_resource type="Script" uid="uid://3il0mljqr46b" path="res://Scripts/GameOver.cs" id="1_ktc4i"]
+[ext_resource type="Texture2D" uid="uid://cnxtpc378fv54" path="res://leveldesign/GameOverBackground.png" id="2_ktc4i"]
+[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="3_rdiyk"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
-texture = ExtResource("1_tt5f1")
+texture = ExtResource("2_ktc4i")
 modulate_color = Color(0.77168405, 0.77168405, 0.7716839, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bnhvo"]
-bg_color = Color(1, 0.23529412, 0.6745098, 1)
+bg_color = Color(0.78117424, 0.29525545, 0.99907523, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 1)
 shadow_size = 5
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_853f1"]
-bg_color = Color(0.7607843, 0.09411765, 0.47843137, 1)
+bg_color = Color(0.21002457, 0.00021098115, 0.29050365, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.2901961)
+shadow_size = 8
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8saeu"]
-bg_color = Color(0, 0.9607843, 0.83137256, 1)
+bg_color = Color(1, 0.3019608, 1, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.22745098)
+shadow_size = 7
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_853f1"]
 
-[node name="MainMenu" type="Control" unique_id=1593566126]
+[node name="GameOver" type="Control" unique_id=1593566126]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_8saeu")
+script = ExtResource("1_ktc4i")
 
 [node name="Panel" type="Panel" parent="." unique_id=1023448666]
 layout_mode = 1
@@ -63,14 +66,15 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -165.75
-offset_top = -109.0
+offset_top = -82.0
 offset_right = 165.75
-offset_bottom = 196.5
+offset_bottom = 210.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 17
+theme_override_constants/separation = 25
+alignment = 1
 
-[node name="Start" type="Button" parent="VBoxContainer" unique_id=1231151666]
+[node name="Restart" type="Button" parent="VBoxContainer" unique_id=1231151666]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -81,9 +85,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8saeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
-text = "Start"
+text = "Restart"
 
-[node name="Settings" type="Button" parent="VBoxContainer" unique_id=369666937]
+[node name="MainMenu" type="Button" parent="VBoxContainer" unique_id=369666937]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -94,20 +98,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
 theme_override_styles/hover = SubResource("StyleBoxFlat_8saeu")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
-text = "Settings"
-
-[node name="Highscores" type="Button" parent="VBoxContainer" unique_id=1497075719]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
-theme_override_styles/hover = SubResource("StyleBoxFlat_8saeu")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
-text = "Highscores"
+text = "Main Menu
+"
 
 [node name="Exit" type="Button" parent="VBoxContainer" unique_id=341754521]
 layout_mode = 2
@@ -130,26 +122,19 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -340.5
-offset_top = -299.0
+offset_top = -274.0
 offset_right = 340.5
-offset_bottom = -130.0
+offset_bottom = -105.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("2_853f1")
+theme_override_fonts/font = ExtResource("3_rdiyk")
 theme_override_font_sizes/font_size = 70
-text = "Yabloko"
+text = "Game Over"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExitConfirmDialog" type="ConfirmationDialog" parent="." unique_id=2022575964]
-title = "Wichtig!"
-ok_button_text = "Ja"
-dialog_text = "Möchtest du dieses Spiel wirklich beenden?"
-cancel_button_text = "Nein"
-
-[connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="VBoxContainer/Highscores" to="." method="_on_highscores_pressed"]
+[connection signal="pressed" from="VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMenu" to="." method="_on_mainMenu_pressed"]
 [connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]
