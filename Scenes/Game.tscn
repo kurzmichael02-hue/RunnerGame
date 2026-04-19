@@ -458,7 +458,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
 custom_minimum_size = Vector2(360, 40)
 layout_mode = 2
 
-[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=22779779]
+[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=22779779]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -718,15 +718,13 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="MagnetPowerUp2" type="Area2D" parent="." unique_id=208422444]
-position = Vector2(900, 260)
+position = Vector2(2106, 70)
 script = ExtResource("11_dahhg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MagnetPowerUp2" unique_id=1505431566]
-position = Vector2(1205, -190)
 shape = SubResource("CircleShape2D_71axn")
 
 [node name="Polygon2D" type="Polygon2D" parent="MagnetPowerUp2" unique_id=1468963834]
-position = Vector2(1207, -189)
 color = Color(0, 0, 1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
@@ -787,14 +785,13 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Checkpoint2" type="Area2D" parent="." unique_id=906239222]
-position = Vector2(700, 260)
+position = Vector2(2666, 247)
 script = ExtResource("7_fgofq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint2" unique_id=666897722]
 shape = SubResource("RectangleShape2D_raj38")
 
 [node name="Polygon2D" type="Polygon2D" parent="Checkpoint2" unique_id=1510776201]
-position = Vector2(1966, -13)
 polygon = PackedVector2Array(-15, -40, 15, -40, 15, 6.9039307, 15, 40, -15, 40)
 
 [node name="Enemy4" type="CharacterBody2D" parent="." unique_id=679314473]
