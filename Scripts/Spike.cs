@@ -13,6 +13,6 @@ public partial class Spike : Area2D
 		if (player.IsDying) return;
 
 		// Spikes always cost a life, even when big – like falling off the map (#105)
-		player.DieFall();
+		player.CallDeferred(nameof(Player.DieFall));
 	}
 }
