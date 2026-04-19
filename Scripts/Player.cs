@@ -287,8 +287,20 @@ private void SaveHighscore(int score)
 	public async void Die()
 	{
 		if (IsDying) return;
+
+		// Shield eats one enemy hit, then breaks (#83)
+		if (_shieldActive)
+		{
+			_shieldActive = false;
+			_invincibilityTimer = 1.5f;
+			var shieldTween = CreateTween();
+			shieldTween.TweenProperty(this, "modulate", new Color(0.4f, 1f, 1f, 1f), 0.1f);
+			shieldTween.TweenProperty(this, "modulate", Colors.White, 0.3f);
+			return;
+		}
+
 		IsDying = true;
-		
+
 		if (IsSmall)
 		{
 		_lives--;
