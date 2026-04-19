@@ -326,6 +326,12 @@ if (_isDucking)
 			_lives++;
 	}
 
+	// Direct life pickup – cap at 9 so the hud label doesn't overflow
+	public void AddLife()
+	{
+		_lives = Mathf.Min(_lives + 1, 9);
+	}
+
 	public void ActivateShield()
 	{
 		_shieldActive = true;
