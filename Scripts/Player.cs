@@ -37,6 +37,12 @@ public partial class Player : CharacterBody2D
 	private float _jumpBufferTimer = 0f;
 	private bool _isJumping = false;
 	private bool _isDucking = false;
+	private bool _doubleJumpUsed = false;
+
+	// Camera shake
+	private Camera2D _camera;
+	private float _shakeTimer = 0f;
+	private float _shakeStrength = 0f;
 
 	// Magnet
 	private bool _magnetActive = false;
@@ -61,6 +67,14 @@ public partial class Player : CharacterBody2D
 		_standShape = GetNode<CollisionShape2D>("StandShape");
 _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
+		_camera = GetNode<Camera2D>("Camera2D");
+	}
+
+	// Kicked by damage events – camera jitters for `duration` seconds at `strength` pixels
+	public void Shake(float strength, float duration)
+	{
+		_shakeStrength = strength;
+		_shakeTimer = duration;
 	}
 	// Fall into a pit – always costs a life, no shrink animation.
 	// Classic Mario: falling ignores power-up state (#105)
@@ -73,6 +87,8 @@ _duckShape.Disabled = true;
 	IsSmall = false;
 	Scale = Vector2.One;
 	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+
+	Shake(10f, 0.35f);
 
 	_lives--;
 	_lives = Mathf.Max(_lives, 0);
@@ -137,6 +153,7 @@ if (Position.Y > 600f && !IsDying)
 		{
 			velocity.Y = JumpVelocity * 0.6f;
 			StompedEnemy = false;
+			Shake(3f, 0.08f);
 		}
 
 		// Asymmetric gravity – hold jump for higher arc
@@ -149,7 +166,8 @@ if (Position.Y > 600f && !IsDying)
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
 
 		// Coyote time – small forgiveness window to jump right after walking off a ledge (#18)
-		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; }
+		// Double-jump resets on ground contact so the player can't stack an infinite ladder
+		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; _doubleJumpUsed = false; }
 		else _coyoteTimer -= dt;
 		
 		// Duck – only on ground, no jumping while ducking
@@ -206,6 +224,15 @@ if (_isDucking)
 			JumpHoldTimer = JumpHoldTime;
 			SoundManager.Instance.PlayJump();
 		}
+		// Double jump – one extra mid-air jump, slightly weaker so it's not game-breaking
+		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_doubleJumpUsed && !_isDucking)
+		{
+			velocity.Y = JumpVelocity * 0.85f;
+			_doubleJumpUsed = true;
+			_jumpBufferTimer = 0f;
+			JumpHoldTimer = JumpHoldTime * 0.6f;
+			SoundManager.Instance.PlayJump();
+		}
 
 		// Horizontal movement
 		float direction = 0;
@@ -242,6 +269,22 @@ if (_isDucking)
 		{
 			_shieldTimer -= dt;
 			if (_shieldTimer <= 0) _shieldActive = false;
+		}
+
+		// Camera shake – random jitter for `shakeTimer` seconds, snap back when done
+		if (_shakeTimer > 0f)
+		{
+			_shakeTimer -= dt;
+			if (_shakeTimer <= 0f)
+			{
+				_camera.Offset = Vector2.Zero;
+			}
+			else
+			{
+				_camera.Offset = new Vector2(
+					(GD.Randf() * 2f - 1f) * _shakeStrength,
+					(GD.Randf() * 2f - 1f) * _shakeStrength);
+			}
 		}
 
 		// Star – cycle hue for the rainbow flash, reset to white when it runs out
@@ -335,6 +378,7 @@ private void SaveHighscore(int score)
 		}
 
 		IsDying = true;
+		Shake(7f, 0.25f);
 
 		if (IsSmall)
 		{
