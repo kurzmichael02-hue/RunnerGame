@@ -143,6 +143,12 @@ text = "Yabloko"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ExitConfirmDialog" type="ConfirmationDialog" parent="." unique_id=2022575964]
+title = "Wichtig!"
+ok_button_text = "Ja"
+dialog_text = "Möchtest du dieses Spiel wirklich beenden?"
+cancel_button_text = "Nein"
+
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/Highscores" to="." method="_on_highscores_pressed"]
