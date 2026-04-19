@@ -308,6 +308,7 @@ if (_isDucking)
 			if (_starTimer <= 0f)
 			{
 				_starActive = false;
+				SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 				Modulate = Colors.White;
 			}
 			else
@@ -346,8 +347,9 @@ if (_isDucking)
 
 	// Star – full invincibility vs enemies for 6 seconds, rainbow tint (#84)
 	public void ActivateStar()
-	{
+	{	
 		_starActive = true;
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StarMusic);
 		_starTimer = 6f;
 		_starHue = 0f;
 	}

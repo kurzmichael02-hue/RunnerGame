@@ -1,16 +1,16 @@
-[gd_scene format=3 uid="uid://bn7r2t4ks9vx6"]
+[gd_scene format=3 uid="uid://bn7r2t4ktavx6"]
 
 [ext_resource type="Script" uid="uid://d3q8nk7p2mxv4" path="res://Scripts/StarPowerUp.cs" id="1_star"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_star"]
 radius = 22.0
 
-[node name="StarPowerUp" type="Area2D"]
+[node name="StarPowerUp" type="Area2D" unique_id=1414622053]
 script = ExtResource("1_star")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=835040198]
 shape = SubResource("CircleShape2D_star")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=191538898]
 color = Color(1, 0.85, 0.1, 1)
 polygon = PackedVector2Array(0, -22, 6, -6, 22, -6, 10, 4, 14, 20, 0, 10, -14, 20, -10, 4, -22, -6, -6, -6)
