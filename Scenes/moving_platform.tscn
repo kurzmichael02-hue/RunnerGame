@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dyn4mpl2kfg7h"]
+
+[ext_resource type="Script" uid="uid://cwk8jm5p9vxq3" path="res://Scripts/MovingPlatform.cs" id="1_mvpl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mvpl"]
+size = Vector2(150, 20)
+
+[node name="MovingPlatform" type="AnimatableBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_mvpl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mvpl")
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.48, 0.35, 0.22, 1)
+polygon = PackedVector2Array(-75, -10, 75, -10, 75, 10, -75, 10)
+
+[node name="TopEdge" type="Polygon2D" parent="."]
+color = Color(0.32, 0.22, 0.12, 1)
+polygon = PackedVector2Array(-75, -10, 75, -10, 75, -6, -75, -6)
+
+[node name="Plank1" type="Polygon2D" parent="."]
+color = Color(0.3, 0.2, 0.1, 1)
+polygon = PackedVector2Array(-30, -6, -29, -6, -29, 10, -30, 10)
+
+[node name="Plank2" type="Polygon2D" parent="."]
+color = Color(0.3, 0.2, 0.1, 1)
+polygon = PackedVector2Array(20, -6, 21, -6, 21, 10, 20, 10)

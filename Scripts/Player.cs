@@ -28,11 +28,22 @@ public partial class Player : CharacterBody2D
 	private CollisionShape2D _duckShape;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
+	private bool _starActive = false;
+	private float _starTimer = 0f;
+	private float _starHue = 0f;
+	public bool StarActive => _starActive;
 	private float _invincibilityTimer = 0f;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
 	private bool _isJumping = false;
 	private bool _isDucking = false;
+	private bool _doubleJumpUsed = false;
+	private int _stompChain = 0;
+
+	// Camera shake
+	private Camera2D _camera;
+	private float _shakeTimer = 0f;
+	private float _shakeStrength = 0f;
 
 	// Magnet
 	private bool _magnetActive = false;
@@ -41,6 +52,10 @@ public partial class Player : CharacterBody2D
 
 	public int Lives => _lives;
 	public int Score => _score;
+	// Read-only timers for the HUD so it can show which power-ups are still running
+	public float ShieldTimeLeft => _shieldActive ? _shieldTimer : 0f;
+	public float MagnetTimeLeft => _magnetActive ? _magnetTimer : 0f;
+	public float StarTimeLeft => _starActive ? _starTimer : 0f;
 	public bool StompedEnemy = false;
 	private Vector2 _checkpointPosition = new Vector2(200, 260);
 
@@ -57,13 +72,64 @@ public partial class Player : CharacterBody2D
 		_standShape = GetNode<CollisionShape2D>("StandShape");
 _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
+		_camera = GetNode<Camera2D>("Camera2D");
 	}
+
+	// Kicked by damage events – camera jitters for `duration` seconds at `strength` pixels
+	public void Shake(float strength, float duration)
+	{
+		_shakeStrength = strength;
+		_shakeTimer = duration;
+	}
+	// Fall into a pit – always costs a life, no shrink animation.
+	// Classic Mario: falling ignores power-up state (#105)
+	public async void DieFall()
+{
+	if (IsDying) return;
+	IsDying = true;
+
+	// Reset size in case player was small before falling
+	IsSmall = false;
+	Scale = Vector2.One;
+	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+
+	Shake(10f, 0.35f);
+
+	_lives--;
+	_lives = Mathf.Max(_lives, 0);
+
+	if (_lives <= 0)
+	{
+		SaveHighscore(_score);
+		Visible = false;
+		SetPhysicsProcess(false);
+		GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+		return;
+	}
+
+	Visible = false;
+	SetPhysicsProcess(false);
+
+	var timer = GetTree().CreateTimer(1.0f, true, false, true);
+	await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
+
+	Position = _checkpointPosition;
+	Visible = true;
+	SetPhysicsProcess(true);
+	_invincibilityTimer = 1.5f;
+	IsDying = false;
+
+	var tween = CreateTween();
+	tween.SetLoops(6);
+	tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
+	tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
+}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		float dt = (float)delta;
 if (Position.Y > 600f && !IsDying)
-	Die();
+	DieFall();
 		JumpHoldTimer = Mathf.Max(JumpHoldTimer - dt, 0f);
 		Vector2 velocity = Velocity;
 
@@ -92,6 +158,10 @@ if (Position.Y > 600f && !IsDying)
 		{
 			velocity.Y = JumpVelocity * 0.6f;
 			StompedEnemy = false;
+			Shake(3f, 0.08f);
+			// Stomp chain: each consecutive mid-air stomp gives more score, resets on ground
+			_stompChain++;
+			AddScore(_stompChain * 2);
 		}
 
 		// Asymmetric gravity – hold jump for higher arc
@@ -103,8 +173,15 @@ if (Position.Y > 600f && !IsDying)
 			velocity.Y += gravity * dt;
 		velocity.Y = Mathf.Min(velocity.Y, MaxFallSpeed);
 
-		// Coyote time
-		if (IsOnFloor()) { _coyoteTimer = CoyoteTime; _isJumping = false; }
+		// Coyote time – small forgiveness window to jump right after walking off a ledge (#18)
+		// Double-jump and stomp-chain reset on ground contact – chain means consecutive mid-air stomps
+		if (IsOnFloor())
+		{
+			_coyoteTimer = CoyoteTime;
+			_isJumping = false;
+			_doubleJumpUsed = false;
+			_stompChain = 0;
+		}
 		else _coyoteTimer -= dt;
 		
 		// Duck – only on ground, no jumping while ducking
@@ -133,6 +210,7 @@ if (_isDucking)
 
 	_jumpBufferTimer = 0f;
 	Vector2 vel = Velocity;
+	// Ducking slows the player to 40% of max speed – feels heavier, harder to dodge
 	vel.X = duckDir * MaxSpeed * 0.4f;
 	if (!IsOnFloor()) vel.Y += FallGravity * dt;
 	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
@@ -141,7 +219,7 @@ if (_isDucking)
 	return;
 }
 
-		// Jump buffer
+		// Jump buffer – if the player presses jump slightly before landing, we still queue the jump (#18)
 		if (Input.IsActionJustPressed("jump")) _jumpBufferTimer = JumpBufferTime;
 		else _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - dt, 0f);
 
@@ -158,6 +236,15 @@ if (_isDucking)
 			_coyoteTimer = 0f;
 			_isJumping = true;
 			JumpHoldTimer = JumpHoldTime;
+			SoundManager.Instance.PlayJump();
+		}
+		// Double jump – one extra mid-air jump, slightly weaker so it's not game-breaking
+		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_doubleJumpUsed && !_isDucking)
+		{
+			velocity.Y = JumpVelocity * 0.85f;
+			_doubleJumpUsed = true;
+			_jumpBufferTimer = 0f;
+			JumpHoldTimer = JumpHoldTime * 0.6f;
 			SoundManager.Instance.PlayJump();
 		}
 
@@ -197,6 +284,38 @@ if (_isDucking)
 			_shieldTimer -= dt;
 			if (_shieldTimer <= 0) _shieldActive = false;
 		}
+
+		// Camera shake – random jitter for `shakeTimer` seconds, snap back when done
+		if (_shakeTimer > 0f)
+		{
+			_shakeTimer -= dt;
+			if (_shakeTimer <= 0f)
+			{
+				_camera.Offset = Vector2.Zero;
+			}
+			else
+			{
+				_camera.Offset = new Vector2(
+					(GD.Randf() * 2f - 1f) * _shakeStrength,
+					(GD.Randf() * 2f - 1f) * _shakeStrength);
+			}
+		}
+
+		// Star – cycle hue for the rainbow flash, reset to white when it runs out
+		if (_starActive)
+		{
+			_starTimer -= dt;
+			if (_starTimer <= 0f)
+			{
+				_starActive = false;
+				Modulate = Colors.White;
+			}
+			else
+			{
+				_starHue = (_starHue + dt * 3f) % 1f;
+				Modulate = Color.FromHsv(_starHue, 1f, 1f);
+			}
+		}
 	}
 
 	public void AddScore(int amount)
@@ -205,6 +324,12 @@ if (_isDucking)
 		// Every 100 coins grants an extra life (#41)
 		if (_score % 100 == 0)
 			_lives++;
+	}
+
+	// Direct life pickup – cap at 9 so the hud label doesn't overflow
+	public void AddLife()
+	{
+		_lives = Mathf.Min(_lives + 1, 9);
 	}
 
 	public void ActivateShield()
@@ -219,7 +344,16 @@ if (_isDucking)
 		_magnetTimer = 5f;
 	}
 
-	private void SaveHighscore(int score)
+	// Star – full invincibility vs enemies for 6 seconds, rainbow tint (#84)
+	public void ActivateStar()
+	{
+		_starActive = true;
+		_starTimer = 6f;
+		_starHue = 0f;
+	}
+
+	public void SaveHighscorePublic() => SaveHighscore(_score);
+private void SaveHighscore(int score)
 	{
 		string path = "user://highscore.dat";
 		int best = 0;
@@ -248,8 +382,24 @@ if (_isDucking)
 	public async void Die()
 	{
 		if (IsDying) return;
+
+		// Star power – full invincibility, any enemy hit is ignored (#84)
+		if (_starActive) return;
+
+		// Shield eats one enemy hit, then breaks (#83)
+		if (_shieldActive)
+		{
+			_shieldActive = false;
+			_invincibilityTimer = 1.5f;
+			var shieldTween = CreateTween();
+			shieldTween.TweenProperty(this, "modulate", new Color(0.4f, 1f, 1f, 1f), 0.1f);
+			shieldTween.TweenProperty(this, "modulate", Colors.White, 0.3f);
+			return;
+		}
+
 		IsDying = true;
-		
+		Shake(7f, 0.25f);
+
 		if (IsSmall)
 		{
 		_lives--;
