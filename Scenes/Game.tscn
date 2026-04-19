@@ -676,11 +676,10 @@ offset_bottom = 11.0
 color = Color(0, 1, 0, 1)
 
 [node name="Coin5" type="Area2D" parent="." unique_id=1161870017]
-position = Vector2(1000, 280)
+position = Vector2(3181, 71)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin5" unique_id=404119719]
-position = Vector2(2181, -209)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin5/CollisionShape2D" unique_id=1127930969]
@@ -690,11 +689,10 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin6" type="Area2D" parent="." unique_id=1609223924]
-position = Vector2(1000, 280)
+position = Vector2(3389, 106)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin6" unique_id=439638209]
-position = Vector2(2389, -174)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin6/CollisionShape2D" unique_id=767892046]
@@ -704,11 +702,10 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin7" type="Area2D" parent="." unique_id=81764200]
-position = Vector2(1000, 280)
+position = Vector2(2379, 258)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin7" unique_id=105800429]
-position = Vector2(1379, -22)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin7/CollisionShape2D" unique_id=2109363038]
@@ -729,11 +726,10 @@ color = Color(0, 0, 1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="Coin8" type="Area2D" parent="." unique_id=1821734858]
-position = Vector2(1000, 280)
+position = Vector2(3289, 46)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin8" unique_id=505241174]
-position = Vector2(2289, -234)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin8/CollisionShape2D" unique_id=1970758541]
@@ -743,11 +739,10 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin9" type="Area2D" parent="." unique_id=557738117]
-position = Vector2(1000, 280)
+position = Vector2(2848, 51)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin9" unique_id=1510580295]
-position = Vector2(1848, -229)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin9/CollisionShape2D" unique_id=1988975137]
@@ -757,11 +752,10 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin10" type="Area2D" parent="." unique_id=1049713406]
-position = Vector2(1000, 280)
+position = Vector2(2900, 121)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin10" unique_id=1022773604]
-position = Vector2(1900, -159)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin10/CollisionShape2D" unique_id=1459562677]
@@ -771,11 +765,10 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin11" type="Area2D" parent="." unique_id=1440894983]
-position = Vector2(1000, 280)
+position = Vector2(2775, 98)
 script = ExtResource("2_gl6un")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coin11" unique_id=1858538498]
-position = Vector2(1775, -182)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coin11/CollisionShape2D" unique_id=1645379556]
