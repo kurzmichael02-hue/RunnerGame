@@ -16,6 +16,9 @@ public partial class GameOver : Control
 				button.MouseEntered += OnAnyButtonHovered;
 			}
 		}
+
+		// Restart takes initial focus so arrow keys + enter work without the mouse
+		GetNode<Button>("VBoxContainer/Restart").CallDeferred(Button.MethodName.GrabFocus);
 	}
 
 	private void OnAnyButtonHovered()

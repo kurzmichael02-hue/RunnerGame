@@ -22,7 +22,10 @@ public override void _Ready()
 	
 	_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
 	_exitDialog.Confirmed += OnExitConfirmed;
-	
+
+	// Start button gets focus so arrow keys + enter work without touching the mouse.
+	// Deferred because children aren't fully ready yet inside _Ready.
+	GetNode<Button>("VBoxContainer/Start").CallDeferred(Button.MethodName.GrabFocus);
 }
 
 private void OnAnyButtonHovered()

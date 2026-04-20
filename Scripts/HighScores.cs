@@ -20,6 +20,9 @@ public partial class HighScores : Control
 				button.MouseEntered += OnAnyButtonHovered;
 			}
 		}
+
+		// Main Menu button grabs focus so enter/arrow-keys work without the mouse
+		GetNode<Button>("VBoxContainer/MainMenu").CallDeferred(Button.MethodName.GrabFocus);
 	}
 
 	private void OnAnyButtonHovered()
