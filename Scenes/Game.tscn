@@ -14,18 +14,20 @@
 [ext_resource type="Texture2D" uid="uid://djld3vcw4cqig" path="res://leveldesign/enemy2.png" id="8_wxwew"]
 [ext_resource type="Texture2D" uid="uid://dia3vjlmcs2y5" path="res://leveldesign/enemy3.png" id="9_acvyw"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/LevelGoal.cs" id="10_71axn"]
+[ext_resource type="Texture2D" uid="uid://b6spruxkscwub" path="res://leveldesign/zielflagge.png" id="10_356ba"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/MagnetPowerUp.cs" id="11_dahhg"]
 [ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="12_alh3a"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="13_4q8tf"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/ShieldPowerUp.cs" id="14_shldx"]
-[ext_resource type="PackedScene" uid="uid://c9f7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
+[ext_resource type="PackedScene" uid="uid://daf7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/moving_platform.tscn" id="16_mvpl"]
-[ext_resource type="PackedScene" uid="uid://bn7r2t4ks9vx6" path="res://Scenes/star_power_up.tscn" id="17_star"]
+[ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/star_power_up.tscn" id="17_star"]
 [ext_resource type="PackedScene" uid="uid://dfgxkpqm5r8v2" path="res://Scenes/projectile.tscn" id="18_proj"]
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/heart_pickup.tscn" id="19_heart"]
-[ext_resource type="PackedScene" uid="uid://bq4r7m2nk9xtv" path="res://Scenes/fire_flower.tscn" id="20_fire"]
-[ext_resource type="PackedScene" uid="uid://cp7r9mkn3vwxq" path="res://Scenes/sword_pickup.tscn" id="21_sword"]
+[ext_resource type="PackedScene" uid="uid://bq4r7m2nlaxtv" path="res://Scenes/fire_flower.tscn" id="20_fire"]
+[ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/sword_pickup.tscn" id="21_sword"]
 [ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="22_vvhu1"]
+[ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_3jf1l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -387,6 +389,8 @@ offset_right = 400.0
 offset_bottom = 103.0
 
 [node name="AttackIndicator" type="Control" parent="HUD" unique_id=441088310]
+layout_mode = 3
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -90.0
@@ -396,23 +400,26 @@ offset_bottom = 90.0
 grow_horizontal = 0
 
 [node name="Background" type="ColorRect" parent="HUD/AttackIndicator" unique_id=441088311]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.1, 0.1, 0.15, 0.75)
 
 [node name="Fill" type="ColorRect" parent="HUD/AttackIndicator" unique_id=441088312]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(1, 0.85, 0.2, 0.9)
 
 [node name="Label" type="Label" parent="HUD/AttackIndicator" unique_id=441088313]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
 text = "J"
 horizontal_alignment = 1
 vertical_alignment = 1
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 28
 
 [node name="PauseMenu" type="Control" parent="HUD" unique_id=804085390]
 visible = false
@@ -638,9 +645,10 @@ script = ExtResource("10_71axn")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
 shape = SubResource("RectangleShape2D_bf53h")
 
-[node name="Polygon2D" type="Polygon2D" parent="LevelGoal" unique_id=140018405]
-color = Color(1, 0.84313726, 0, 1)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=4175977]
+texture_filter = 1
+scale = Vector2(6, 6)
+texture = ExtResource("10_356ba")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1001432771]
 position = Vector2(7260, 0)
@@ -662,19 +670,19 @@ polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 [node name="StarPowerUp" parent="." unique_id=780811464 instance=ExtResource("17_star")]
 position = Vector2(2100, 260)
 
-[node name="HeartPickup" parent="." instance=ExtResource("19_heart")]
+[node name="HeartPickup" parent="." unique_id=1366131351 instance=ExtResource("19_heart")]
 position = Vector2(5300, 230)
 
-[node name="HeartPickup2" parent="." instance=ExtResource("19_heart")]
+[node name="HeartPickup2" parent="." unique_id=1305625851 instance=ExtResource("19_heart")]
 position = Vector2(6800, 150)
 
-[node name="FireFlower" parent="." instance=ExtResource("20_fire")]
+[node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("20_fire")]
 position = Vector2(4000, 250)
 
-[node name="SwordPickup" parent="." instance=ExtResource("21_sword")]
+[node name="SwordPickup" parent="." unique_id=1829312997 instance=ExtResource("21_sword")]
 position = Vector2(1550, 230)
 
-[node name="SwordPickup2" parent="." instance=ExtResource("21_sword")]
+[node name="SwordPickup2" parent="." unique_id=924163623 instance=ExtResource("21_sword")]
 position = Vector2(5500, 200)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1321363474]
@@ -1165,9 +1173,10 @@ script = ExtResource("11_dahhg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Magnets/MagnetPowerUp" unique_id=1963666255]
 shape = SubResource("CircleShape2D_71axn")
 
-[node name="Polygon2D" type="Polygon2D" parent="Magnets/MagnetPowerUp" unique_id=1669036872]
-color = Color(0, 0, 1, 1)
-polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+[node name="Sprite2D" type="Sprite2D" parent="Magnets/MagnetPowerUp" unique_id=459351141]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("26_3jf1l")
 
 [node name="MagnetPowerUp2" type="Area2D" parent="Magnets" unique_id=208422444]
 position = Vector2(2106, 70)
@@ -1176,9 +1185,10 @@ script = ExtResource("11_dahhg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Magnets/MagnetPowerUp2" unique_id=1505431566]
 shape = SubResource("CircleShape2D_71axn")
 
-[node name="Polygon2D" type="Polygon2D" parent="Magnets/MagnetPowerUp2" unique_id=1468963834]
-color = Color(0, 0, 1, 1)
-polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+[node name="Sprite2D" type="Sprite2D" parent="Magnets/MagnetPowerUp2" unique_id=1656427898]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("26_3jf1l")
 
 [node name="MagnetPowerUp3" type="Area2D" parent="Magnets" unique_id=1529404632]
 position = Vector2(5300, 260)
@@ -1187,9 +1197,10 @@ script = ExtResource("11_dahhg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Magnets/MagnetPowerUp3" unique_id=1963666256]
 shape = SubResource("CircleShape2D_71axn")
 
-[node name="Polygon2D" type="Polygon2D" parent="Magnets/MagnetPowerUp3" unique_id=1669036873]
-color = Color(0, 0, 1, 1)
-polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+[node name="Sprite2D" type="Sprite2D" parent="Magnets/MagnetPowerUp3" unique_id=788057063]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("26_3jf1l")
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
