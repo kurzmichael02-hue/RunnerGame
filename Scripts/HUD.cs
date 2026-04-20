@@ -18,7 +18,9 @@ public partial class HUD : CanvasLayer
 		_timerLabel = GetNode<Label>("TimerLabel");
 		_positionLabel = GetNode<Label>("PositionLabel");
 		_powerUpLabel = GetNode<Label>("PowerUpLabel");
-		_player = GetNode<Player>("/root/Node2D/Player");
+		// Group lookup instead of absolute path – survives scene-root renames and works
+		// even if the level file gets restructured later
+		_player = GetTree().GetFirstNodeInGroup("player") as Player;
 		// Always so the pause menu (child of HUD) still receives input while the tree is paused
 		ProcessMode = ProcessModeEnum.Always;
 	}

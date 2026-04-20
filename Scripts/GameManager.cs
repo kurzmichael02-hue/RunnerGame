@@ -6,6 +6,8 @@ public partial class GameManager : Node2D
 {
 	public override void _Ready()
 	{
+		// Fresh run – clear the level-won flag that would otherwise block ESC pause after a retry
+		LevelGoal.Reset();
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 }

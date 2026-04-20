@@ -22,6 +22,9 @@ public partial class Player : CharacterBody2D
 	// State
 	private int _lives = 3;
 	private int _score = 0;
+	// Tracks how many 100-point thresholds have already paid out an extra life,
+	// so a +5 bonus that jumps over 100 still grants the life instead of missing the modulo
+	private int _livesFromScoreGranted = 0;
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -355,9 +358,14 @@ if (_isDucking)
 	public void AddScore(int amount)
 	{
 		_score += amount;
-		// Every 100 coins grants an extra life (#41)
-		if (_score % 100 == 0)
-			_lives++;
+		// Every 100 coins grants an extra life (#41). Compare against grant-count instead of
+		// modulo so a big bonus (e.g. stomp chain giving +6) still triggers when crossing 100.
+		int earned = _score / 100;
+		while (_livesFromScoreGranted < earned)
+		{
+			_livesFromScoreGranted++;
+			_lives = Mathf.Min(_lives + 1, 9);
+		}
 	}
 
 	// Direct life pickup – cap at 9 so the hud label doesn't overflow
