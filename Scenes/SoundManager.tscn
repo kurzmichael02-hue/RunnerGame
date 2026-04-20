@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://bhnahiro2tqiw" path="res://Sounds/EnemyDeathDemo.wav" id="3_i4wp4"]
 [ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="4_dh1hk"]
 [ext_resource type="AudioStream" uid="uid://b2leyjd8ylbbf" path="res://Sounds/SwordFX2.wav" id="5_i4wp4"]
+[ext_resource type="AudioStream" uid="uid://dcqbr22c3i8dm" path="res://Sounds/NoSwordLeft2.wav" id="6_dh1hk"]
 [ext_resource type="AudioStream" uid="uid://ex7l165u7ewj" path="res://Sounds/button_click.wav" id="6_i4wp4"]
 
 [sub_resource type="AudioStreamWAV" id="AudioStreamWAV_4m8jc"]
@@ -127,7 +128,8 @@ stream = SubResource("AudioStreamWAV_4m8jc")
 stream = ExtResource("5_i4wp4")
 
 [node name="NoSwordLeftSound" type="AudioStreamPlayer" parent="." unique_id=138263978]
-stream = ExtResource("5_i4wp4")
+stream = ExtResource("6_dh1hk")
+volume_db = 4.561
 
 [node name="Music" type="Node" parent="." unique_id=1309676728]
 
