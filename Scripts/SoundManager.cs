@@ -19,6 +19,10 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _music;
 	private AudioStreamPlayer _gameOverMusic;
 	private AudioStreamPlayer _starMusic;
+	private AudioStreamPlayer _playerDeath1;
+	private AudioStreamPlayer _playerDeath2;
+	private AudioStreamPlayer _playerDeath3;
+	private RandomNumberGenerator _rng = new RandomNumberGenerator();
 	
 	//Declaration of a List of Audio Stream Players, which will later be used to switch the music
 	private List<AudioStreamPlayer> _musicPlayers;
@@ -48,7 +52,12 @@ public partial class SoundManager : Node
 		_menuHover = GetNode<AudioStreamPlayer>("MenuFX/HoverSound");
 		_button = GetNode<AudioStreamPlayer>("MenuFX/ButtonSound");
 		_starMusic = GetNode<AudioStreamPlayer>("Music/StarMusic");
+		_playerDeath1 = GetNode<AudioStreamPlayer>("PlayerDeathSound1");
+		_playerDeath2 = GetNode<AudioStreamPlayer>("PlayerDeathSound2");
+		_playerDeath3 = GetNode<AudioStreamPlayer>("PlayerDeathSound3");
 		var musicParent = GetNode<Node>("Music");
+		
+		 _rng.Randomize();
 		
 		_musicPlayers = new List<AudioStreamPlayer>();
 		//Iterating over every object in the "Music" Node and adding them to our list of MusicPlayers
@@ -90,6 +99,24 @@ public partial class SoundManager : Node
 	public void PlayNoSwordLeft()
 	{
 		_noSwordLeft.Play();
+	}
+	
+	public void PlayPlayerDeath()
+	{
+		int roll = _rng.RandiRange(1, 3);
+
+		switch (roll)
+		{
+			case 1:
+				_playerDeath1.Play();
+				break;
+			case 2:
+				_playerDeath2.Play();
+				break;
+			case 3:
+				_playerDeath3.Play();
+				break;
+		}
 	}
 	
 	//Menu Sounds
