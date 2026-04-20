@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c9f7kmx2n3p4q"]
 
 [ext_resource type="Script" uid="uid://dkp8n4t5r6v7w" path="res://Scripts/Spike.cs" id="1_spike"]
+[ext_resource type="Texture2D" uid="uid://cy7vkdfxs6mcy" path="res://leveldesign/spikes.png" id="2_spike"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_spk"]
 size = Vector2(70, 28)
@@ -12,14 +13,8 @@ script = ExtResource("1_spike")
 position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_spk")
 
-[node name="Base" type="Polygon2D" parent="."]
-color = Color(0.18, 0.18, 0.22, 1)
-polygon = PackedVector2Array(-35, 0, 35, 0, 35, 3, -35, 3)
-
-[node name="Polygon2D" type="Polygon2D" parent="."]
-color = Color(0.3, 0.3, 0.35, 1)
-polygon = PackedVector2Array(-35, 0, -23, -28, -12, 0, 0, -28, 12, 0, 23, -28, 35, 0)
-
-[node name="Tips" type="Polygon2D" parent="."]
-color = Color(0.85, 0.85, 0.92, 1)
-polygon = PackedVector2Array(-27, -18, -23, -28, -19, -18, -4, -18, 0, -28, 4, -18, 19, -18, 23, -28, 27, -18)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -14)
+scale = Vector2(4, 4)
+texture = ExtResource("2_spike")
