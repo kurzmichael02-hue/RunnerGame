@@ -76,6 +76,9 @@ public partial class Player : CharacterBody2D
 	private float _shakeTimer = 0f;
 	private float _shakeStrength = 0f;
 
+	// Dust: tracks floor transitions so we can poof on landing
+	private bool _wasOnFloor = true;
+
 	// Magnet
 	private bool _magnetActive = false;
 	private float _magnetTimer = 0f;
@@ -153,6 +156,28 @@ _duckShape.Disabled = true;
 			SpawnFireball();
 		// Little horizontal nudge on swing so the player feels the follow-through
 		Shake(2f, 0.05f);
+	}
+
+	private void SpawnLandingDust()
+	{
+		// Little white poof at the player's feet, expands and fades in 0.25s
+		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(0, 35f) };
+		var poly = new Polygon2D
+		{
+			Color = new Color(1f, 1f, 1f, 0.65f),
+			Polygon = new Vector2[]
+			{
+				new Vector2(-14, 0), new Vector2(-10, -6), new Vector2(-4, -8),
+				new Vector2(4, -8), new Vector2(10, -6), new Vector2(14, 0)
+			}
+		};
+		wrap.AddChild(poly);
+		GetTree().CurrentScene.AddChild(wrap);
+
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(wrap, "scale", Vector2.One * 1.8f, 0.25f);
+		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.25f);
+		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
 	private void SpawnFireball()
@@ -488,6 +513,16 @@ if (_isDucking)
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+		// Landing dust – only on the airborne→grounded transition, scales with fall speed.
+		// Feels weightier than landing silently, cheap to render (single polygon).
+		bool onFloorNow = IsOnFloor();
+		if (!_wasOnFloor && onFloorNow)
+		{
+			float fall = Mathf.Abs(velocity.Y);
+			if (fall > 50f) SpawnLandingDust();
+		}
+		_wasOnFloor = onFloorNow;
 
 		// Sword attack – j/x fires in the direction we're facing, short cooldown.
 		// Ducking disables the swing, you have to stand up first. 3 uses per life,
