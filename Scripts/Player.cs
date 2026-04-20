@@ -124,7 +124,7 @@ _duckShape.Disabled = true;
 		_attackLockout = 0.25f;
 		_swordUses--;
 		SpawnSwordSwoosh();
-		SoundManager.Instance.PlayJump();
+		SoundManager.Instance.PlaySwordAttack();
 
 		// Hitbox: 120px reach in facing direction, 85px tall – bigger to compensate for
 		// the reduced attack rate and movement lockout (tim's balance note)

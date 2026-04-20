@@ -4,6 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://d1trrsi3oa868" path="res://Sounds/jump.wav" id="2_8mdu8"]
 [ext_resource type="AudioStream" uid="uid://bhnahiro2tqiw" path="res://Sounds/EnemyDeathDemo.wav" id="3_i4wp4"]
 [ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="4_dh1hk"]
+[ext_resource type="AudioStream" uid="uid://b2leyjd8ylbbf" path="res://Sounds/SwordFX2.wav" id="5_i4wp4"]
 [ext_resource type="AudioStream" uid="uid://ex7l165u7ewj" path="res://Sounds/button_click.wav" id="6_i4wp4"]
 
 [sub_resource type="AudioStreamWAV" id="AudioStreamWAV_4m8jc"]
@@ -121,6 +122,9 @@ stream = ExtResource("4_dh1hk")
 
 [node name="CoinSound" type="AudioStreamPlayer" parent="." unique_id=1301672436]
 stream = SubResource("AudioStreamWAV_4m8jc")
+
+[node name="SwordAttackSound" type="AudioStreamPlayer" parent="." unique_id=1745927507]
+stream = ExtResource("5_i4wp4")
 
 [node name="Music" type="Node" parent="." unique_id=1309676728]
 
