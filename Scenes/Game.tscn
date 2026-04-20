@@ -26,15 +26,8 @@
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/heart_pickup.tscn" id="19_heart"]
 [ext_resource type="PackedScene" uid="uid://bq4r7m2nlaxtv" path="res://Scenes/fire_flower.tscn" id="20_fire"]
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/sword_pickup.tscn" id="21_sword"]
-[ext_resource type="PackedScene" uid="uid://bn9kvp7r2mxtq" path="res://Scenes/block.tscn" id="23_block"]
 [ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="22_vvhu1"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_3jf1l"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground5"]
-size = Vector2(2000, 50)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground6"]
-size = Vector2(1300, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -656,7 +649,7 @@ offset_bottom = 23.0
 grow_horizontal = 0
 
 [node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
-position = Vector2(10800, 260)
+position = Vector2(7200, 260)
 script = ExtResource("10_71axn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
@@ -668,7 +661,7 @@ scale = Vector2(6, 6)
 texture = ExtResource("10_356ba")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1001432771]
-position = Vector2(10870, 0)
+position = Vector2(7260, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
 shape = SubResource("RectangleShape2D_dahhg")
@@ -1228,186 +1221,3 @@ position = Vector2(1800, 200)
 position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
-
-[node name="Ground5" type="StaticBody2D" parent="." unique_id=605063570]
-position = Vector2(8500, 300)
-collision_layer = 4
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground5" unique_id=706327440]
-shape = SubResource("RectangleShape2D_ground5")
-
-[node name="ColorRect" type="ColorRect" parent="Ground5" unique_id=2129677445]
-offset_left = -1000.0
-offset_top = -25.0
-offset_right = 1000.0
-offset_bottom = 25.0
-color = Color(0.12, 0.7, 0.2, 1)
-
-[node name="Ground6" type="StaticBody2D" parent="." unique_id=605063571]
-position = Vector2(10450, 300)
-collision_layer = 4
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground6" unique_id=706327441]
-shape = SubResource("RectangleShape2D_ground6")
-
-[node name="ColorRect" type="ColorRect" parent="Ground6" unique_id=2129677446]
-offset_left = -650.0
-offset_top = -25.0
-offset_right = 650.0
-offset_bottom = 25.0
-color = Color(0.1, 0.75, 0.18, 1)
-
-[node name="Blocks" type="Node2D" parent="." unique_id=770122088]
-
-[node name="Block" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(7900, 250)
-
-[node name="Block2" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(7950, 200)
-
-[node name="Block3" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(8000, 150)
-
-[node name="Block4" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(8500, 200)
-
-[node name="Block5" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(8700, 200)
-
-[node name="Block6" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(8900, 130)
-
-[node name="Block7" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(9200, 250)
-
-[node name="Block8" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(9200, 200)
-
-[node name="Block9" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(9200, 150)
-
-[node name="Block10" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(10100, 230)
-
-[node name="Block11" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(10400, 180)
-
-[node name="Block12" parent="Blocks" instance=ExtResource("23_block")]
-position = Vector2(10650, 230)
-
-[node name="Enemy11" type="CharacterBody2D" parent="Enemies" unique_id=263876452]
-position = Vector2(2400, 13)
-collision_layer = 2
-collision_mask = 4
-script = ExtResource("4_kldst")
-Type = 3
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy11" unique_id=634150717]
-shape = SubResource("RectangleShape2D_j5yw3")
-
-[node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy11" unique_id=1110267758]
-modulate = Color(1, 0.35, 0.35, 1)
-texture_filter = 1
-scale = Vector2(4.5, 4.5)
-texture = ExtResource("7_3so38")
-
-[node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy11" unique_id=609767671]
-shape = SubResource("RectangleShape2D_wxwew")
-target_position = Vector2(0, 0)
-
-[node name="Enemy12" type="CharacterBody2D" parent="Enemies" unique_id=263876453]
-position = Vector2(3800, 13)
-collision_layer = 2
-collision_mask = 4
-script = ExtResource("4_kldst")
-MoveDistance = 300.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy12" unique_id=634150718]
-shape = SubResource("RectangleShape2D_j5yw3")
-
-[node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy12" unique_id=1110267759]
-texture_filter = 1
-scale = Vector2(4.5, 4.5)
-texture = ExtResource("7_3so38")
-
-[node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy12" unique_id=609767672]
-shape = SubResource("RectangleShape2D_wxwew")
-target_position = Vector2(0, 0)
-
-[node name="Coin16" type="Area2D" parent="Coins" unique_id=1581031968]
-position = Vector2(8000, 110)
-script = ExtResource("2_gl6un")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin16" unique_id=2055008768]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin16/CollisionShape2D" unique_id=546608011]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin17" type="Area2D" parent="Coins" unique_id=1581031969]
-position = Vector2(8600, 150)
-script = ExtResource("2_gl6un")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin17" unique_id=2055008769]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin17/CollisionShape2D" unique_id=546608012]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin18" type="Area2D" parent="Coins" unique_id=1581031970]
-position = Vector2(8900, 80)
-script = ExtResource("2_gl6un")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin18" unique_id=2055008770]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin18/CollisionShape2D" unique_id=546608013]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin19" type="Area2D" parent="Coins" unique_id=1581031971]
-position = Vector2(10100, 180)
-script = ExtResource("2_gl6un")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin19" unique_id=2055008771]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin19/CollisionShape2D" unique_id=546608014]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin20" type="Area2D" parent="Coins" unique_id=1581031972]
-position = Vector2(10650, 180)
-script = ExtResource("2_gl6un")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin20" unique_id=2055008772]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin20/CollisionShape2D" unique_id=546608015]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Checkpoint5" type="Area2D" parent="Checkpoints" unique_id=906239225]
-position = Vector2(9800, 260)
-script = ExtResource("7_fgofq")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint5" unique_id=666897725]
-shape = SubResource("RectangleShape2D_7lihs")
-
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint5" unique_id=1510776204]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
-
-[node name="SwordPickup3" parent="." instance=ExtResource("21_sword")]
-position = Vector2(9650, 200)
-
-[node name="HeartPickup3" parent="." instance=ExtResource("19_heart")]
-position = Vector2(10500, 170)
