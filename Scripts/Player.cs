@@ -311,8 +311,9 @@ if (_isDucking)
 		Velocity = velocity;
 		MoveAndSlide();
 
-		// Invincibility timer after hit
-		if (_invincibilityTimer > 0) { _invincibilityTimer -= dt; return; }
+		// Invincibility timer after hit – just decrements, don't early-return or the
+		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
+		if (_invincibilityTimer > 0) _invincibilityTimer -= dt;
 
 		// Shield timer
 		if (_shieldActive)

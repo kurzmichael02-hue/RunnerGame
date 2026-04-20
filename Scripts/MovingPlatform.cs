@@ -22,8 +22,8 @@ public partial class MovingPlatform : AnimatableBody2D
 		_time += (float)delta;
 		// Sine-based ping-pong so the platform eases at both ends, not jerky
 		float phase = (Mathf.Sin(_time * Mathf.Pi * 2f / CycleTime) + 1f) * 0.5f;
-		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
-		// MoveAndCollide lets the physics engine carry the player standing on top
-		Position = target;
+		// Direct position set – the one_way_collision + margin on the shape keeps the
+		// player perched on top, no need for moveandcollide physics coupling
+		Position = _startPosition.Lerp(_startPosition + EndOffset, phase);
 	}
 }
