@@ -15,6 +15,7 @@ public partial class HUD : CanvasLayer
 
 	public override void _Ready()
 	{
+		AddToGroup("hud");
 		_scoreLabel = GetNode<Label>("ScoreLabel");
 		_livesLabel = GetNode<Label>("LivesLabel");
 		_timerLabel = GetNode<Label>("TimerLabel");

@@ -28,6 +28,8 @@
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/sword_pickup.tscn" id="21_sword"]
 [ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="22_vvhu1"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_3jf1l"]
+[ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/LevelCompleteScreen.cs" id="29_i4lct"]
+[ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="30_iyesh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -333,6 +335,39 @@ size = Vector2(30, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_raj38"]
 size = Vector2(30, 80)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i1pr2"]
+texture = ExtResource("30_iyesh")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_356ba"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4lct"]
+bg_color = Color(0.11764706, 0.6156863, 0.76862746, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.2901961)
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iyesh"]
+bg_color = Color(0.003921569, 0.101960786, 0.101960786, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.22745098)
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i1pr2"]
 
 [node name="Node2D" type="Node2D" unique_id=1679243187]
 script = ExtResource("1_j5yw3")
@@ -1211,3 +1246,114 @@ position = Vector2(1800, 200)
 position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
+
+[node name="LevelCompleteScreen" type="CanvasLayer" parent="." unique_id=551507232]
+script = ExtResource("29_i4lct")
+
+[node name="Panel" type="Panel" parent="LevelCompleteScreen" unique_id=1662592036]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_i1pr2")
+
+[node name="Label" type="Label" parent="LevelCompleteScreen/Panel" unique_id=2051350068]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.0
+offset_top = 139.0
+offset_right = 357.0
+offset_bottom = 250.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("13_4q8tf")
+theme_override_font_sizes/font_size = 55
+text = "LEVEL COMPLETE!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelCompleteScreen/Panel" unique_id=592846342]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -174.75
+offset_top = -72.0
+offset_right = 174.75
+offset_bottom = 264.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=136442758]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LivesLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=452853751]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=1262654083]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Retry" type="Button" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=9523664]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_356ba")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i4lct")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iyesh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_i1pr2")
+text = "Retry"
+
+[node name="MainMenu" type="Button" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=2067522106]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_356ba")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i4lct")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iyesh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_i1pr2")
+text = "Main Menu
+"
+
+[node name="Congratulation" type="Label" parent="LevelCompleteScreen/Panel" unique_id=300159827]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.0
+offset_top = 23.0
+offset_right = 392.0
+offset_bottom = 147.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
+text = "Well done!
+~ Congratulations ~"
+horizontal_alignment = 1
+vertical_alignment = 1

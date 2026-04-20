@@ -49,6 +49,7 @@ private void OnAnyButtonHovered()
 	private void _on_settings_pressed()
 	{
 		SoundManager.Instance.PlayButton();
+		GetTree().ChangeSceneToFile("res://Scenes/Settings.tscn");
 	}
 
 	// HIGHSCORES BUTTON
