@@ -43,6 +43,13 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (_isDead) return;
 
+		// Enemy patrolled/got knocked into a pit – despawn instead of falling forever
+		if (GlobalPosition.Y > 800f)
+		{
+			QueueFree();
+			return;
+		}
+
 		_damageCooldown -= (float)delta;
 
 		var playerNode = GetTree().GetFirstNodeInGroup("player") as Player;

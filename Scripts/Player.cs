@@ -42,6 +42,10 @@ public partial class Player : CharacterBody2D
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
 	private int _stompChain = 0;
+	// P-Speed (#102) – charges while running on the ground, gives up to +40% max speed
+	private float _sprintTimer = 0f;
+	private float _lastRunDir = 0f;
+	public float SprintCharge => Mathf.Clamp(_sprintTimer / 2.5f, 0f, 1f);
 
 	// Camera shake
 	private Camera2D _camera;
@@ -168,6 +172,8 @@ _duckShape.Disabled = true;
 		_isJumping = false;
 		_doubleJumpUsed = false;
 		_stompChain = 0;
+		_sprintTimer = 0f;
+		_lastRunDir = 0f;
 		Velocity = Vector2.Zero;
 	}
 
@@ -330,12 +336,26 @@ if (_isDucking)
 
 		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 
+		// P-Speed charge: running same direction on the ground builds it, stopping or
+		// switching direction dumps it. In-air keeps whatever you built up on the ground.
+		if (IsOnFloor())
+		{
+			if (direction != 0 && direction == _lastRunDir)
+				_sprintTimer = Mathf.Min(_sprintTimer + dt, 2.5f);
+			else if (direction == 0 || isTurning)
+				_sprintTimer = 0f;
+		}
+		if (direction != 0) _lastRunDir = direction;
+
+		// Up to +40% max speed once fully charged (2.5s of clean running)
+		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.4f);
+
 		if (direction != 0)
 		{
 			float accel = !IsOnFloor() ? AirAcceleration
 						: isTurning    ? TurnAcceleration
 						:                Acceleration;
-			velocity.X = Mathf.MoveToward(velocity.X, direction * MaxSpeed, accel * dt);
+			velocity.X = Mathf.MoveToward(velocity.X, direction * effectiveMaxSpeed, accel * dt);
 		}
 		else
 		{
