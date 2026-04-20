@@ -81,6 +81,27 @@ _duckShape.Disabled = true;
 		_shakeStrength = strength;
 		_shakeTimer = duration;
 	}
+
+	// Floating chain label above the player, drifts up and fades. Lives on scene root so
+	// player movement doesn't drag it along.
+	private void SpawnChainPopup(int chain)
+	{
+		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(0, -40) };
+		var label = new Label
+		{
+			Text = $"CHAIN x{chain}!",
+			Modulate = new Color(1f, 0.5f, 0.1f),
+			Position = new Vector2(-45, -20),
+			Scale = Vector2.One * 1.8f
+		};
+		wrap.AddChild(label);
+		GetTree().CurrentScene.AddChild(wrap);
+
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(wrap, "global_position", wrap.GlobalPosition + new Vector2(0, -70), 0.7f);
+		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.7f);
+		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
+	}
 	// Fall into a pit – always costs a life, no shrink animation.
 	// Classic Mario: falling ignores power-up state (#105)
 	public async void DieFall()
@@ -171,6 +192,9 @@ if (Position.Y > 600f && !IsDying)
 			// Stomp chain: each consecutive mid-air stomp gives more score, resets on ground
 			_stompChain++;
 			AddScore(_stompChain * 2);
+			// Show a floating "CHAIN x2!" style label so the player notices the bonus
+			if (_stompChain >= 2)
+				SpawnChainPopup(_stompChain);
 		}
 
 		// Asymmetric gravity – hold jump for higher arc
