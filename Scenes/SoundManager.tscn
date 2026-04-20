@@ -126,6 +126,9 @@ stream = SubResource("AudioStreamWAV_4m8jc")
 [node name="SwordAttackSound" type="AudioStreamPlayer" parent="." unique_id=1745927507]
 stream = ExtResource("5_i4wp4")
 
+[node name="NoSwordLeftSound" type="AudioStreamPlayer" parent="." unique_id=138263978]
+stream = ExtResource("5_i4wp4")
+
 [node name="Music" type="Node" parent="." unique_id=1309676728]
 
 [node name="BackGroundMusic" type="AudioStreamPlayer" parent="Music" unique_id=1367356309]

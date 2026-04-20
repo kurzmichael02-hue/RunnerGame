@@ -13,6 +13,7 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _menuHover;
 	private AudioStreamPlayer _button;
 	private AudioStreamPlayer _swordAttack;
+	private AudioStreamPlayer _noSwordLeft;
 	private AudioStreamPlayer _settingsMusic;
 	private AudioStreamPlayer _startScreenMusic;
 	private AudioStreamPlayer _music;
@@ -38,6 +39,7 @@ public partial class SoundManager : Node
 		_enemy = GetNode<AudioStreamPlayer>("EnemyDeathSound");
 		_checkpoint = GetNode<AudioStreamPlayer>("CheckPointSound");
 		_swordAttack= GetNode<AudioStreamPlayer>("SwordAttackSound");
+		_noSwordLeft= GetNode<AudioStreamPlayer>("NoSwordLeftSound");
 		_jump = GetNode<AudioStreamPlayer>("JumpSound");
 		_music = GetNode<AudioStreamPlayer>("Music/BackGroundMusic");
 		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
@@ -83,6 +85,11 @@ public partial class SoundManager : Node
 	public void PlaySwordAttack()
 	{
 		_swordAttack.Play();
+	}
+	
+	public void PlayNoSwordLeft()
+	{
+		_noSwordLeft.Play();
 	}
 	
 	//Menu Sounds
