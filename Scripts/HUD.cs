@@ -64,6 +64,7 @@ private string BuildPowerUpText()
 {
 	var parts = new System.Collections.Generic.List<string>();
 	if (_player.StarTimeLeft > 0f) parts.Add($"STAR {_player.StarTimeLeft:0.0}s");
+	if (_player.FireTimeLeft > 0f) parts.Add($"FIRE {_player.FireTimeLeft:0.0}s");
 	if (_player.ShieldTimeLeft > 0f) parts.Add($"SHIELD {_player.ShieldTimeLeft:0.0}s");
 	if (_player.MagnetTimeLeft > 0f) parts.Add($"MAGNET {_player.MagnetTimeLeft:0.0}s");
 	return string.Join("  |  ", parts);

@@ -60,6 +60,12 @@ public partial class Player : CharacterBody2D
 	public float AttackReadiness => 1f - Mathf.Clamp(_attackCooldown / AttackCooldownMax, 0f, 1f);
 	private int _facing = 1;
 
+	// Fire flower (#45): pickup for 10s, every swing also spits a fireball in facing dir
+	private bool _fireActive = false;
+	private float _fireTimer = 0f;
+	public float FireTimeLeft => _fireActive ? _fireTimer : 0f;
+	private PackedScene _projectileScene;
+
 	// Camera shake
 	private Camera2D _camera;
 	private float _shakeTimer = 0f;
@@ -93,6 +99,8 @@ public partial class Player : CharacterBody2D
 _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
 		_camera = GetNode<Camera2D>("Camera2D");
+		// Preload projectile scene so fireballs don't hitch the first time you swing
+		_projectileScene = GD.Load<PackedScene>("res://Scenes/projectile.tscn");
 	}
 
 	// Kicked by damage events – camera jitters for `duration` seconds at `strength` pixels
@@ -133,8 +141,23 @@ _duckShape.Disabled = true;
 			if (sameSide && Mathf.Abs(toProj.X) < 120f && Mathf.Abs(toProj.Y) < 85f)
 				proj.Deflect();
 		}
+
+		// Fire flower active: swing also spits a fireball in the facing direction (#45)
+		if (_fireActive)
+			SpawnFireball();
 		// Little horizontal nudge on swing so the player feels the follow-through
 		Shake(2f, 0.05f);
+	}
+
+	private void SpawnFireball()
+	{
+		if (_projectileScene == null) return;
+		if (_projectileScene.Instantiate() is not Projectile proj) return;
+		// Orange/yellow palette + layer-2 mask so it kills enemies, not the player
+		proj.SetAsPlayerShot();
+		proj.Velocity = new Vector2(_facing * 450f, 0f);
+		proj.GlobalPosition = GlobalPosition + new Vector2(_facing * 28f, 0f);
+		GetTree().CurrentScene.AddChild(proj);
 	}
 
 	private void SpawnSwordSwoosh()
@@ -475,6 +498,13 @@ if (_isDucking)
 			if (_shieldTimer <= 0) _shieldActive = false;
 		}
 
+		// Fire flower timer
+		if (_fireActive)
+		{
+			_fireTimer -= dt;
+			if (_fireTimer <= 0f) _fireActive = false;
+		}
+
 		// Camera shake – random jitter for `shakeTimer` seconds, snap back when done
 		if (_shakeTimer > 0f)
 		{
@@ -554,6 +584,14 @@ if (_isDucking)
 	{
 		_magnetActive = true;
 		_magnetTimer = 5f;
+	}
+
+	// Fire flower (#45) – 10s of fire attacks. Sword still swings, but every swing
+	// also spits a fireball in the facing direction
+	public void ActivateFire()
+	{
+		_fireActive = true;
+		_fireTimer = 10f;
 	}
 
 	// Star – full invincibility vs enemies for 6 seconds, rainbow tint (#84)

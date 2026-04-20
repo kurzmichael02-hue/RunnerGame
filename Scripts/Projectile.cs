@@ -42,6 +42,19 @@ public partial class Projectile : Area2D
 		if (core != null) core.Color = new Color(1f, 1f, 1f);
 	}
 
+	// Called when a fire-flower-boosted player shoots a fireball: hits enemies only,
+	// warm orange/yellow palette so it reads different from the red enemy shot
+	public void SetAsPlayerShot()
+	{
+		_deflected = true;
+		SetCollisionMaskValue(1, false);
+		SetCollisionMaskValue(2, true);
+		var poly = GetNodeOrNull<Polygon2D>("Polygon2D");
+		if (poly != null) poly.Color = new Color(1f, 0.5f, 0.1f);
+		var core = GetNodeOrNull<Polygon2D>("Core");
+		if (core != null) core.Color = new Color(1f, 1f, 0.4f);
+	}
+
 	private void OnBodyEntered(Node2D body)
 	{
 		if (body is Player player)
