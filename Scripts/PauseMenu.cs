@@ -14,6 +14,10 @@ public partial class PauseMenu : Control
 		// Always so the pause menu stays responsive while GetTree().Paused is true
 		ProcessMode = ProcessModeEnum.Always;
 
+		// When the pause menu pops up, drop focus on Resume so the player can
+		// navigate with arrow keys + enter without reaching for the mouse
+		VisibilityChanged += OnVisibilityChanged;
+
 		GetNode<Button>("MenuPanel/VBoxContainer/Resume").Pressed += OnResumePressed;
 		GetNode<Button>("MenuPanel/VBoxContainer/Exit").Pressed += OnExitPressed;
 		GetNode<Button>("MenuPanel/VBoxContainer/Main Menu").Pressed += OnMainMenuPressed;
@@ -51,9 +55,14 @@ public partial class PauseMenu : Control
 	}
 	
 	private void OnAnyButtonHovered()
-	{	
-		//GD.Print("hover"); 
+	{
 		SoundManager.Instance.PlayMenuHover();
+	}
+
+	private void OnVisibilityChanged()
+	{
+		if (Visible)
+			GetNode<Button>("MenuPanel/VBoxContainer/Resume").GrabFocus();
 	}
 
 	private void StartListening(string action, Button button)
