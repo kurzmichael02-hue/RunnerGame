@@ -122,6 +122,17 @@ _duckShape.Disabled = true;
 			if (sameSide && Mathf.Abs(toEnemy.X) < 120f && Mathf.Abs(toEnemy.Y) < 85f)
 				enemy.Kill();
 		}
+
+		// Same hitbox also deflects incoming enemy projectiles – timing reward,
+		// deflected shot flies back and kills whoever fired it (#53-ish)
+		foreach (Node node in GetTree().GetNodesInGroup("projectile"))
+		{
+			if (node is not Projectile proj) continue;
+			Vector2 toProj = proj.GlobalPosition - GlobalPosition;
+			bool sameSide = Mathf.Sign(toProj.X) == _facing || Mathf.Abs(toProj.X) < 15f;
+			if (sameSide && Mathf.Abs(toProj.X) < 120f && Mathf.Abs(toProj.Y) < 85f)
+				proj.Deflect();
+		}
 		// Little horizontal nudge on swing so the player feels the follow-through
 		Shake(2f, 0.05f);
 	}
@@ -447,9 +458,10 @@ if (_isDucking)
 		Velocity = velocity;
 		MoveAndSlide();
 
-		// Sword attack – j/x fires in the direction we're facing, short cooldown
+		// Sword attack – j/x fires in the direction we're facing, short cooldown.
+		// Ducking disables the swing, you have to stand up first.
 		if (_attackCooldown > 0f) _attackCooldown -= dt;
-		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f && !IsDying)
+		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f && !IsDying && !_isDucking)
 			Attack();
 
 		// Invincibility timer after hit – just decrements, don't early-return or the
