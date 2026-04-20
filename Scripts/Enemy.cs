@@ -22,6 +22,8 @@ public partial class Enemy : CharacterBody2D
 {
 	// Pausable so ESC freezes enemies with the rest of the world
 	ProcessMode = ProcessModeEnum.Pausable;
+	// "enemy" group lets the player's attack find us cheaply
+	AddToGroup("enemy");
 	_startPosition = Position;
 	// Random initial patrol direction so not every enemy starts the same way
 	_direction = GD.Randf() > 0.5f ? 1 : -1;
@@ -134,6 +136,13 @@ public partial class Enemy : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	// Public entry for outside damage sources (player sword attack, future projectiles, etc)
+	public void Kill()
+	{
+		if (_isDead) return;
+		Die();
 	}
 
 	private void Die()

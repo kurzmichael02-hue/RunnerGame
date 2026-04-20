@@ -45,10 +45,15 @@ public partial class Player : CharacterBody2D
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
 	private int _stompChain = 0;
-	// P-Speed (#102) – charges while running on the ground, gives up to +40% max speed
+	// P-Speed (#102) – charges while running on the ground, gives up to +25% max speed.
+	// Nerfed from 40%/2.5s after tim said it felt too fast.
 	private float _sprintTimer = 0f;
 	private float _lastRunDir = 0f;
-	public float SprintCharge => Mathf.Clamp(_sprintTimer / 2.5f, 0f, 1f);
+	public float SprintCharge => Mathf.Clamp(_sprintTimer / 3.5f, 0f, 1f);
+
+	// Sword attack (#45/53-ish) – j/x to swing, short cooldown so you can't spam
+	private float _attackCooldown = 0f;
+	private int _facing = 1;
 
 	// Camera shake
 	private Camera2D _camera;
@@ -90,6 +95,51 @@ _duckShape.Disabled = true;
 	{
 		_shakeStrength = strength;
 		_shakeTimer = duration;
+	}
+
+	// Sword swing – kills any enemy within a short arc in front of the player.
+	// Placeholder visual until we have a real swing sprite from schayan.
+	private void Attack()
+	{
+		_attackCooldown = 0.35f;
+		SpawnSwordSwoosh();
+		SoundManager.Instance.PlayJump();
+
+		// Hitbox: 90px reach in facing direction, 70px tall window centered on player
+		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
+		{
+			if (node is not Enemy enemy) continue;
+			Vector2 toEnemy = enemy.GlobalPosition - GlobalPosition;
+			bool sameSide = Mathf.Sign(toEnemy.X) == _facing || Mathf.Abs(toEnemy.X) < 15f;
+			if (sameSide && Mathf.Abs(toEnemy.X) < 90f && Mathf.Abs(toEnemy.Y) < 70f)
+				enemy.Kill();
+		}
+		// Little horizontal nudge on swing so the player feels the follow-through
+		Shake(2f, 0.05f);
+	}
+
+	private void SpawnSwordSwoosh()
+	{
+		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(_facing * 35f, 0f) };
+		var poly = new Polygon2D
+		{
+			Color = new Color(1f, 1f, 1f, 0.85f),
+			// Crescent-ish arc pointing in facing direction
+			Polygon = new Vector2[]
+			{
+				new Vector2(0, -30), new Vector2(15, -18), new Vector2(25, 0),
+				new Vector2(15, 18), new Vector2(0, 30), new Vector2(5, 12),
+				new Vector2(10, 0), new Vector2(5, -12)
+			}
+		};
+		if (_facing < 0) poly.Scale = new Vector2(-1, 1);
+		wrap.AddChild(poly);
+		GetTree().CurrentScene.AddChild(wrap);
+
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(poly, "modulate:a", 0f, 0.18f);
+		tween.Parallel().TweenProperty(wrap, "scale", new Vector2(1.3f, 1.3f), 0.18f);
+		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
 	// Floating chain label above the player, drifts up and fades. Lives on scene root so
@@ -346,14 +396,18 @@ if (_isDucking)
 		if (IsOnFloor())
 		{
 			if (direction != 0 && direction == _lastRunDir)
-				_sprintTimer = Mathf.Min(_sprintTimer + dt, 2.5f);
+				_sprintTimer = Mathf.Min(_sprintTimer + dt, 3.5f);
 			else if (direction == 0 || isTurning)
 				_sprintTimer = 0f;
 		}
-		if (direction != 0) _lastRunDir = direction;
+		if (direction != 0)
+		{
+			_lastRunDir = direction;
+			_facing = direction > 0 ? 1 : -1;
+		}
 
-		// Up to +40% max speed once fully charged (2.5s of clean running)
-		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.4f);
+		// Up to +25% max speed once fully charged (3.5s of clean running) – easier to control
+		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.25f);
 
 		if (direction != 0)
 		{
@@ -374,6 +428,11 @@ if (_isDucking)
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+		// Sword attack – j/x fires in the direction we're facing, short cooldown
+		if (_attackCooldown > 0f) _attackCooldown -= dt;
+		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f && !IsDying)
+			Attack();
 
 		// Invincibility timer after hit – just decrements, don't early-return or the
 		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
