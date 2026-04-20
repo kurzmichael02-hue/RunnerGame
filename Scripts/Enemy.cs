@@ -22,6 +22,8 @@ public partial class Enemy : CharacterBody2D
 {
 	// Pausable so ESC freezes enemies with the rest of the world
 	ProcessMode = ProcessModeEnum.Pausable;
+	// "enemy" group lets the player's attack find us cheaply
+	AddToGroup("enemy");
 	_startPosition = Position;
 	// Random initial patrol direction so not every enemy starts the same way
 	_direction = GD.Randf() > 0.5f ? 1 : -1;
@@ -43,6 +45,13 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (_isDead) return;
 
+		// Enemy patrolled/got knocked into a pit – despawn instead of falling forever
+		if (GlobalPosition.Y > 800f)
+		{
+			QueueFree();
+			return;
+		}
+
 		_damageCooldown -= (float)delta;
 
 		var playerNode = GetTree().GetFirstNodeInGroup("player") as Player;
@@ -52,7 +61,7 @@ public partial class Enemy : CharacterBody2D
 			if (dist < 60f && _damageCooldown <= 0f)
 			{
 				// Star-powered player plows through enemies on contact (#84)
-				if (playerNode.StarActive)
+				if (playerNode.StarInvincibilityActive)
 				{
 					Die();
 					return;
@@ -129,6 +138,13 @@ public partial class Enemy : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	// Public entry for outside damage sources (player sword attack, future projectiles, etc)
+	public void Kill()
+	{
+		if (_isDead) return;
+		Die();
+	}
+
 	private void Die()
 	{
 		_isDead = true;
@@ -136,7 +152,14 @@ public partial class Enemy : CharacterBody2D
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();
-		QueueFree();
+
+		// Squash + fade instead of instant disappear so stomps feel satisfying
+		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+		var tween = CreateTween();
+		if (sprite != null)
+			tween.TweenProperty(sprite, "scale:y", sprite.Scale.Y * 0.25f, 0.12f);
+		tween.Parallel().TweenProperty(this, "modulate:a", 0f, 0.3f);
+		tween.TweenCallback(Callable.From(() => QueueFree()));
 	}
 
 	private void SpawnProjectile(Player target)

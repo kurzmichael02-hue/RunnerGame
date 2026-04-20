@@ -22,6 +22,9 @@ public partial class Player : CharacterBody2D
 	// State
 	private int _lives = 3;
 	private int _score = 0;
+	// Tracks how many 100-point thresholds have already paid out an extra life,
+	// so a +5 bonus that jumps over 100 still grants the life instead of missing the modulo
+	private int _livesFromScoreGranted = 0;
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -29,9 +32,12 @@ public partial class Player : CharacterBody2D
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private bool _starActive = false;
+	private bool _starInvincibilityActive = false;
 	private float _starTimer = 0f;
+	private float _starInvincibilityTimer = 0f;
 	private float _starHue = 0f;
 	public bool StarActive => _starActive;
+	public bool StarInvincibilityActive => _starInvincibilityActive;
 	private float _invincibilityTimer = 0f;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
@@ -39,6 +45,15 @@ public partial class Player : CharacterBody2D
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
 	private int _stompChain = 0;
+	// P-Speed (#102) – charges while running on the ground, gives up to +25% max speed.
+	// Nerfed from 40%/2.5s after tim said it felt too fast.
+	private float _sprintTimer = 0f;
+	private float _lastRunDir = 0f;
+	public float SprintCharge => Mathf.Clamp(_sprintTimer / 3.5f, 0f, 1f);
+
+	// Sword attack (#45/53-ish) – j/x to swing, short cooldown so you can't spam
+	private float _attackCooldown = 0f;
+	private int _facing = 1;
 
 	// Camera shake
 	private Camera2D _camera;
@@ -81,6 +96,72 @@ _duckShape.Disabled = true;
 		_shakeStrength = strength;
 		_shakeTimer = duration;
 	}
+
+	// Sword swing – kills any enemy within a short arc in front of the player.
+	// Placeholder visual until we have a real swing sprite from schayan.
+	private void Attack()
+	{
+		_attackCooldown = 0.35f;
+		SpawnSwordSwoosh();
+		SoundManager.Instance.PlayJump();
+
+		// Hitbox: 90px reach in facing direction, 70px tall window centered on player
+		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
+		{
+			if (node is not Enemy enemy) continue;
+			Vector2 toEnemy = enemy.GlobalPosition - GlobalPosition;
+			bool sameSide = Mathf.Sign(toEnemy.X) == _facing || Mathf.Abs(toEnemy.X) < 15f;
+			if (sameSide && Mathf.Abs(toEnemy.X) < 90f && Mathf.Abs(toEnemy.Y) < 70f)
+				enemy.Kill();
+		}
+		// Little horizontal nudge on swing so the player feels the follow-through
+		Shake(2f, 0.05f);
+	}
+
+	private void SpawnSwordSwoosh()
+	{
+		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(_facing * 35f, 0f) };
+		var poly = new Polygon2D
+		{
+			Color = new Color(1f, 1f, 1f, 0.85f),
+			// Crescent-ish arc pointing in facing direction
+			Polygon = new Vector2[]
+			{
+				new Vector2(0, -30), new Vector2(15, -18), new Vector2(25, 0),
+				new Vector2(15, 18), new Vector2(0, 30), new Vector2(5, 12),
+				new Vector2(10, 0), new Vector2(5, -12)
+			}
+		};
+		if (_facing < 0) poly.Scale = new Vector2(-1, 1);
+		wrap.AddChild(poly);
+		GetTree().CurrentScene.AddChild(wrap);
+
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(poly, "modulate:a", 0f, 0.18f);
+		tween.Parallel().TweenProperty(wrap, "scale", new Vector2(1.3f, 1.3f), 0.18f);
+		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
+	}
+
+	// Floating chain label above the player, drifts up and fades. Lives on scene root so
+	// player movement doesn't drag it along.
+	private void SpawnChainPopup(int chain)
+	{
+		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(0, -40) };
+		var label = new Label
+		{
+			Text = $"CHAIN x{chain}!",
+			Modulate = new Color(1f, 0.5f, 0.1f),
+			Position = new Vector2(-45, -20),
+			Scale = Vector2.One * 1.8f
+		};
+		wrap.AddChild(label);
+		GetTree().CurrentScene.AddChild(wrap);
+
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(wrap, "global_position", wrap.GlobalPosition + new Vector2(0, -70), 0.7f);
+		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.7f);
+		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
+	}
 	// Fall into a pit – always costs a life, no shrink animation.
 	// Classic Mario: falling ignores power-up state (#105)
 	public async void DieFall()
@@ -92,6 +173,17 @@ _duckShape.Disabled = true;
 	IsSmall = false;
 	Scale = Vector2.One;
 	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+
+	// Falling into a pit burns the star – tim's request, feels fair because the pit already
+	// bypasses star invincibility so keeping it after respawn would be a free ride.
+	// Also clear tim's grace-period flag so you can't respawn with lingering i-frames.
+	if (_starActive || _starInvincibilityActive)
+	{
+		_starActive = false;
+		_starInvincibilityActive = false;
+		Modulate = Colors.White;
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+	}
 
 	Shake(10f, 0.35f);
 
@@ -118,12 +210,27 @@ _duckShape.Disabled = true;
 	SetPhysicsProcess(true);
 	_invincibilityTimer = 1.5f;
 	IsDying = false;
+	ResetAirState();
 
 	var tween = CreateTween();
 	tween.SetLoops(6);
 	tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
 	tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
 }
+
+	// Stale coyote/double-jump/chain state from before death would let the player
+	// get a phantom mid-air jump or bonus chain right after respawn. Clear everything.
+	private void ResetAirState()
+	{
+		_coyoteTimer = 0f;
+		_jumpBufferTimer = 0f;
+		_isJumping = false;
+		_doubleJumpUsed = false;
+		_stompChain = 0;
+		_sprintTimer = 0f;
+		_lastRunDir = 0f;
+		Velocity = Vector2.Zero;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -162,6 +269,9 @@ if (Position.Y > 600f && !IsDying)
 			// Stomp chain: each consecutive mid-air stomp gives more score, resets on ground
 			_stompChain++;
 			AddScore(_stompChain * 2);
+			// Show a floating "CHAIN x2!" style label so the player notices the bonus
+			if (_stompChain >= 2)
+				SpawnChainPopup(_stompChain);
 		}
 
 		// Asymmetric gravity – hold jump for higher arc
@@ -238,14 +348,40 @@ if (_isDucking)
 			JumpHoldTimer = JumpHoldTime;
 			SoundManager.Instance.PlayJump();
 		}
-		// Double jump – one extra mid-air jump, slightly weaker so it's not game-breaking
-		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_doubleJumpUsed && !_isDucking)
+		// Mid-air jump: wall jump takes priority over double jump if the player is on a wall (#98)
+		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_isDucking)
 		{
-			velocity.Y = JumpVelocity * 0.85f;
-			_doubleJumpUsed = true;
-			_jumpBufferTimer = 0f;
-			JumpHoldTimer = JumpHoldTime * 0.6f;
-			SoundManager.Instance.PlayJump();
+			if (IsOnWall())
+			{
+				// Wall jump: bounce off the wall, refresh the double-jump as reward
+				Vector2 wallNormal = GetWallNormal();
+				velocity.X = wallNormal.X * MaxSpeed * 0.85f;
+				velocity.Y = JumpVelocity * 0.9f;
+				_doubleJumpUsed = false;
+				_jumpBufferTimer = 0f;
+				JumpHoldTimer = JumpHoldTime * 0.8f;
+				SoundManager.Instance.PlayJump();
+			}
+			else if (!_doubleJumpUsed)
+			{
+				// Double jump – one extra mid-air jump, weaker so it's not game-breaking
+				velocity.Y = JumpVelocity * 0.85f;
+				_doubleJumpUsed = true;
+				_jumpBufferTimer = 0f;
+				JumpHoldTimer = JumpHoldTime * 0.6f;
+				SoundManager.Instance.PlayJump();
+			}
+		}
+
+		// Wall slide – when in air against a wall and pressing into it, cap the fall speed
+		// so the player has time to wall-jump away (#98)
+		if (!IsOnFloor() && IsOnWall() && velocity.Y > 0f)
+		{
+			Vector2 wallNormal = GetWallNormal();
+			bool pressingIntoWall = (wallNormal.X < 0 && Input.IsActionPressed("move_right"))
+				|| (wallNormal.X > 0 && Input.IsActionPressed("move_left"));
+			if (pressingIntoWall)
+				velocity.Y = Mathf.Min(velocity.Y, 120f);
 		}
 
 		// Horizontal movement
@@ -255,12 +391,30 @@ if (_isDucking)
 
 		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 
+		// P-Speed charge: running same direction on the ground builds it, stopping or
+		// switching direction dumps it. In-air keeps whatever you built up on the ground.
+		if (IsOnFloor())
+		{
+			if (direction != 0 && direction == _lastRunDir)
+				_sprintTimer = Mathf.Min(_sprintTimer + dt, 3.5f);
+			else if (direction == 0 || isTurning)
+				_sprintTimer = 0f;
+		}
+		if (direction != 0)
+		{
+			_lastRunDir = direction;
+			_facing = direction > 0 ? 1 : -1;
+		}
+
+		// Up to +25% max speed once fully charged (3.5s of clean running) – easier to control
+		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.25f);
+
 		if (direction != 0)
 		{
 			float accel = !IsOnFloor() ? AirAcceleration
 						: isTurning    ? TurnAcceleration
 						:                Acceleration;
-			velocity.X = Mathf.MoveToward(velocity.X, direction * MaxSpeed, accel * dt);
+			velocity.X = Mathf.MoveToward(velocity.X, direction * effectiveMaxSpeed, accel * dt);
 		}
 		else
 		{
@@ -275,8 +429,14 @@ if (_isDucking)
 		Velocity = velocity;
 		MoveAndSlide();
 
-		// Invincibility timer after hit
-		if (_invincibilityTimer > 0) { _invincibilityTimer -= dt; return; }
+		// Sword attack – j/x fires in the direction we're facing, short cooldown
+		if (_attackCooldown > 0f) _attackCooldown -= dt;
+		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f && !IsDying)
+			Attack();
+
+		// Invincibility timer after hit – just decrements, don't early-return or the
+		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
+		if (_invincibilityTimer > 0) _invincibilityTimer -= dt;
 
 		// Shield timer
 		if (_shieldActive)
@@ -302,18 +462,35 @@ if (_isDucking)
 		}
 
 		// Star – cycle hue for the rainbow flash, reset to white when it runs out
-		if (_starActive)
+		if (_starActive || _starInvincibilityActive)
 		{
 			_starTimer -= dt;
-			if (_starTimer <= 0f)
+			_starInvincibilityTimer -= dt;
+
+			if (_starTimer <= 0f && _starActive)
 			{
 				_starActive = false;
-				Modulate = Colors.White;
+				SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 			}
-			else
+
+			if (_starInvincibilityTimer <= 0f && _starInvincibilityActive)
+			{
+				_starInvincibilityActive = false;
+			}
+
+			if (_starActive)
 			{
 				_starHue = (_starHue + dt * 3f) % 1f;
 				Modulate = Color.FromHsv(_starHue, 1f, 1f);
+			}
+			else if (_starInvincibilityActive)
+			{
+				float alpha = Mathf.Abs(Mathf.Sin(Time.GetTicksMsec() * 0.02f));
+				Modulate = new Color(1f, 1f, 1f, alpha);
+			}
+			else
+			{
+				Modulate = Colors.White;
 			}
 		}
 	}
@@ -321,9 +498,14 @@ if (_isDucking)
 	public void AddScore(int amount)
 	{
 		_score += amount;
-		// Every 100 coins grants an extra life (#41)
-		if (_score % 100 == 0)
-			_lives++;
+		// Every 100 coins grants an extra life (#41). Compare against grant-count instead of
+		// modulo so a big bonus (e.g. stomp chain giving +6) still triggers when crossing 100.
+		int earned = _score / 100;
+		while (_livesFromScoreGranted < earned)
+		{
+			_livesFromScoreGranted++;
+			_lives = Mathf.Min(_lives + 1, 9);
+		}
 	}
 
 	// Direct life pickup – cap at 9 so the hud label doesn't overflow
@@ -346,10 +528,16 @@ if (_isDucking)
 
 	// Star – full invincibility vs enemies for 6 seconds, rainbow tint (#84)
 	public void ActivateStar()
-	{
+	{	
 		_starActive = true;
+		_starInvincibilityActive = true;
+
 		_starTimer = 6f;
+		_starInvincibilityTimer = 6.5f;
+
 		_starHue = 0f;
+
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StarMusic);
 	}
 
 	public void SaveHighscorePublic() => SaveHighscore(_score);
@@ -384,7 +572,7 @@ private void SaveHighscore(int score)
 		if (IsDying) return;
 
 		// Star power – full invincibility, any enemy hit is ignored (#84)
-		if (_starActive) return;
+		if (_starInvincibilityActive) return;
 
 		// Shield eats one enemy hit, then breaks (#83)
 		if (_shieldActive)
@@ -451,6 +639,7 @@ private void SaveHighscore(int score)
 		SetPhysicsProcess(true);
 		_invincibilityTimer = 1.5f;
 		IsDying = false;
+		ResetAirState();
 
 		var tween = CreateTween();
 		tween.SetLoops(6);

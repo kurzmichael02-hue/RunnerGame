@@ -13,7 +13,11 @@ public partial class Checkpoint : Area2D
 		var player = GetTree().GetFirstNodeInGroup("player") as Player;
 		if (player == null || player.IsDying) return;
 
-		if (GlobalPosition.DistanceTo(player.GlobalPosition) < 45f)
+		// Generous trigger zone so it still registers when the player is jumping over it,
+		// running fast with star, or ducking (vertical offset can be 50+ pixels)
+		float horizDist = Mathf.Abs(GlobalPosition.X - player.GlobalPosition.X);
+		float vertDist = Mathf.Abs(GlobalPosition.Y - player.GlobalPosition.Y);
+		if (horizDist < 35f && vertDist < 110f)
 		{
 			_activated = true;
 			// Respawn position is this checkpoint's world position until the next one is hit
