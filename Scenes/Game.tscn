@@ -375,11 +375,19 @@ offset_right = 60.0
 offset_bottom = 43.0
 
 [node name="LivesLabel" type="Label" parent="HUD" unique_id=2079994368]
+visible = false
 modulate = Color(1, 0, 0, 1)
 offset_left = 20.0
 offset_top = 50.0
 offset_right = 60.0
 offset_bottom = 73.0
+
+[node name="Hearts" type="HBoxContainer" parent="HUD" unique_id=713928041]
+offset_left = 20.0
+offset_top = 45.0
+offset_right = 400.0
+offset_bottom = 85.0
+theme_override_constants/separation = 4
 
 [node name="PowerUpLabel" type="Label" parent="HUD" unique_id=557110042]
 modulate = Color(1, 0.85, 0.2, 1)

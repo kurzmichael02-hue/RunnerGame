@@ -11,6 +11,10 @@ public partial class HUD : CanvasLayer
 	private Label _attackLabel;
 	private TextureRect _progressRect;
 	private Texture2D[] _progressTextures;
+	// Lives display – hbox with texturerect hearts, filled/empty based on current lives
+	private HBoxContainer _heartsBox;
+	private Texture2D _heartFull;
+	private Texture2D _heartEmpty;
 	// Cached so we don't poke the scene tree every frame
 	private Node2D _levelGoal;
 	private float _playerStartX = 200f;
@@ -43,6 +47,14 @@ public partial class HUD : CanvasLayer
 		}
 		if (_player != null) _playerStartX = _player.Position.X;
 		_levelGoal = GetTree().Root.FindChild("LevelGoal", true, false) as Node2D;
+
+		// Hearts HUD (schayans assets): row of texture rects, filled = life left
+		_heartsBox = GetNodeOrNull<HBoxContainer>("Hearts");
+		if (_heartsBox != null)
+		{
+			_heartFull = GD.Load<Texture2D>("res://leveldesign/herzen.png");
+			_heartEmpty = GD.Load<Texture2D>("res://leveldesign/herzenleer.png");
+		}
 		// Always so the pause menu (child of HUD) still receives input while the tree is paused
 		ProcessMode = ProcessModeEnum.Always;
 	}
@@ -52,6 +64,7 @@ public partial class HUD : CanvasLayer
 		_scoreLabel.Text = "Score: " + _player.Score;
 		_livesLabel.Text = "Lives: " + _player.Lives;
 		_powerUpLabel.Text = BuildPowerUpText();
+		UpdateHearts();
 
 		// Attack cooldown ring: Fill shrinks from the top while the cooldown is active,
 		// label shows remaining sword uses, goes red when empty
@@ -97,6 +110,36 @@ _positionLabel.Text = meters + "m";
 		if (Input.IsActionJustPressed("ui_cancel"))
 			TogglePause();
 	}
+
+// Spawns one heart texturerect per max-so-far life slot, swaps between the full
+// and empty heart texture. the row grows when you pick up extra lives so the
+// empty-heart count never shrinks mid-game.
+private int _maxHeartsShown = 3;
+private void UpdateHearts()
+{
+	if (_heartsBox == null || _heartFull == null) return;
+	int lives = _player.Lives;
+	if (lives > _maxHeartsShown) _maxHeartsShown = lives;
+
+	// Add missing heart slots lazily instead of building them all up-front
+	while (_heartsBox.GetChildCount() < _maxHeartsShown)
+	{
+		var tr = new TextureRect
+		{
+			Texture = _heartFull,
+			CustomMinimumSize = new Vector2(36, 36),
+			StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+			ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize
+		};
+		_heartsBox.AddChild(tr);
+	}
+
+	for (int i = 0; i < _heartsBox.GetChildCount(); i++)
+	{
+		if (_heartsBox.GetChild(i) is TextureRect tr)
+			tr.Texture = i < lives ? _heartFull : _heartEmpty;
+	}
+}
 
 // Builds a compact string of all active power-ups with remaining seconds.
 // Empty string when nothing is active so the label just disappears visually.
