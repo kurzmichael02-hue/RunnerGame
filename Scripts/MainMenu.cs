@@ -4,6 +4,8 @@ using System;
 public partial class MainMenu : Control
 {
 	
+	private ConfirmationDialog _exitDialog;
+	
 public override void _Ready()
 {
 	SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
@@ -17,6 +19,13 @@ public override void _Ready()
 			button.MouseEntered += OnAnyButtonHovered;
 		}
 	}
+	
+	_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
+	_exitDialog.Confirmed += OnExitConfirmed;
+
+	// Start button gets focus so arrow keys + enter work without touching the mouse.
+	// Deferred because children aren't fully ready yet inside _Ready.
+	GetNode<Button>("VBoxContainer/Start").CallDeferred(Button.MethodName.GrabFocus);
 }
 
 private void OnAnyButtonHovered()
@@ -31,7 +40,7 @@ private void OnAnyButtonHovered()
 	// START BUTTON
 	private void _on_start_pressed()
 	{
-		GD.Print("Start gedrückt");
+		
 		SoundManager.Instance.PlayButton();
 		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
 	}
@@ -39,22 +48,28 @@ private void OnAnyButtonHovered()
 	// SETTINGS BUTTON
 	private void _on_settings_pressed()
 	{
-		GD.Print("Settings gedrückt");
 		SoundManager.Instance.PlayButton();
 	}
 
 	// HIGHSCORES BUTTON
 	private void _on_highscores_pressed()
 	{
-		GD.Print("Highscores gedrückt");
+		
 		SoundManager.Instance.PlayButton();
+		GetTree().ChangeSceneToFile("res://Scenes/HighScores.tscn");
 	}
 
 	// EXIT BUTTON
 	private void _on_exit_pressed()
 	{
-		GD.Print("Spiel wird beendet");
 		SoundManager.Instance.PlayButton();
+		_exitDialog.PopupCentered();
+	}
+	
+		//CONFIRM EXIT
+	private void OnExitConfirmed()
+	{
 		GetTree().Quit();
 	}
+
 }

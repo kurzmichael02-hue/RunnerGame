@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public partial class SoundManager : Node
 {
 	public static SoundManager Instance;
-
+	
+	//Declaration of the Audio Stream Players
 	private AudioStreamPlayer _coin;
 	private AudioStreamPlayer _enemy;
 	private AudioStreamPlayer _checkpoint;
@@ -14,17 +15,24 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _settingsMusic;
 	private AudioStreamPlayer _startScreenMusic;
 	private AudioStreamPlayer _music;
+	private AudioStreamPlayer _gameOverMusic;
+	private AudioStreamPlayer _starMusic;
 	
+	//Declaration of a List of Audio Stream Players, which will later be used to switch the music
 	private List<AudioStreamPlayer> _musicPlayers;
 	
+	//Getters for the Music Audio Stream Players
 	public AudioStreamPlayer GameMusic => _music;
 	public AudioStreamPlayer SettingsMusic => _settingsMusic;
 	public AudioStreamPlayer StartScreenMusic => _startScreenMusic;
+	public AudioStreamPlayer GameOverMusic => _gameOverMusic;
+	public AudioStreamPlayer StarMusic => _starMusic;
 
 	public override void _Ready()
 	{
 		Instance = this;
-
+		
+		//initialising the Audiostream Players
 		_coin = GetNode<AudioStreamPlayer>("CoinSound");
 		_enemy = GetNode<AudioStreamPlayer>("EnemyDeathSound");
 		_checkpoint = GetNode<AudioStreamPlayer>("CheckPointSound");
@@ -32,12 +40,14 @@ public partial class SoundManager : Node
 		_music = GetNode<AudioStreamPlayer>("Music/BackGroundMusic");
 		_settingsMusic = GetNode<AudioStreamPlayer>("Music/SettingsMusic");
 		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
+		_gameOverMusic = GetNode<AudioStreamPlayer>("Music/GameOverMusic");
 		_menuHover = GetNode<AudioStreamPlayer>("MenuFX/HoverSound");
 		_button = GetNode<AudioStreamPlayer>("MenuFX/ButtonSound");
+		_starMusic = GetNode<AudioStreamPlayer>("Music/StarMusic");
 		var musicParent = GetNode<Node>("Music");
-
+		
 		_musicPlayers = new List<AudioStreamPlayer>();
-
+		//Iterating over every object in the "Music" Node and adding them to our list of MusicPlayers
 		foreach (Node child in musicParent.GetChildren())
 		{
 			if (child is AudioStreamPlayer player)
@@ -79,7 +89,7 @@ public partial class SoundManager : Node
 		_button.Play();
 	}
 	
-	//Music
+	//Music  start and stop functions, currently not really needed as we have switch music now
 	public void PlayMusic()
 	{
 		if (!_music.Playing)
@@ -102,6 +112,7 @@ public partial class SoundManager : Node
 		_settingsMusic.Stop();
 	}
 	
+	//Switch Music Function Stops every music and switches to the Audio Stream Player, which is chosen as the parameter
 	public void SwitchMusic(AudioStreamPlayer target)
 	{
 		foreach (var music in _musicPlayers)
