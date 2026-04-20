@@ -395,6 +395,16 @@ offset_top = 80.0
 offset_right = 400.0
 offset_bottom = 103.0
 
+[node name="ProgressBar" type="TextureRect" parent="HUD" unique_id=881429337]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 15.0
+offset_right = 160.0
+offset_bottom = 85.0
+expand_mode = 1
+stretch_mode = 5
+
 [node name="AttackIndicator" type="Control" parent="HUD" unique_id=441088310]
 layout_mode = 3
 anchors_preset = 1
