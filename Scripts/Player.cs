@@ -25,6 +25,8 @@ public partial class Player : CharacterBody2D
 	// Tracks how many 100-point thresholds have already paid out an extra life,
 	// so a +5 bonus that jumps over 100 still grants the life instead of missing the modulo
 	private int _livesFromScoreGranted = 0;
+	// Last run's final score, survives the scene switch so gameover can display it
+	public static int LastRunScore = 0;
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -265,6 +267,7 @@ _duckShape.Disabled = true;
 
 	if (_lives <= 0)
 	{
+		LastRunScore = _score;
 		SaveHighscore(_score);
 		Visible = false;
 		SetPhysicsProcess(false);
@@ -719,6 +722,7 @@ private void SaveHighscore(int score)
 
 		if (_lives <= 0)
 		{
+			LastRunScore = _score;
 			SaveHighscore(_score);
 			Visible = false;
 			SetPhysicsProcess(false);
