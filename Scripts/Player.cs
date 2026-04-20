@@ -93,6 +93,15 @@ _duckShape.Disabled = true;
 	Scale = Vector2.One;
 	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
 
+	// Falling into a pit burns the star – tim's request, feels fair because the pit already
+	// bypasses star invincibility so keeping it after respawn would be a free ride
+	if (_starActive)
+	{
+		_starActive = false;
+		Modulate = Colors.White;
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+	}
+
 	Shake(10f, 0.35f);
 
 	_lives--;
