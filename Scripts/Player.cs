@@ -151,12 +151,25 @@ _duckShape.Disabled = true;
 	SetPhysicsProcess(true);
 	_invincibilityTimer = 1.5f;
 	IsDying = false;
+	ResetAirState();
 
 	var tween = CreateTween();
 	tween.SetLoops(6);
 	tween.TweenProperty(this, "modulate", new Color(1, 0, 0, 0.3f), 0.1f);
 	tween.TweenProperty(this, "modulate", new Color(1, 1, 1, 1f), 0.1f);
 }
+
+	// Stale coyote/double-jump/chain state from before death would let the player
+	// get a phantom mid-air jump or bonus chain right after respawn. Clear everything.
+	private void ResetAirState()
+	{
+		_coyoteTimer = 0f;
+		_jumpBufferTimer = 0f;
+		_isJumping = false;
+		_doubleJumpUsed = false;
+		_stompChain = 0;
+		Velocity = Vector2.Zero;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -495,6 +508,7 @@ private void SaveHighscore(int score)
 		SetPhysicsProcess(true);
 		_invincibilityTimer = 1.5f;
 		IsDying = false;
+		ResetAirState();
 
 		var tween = CreateTween();
 		tween.SetLoops(6);
