@@ -52,7 +52,7 @@ public partial class Enemy : CharacterBody2D
 			if (dist < 60f && _damageCooldown <= 0f)
 			{
 				// Star-powered player plows through enemies on contact (#84)
-				if (playerNode.StarActive)
+				if (playerNode.StarInvincibilityActive)
 				{
 					Die();
 					return;
