@@ -32,9 +32,12 @@ public partial class Player : CharacterBody2D
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private bool _starActive = false;
+	private bool _starInvincibilityActive = false;
 	private float _starTimer = 0f;
+	private float _starInvincibilityTimer = 0f;
 	private float _starHue = 0f;
 	public bool StarActive => _starActive;
+	public bool StarInvincibilityActive => _starInvincibilityActive;
 	private float _invincibilityTimer = 0f;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
@@ -398,19 +401,35 @@ if (_isDucking)
 		}
 
 		// Star – cycle hue for the rainbow flash, reset to white when it runs out
-		if (_starActive)
+		if (_starActive || _starInvincibilityActive)
 		{
 			_starTimer -= dt;
-			if (_starTimer <= 0f)
+			_starInvincibilityTimer -= dt;
+
+			if (_starTimer <= 0f && _starActive)
 			{
 				_starActive = false;
 				SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
-				Modulate = Colors.White;
 			}
-			else
+
+			if (_starInvincibilityTimer <= 0f && _starInvincibilityActive)
+			{
+				_starInvincibilityActive = false;
+			}
+
+			if (_starActive)
 			{
 				_starHue = (_starHue + dt * 3f) % 1f;
 				Modulate = Color.FromHsv(_starHue, 1f, 1f);
+			}
+			else if (_starInvincibilityActive)
+			{
+				float alpha = Mathf.Abs(Mathf.Sin(Time.GetTicksMsec() * 0.02f));
+				Modulate = new Color(1f, 1f, 1f, alpha);
+			}
+			else
+			{
+				Modulate = Colors.White;
 			}
 		}
 	}
@@ -450,9 +469,14 @@ if (_isDucking)
 	public void ActivateStar()
 	{	
 		_starActive = true;
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StarMusic);
+		_starInvincibilityActive = true;
+
 		_starTimer = 6f;
+		_starInvincibilityTimer = 6.5f;
+
 		_starHue = 0f;
+
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StarMusic);
 	}
 
 	public void SaveHighscorePublic() => SaveHighscore(_score);
@@ -487,7 +511,7 @@ private void SaveHighscore(int score)
 		if (IsDying) return;
 
 		// Star power – full invincibility, any enemy hit is ignored (#84)
-		if (_starActive) return;
+		if (_starInvincibilityActive) return;
 
 		// Shield eats one enemy hit, then breaks (#83)
 		if (_shieldActive)
