@@ -493,9 +493,14 @@ if (_isDucking)
 		// Ducking disables the swing, you have to stand up first. 3 uses per life,
 		// refill via sword pickups.
 		if (_attackCooldown > 0f) _attackCooldown -= dt;
-		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f
-			&& !IsDying && !_isDucking && _swordUses > 0)
-			Attack();
+		if (Input.IsActionJustPressed("attack") && !IsDying && !_isDucking)
+		{
+			if (_attackCooldown <= 0f && _swordUses > 0)
+				Attack();
+			else
+				// Tim's no-sword-left sfx covers both: out of swings, or still on cooldown
+				SoundManager.Instance.PlayNoSwordLeft();
+		}
 
 		// Invincibility timer after hit – just decrements, don't early-return or the
 		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
