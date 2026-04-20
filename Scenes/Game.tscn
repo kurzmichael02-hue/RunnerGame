@@ -614,6 +614,28 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
 
+[node name="HBoxContainer5" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1917550981]
+layout_mode = 2
+
+[node name="Attack" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer5" unique_id=653322351]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer5" unique_id=1156049708]
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
+
 [node name="HSeparator" type="HSeparator" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=911804471]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2

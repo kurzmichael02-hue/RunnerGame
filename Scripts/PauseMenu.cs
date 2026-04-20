@@ -7,6 +7,7 @@ public partial class PauseMenu : Control
 	private Button _moveRightBind;
 	private Button _moveLeftBind;
 	private Button _duckBind;
+	private Button _attackBind;
 	private string _listeningAction = null;
 
 	public override void _Ready()
@@ -31,11 +32,14 @@ public partial class PauseMenu : Control
 		_moveRightBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer2/MoveRightBind");
 		_moveLeftBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer3/MoveLeftBind");
 		_duckBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer4/DuckBind");
+		_attackBind = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/HBoxContainer5/AttackBind");
 
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
 		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
 		_duckBind.Pressed += () => StartListening("duck", _duckBind);
+		if (_attackBind != null)
+			_attackBind.Pressed += () => StartListening("attack", _attackBind);
 		
 		var root = GetNode("MenuPanel");
 
@@ -90,7 +94,7 @@ public partial class PauseMenu : Control
 		}
 
 		// If the new key is already bound to another action, swap them instead of double-binding (#54)
-		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			if (action == _listeningAction) continue;
 			foreach (InputEvent existing in InputMap.ActionGetEvents(action))
@@ -128,6 +132,7 @@ public partial class PauseMenu : Control
 		_moveRightBind.Text = GetFirstKey("move_right");
 		_moveLeftBind.Text = GetFirstKey("move_left");
 		_duckBind.Text = GetFirstKey("duck");
+		if (_attackBind != null) _attackBind.Text = GetFirstKey("attack");
 	}
 
 	private string GetFirstKey(string action)
@@ -149,7 +154,7 @@ public partial class PauseMenu : Control
 	{
 		var config = new ConfigFile();
 
-		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			var events = InputMap.ActionGetEvents(action);
 			if (events.Count > 0 && events[0] is InputEventKey key)
@@ -165,7 +170,7 @@ public partial class PauseMenu : Control
 		var config = new ConfigFile();
 		if (config.Load("user://settings.cfg") != Error.Ok) return;
 
-		foreach (string action in new[] { "jump", "move_right", "move_left", "duck" })
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			if (!config.HasSectionKey("bindings", action)) continue;
 			int keycode = (int)config.GetValue("bindings", action);
