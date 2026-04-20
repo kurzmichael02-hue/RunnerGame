@@ -287,14 +287,40 @@ if (_isDucking)
 			JumpHoldTimer = JumpHoldTime;
 			SoundManager.Instance.PlayJump();
 		}
-		// Double jump – one extra mid-air jump, slightly weaker so it's not game-breaking
-		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_doubleJumpUsed && !_isDucking)
+		// Mid-air jump: wall jump takes priority over double jump if the player is on a wall (#98)
+		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_isDucking)
 		{
-			velocity.Y = JumpVelocity * 0.85f;
-			_doubleJumpUsed = true;
-			_jumpBufferTimer = 0f;
-			JumpHoldTimer = JumpHoldTime * 0.6f;
-			SoundManager.Instance.PlayJump();
+			if (IsOnWall())
+			{
+				// Wall jump: bounce off the wall, refresh the double-jump as reward
+				Vector2 wallNormal = GetWallNormal();
+				velocity.X = wallNormal.X * MaxSpeed * 0.85f;
+				velocity.Y = JumpVelocity * 0.9f;
+				_doubleJumpUsed = false;
+				_jumpBufferTimer = 0f;
+				JumpHoldTimer = JumpHoldTime * 0.8f;
+				SoundManager.Instance.PlayJump();
+			}
+			else if (!_doubleJumpUsed)
+			{
+				// Double jump – one extra mid-air jump, weaker so it's not game-breaking
+				velocity.Y = JumpVelocity * 0.85f;
+				_doubleJumpUsed = true;
+				_jumpBufferTimer = 0f;
+				JumpHoldTimer = JumpHoldTime * 0.6f;
+				SoundManager.Instance.PlayJump();
+			}
+		}
+
+		// Wall slide – when in air against a wall and pressing into it, cap the fall speed
+		// so the player has time to wall-jump away (#98)
+		if (!IsOnFloor() && IsOnWall() && velocity.Y > 0f)
+		{
+			Vector2 wallNormal = GetWallNormal();
+			bool pressingIntoWall = (wallNormal.X < 0 && Input.IsActionPressed("move_right"))
+				|| (wallNormal.X > 0 && Input.IsActionPressed("move_left"));
+			if (pressingIntoWall)
+				velocity.Y = Mathf.Min(velocity.Y, 120f);
 		}
 
 		// Horizontal movement
