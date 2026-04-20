@@ -384,6 +384,34 @@ offset_top = 80.0
 offset_right = 400.0
 offset_bottom = 103.0
 
+[node name="AttackIndicator" type="Control" parent="HUD" unique_id=441088310]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -90.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 90.0
+grow_horizontal = 0
+
+[node name="Background" type="ColorRect" parent="HUD/AttackIndicator" unique_id=441088311]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.15, 0.75)
+
+[node name="Fill" type="ColorRect" parent="HUD/AttackIndicator" unique_id=441088312]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(1, 0.85, 0.2, 0.9)
+
+[node name="Label" type="Label" parent="HUD/AttackIndicator" unique_id=441088313]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "J"
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+
 [node name="PauseMenu" type="Control" parent="HUD" unique_id=804085390]
 visible = false
 layout_mode = 3

@@ -7,6 +7,8 @@ public partial class HUD : CanvasLayer
 	private Label _timerLabel;
 	private Label _positionLabel;
 	private Label _powerUpLabel;
+	private ColorRect _attackFill;
+	private Label _attackLabel;
 	private Player _player;
 	private float _elapsedTime = 0f;
 	public float ElapsedTime => _elapsedTime;
@@ -18,6 +20,8 @@ public partial class HUD : CanvasLayer
 		_timerLabel = GetNode<Label>("TimerLabel");
 		_positionLabel = GetNode<Label>("PositionLabel");
 		_powerUpLabel = GetNode<Label>("PowerUpLabel");
+		_attackFill = GetNode<ColorRect>("AttackIndicator/Fill");
+		_attackLabel = GetNode<Label>("AttackIndicator/Label");
 		// Group lookup instead of absolute path – survives scene-root renames and works
 		// even if the level file gets restructured later
 		_player = GetTree().GetFirstNodeInGroup("player") as Player;
@@ -30,6 +34,14 @@ public partial class HUD : CanvasLayer
 		_scoreLabel.Text = "Score: " + _player.Score;
 		_livesLabel.Text = "Lives: " + _player.Lives;
 		_powerUpLabel.Text = BuildPowerUpText();
+
+		// Attack cooldown ring: Fill shrinks from the top while the cooldown is active,
+		// label goes grey while not ready so you can tell at a glance
+		float readiness = _player.AttackReadiness;
+		_attackFill.OffsetTop = 70f * (1f - readiness);
+		_attackLabel.Modulate = readiness >= 1f
+			? new Color(1f, 1f, 1f)
+			: new Color(0.6f, 0.6f, 0.6f);
 
 		// Timer only runs when not paused
 		if (!GetTree().Paused)

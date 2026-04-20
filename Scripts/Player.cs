@@ -45,14 +45,19 @@ public partial class Player : CharacterBody2D
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
 	private int _stompChain = 0;
-	// P-Speed (#102) – charges while running on the ground, gives up to +25% max speed.
-	// Nerfed from 40%/2.5s after tim said it felt too fast.
+	// P-Speed (#102) – charges while running on the ground, gives up to +15% max speed.
+	// Nerfed twice after tim's feedback: 40%/2.5s -> 25%/3.5s -> 15%/4.5s (500 -> 575 max).
+	// Subtle acceleration reward instead of a dash, keeps controls predictable.
 	private float _sprintTimer = 0f;
 	private float _lastRunDir = 0f;
-	public float SprintCharge => Mathf.Clamp(_sprintTimer / 3.5f, 0f, 1f);
+	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
 
-	// Sword attack (#45/53-ish) – j/x to swing, short cooldown so you can't spam
+	// Sword attack (#45/53-ish) – j/x to swing. Cooldown + movement lockout so you
+	// can't just dash-slash through the level (tim's balance note)
 	private float _attackCooldown = 0f;
+	private float _attackLockout = 0f;
+	private const float AttackCooldownMax = 0.6f;
+	public float AttackReadiness => 1f - Mathf.Clamp(_attackCooldown / AttackCooldownMax, 0f, 1f);
 	private int _facing = 1;
 
 	// Camera shake
@@ -101,17 +106,20 @@ _duckShape.Disabled = true;
 	// Placeholder visual until we have a real swing sprite from schayan.
 	private void Attack()
 	{
-		_attackCooldown = 0.35f;
+		_attackCooldown = AttackCooldownMax;
+		// Lockout briefly cripples horizontal speed so you can't power-slash on the run
+		_attackLockout = 0.25f;
 		SpawnSwordSwoosh();
 		SoundManager.Instance.PlayJump();
 
-		// Hitbox: 90px reach in facing direction, 70px tall window centered on player
+		// Hitbox: 120px reach in facing direction, 85px tall – bigger to compensate for
+		// the reduced attack rate and movement lockout (tim's balance note)
 		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
 		{
 			if (node is not Enemy enemy) continue;
 			Vector2 toEnemy = enemy.GlobalPosition - GlobalPosition;
 			bool sameSide = Mathf.Sign(toEnemy.X) == _facing || Mathf.Abs(toEnemy.X) < 15f;
-			if (sameSide && Mathf.Abs(toEnemy.X) < 90f && Mathf.Abs(toEnemy.Y) < 70f)
+			if (sameSide && Mathf.Abs(toEnemy.X) < 120f && Mathf.Abs(toEnemy.Y) < 85f)
 				enemy.Kill();
 		}
 		// Little horizontal nudge on swing so the player feels the follow-through
@@ -229,6 +237,8 @@ _duckShape.Disabled = true;
 		_stompChain = 0;
 		_sprintTimer = 0f;
 		_lastRunDir = 0f;
+		_attackCooldown = 0f;
+		_attackLockout = 0f;
 		Velocity = Vector2.Zero;
 	}
 
@@ -396,7 +406,7 @@ if (_isDucking)
 		if (IsOnFloor())
 		{
 			if (direction != 0 && direction == _lastRunDir)
-				_sprintTimer = Mathf.Min(_sprintTimer + dt, 3.5f);
+				_sprintTimer = Mathf.Min(_sprintTimer + dt, 4.5f);
 			else if (direction == 0 || isTurning)
 				_sprintTimer = 0f;
 		}
@@ -406,8 +416,16 @@ if (_isDucking)
 			_facing = direction > 0 ? 1 : -1;
 		}
 
-		// Up to +25% max speed once fully charged (3.5s of clean running) – easier to control
-		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.25f);
+		// Up to +15% max speed once fully charged (4.5s of clean running) – a nudge, not a dash
+		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.15f);
+
+		// Swinging the sword puts a hard brake on you for ~0.25s so you can't
+		// dash-slash at full speed through enemies
+		if (_attackLockout > 0f)
+		{
+			_attackLockout -= dt;
+			effectiveMaxSpeed = MaxSpeed * 0.3f;
+		}
 
 		if (direction != 0)
 		{
