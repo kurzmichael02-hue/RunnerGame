@@ -36,12 +36,16 @@ public partial class HUD : CanvasLayer
 		_powerUpLabel.Text = BuildPowerUpText();
 
 		// Attack cooldown ring: Fill shrinks from the top while the cooldown is active,
-		// label goes grey while not ready so you can tell at a glance
+		// label shows remaining sword uses, goes red when empty
 		float readiness = _player.AttackReadiness;
 		_attackFill.OffsetTop = 70f * (1f - readiness);
-		_attackLabel.Modulate = readiness >= 1f
-			? new Color(1f, 1f, 1f)
-			: new Color(0.6f, 0.6f, 0.6f);
+		_attackLabel.Text = $"J\n×{_player.SwordUses}";
+		if (_player.SwordUses <= 0)
+			_attackLabel.Modulate = new Color(0.85f, 0.25f, 0.25f);
+		else if (readiness >= 1f)
+			_attackLabel.Modulate = new Color(1f, 1f, 1f);
+		else
+			_attackLabel.Modulate = new Color(0.6f, 0.6f, 0.6f);
 
 		// Timer only runs when not paused
 		if (!GetTree().Paused)

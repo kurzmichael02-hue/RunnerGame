@@ -59,6 +59,11 @@ public partial class Player : CharacterBody2D
 	private const float AttackCooldownMax = 0.6f;
 	public float AttackReadiness => 1f - Mathf.Clamp(_attackCooldown / AttackCooldownMax, 0f, 1f);
 	private int _facing = 1;
+	// Limited sword swings per life (tim wanted it less spammable)
+	// Refill via sword pickups in the level, capped at MaxSwordUses
+	private int _swordUses = 3;
+	private const int MaxSwordUses = 5;
+	public int SwordUses => _swordUses;
 
 	// Fire flower (#45): pickup for 10s, every swing also spits a fireball in facing dir
 	private bool _fireActive = false;
@@ -117,6 +122,7 @@ _duckShape.Disabled = true;
 		_attackCooldown = AttackCooldownMax;
 		// Lockout briefly cripples horizontal speed so you can't power-slash on the run
 		_attackLockout = 0.25f;
+		_swordUses--;
 		SpawnSwordSwoosh();
 		SoundManager.Instance.PlayJump();
 
@@ -273,6 +279,8 @@ _duckShape.Disabled = true;
 		_lastRunDir = 0f;
 		_attackCooldown = 0f;
 		_attackLockout = 0f;
+		// Refill sword uses per life – pickups carry over during the life itself
+		_swordUses = 3;
 		Velocity = Vector2.Zero;
 	}
 
@@ -482,9 +490,11 @@ if (_isDucking)
 		MoveAndSlide();
 
 		// Sword attack – j/x fires in the direction we're facing, short cooldown.
-		// Ducking disables the swing, you have to stand up first.
+		// Ducking disables the swing, you have to stand up first. 3 uses per life,
+		// refill via sword pickups.
 		if (_attackCooldown > 0f) _attackCooldown -= dt;
-		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f && !IsDying && !_isDucking)
+		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f
+			&& !IsDying && !_isDucking && _swordUses > 0)
 			Attack();
 
 		// Invincibility timer after hit – just decrements, don't early-return or the
@@ -572,6 +582,11 @@ if (_isDucking)
 	public void AddLife()
 	{
 		_lives = Mathf.Min(_lives + 1, 9);
+	}
+
+	public void AddSwordUse()
+	{
+		_swordUses = Mathf.Min(_swordUses + 1, MaxSwordUses);
 	}
 
 	public void ActivateShield()
