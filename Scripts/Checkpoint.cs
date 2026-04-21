@@ -22,8 +22,12 @@ public partial class Checkpoint : Area2D
 			_activated = true;
 			// Respawn position is this checkpoint's world position until the next one is hit
 			player.SetCheckpoint(GlobalPosition);
-			// Visual feedback – turn green so the player sees it registered (#22)
-			GetNode<Polygon2D>("Polygon2D").Color = new Color(0, 1, 0);
+			// Visual feedback – tint both polygon and sprite green so it works
+			// whether the checkpoint uses schayans sprite or the placeholder polygon (#22)
+			var poly = GetNodeOrNull<Polygon2D>("Polygon2D");
+			if (poly != null) poly.Color = new Color(0, 1, 0);
+			var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+			if (sprite != null) sprite.Modulate = new Color(0.2f, 1f, 0.35f);
 			SoundManager.Instance.PlayCheckpoint();
 		}
 	}

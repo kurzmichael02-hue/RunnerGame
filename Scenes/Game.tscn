@@ -410,11 +410,19 @@ offset_right = 60.0
 offset_bottom = 43.0
 
 [node name="LivesLabel" type="Label" parent="HUD" unique_id=2079994368]
+visible = false
 modulate = Color(1, 0, 0, 1)
 offset_left = 20.0
 offset_top = 50.0
 offset_right = 60.0
 offset_bottom = 73.0
+
+[node name="Hearts" type="HBoxContainer" parent="HUD" unique_id=713928041]
+offset_left = 20.0
+offset_top = 45.0
+offset_right = 400.0
+offset_bottom = 85.0
+theme_override_constants/separation = 4
 
 [node name="PowerUpLabel" type="Label" parent="HUD" unique_id=557110042]
 modulate = Color(1, 0.85, 0.2, 1)
@@ -422,6 +430,16 @@ offset_left = 20.0
 offset_top = 80.0
 offset_right = 400.0
 offset_bottom = 103.0
+
+[node name="ProgressBar" type="TextureRect" parent="HUD" unique_id=881429337]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 15.0
+offset_right = 160.0
+offset_bottom = 85.0
+expand_mode = 1
+stretch_mode = 5
 
 [node name="AttackIndicator" type="Control" parent="HUD" unique_id=441088310]
 layout_mode = 3
@@ -622,6 +640,28 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DuckBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=1156049707]
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
+theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1917550981]
+layout_mode = 2
+
+[node name="Attack" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer5" unique_id=653322351]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer5" unique_id=1156049708]
 custom_minimum_size = Vector2(150, 35)
 layout_mode = 2
 size_flags_horizontal = 3

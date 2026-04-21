@@ -114,4 +114,11 @@ offset_top = 183.0
 offset_right = 760.0
 offset_bottom = 240.0
 
+[node name="BestTimeLabel" type="Label" parent="." unique_id=486319816]
+layout_mode = 0
+offset_left = 389.0
+offset_top = 245.0
+offset_right = 760.0
+offset_bottom = 302.0
+
 [connection signal="pressed" from="VBoxContainer/MainMenu" to="." method="_on_mainMenu_pressed"]
