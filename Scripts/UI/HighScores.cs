@@ -11,6 +11,16 @@ public partial class HighScores : Control
 		var highscoreLabel = GetNode<Label>("HighScoreLabel");
 		highscoreLabel.Text = $"Highscore: {highscore}";
 
+		// Best time was saved by levelgoal but never read back – now both show up (#68)
+		var bestTimeLabel = GetNodeOrNull<Label>("BestTimeLabel");
+		if (bestTimeLabel != null)
+		{
+			float best = LoadBestTime();
+			bestTimeLabel.Text = best >= float.MaxValue
+				? "Best Time: --:--"
+				: $"Best Time: {(int)(best / 60):00}:{(int)(best % 60):00}";
+		}
+
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
 
 		foreach (Node child in vbox.GetChildren())
@@ -45,6 +55,14 @@ public partial class HighScores : Control
 			}
 
 			return 0;
+		}
+
+		private float LoadBestTime()
+		{
+			string path = "user://level1_time.dat";
+			if (!FileAccess.FileExists(path)) return float.MaxValue;
+			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+			return file.GetFloat();
 		}
 		
 

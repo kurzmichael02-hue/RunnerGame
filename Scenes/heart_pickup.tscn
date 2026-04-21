@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dhp5nan7t2q6x"]
 
-[ext_resource type="Script" uid="uid://ckp7n3mxvw5r8" path="res://Scripts/HeartPickup.cs" id="1_heart"]
+[ext_resource type="Script" uid="uid://ckp7n3mxvw5r8" path="res://Scripts/Pickups/HeartPickup.cs" id="1_heart"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_heart"]
 radius = 18.0

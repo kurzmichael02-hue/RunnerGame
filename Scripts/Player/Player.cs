@@ -25,6 +25,8 @@ public partial class Player : CharacterBody2D
 	// Tracks how many 100-point thresholds have already paid out an extra life,
 	// so a +5 bonus that jumps over 100 still grants the life instead of missing the modulo
 	private int _livesFromScoreGranted = 0;
+	// Last run's final score, survives the scene switch so gameover can display it
+	public static int LastRunScore = 0;
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -64,6 +66,7 @@ public partial class Player : CharacterBody2D
 	private int _swordUses = 3;
 	private const int MaxSwordUses = 5;
 	public int SwordUses => _swordUses;
+	private float _noSwordFlashTimer = 0f;
 
 	// Fire flower (#45): pickup for 10s, every swing also spits a fireball in facing dir
 	private bool _fireActive = false;
@@ -75,6 +78,9 @@ public partial class Player : CharacterBody2D
 	private Camera2D _camera;
 	private float _shakeTimer = 0f;
 	private float _shakeStrength = 0f;
+
+	// Dust: tracks floor transitions so we can poof on landing
+	private bool _wasOnFloor = true;
 
 	// Magnet
 	private bool _magnetActive = false;
@@ -117,6 +123,7 @@ _duckShape.Disabled = true;
 
 	// Sword swing – kills any enemy within a short arc in front of the player.
 	// Placeholder visual until we have a real swing sprite from schayan.
+	
 	private void Attack()
 	{
 		_attackCooldown = AttackCooldownMax;
@@ -124,7 +131,7 @@ _duckShape.Disabled = true;
 		_attackLockout = 0.25f;
 		_swordUses--;
 		SpawnSwordSwoosh();
-		SoundManager.Instance.PlayJump();
+		SoundManager.Instance.PlaySwordAttack();
 
 		// Hitbox: 120px reach in facing direction, 85px tall – bigger to compensate for
 		// the reduced attack rate and movement lockout (tim's balance note)
@@ -153,6 +160,33 @@ _duckShape.Disabled = true;
 			SpawnFireball();
 		// Little horizontal nudge on swing so the player feels the follow-through
 		Shake(2f, 0.05f);
+	}
+	
+	public void PlayNoSwordFlash()
+	{
+		_noSwordFlashTimer = 0.25f;
+	}
+
+	private void SpawnLandingDust()
+	{
+		// Little white poof at the player's feet, expands and fades in 0.25s
+		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(0, 35f) };
+		var poly = new Polygon2D
+		{
+			Color = new Color(1f, 1f, 1f, 0.65f),
+			Polygon = new Vector2[]
+			{
+				new Vector2(-14, 0), new Vector2(-10, -6), new Vector2(-4, -8),
+				new Vector2(4, -8), new Vector2(10, -6), new Vector2(14, 0)
+			}
+		};
+		wrap.AddChild(poly);
+		GetTree().CurrentScene.AddChild(wrap);
+
+		var tween = GetTree().CreateTween();
+		tween.TweenProperty(wrap, "scale", Vector2.One * 1.8f, 0.25f);
+		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.25f);
+		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
 	private void SpawnFireball()
@@ -234,12 +268,15 @@ _duckShape.Disabled = true;
 	}
 
 	Shake(10f, 0.35f);
-
+	
+	SoundManager.Instance.PlayPlayerDeath();
+	
 	_lives--;
 	_lives = Mathf.Max(_lives, 0);
 
 	if (_lives <= 0)
 	{
+		LastRunScore = _score;
 		SaveHighscore(_score);
 		Visible = false;
 		SetPhysicsProcess(false);
@@ -489,13 +526,35 @@ if (_isDucking)
 		Velocity = velocity;
 		MoveAndSlide();
 
+		// Landing dust – only on the airborne→grounded transition, scales with fall speed.
+		// Feels weightier than landing silently, cheap to render (single polygon).
+		bool onFloorNow = IsOnFloor();
+		if (!_wasOnFloor && onFloorNow)
+		{
+			float fall = Mathf.Abs(velocity.Y);
+			if (fall > 50f) SpawnLandingDust();
+		}
+		_wasOnFloor = onFloorNow;
+
 		// Sword attack – j/x fires in the direction we're facing, short cooldown.
 		// Ducking disables the swing, you have to stand up first. 3 uses per life,
 		// refill via sword pickups.
 		if (_attackCooldown > 0f) _attackCooldown -= dt;
-		if (Input.IsActionJustPressed("attack") && _attackCooldown <= 0f
-			&& !IsDying && !_isDucking && _swordUses > 0)
-			Attack();
+		if (Input.IsActionJustPressed("attack") && !IsDying && !_isDucking)
+		{
+			if (_attackCooldown <= 0f && _swordUses > 0)
+			{
+				Attack();
+			}
+			else
+			{
+				// Tim's no-sword-left sfx covers both: out of swings, or still on cooldown
+				Shake(2f, 0.35f);
+				PlayNoSwordFlash();
+				SoundManager.Instance.PlayNoSwordLeft();
+			}
+				
+		}
 
 		// Invincibility timer after hit – just decrements, don't early-return or the
 		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
@@ -530,7 +589,17 @@ if (_isDucking)
 					(GD.Randf() * 2f - 1f) * _shakeStrength);
 			}
 		}
-
+		
+		// No Sword left - Turn Player Red
+		if (_noSwordFlashTimer > 0f)
+		{
+			_noSwordFlashTimer -= dt;
+			Modulate = new Color(1f, 0.3f, 0.3f, 1f);
+		}
+		else if (!(_starActive || _starInvincibilityActive))
+		{
+			Modulate = Colors.White;
+		}
 		// Star – cycle hue for the rainbow flash, reset to white when it runs out
 		if (_starActive || _starInvincibilityActive)
 		{
@@ -678,7 +747,9 @@ private void SaveHighscore(int score)
 		}
 
 		if (_lives <= 0)
-		{
+		{	
+			SoundManager.Instance.PlayPlayerDeath();
+			LastRunScore = _score;
 			SaveHighscore(_score);
 			Visible = false;
 			SetPhysicsProcess(false);
@@ -707,6 +778,7 @@ private void SaveHighscore(int score)
 	else
 	{
 		// Second hit – actually die and respawn
+		SoundManager.Instance.PlayPlayerDeath();
 		IsSmall = false;
 		Scale = Vector2.One;
 		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };

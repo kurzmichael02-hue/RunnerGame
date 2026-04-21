@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://chx7k2p9mq4rn"]
+[gd_scene format=3 uid="uid://chx7k2qamq4rn"]
 
-[ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/ShieldPowerUp.cs" id="1_shpw"]
+[ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/Enemies/PowerUps/ShieldPowerUp.cs" id="1_shpw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_shpwu"]
 radius = 20.0
