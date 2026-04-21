@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dfgxkpqm5r8v2"]
 
-[ext_resource type="Script" uid="uid://bpkr3mnt7vwx9" path="res://Scripts/Projectile.cs" id="1_proj"]
+[ext_resource type="Script" uid="uid://bpkr3mnt7vwya" path="res://Scripts/Enemies/Projectile.cs" id="1_proj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_proj"]
 radius = 8.0
