@@ -152,7 +152,7 @@ public partial class Settings : Control
 
 		if (config.Load(SAVE_PATH) != Error.Ok)
 		{
-			ApplyDefaults();
+			_volumeSlider.Value = 100; ApplyVolume(1.0f);
 			_isLoading = false;
 			return;
 		}
@@ -181,8 +181,8 @@ public partial class Settings : Control
 	{
 		if (!config.HasSectionKey("keys", action))
 		{
-			SetDefaultKey(action);
 			return;
+			
 		}
 
 		int keycodeInt = (int)config.GetValue("keys", action);
@@ -233,9 +233,9 @@ public partial class Settings : Control
 	}
 
 	private void OnResetPressed()
-	{
-		ApplyDefaults();
-		UpdateButtonTexts();
-		SaveSettings();
-	}
+{
+    ApplyDefaults();
+    UpdateButtonTexts();
+    SaveSettings();
+}
 }
