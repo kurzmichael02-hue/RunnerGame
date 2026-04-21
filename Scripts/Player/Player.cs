@@ -66,6 +66,7 @@ public partial class Player : CharacterBody2D
 	private int _swordUses = 3;
 	private const int MaxSwordUses = 5;
 	public int SwordUses => _swordUses;
+	private float _noSwordFlashTimer = 0f;
 
 	// Fire flower (#45): pickup for 10s, every swing also spits a fireball in facing dir
 	private bool _fireActive = false;
@@ -122,6 +123,7 @@ _duckShape.Disabled = true;
 
 	// Sword swing – kills any enemy within a short arc in front of the player.
 	// Placeholder visual until we have a real swing sprite from schayan.
+	
 	private void Attack()
 	{
 		_attackCooldown = AttackCooldownMax;
@@ -158,6 +160,11 @@ _duckShape.Disabled = true;
 			SpawnFireball();
 		// Little horizontal nudge on swing so the player feels the follow-through
 		Shake(2f, 0.05f);
+	}
+	
+	public void PlayNoSwordFlash()
+	{
+		_noSwordFlashTimer = 0.25f;
 	}
 
 	private void SpawnLandingDust()
@@ -536,10 +543,17 @@ if (_isDucking)
 		if (Input.IsActionJustPressed("attack") && !IsDying && !_isDucking)
 		{
 			if (_attackCooldown <= 0f && _swordUses > 0)
+			{
 				Attack();
+			}
 			else
+			{
 				// Tim's no-sword-left sfx covers both: out of swings, or still on cooldown
+				Shake(2f, 0.35f);
+				PlayNoSwordFlash();
 				SoundManager.Instance.PlayNoSwordLeft();
+			}
+				
 		}
 
 		// Invincibility timer after hit – just decrements, don't early-return or the
@@ -575,7 +589,17 @@ if (_isDucking)
 					(GD.Randf() * 2f - 1f) * _shakeStrength);
 			}
 		}
-
+		
+		// No Sword left - Turn Player Red
+		if (_noSwordFlashTimer > 0f)
+		{
+			_noSwordFlashTimer -= dt;
+			Modulate = new Color(1f, 0.3f, 0.3f, 1f);
+		}
+		else if (!(_starActive || _starInvincibilityActive))
+		{
+			Modulate = Colors.White;
+		}
 		// Star – cycle hue for the rainbow flash, reset to white when it runs out
 		if (_starActive || _starInvincibilityActive)
 		{
