@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://biafiu4xrmkkq"]
 
-[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Checkpoint.cs" id="1_2cwi7"]
+[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="1_2cwi7"]
 [ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="2_e75gc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]

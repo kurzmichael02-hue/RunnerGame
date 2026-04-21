@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://c1ta0cybv4xuo"]
 
-[ext_resource type="Script" uid="uid://bddc3he5rk51c" path="res://Scripts/SoundManager.cs" id="1_4m8jc"]
+[ext_resource type="Script" uid="uid://bddc3he5rk51c" path="res://Scripts/Core/SoundManager.cs" id="1_4m8jc"]
 [ext_resource type="AudioStream" uid="uid://d1trrsi3oa868" path="res://Sounds/jump.wav" id="2_8mdu8"]
 [ext_resource type="AudioStream" uid="uid://bhnahiro2tqiw" path="res://Sounds/EnemyDeathDemo.wav" id="3_i4wp4"]
 [ext_resource type="AudioStream" uid="uid://ccj36oeisfvdp" path="res://Sounds/checkpoint.wav" id="4_dh1hk"]

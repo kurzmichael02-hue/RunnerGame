@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://cp7r9mkn3vwxq"]
+[gd_scene format=3 uid="uid://cp7samkn3vwxq"]
 
-[ext_resource type="Script" uid="uid://dpq3r8mkn7vwx" path="res://Scripts/SwordPickup.cs" id="1_sword"]
+[ext_resource type="Script" uid="uid://dpq3r8mkn7vwx" path="res://Scripts/Pickups/SwordPickup.cs" id="1_sword"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sword"]
 radius = 22.0
