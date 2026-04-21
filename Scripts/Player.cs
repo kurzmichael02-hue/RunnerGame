@@ -261,7 +261,9 @@ _duckShape.Disabled = true;
 	}
 
 	Shake(10f, 0.35f);
-
+	
+	SoundManager.Instance.PlayPlayerDeath();
+	
 	_lives--;
 	_lives = Mathf.Max(_lives, 0);
 
@@ -721,7 +723,8 @@ private void SaveHighscore(int score)
 		}
 
 		if (_lives <= 0)
-		{
+		{	
+			SoundManager.Instance.PlayPlayerDeath();
 			LastRunScore = _score;
 			SaveHighscore(_score);
 			Visible = false;
@@ -751,6 +754,7 @@ private void SaveHighscore(int score)
 	else
 	{
 		// Second hit – actually die and respawn
+		SoundManager.Instance.PlayPlayerDeath();
 		IsSmall = false;
 		Scale = Vector2.One;
 		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
