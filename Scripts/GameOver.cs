@@ -14,9 +14,9 @@ public partial class GameOver : Control
 			int run = Player.LastRunScore;
 			int best = Player.LoadHighscore();
 			if (run > 0 && run >= best)
-				finalLabel.Text = $"Score: {run}   —   NEW HIGHSCORE!";
+				finalLabel.Text = $"Score: {run} — NEW HIGHSCORE!";
 			else
-				finalLabel.Text = $"Score: {run}   |   Highscore: {best}";
+				finalLabel.Text = $"Score: {run} | Highscore: {best}";
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");

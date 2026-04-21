@@ -432,6 +432,7 @@ offset_right = 400.0
 offset_bottom = 103.0
 
 [node name="ProgressBar" type="TextureRect" parent="HUD" unique_id=881429337]
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -160.0
