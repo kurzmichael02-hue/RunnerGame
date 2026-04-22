@@ -28,6 +28,10 @@ public partial class SoundManager : Node
 	private List<AudioStreamPlayer> _musicPlayers;
 	private List<AudioStreamPlayer> _fxPlayers;
 	
+	//Getters for the Audio Player Lists
+	public List<AudioStreamPlayer> MusicPlayers => _musicPlayers;
+	public List<AudioStreamPlayer> FxPlayers => _fxPlayers;
+	
 	//Getters for the Music Audio Stream Players
 	public AudioStreamPlayer GameMusic => _music;
 	public AudioStreamPlayer SettingsMusic => _settingsMusic;
@@ -106,7 +110,7 @@ public partial class SoundManager : Node
 				}
 			}
 		}
-		
+	
 	}
 	
 	//Ingame Objects
