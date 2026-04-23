@@ -102,6 +102,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Ready()
 	{
+		ProcessMode = ProcessModeEnum.Pausable;
 		AddToGroup("player");
 		// Player does not physically collide with enemies (Layer 2)
 		SetCollisionMaskValue(2, false);

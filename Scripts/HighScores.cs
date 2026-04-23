@@ -8,11 +8,11 @@ public partial class HighScores : Control
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
 		int highscore = LoadHighscore();
-		var highscoreLabel = GetNode<Label>("HighScoreLabel");
+		var highscoreLabel = GetNode<Label>("VBoxContainer/HighScoreLabel");
 		highscoreLabel.Text = $"Highscore: {highscore}";
 
 		// Best time was saved by levelgoal but never read back – now both show up (#68)
-		var bestTimeLabel = GetNodeOrNull<Label>("BestTimeLabel");
+		var bestTimeLabel = GetNodeOrNull<Label>("VBoxContainer/BestTimeLabel");
 		if (bestTimeLabel != null)
 		{
 			float best = LoadBestTime();
@@ -22,6 +22,7 @@ public partial class HighScores : Control
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
+		
 
 		foreach (Node child in vbox.GetChildren())
 		{

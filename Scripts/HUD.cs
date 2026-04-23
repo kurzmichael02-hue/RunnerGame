@@ -108,8 +108,6 @@ public partial class HUD : CanvasLayer
 _positionLabel.Text = meters + "m";
 		}
 
-		if (Input.IsActionJustPressed("ui_cancel"))
-			TogglePause();
 	}
 
 // Spawns one heart texturerect per max-so-far life slot, swaps between the full
@@ -154,16 +152,4 @@ private string BuildPowerUpText()
 	return string.Join("  |  ", parts);
 }
 
-private void TogglePause()
-{
-	// After the goal is reached, ESC is dead – stops the player opening pause on the win screen
-	if (LevelGoal.LevelCompleted) return;
-	bool isPaused = !GetTree().Paused;
-	GetTree().Paused = isPaused;
-	GetNode<Control>("PauseMenu").Visible = isPaused;
-	if (isPaused)
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.SettingsMusic);
-	else
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
-}
 }

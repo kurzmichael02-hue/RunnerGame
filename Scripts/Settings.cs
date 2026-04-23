@@ -13,6 +13,7 @@ public partial class Settings : Control
 	private Button _moveRightBind;
 	private Button _moveLeftBind;
 	private Button _duckBind;
+	private Button _attackBind;
 
 	// State
 	private string _listeningAction = null;
@@ -26,26 +27,31 @@ public partial class Settings : Control
 		ProcessMode = ProcessModeEnum.Always;
 
 		// Nodes
-		_mainMenuButton = GetNode<Button>("MenuPanel/VBoxContainer/Main Menu");
-		_volumeSlider   = GetNode<HSlider>("MenuPanel/VBoxContainer/HSlider");
+		_mainMenuButton = GetNode<Button>("MenuPanel/VBoxContainer2/MainMenu");
+		_volumeSlider   = GetNode<HSlider>("MenuPanel/VBoxContainer2/HSlider");
 
-		_jumpBind       = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer/JumpBind");
-		_moveRightBind  = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer2/MoveRightBind");
-		_moveLeftBind   = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer3/MoveLeftBind");
-		_duckBind       = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer4/DuckBind");
+		_jumpBind       = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer/JumpBind");
+		_moveRightBind  = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer2/MoveRightBind");
+		_moveLeftBind   = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer3/MoveLeftBind");
+		_duckBind       = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer4/DuckBind");
+		_attackBind = GetNodeOrNull<Button>("MenuPanel/VBoxContainer2/HBoxContainer5/AttackBind");
 
-		if (HasNode("MenuPanel/VBoxContainer/ResetButton"))
-			_resetButton = GetNode<Button>("MenuPanel/VBoxContainer/ResetButton");
+			
+		if (HasNode("MenuPanel/VBoxContainer2/ResetButton"))
+			_resetButton = GetNode<Button>("MenuPanel/VBoxContainer2/ResetButton"); 
 
 		// Events
 		_mainMenuButton.Pressed += OnMainMenuPressed;
 		_volumeSlider.ValueChanged += OnVolumeChanged;
 
-		_jumpBind.Pressed      += () => StartListening("jump");
-		_moveRightBind.Pressed += () => StartListening("move_right");
-		_moveLeftBind.Pressed  += () => StartListening("move_left");
-		_duckBind.Pressed      += () => StartListening("duck");
+		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
+		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
+		_moveLeftBind.Pressed += () => StartListening("move_left", _moveLeftBind);
+		_duckBind.Pressed += () => StartListening("duck", _duckBind);
 
+		if (_attackBind != null)
+			_attackBind.Pressed += () => StartListening("attack", _attackBind);
+		
 		if (_resetButton != null)
 			_resetButton.Pressed += OnResetPressed;
 
@@ -80,27 +86,41 @@ public partial class Settings : Control
 	private void OnMainMenuPressed()
 	{
 		SaveSettings();
-		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+
+		var tree = GetTree();
+		if (tree == null)
+		{
+			GD.Print("ERROR: SceneTree ist null!");
+			return;
+		}
+
+		tree.ChangeSceneToFile("res://Scenes/MainMenu.tscn");
 	}
 
 	// =========================
 	// KEY REBINDING
 	// =========================
-	private void StartListening(string action)
+	private void StartListening(string action, Button button)
 	{
 		_listeningAction = action;
-		GD.Print("Drücke eine Taste für: " + action);
+		button.Text = "Press key...";
 	}
+
 
 	public override void _Input(InputEvent @event)
 	{
-		if (_listeningAction == null)
-			return;
+		if (_listeningAction == null) return;
+		GetViewport().SetInputAsHandled();
 
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
 		{
 			InputMap.ActionEraseEvents(_listeningAction);
-			InputMap.ActionAddEvent(_listeningAction, keyEvent);
+
+			var ev = new InputEventKey();
+			ev.PhysicalKeycode = keyEvent.PhysicalKeycode;
+			ev.Keycode = keyEvent.Keycode;
+
+			InputMap.ActionAddEvent(_listeningAction, ev);
 
 			_listeningAction = null;
 
@@ -108,13 +128,15 @@ public partial class Settings : Control
 			SaveSettings();
 		}
 	}
-
 	private void UpdateButtonTexts()
 	{
 		_jumpBind.Text      = GetKeyName("jump");
 		_moveRightBind.Text = GetKeyName("move_right");
 		_moveLeftBind.Text  = GetKeyName("move_left");
 		_duckBind.Text      = GetKeyName("duck");
+		
+		if (_attackBind != null)
+			_attackBind.Text = GetKeyName("attack");
 	}
 
 	private string GetKeyName(string action)
@@ -122,10 +144,18 @@ public partial class Settings : Control
 		var events = InputMap.ActionGetEvents(action);
 
 		if (events.Count > 0 && events[0] is InputEventKey keyEvent)
-			return OS.GetKeycodeString(keyEvent.Keycode);
+		{
+			var key = keyEvent.PhysicalKeycode != Key.None
+				? keyEvent.PhysicalKeycode
+				: keyEvent.Keycode;
+
+			return OS.GetKeycodeString(key);
+		}
 
 		return "None";
 	}
+
+
 
 	// =========================
 	// SAVE / LOAD
@@ -140,14 +170,13 @@ public partial class Settings : Control
 		SaveKey(config, "move_right");
 		SaveKey(config, "move_left");
 		SaveKey(config, "duck");
-
+		SaveKey(config, "attack");
 		config.Save(SAVE_PATH);
 	}
 
 	private void LoadSettings()
 	{
 		var config = new ConfigFile();
-
 		_isLoading = true;
 
 		if (config.Load(SAVE_PATH) != Error.Ok)
@@ -158,13 +187,18 @@ public partial class Settings : Control
 		}
 
 		float volume = (float)config.GetValue("audio", "volume", 100.0f);
+
+		_volumeSlider.ValueChanged -= OnVolumeChanged;
 		_volumeSlider.Value = volume;
+		_volumeSlider.ValueChanged += OnVolumeChanged;
+
 		ApplyVolume(volume / 100f);
 
 		LoadKey(config, "jump");
 		LoadKey(config, "move_right");
 		LoadKey(config, "move_left");
 		LoadKey(config, "duck");
+		LoadKey(config, "attack");
 
 		_isLoading = false;
 	}
@@ -174,7 +208,13 @@ public partial class Settings : Control
 		var events = InputMap.ActionGetEvents(action);
 
 		if (events.Count > 0 && events[0] is InputEventKey keyEvent)
-			config.SetValue("keys", action, (int)keyEvent.Keycode);
+		{
+			var key = keyEvent.PhysicalKeycode != Key.None
+				? keyEvent.PhysicalKeycode
+				: keyEvent.Keycode;
+
+			config.SetValue("keys", action, (int)key);
+		}
 	}
 
 	private void LoadKey(ConfigFile config, string action)
@@ -185,13 +225,13 @@ public partial class Settings : Control
 			return;
 		}
 
-		int keycodeInt = (int)config.GetValue("keys", action);
-		Key keycode = (Key)keycodeInt;
+		Key key = (Key)(int)config.GetValue("keys", action);
 
 		InputMap.ActionEraseEvents(action);
 
 		var ev = new InputEventKey();
-		ev.Keycode = keycode;
+		ev.PhysicalKeycode = key;
+		ev.Keycode = key;
 
 		InputMap.ActionAddEvent(action, ev);
 	}
@@ -205,10 +245,14 @@ public partial class Settings : Control
 		SetDefaultKey("move_right");
 		SetDefaultKey("move_left");
 		SetDefaultKey("duck");
+		SetDefaultKey("attack");
 
+		_volumeSlider.ValueChanged -= OnVolumeChanged;
 		_volumeSlider.Value = 100;
+		_volumeSlider.ValueChanged += OnVolumeChanged;
 		ApplyVolume(1.0f);
 	}
+
 
 	private void SetDefaultKey(string action)
 	{
@@ -220,6 +264,7 @@ public partial class Settings : Control
 			case "move_right": key = Key.D;     break;
 			case "move_left":  key = Key.A;     break;
 			case "duck":       key = Key.S;     break;
+			case "attack":     key = Key.J;     break;
 		}
 
 		if (key == Key.None) return;
@@ -227,6 +272,7 @@ public partial class Settings : Control
 		InputMap.ActionEraseEvents(action);
 
 		var ev = new InputEventKey();
+		ev.PhysicalKeycode = key;
 		ev.Keycode = key;
 
 		InputMap.ActionAddEvent(action, ev);
