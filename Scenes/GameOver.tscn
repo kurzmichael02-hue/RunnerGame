@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cotmx61mhrrp6"]
 
-[ext_resource type="Script" uid="uid://3il0mljqr46b" path="res://Scripts/GameOver.cs" id="1_ktc4i"]
+[ext_resource type="Script" uid="uid://3il0mljqr46b" path="res://Scripts/UI/GameOver.cs" id="1_ktc4i"]
 [ext_resource type="Texture2D" uid="uid://cnxtpc378fv54" path="res://leveldesign/GameOverBackground.png" id="2_ktc4i"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="3_rdiyk"]
 

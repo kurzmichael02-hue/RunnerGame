@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dd6p73vye501e"]
 
-[ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemy.cs" id="1_1f0kj"]
+[ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemies/Enemy.cs" id="1_1f0kj"]
 [ext_resource type="AudioStream" uid="uid://bhnahiro2tqiw" path="res://Sounds/EnemyDeathDemo.wav" id="2_afpow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j5yw3"]

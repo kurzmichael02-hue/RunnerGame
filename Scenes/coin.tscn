@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ctso47usqrsdf"]
 
-[ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Coin.cs" id="1_2qo34"]
+[ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Pickups/Coin.cs" id="1_2qo34"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_j5yw3"]
 radius = 20.0

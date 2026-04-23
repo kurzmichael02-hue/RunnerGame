@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://bq4r7m2nk9xtv"]
+[gd_scene format=3 uid="uid://bq4r7m2nlaxtv"]
 
-[ext_resource type="Script" uid="uid://ckmp9nt7vr5x4" path="res://Scripts/FireFlower.cs" id="1_fire"]
+[ext_resource type="Script" uid="uid://ckmqant7vr5x4" path="res://Scripts/Enemies/FireFlower.cs" id="1_fire"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fire"]
 radius = 20.0
