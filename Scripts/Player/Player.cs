@@ -625,15 +625,15 @@ if (_isDucking)
 			}
 		}
 		
-		// No Sword left - Turn Player Red
+		// No Sword left – kurzes rotes flackern. nur den modulate während des flash-windows
+		// setzen, sonst überschreibt der frame-reset die die()/diefall-blink-tweens
 		if (_noSwordFlashTimer > 0f)
 		{
 			_noSwordFlashTimer -= dt;
-			Modulate = new Color(1f, 0.3f, 0.3f, 1f);
-		}
-		else if (!(_starActive || _starInvincibilityActive))
-		{
-			Modulate = Colors.White;
+			if (_noSwordFlashTimer > 0f)
+				Modulate = new Color(1f, 0.3f, 0.3f, 1f);
+			else if (!_starActive && !_starInvincibilityActive && !IsDying)
+				Modulate = Colors.White;
 		}
 		// Star – cycle hue for the rainbow flash, reset to white when it runs out
 		if (_starActive || _starInvincibilityActive)
