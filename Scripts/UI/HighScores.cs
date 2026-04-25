@@ -9,7 +9,9 @@ public partial class HighScores : Control
 
 		int highscore = LoadHighscore();
 		var highscoreLabel = GetNode<Label>("HighScoreLabel");
-		highscoreLabel.Text = $"Highscore: {highscore}";
+		// Show alltime + this-session top score side by side – session resets when the
+		// game closes, alltime persists in user://highscore.dat (#22)
+		highscoreLabel.Text = $"Highscore: {highscore}    Session: {Player.SessionHighscore}";
 
 		// Best time was saved by levelgoal but never read back – now both show up (#68)
 		var bestTimeLabel = GetNodeOrNull<Label>("BestTimeLabel");

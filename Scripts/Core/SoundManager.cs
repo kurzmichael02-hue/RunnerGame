@@ -110,7 +110,24 @@ public partial class SoundManager : Node
 				}
 			}
 		}
-	
+
+		// Read master volume from settings.cfg straight away – otherwise the main-menu
+		// music starts at full volume and gets quieter the moment the player opens
+		// settings, which is the bug bartolmay flagged.
+		LoadMasterVolumeFromConfig();
+	}
+
+	private void LoadMasterVolumeFromConfig()
+	{
+		var config = new ConfigFile();
+		if (config.Load("user://settings.cfg") != Error.Ok) return;
+		if (!config.HasSectionKey("audio", "volume")) return;
+
+		double value = (double)config.GetValue("audio", "volume", 100.0);
+		float linear = (float)(value / 100.0);
+		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+		int bus = AudioServer.GetBusIndex("Master");
+		AudioServer.SetBusVolumeDb(bus, db);
 	}
 	
 	//Ingame Objects

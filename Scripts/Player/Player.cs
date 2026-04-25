@@ -27,6 +27,9 @@ public partial class Player : CharacterBody2D
 	private int _livesFromScoreGranted = 0;
 	// Last run's final score, survives the scene switch so gameover can display it
 	public static int LastRunScore = 0;
+	// Highest score reached in the current process session – resets when the game closes,
+	// while the alltime highscore from user://highscore.dat persists across runs
+	public static int SessionHighscore = 0;
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -645,6 +648,8 @@ if (_isDucking)
 			_livesFromScoreGranted++;
 			_lives = Mathf.Min(_lives + 1, 9);
 		}
+		// Track the best score reached in this play session (resets on game restart)
+		if (_score > SessionHighscore) SessionHighscore = _score;
 	}
 
 	// Direct life pickup – cap at 9 so the hud label doesn't overflow

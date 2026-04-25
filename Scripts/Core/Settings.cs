@@ -89,7 +89,6 @@ public partial class Settings : Control
 	private void StartListening(string action)
 	{
 		_listeningAction = action;
-		GD.Print("Drücke eine Taste für: " + action);
 	}
 
 	public override void _Input(InputEvent @event)
