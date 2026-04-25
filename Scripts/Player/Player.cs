@@ -30,6 +30,22 @@ public partial class Player : CharacterBody2D
 	// Highest score reached in the current process session – resets when the game closes,
 	// while the alltime highscore from user://highscore.dat persists across runs
 	public static int SessionHighscore = 0;
+
+	// Persistent shop currency – every coin pickup adds one, saved in user://profile.cfg
+	public static int Coins = 0;
+	// Currently selected character index, persisted across launches
+	public static int SelectedCharacter = 0;
+	// IDs of characters the player has unlocked (always contains 0 = default)
+	public static System.Collections.Generic.HashSet<int> UnlockedCharacters = new() { 0 };
+	private const string ProfilePath = "user://profile.cfg";
+
+	// Texture lookup for the player sprite. Index matches SelectedCharacter / shop ids.
+	// Bartolmay's shop UI uses these same ids, prices are defined in GetCharacterPrice.
+	private static readonly string[] CharacterTextures = {
+		"res://leveldesign/player.png",
+		"res://leveldesign/mischa.png",
+		"res://leveldesign/tim.png",
+	};
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -117,6 +133,20 @@ _duckShape.Disabled = true;
 		_camera = GetNode<Camera2D>("Camera2D");
 		// Preload projectile scene so fireballs don't hitch the first time you swing
 		_projectileScene = GD.Load<PackedScene>("res://Scenes/projectile.tscn");
+
+		// Coins + selected character come from user://profile.cfg
+		LoadProfile();
+		ApplyCharacterTexture();
+	}
+
+	private void ApplyCharacterTexture()
+	{
+		int idx = Mathf.Clamp(SelectedCharacter, 0, CharacterTextures.Length - 1);
+		var path = CharacterTextures[idx];
+		var tex = GD.Load<Texture2D>(path);
+		if (tex == null) return;
+		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+		if (sprite != null) sprite.Texture = tex;
 	}
 
 	// Kicked by damage events – camera jitters for `duration` seconds at `strength` pixels
@@ -724,6 +754,84 @@ private void SaveHighscore(int score)
 		if (!FileAccess.FileExists(path)) return 0;
 		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
 		return (int)(uint)file.Get32();
+	}
+
+	// ========= SHOP / CHARACTER PROFILE =========
+
+	// Reads coins, selected character and unlocked-list from user://profile.cfg.
+	// Falls back to defaults silently if the file is missing or corrupt.
+	public static void LoadProfile()
+	{
+		var config = new ConfigFile();
+		if (config.Load(ProfilePath) != Error.Ok) return;
+
+		Coins = (int)config.GetValue("currency", "coins", 0);
+		SelectedCharacter = (int)config.GetValue("character", "selected", 0);
+
+		string unlockStr = (string)config.GetValue("character", "unlocked", "0");
+		UnlockedCharacters.Clear();
+		foreach (var part in unlockStr.Split(','))
+		{
+			if (int.TryParse(part, out int id)) UnlockedCharacters.Add(id);
+		}
+		// Default character must always be available even if the save is corrupt
+		UnlockedCharacters.Add(0);
+	}
+
+	public static void SaveProfile()
+	{
+		var config = new ConfigFile();
+		config.Load(ProfilePath); // keep any other sections intact
+		config.SetValue("currency", "coins", Coins);
+		config.SetValue("character", "selected", SelectedCharacter);
+		config.SetValue("character", "unlocked", string.Join(",", UnlockedCharacters));
+		config.Save(ProfilePath);
+	}
+
+	// Shop pricing table – id 0 is the starter, others cost coins. Bartolmays UI
+	// reads these to render the shop, returns 0 for unknown ids so unowned characters
+	// can't be free-checked accidentally.
+	public static int GetCharacterPrice(int id)
+	{
+		return id switch
+		{
+			0 => 0,
+			1 => 100,
+			2 => 250,
+			_ => -1,
+		};
+	}
+
+	// Returns true if the purchase went through. UI should refresh coin label after.
+	public static bool BuyCharacter(int id)
+	{
+		if (UnlockedCharacters.Contains(id)) return false;
+		int price = GetCharacterPrice(id);
+		if (price < 0 || Coins < price) return false;
+
+		Coins -= price;
+		UnlockedCharacters.Add(id);
+		SaveProfile();
+		return true;
+	}
+
+	// Switches active character if it's been unlocked. Saves the choice so it sticks
+	// across sessions; the player sprite picks this up on next Game.tscn load.
+	public static bool SelectCharacter(int id)
+	{
+		if (!UnlockedCharacters.Contains(id)) return false;
+		SelectedCharacter = id;
+		SaveProfile();
+		return true;
+	}
+
+	// Pickup entry – run score + persistent coin balance both go up. Saves immediately
+	// so a crash mid-level doesn't lose the player's earnings.
+	public void AddCoin(int amount)
+	{
+		AddScore(amount);
+		Coins += amount;
+		SaveProfile();
 	}
 
 	public async void Die()
