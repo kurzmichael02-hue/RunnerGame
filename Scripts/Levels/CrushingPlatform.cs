@@ -27,8 +27,11 @@ public partial class CrushingPlatform : AnimatableBody2D
 		// If we hit the player while moving down, the player gets squished.
 		var collision = MoveAndCollide(motion);
 		if (collision != null && motion.Y > 0f
-			&& collision.GetCollider() is Player player && !player.IsDying)
+			&& collision.GetCollider() is Player player
+			&& !player.IsDying && !player.IsInvincible)
 		{
+			// Skip kill during respawn i-frames so the player doesn't die instantly
+			// if they happen to spawn under a descending platform
 			player.DieFall();
 		}
 	}
