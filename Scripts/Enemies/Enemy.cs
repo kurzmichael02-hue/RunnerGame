@@ -55,10 +55,17 @@ public partial class Enemy : CharacterBody2D
 		_damageCooldown -= (float)delta;
 
 		var playerNode = GetTree().GetFirstNodeInGroup("player") as Player;
-		if (playerNode != null && !playerNode.IsDying)
+		// Skip damage entirely while the player is dying or in i-frames after a respawn,
+		// otherwise enemies that happened to be standing on the checkpoint kill instantly
+		if (playerNode != null && !playerNode.IsDying && !playerNode.IsInvincible)
 		{
-			float dist = GlobalPosition.DistanceTo(playerNode.GlobalPosition);
-			if (dist < 60f && _damageCooldown <= 0f)
+			// Split into horizontal + vertical thresholds for cleaner contact detection.
+			// dy > 0 = enemy below player, dy < 0 = enemy above player.
+			float dx = Mathf.Abs(GlobalPosition.X - playerNode.GlobalPosition.X);
+			float dy = GlobalPosition.Y - playerNode.GlobalPosition.Y;
+			bool inContact = dx < 48f && Mathf.Abs(dy) < 58f;
+
+			if (inContact && _damageCooldown <= 0f)
 			{
 				// Star-powered player plows through enemies on contact (#84)
 				if (playerNode.StarInvincibilityActive)
@@ -67,21 +74,18 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Stomp detection: player is falling AND is above the enemy's center
-				// (classic Mario stomp – jump on head = kill enemy) (#88)
-				bool stompedFromAbove = playerNode.Velocity.Y > 100f
-					&& (playerNode.GlobalPosition.Y + 20f) < GlobalPosition.Y;
-
-				if (stompedFromAbove)
+				// Player stomps enemy from above (classic Mario stomp) (#88)
+				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 6f;
+				if (playerStomp)
 				{
 					playerNode.StompedEnemy = true;
 					Die();
 					return;
 				}
 
-				// Side/bottom contact – player takes damage
+				// Enemy lands on player (jumping enemy falling on top) – player dies.
+				// Side / horizontal contact also goes through this branch.
 				playerNode.Die();
-				// Cooldown prevents the enemy from triggering Die() every frame
 				_damageCooldown = 1.5f;
 				return;
 			}

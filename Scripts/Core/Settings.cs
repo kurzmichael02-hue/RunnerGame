@@ -168,29 +168,37 @@ public partial class Settings : Control
 		_isLoading = false;
 	}
 
+	// Same section + physical-keycode format as PauseMenu, so opening one and saving
+	// in the other doesn't end up with two parallel binding sets that conflict.
+	// Without this, the player could end up with blank keys after a replay.
 	private void SaveKey(ConfigFile config, string action)
 	{
 		var events = InputMap.ActionGetEvents(action);
 
 		if (events.Count > 0 && events[0] is InputEventKey keyEvent)
-			config.SetValue("keys", action, (int)keyEvent.Keycode);
+		{
+			Key k = keyEvent.PhysicalKeycode != Key.None
+				? keyEvent.PhysicalKeycode
+				: keyEvent.Keycode;
+			config.SetValue("bindings", action, (int)k);
+		}
 	}
 
 	private void LoadKey(ConfigFile config, string action)
 	{
-		if (!config.HasSectionKey("keys", action))
-		{
+		if (!config.HasSectionKey("bindings", action))
 			return;
-			
-		}
 
-		int keycodeInt = (int)config.GetValue("keys", action);
+		int keycodeInt = (int)config.GetValue("bindings", action);
+		// 0 = Key.None means a corrupt save – don't wipe the project.godot default with it
+		if (keycodeInt <= 0) return;
+
 		Key keycode = (Key)keycodeInt;
 
 		InputMap.ActionEraseEvents(action);
 
 		var ev = new InputEventKey();
-		ev.Keycode = keycode;
+		ev.PhysicalKeycode = keycode;
 
 		InputMap.ActionAddEvent(action, ev);
 	}

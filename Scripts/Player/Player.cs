@@ -44,6 +44,8 @@ public partial class Player : CharacterBody2D
 	public bool StarActive => _starActive;
 	public bool StarInvincibilityActive => _starInvincibilityActive;
 	private float _invincibilityTimer = 0f;
+	// Read-only flag for enemies / hazards so they skip damage during respawn i-frames
+	public bool IsInvincible => _invincibilityTimer > 0f;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
 	private bool _isJumping = false;
