@@ -9,6 +9,9 @@ public partial class PauseMenu : Control
 	private Button _duckBind;
 	private Button _attackBind;
 	private string _listeningAction = null;
+	// Blockt valuechanged-feedback während loadsettings den slider initial setzt,
+	// sonst gibts einen kurzen volume-jump und doppeltes save am gameload
+	private bool _isLoading = false;
 
 	public override void _Ready()
 	{
@@ -170,10 +173,13 @@ public partial class PauseMenu : Control
 		var config = new ConfigFile();
 		if (config.Load("user://settings.cfg") != Error.Ok) return;
 
+		_isLoading = true;
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			if (!config.HasSectionKey("bindings", action)) continue;
 			int keycode = (int)config.GetValue("bindings", action);
+			// 0 = key.none = corrupte save, project.godot defaults beibehalten
+			if (keycode <= 0) continue;
 			var keyEvent = new InputEventKey();
 			keyEvent.PhysicalKeycode = (Key)keycode;
 			InputMap.ActionEraseEvents(action);
@@ -187,6 +193,7 @@ public partial class PauseMenu : Control
 			float db = Mathf.LinearToDb((float)(volume / 100.0));
 			AudioServer.SetBusVolumeDb(0, db);
 		}
+		_isLoading = false;
 	}
 
 	private void OnResumePressed()
@@ -199,6 +206,7 @@ public partial class PauseMenu : Control
 
 	private void OnVolumeChanged(double value)
 	{
+		if (_isLoading) return;
 		float db = Mathf.LinearToDb((float)(value / 100.0));
 		AudioServer.SetBusVolumeDb(0, db);
 		SaveSettings();
