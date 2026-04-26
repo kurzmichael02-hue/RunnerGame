@@ -8,6 +8,7 @@ public partial class Player : CharacterBody2D
 	[Export] public float Deceleration = 900f;
 	[Export] public float AirAcceleration = 1200f;
 	[Export] public float TurnAcceleration = 3000f;
+	private AnimatedSprite2D _anim;
 
 	// Jump
 	[Export] public float JumpVelocity = -600f;
@@ -137,7 +138,48 @@ _duckShape.Disabled = true;
 		// Coins + selected character come from user://profile.cfg
 		LoadProfile();
 		ApplyCharacterTexture();
+		_anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_anim.Play("still");
 	}
+	private void UpdateAnimation(float direction)
+{
+	if (_anim == null) return;
+
+	// In der Luft
+	if (!IsOnFloor())
+	{
+		_anim.FlipH = direction < 0;
+
+		// Springt nach oben
+		if (Velocity.Y < 0)
+		{
+			if (_anim.Animation != "jump_high")
+				_anim.Play("jump_high");
+		}
+		// Fällt nach unten
+		else
+		{
+			if (_anim.Animation != "jump_down")
+				_anim.Play("jump_down");
+		}
+
+		return;
+	}
+
+	// Am Boden
+	if (direction != 0)
+	{
+		_anim.FlipH = direction < 0;
+
+		if (_anim.Animation != "wallk")
+			_anim.Play("wallk");
+	}
+	else
+	{
+		if (_anim.Animation != "still")
+			_anim.Play("still");
+	}
+}
 
 	private void ApplyCharacterTexture()
 	{
@@ -358,6 +400,12 @@ _duckShape.Disabled = true;
 
 	public override void _PhysicsProcess(double delta)
 	{
+		float direction = 0;
+		if (Input.IsActionPressed("move_left")) direction = -1;
+		else if (Input.IsActionPressed("move_right")) direction = 1;
+
+		
+	UpdateAnimation(direction);
 		float dt = (float)delta;
 if (Position.Y > 600f && !IsDying)
 	DieFall();
@@ -509,9 +557,9 @@ if (_isDucking)
 		}
 
 		// Horizontal movement
-		float direction = 0;
-		if (Input.IsActionPressed("move_left")) direction = -1;
-		else if (Input.IsActionPressed("move_right")) direction = 1;
+		//float direction = 0;
+		//if (Input.IsActionPressed("move_left")) direction = -1;
+		//else if (Input.IsActionPressed("move_right")) direction = 1;
 
 		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 

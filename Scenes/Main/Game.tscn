@@ -5,7 +5,9 @@
 [ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player/Player.cs" id="3_0nu4m"]
 [ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="4_vl7yh"]
 [ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/UI/HUD.cs" id="5_apnk5"]
+[ext_resource type="Texture2D" uid="uid://b1dye8ua1bd5h" path="res://leveldesign/jump.png" id="5_vl7yh"]
 [ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/UI/PauseMenu.cs" id="6_ctxhw"]
+[ext_resource type="Texture2D" uid="uid://2872p6pw2lwk" path="res://leveldesign/Player animation.png" id="6_vl7yh"]
 [ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="7_ook5n"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="8_4eofi"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
@@ -33,13 +35,95 @@
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
-size = Vector2(50, 92)
+size = Vector2(50, 101)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q8tf"]
-size = Vector2(30, 60)
+size = Vector2(30, 79)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
 size = Vector2(30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvl0l"]
+atlas = ExtResource("5_vl7yh")
+region = Rect2(1027, 200, 234, 450)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ulun0"]
+atlas = ExtResource("5_vl7yh")
+region = Rect2(310, 200, 234, 450)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nu4m"]
+atlas = ExtResource("6_vl7yh")
+region = Rect2(60, 250, 237, 387)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4eofi"]
+atlas = ExtResource("6_vl7yh")
+region = Rect2(1266, 250, 234, 386)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ook5n"]
+atlas = ExtResource("6_vl7yh")
+region = Rect2(1027, 250, 234, 386)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctxhw"]
+atlas = ExtResource("6_vl7yh")
+region = Rect2(788, 250, 234, 386)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vl7yh"]
+atlas = ExtResource("6_vl7yh")
+region = Rect2(310, 250, 234, 386)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apnk5"]
+atlas = ExtResource("6_vl7yh")
+region = Rect2(549, 250, 234, 386)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nvl0l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvl0l")
+}],
+"loop": true,
+"name": &"jump_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ulun0")
+}],
+"loop": true,
+"name": &"jump_high",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0nu4m")
+}],
+"loop": true,
+"name": &"still",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4eofi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ook5n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ctxhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4eofi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vl7yh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apnk5")
+}],
+"loop": true,
+"name": &"wallk",
+"speed": 15.0
+}]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x3xnh"]
 texture = ExtResource("7_ook5n")
@@ -440,7 +524,7 @@ collision_mask = 5
 script = ExtResource("3_0nu4m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
-position = Vector2(0, 1)
+position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
@@ -451,16 +535,24 @@ drag_right_margin = 0.0
 drag_bottom_margin = 0.9
 
 [node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=595602708]
+visible = false
 texture_filter = 1
 position = Vector2(-0.99999994, -7.9999995)
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("4_vl7yh")
 
 [node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=327617137]
+position = Vector2(0, 9.5)
 shape = SubResource("RectangleShape2D_4q8tf")
 
 [node name="DuckShape" type="CollisionShape2D" parent="Player" unique_id=1483275952]
 shape = SubResource("RectangleShape2D_x3xnh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1604708776]
+position = Vector2(-6, -20)
+scale = Vector2(0.46885175, 0.37510318)
+sprite_frames = SubResource("SpriteFrames_nvl0l")
+animation = &"jump_down"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
 script = ExtResource("5_apnk5")
