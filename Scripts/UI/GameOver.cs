@@ -49,13 +49,13 @@ public partial class GameOver : Control
 		{
 			
 			SoundManager.Instance.PlayButton();
-			GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
+			GetTree().ChangeSceneToFile("res://Scenes/Main/Game.tscn");
 		}
 
 		// Main Menu pressed
 		private void _on_mainMenu_pressed()
 		{
-			GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+			GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 		}
 
 		// EXIT BUTTON

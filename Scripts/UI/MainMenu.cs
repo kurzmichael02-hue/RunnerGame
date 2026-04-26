@@ -42,14 +42,14 @@ private void OnAnyButtonHovered()
 	{
 		
 		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/Game.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/Game.tscn");
 	}
 
 	// SETTINGS BUTTON
 	private void _on_settings_pressed()
 	{
 		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/Settings.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/Settings.tscn");
 	}
 
 	// HIGHSCORES BUTTON
@@ -57,7 +57,7 @@ private void OnAnyButtonHovered()
 	{
 		
 		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/HighScores.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/HighScores.tscn");
 	}
 
 	// EXIT BUTTON

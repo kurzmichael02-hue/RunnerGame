@@ -132,7 +132,7 @@ _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
 		_camera = GetNode<Camera2D>("Camera2D");
 		// Preload projectile scene so fireballs don't hitch the first time you swing
-		_projectileScene = GD.Load<PackedScene>("res://Scenes/projectile.tscn");
+		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
 
 		// Coins + selected character come from user://profile.cfg
 		LoadProfile();
@@ -315,7 +315,7 @@ _duckShape.Disabled = true;
 		SaveHighscore(_score);
 		Visible = false;
 		SetPhysicsProcess(false);
-		GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/GameOver.tscn");
 		return;
 	}
 
@@ -868,7 +868,7 @@ private void SaveHighscore(int score)
 			SaveHighscore(_score);
 			Visible = false;
 			SetPhysicsProcess(false);
-			GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+			GetTree().ChangeSceneToFile("res://Scenes/Main/GameOver.tscn");
 		}
 		else
 {

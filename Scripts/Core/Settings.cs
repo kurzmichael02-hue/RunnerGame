@@ -80,7 +80,7 @@ public partial class Settings : Control
 	private void OnMainMenuPressed()
 	{
 		SaveSettings();
-		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 
 	// =========================
@@ -241,8 +241,8 @@ public partial class Settings : Control
 
 	private void OnResetPressed()
 {
-    ApplyDefaults();
-    UpdateButtonTexts();
-    SaveSettings();
+	ApplyDefaults();
+	UpdateButtonTexts();
+	SaveSettings();
 }
 }

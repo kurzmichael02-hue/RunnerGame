@@ -60,7 +60,7 @@ public partial class LevelCompleteScreen : CanvasLayer
 	{
 		LevelGoal.Reset();
 		GetTree().Paused = false;
-		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 
 	private void OnRetry()

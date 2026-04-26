@@ -1,35 +1,35 @@
 [gd_scene format=4 uid="uid://wkfgl7nu6bsh"]
 
-[ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player/Player.cs" id="1_iukft"]
-[ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/Core/GameManager.cs" id="1_j5yw3"]
-[ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Pickups/Coin.cs" id="2_gl6un"]
-[ext_resource type="Texture2D" uid="uid://d3inn0asxct2u" path="res://leveldesign/Background/back.png" id="2_rajel"]
-[ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="3_71axn"]
-[ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemies/Enemy.cs" id="4_kldst"]
-[ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/UI/HUD.cs" id="5_b2bpf"]
-[ext_resource type="Texture2D" uid="uid://ctplya5hj2fhu" path="res://leveldesign/coins.png" id="5_dahhg"]
-[ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/UI/PauseMenu.cs" id="6_7lihs"]
-[ext_resource type="Texture2D" uid="uid://b7ovap0u8vl5i" path="res://leveldesign/enemy.png" id="7_3so38"]
-[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="7_fgofq"]
-[ext_resource type="Texture2D" uid="uid://djld3vcw4cqig" path="res://leveldesign/enemy2.png" id="8_wxwew"]
-[ext_resource type="Texture2D" uid="uid://dia3vjlmcs2y5" path="res://leveldesign/enemy3.png" id="9_acvyw"]
-[ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="10_71axn"]
-[ext_resource type="Texture2D" uid="uid://b6spruxkscwub" path="res://leveldesign/zielflagge.png" id="10_356ba"]
-[ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/Enemies/PowerUps/MagnetPowerUp.cs" id="11_dahhg"]
-[ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="12_alh3a"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="13_4q8tf"]
-[ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/Enemies/PowerUps/ShieldPowerUp.cs" id="14_shldx"]
-[ext_resource type="PackedScene" uid="uid://daf7kmx2n3p4q" path="res://Scenes/spike.tscn" id="15_spike"]
-[ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/moving_platform.tscn" id="16_mvpl"]
-[ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/star_power_up.tscn" id="17_star"]
-[ext_resource type="PackedScene" uid="uid://dfgxkpqm5r8v2" path="res://Scenes/projectile.tscn" id="18_proj"]
-[ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/heart_pickup.tscn" id="19_heart"]
-[ext_resource type="PackedScene" uid="uid://bq4r7m2nlaxtv" path="res://Scenes/fire_flower.tscn" id="20_fire"]
-[ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/sword_pickup.tscn" id="21_sword"]
-[ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="22_vvhu1"]
-[ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_3jf1l"]
-[ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="29_i4lct"]
-[ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="30_iyesh"]
+[ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/Core/GameManager.cs" id="1_kyjoo"]
+[ext_resource type="Texture2D" uid="uid://d3inn0asxct2u" path="res://leveldesign/Background/back.png" id="2_ac8j0"]
+[ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player/Player.cs" id="3_0nu4m"]
+[ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="4_vl7yh"]
+[ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/UI/HUD.cs" id="5_apnk5"]
+[ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/UI/PauseMenu.cs" id="6_ctxhw"]
+[ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="7_ook5n"]
+[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="8_4eofi"]
+[ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
+[ext_resource type="Texture2D" uid="uid://b6spruxkscwub" path="res://leveldesign/zielflagge.png" id="10_ulun0"]
+[ext_resource type="PackedScene" uid="uid://bq4r7m2nlaxtv" path="res://Scenes/level_objects/fire_flower.tscn" id="11_nvn6m"]
+[ext_resource type="PackedScene" uid="uid://daf7kmx2n3p4q" path="res://Scenes/level_objects/spike.tscn" id="12_m2jmm"]
+[ext_resource type="Script" uid="uid://bbtub7bs2duac" path="res://Scripts/Enemies/Enemy.cs" id="13_efseb"]
+[ext_resource type="Texture2D" uid="uid://b7ovap0u8vl5i" path="res://leveldesign/enemy.png" id="14_g4d0g"]
+[ext_resource type="Texture2D" uid="uid://djld3vcw4cqig" path="res://leveldesign/enemy2.png" id="15_4vo7a"]
+[ext_resource type="Texture2D" uid="uid://dia3vjlmcs2y5" path="res://leveldesign/enemy3.png" id="16_w4nuh"]
+[ext_resource type="PackedScene" uid="uid://dfgxkpqm5r8v2" path="res://Scenes/level_objects/projectile.tscn" id="17_n4fq4"]
+[ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="18_jeh1s"]
+[ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Pickups/Coin.cs" id="19_wsy13"]
+[ext_resource type="Texture2D" uid="uid://ctplya5hj2fhu" path="res://leveldesign/coins.png" id="20_o0po4"]
+[ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
+[ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
+[ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
+[ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
+[ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
+[ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
+[ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
+[ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/Pickups/star_power_up.tscn" id="28_8k6aj"]
+[ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/Pickups/sword_pickup.tscn" id="29_gbitj"]
+[ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 80)
@@ -41,7 +41,7 @@ size = Vector2(30, 60)
 size = Vector2(30, 30)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x3xnh"]
-texture = ExtResource("12_alh3a")
+texture = ExtResource("7_ook5n")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r6kd"]
 bg_color = Color(0.97869855, 0.9757758, 1, 1)
@@ -168,7 +168,7 @@ load_path = "res://.godot/imported/enemy2.png-d829694572805d3829ef3d5cd816f2f3.c
 size = Vector2(50, 50)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbihj"]
-texture = ExtResource("22_vvhu1")
+texture = ExtResource("18_jeh1s")
 1:1/0 = 0
 1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:1/0/physics_layer_0/polygon_1/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
@@ -357,7 +357,7 @@ size = Vector2(30, 80)
 size = Vector2(30, 80)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i1pr2"]
-texture = ExtResource("30_iyesh")
+texture = ExtResource("24_uctmh")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_356ba"]
 bg_color = Color(1, 1, 1, 1)
@@ -393,24 +393,23 @@ shadow_offset = Vector2(0, 3.41)
 radius = 20.0
 
 [node name="Node2D" type="Node2D" unique_id=1679243187]
-script = ExtResource("1_j5yw3")
+script = ExtResource("1_kyjoo")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=569983748]
 position = Vector2(3791, 271.50006)
 scale = Vector2(22.598957, 7.8125005)
-texture = ExtResource("2_rajel")
+texture = ExtResource("2_ac8j0")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=443440453]
 position = Vector2(200, 263)
 collision_mask = 5
-script = ExtResource("1_iukft")
+script = ExtResource("3_0nu4m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
 shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
 drag_horizontal_enabled = true
-drag_vertical_enabled = true
 drag_left_margin = 0.62
 drag_top_margin = 0.29
 drag_right_margin = 0.0
@@ -420,7 +419,7 @@ drag_bottom_margin = 0.9
 texture_filter = 1
 position = Vector2(-0.99999994, -7.9999995)
 scale = Vector2(3.5, 3.5)
-texture = ExtResource("3_71axn")
+texture = ExtResource("4_vl7yh")
 
 [node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=327617137]
 shape = SubResource("RectangleShape2D_4q8tf")
@@ -429,7 +428,7 @@ shape = SubResource("RectangleShape2D_4q8tf")
 shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
-script = ExtResource("5_b2bpf")
+script = ExtResource("5_apnk5")
 
 [node name="ScoreLabel" type="Label" parent="HUD" unique_id=1890989925]
 modulate = Color(1, 0, 0, 1)
@@ -512,7 +511,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_7lihs")
+script = ExtResource("6_ctxhw")
 
 [node name="MenuPanel" type="Panel" parent="HUD/PauseMenu" unique_id=598116344]
 custom_minimum_size = Vector2(550, 0)
@@ -531,7 +530,7 @@ offset_top = 40.0
 offset_right = 827.0
 offset_bottom = 141.0
 theme_override_colors/font_color = Color(0.08717359, 0.00010087002, 0.25063923, 1)
-theme_override_fonts/font = ExtResource("13_4q8tf")
+theme_override_fonts/font = ExtResource("8_4eofi")
 theme_override_font_sizes/font_size = 50
 text = "PAUSED MENU"
 horizontal_alignment = 1
@@ -745,7 +744,7 @@ grow_horizontal = 0
 
 [node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
 position = Vector2(7200, 260)
-script = ExtResource("10_71axn")
+script = ExtResource("9_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
 shape = SubResource("RectangleShape2D_bf53h")
@@ -753,7 +752,7 @@ shape = SubResource("RectangleShape2D_bf53h")
 [node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=4175977]
 texture_filter = 1
 scale = Vector2(6, 6)
-texture = ExtResource("10_356ba")
+texture = ExtResource("10_ulun0")
 
 [node name="RightWall" type="StaticBody2D" parent="." unique_id=1001432771]
 position = Vector2(7260, 0)
@@ -761,18 +760,18 @@ position = Vector2(7260, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
 shape = SubResource("RectangleShape2D_dahhg")
 
-[node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("20_fire")]
+[node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("11_nvn6m")]
 position = Vector2(4000, 250)
 
 [node name="Spikes" type="Node2D" parent="." unique_id=63224165]
 
-[node name="Spike" parent="Spikes" unique_id=677823221 instance=ExtResource("15_spike")]
+[node name="Spike" parent="Spikes" unique_id=677823221 instance=ExtResource("12_m2jmm")]
 position = Vector2(1342, 326)
 
-[node name="Spike2" parent="Spikes" unique_id=157495555 instance=ExtResource("15_spike")]
+[node name="Spike2" parent="Spikes" unique_id=157495555 instance=ExtResource("12_m2jmm")]
 position = Vector2(5700, 300)
 
-[node name="Spike3" parent="Spikes" unique_id=754823535 instance=ExtResource("15_spike")]
+[node name="Spike3" parent="Spikes" unique_id=754823535 instance=ExtResource("12_m2jmm")]
 position = Vector2(5770, 300)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1715919895]
@@ -782,7 +781,7 @@ position = Vector2(6200, 279)
 position = Vector2(-5500, 13)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 MoveDistance = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy" unique_id=634150711]
@@ -793,7 +792,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 texture_filter = 1
 position = Vector2(6, 15)
 scale = Vector2(4.5, 4.5)
-texture = ExtResource("7_3so38")
+texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy" unique_id=609767665]
 position = Vector2(0, -1)
@@ -804,7 +803,7 @@ target_position = Vector2(0, 0)
 position = Vector2(-5100, 22)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 2
 Speed = 10.0
 MoveDistance = 50.0
@@ -817,7 +816,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 texture_filter = 1
 position = Vector2(0, -27)
 scale = Vector2(4, 4)
-texture = ExtResource("8_wxwew")
+texture = ExtResource("15_4vo7a")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy2" unique_id=471693211]
 position = Vector2(0, -9)
@@ -828,7 +827,7 @@ target_position = Vector2(1, -11)
 position = Vector2(-4431, 21)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 1
 MoveDistance = 400.0
 
@@ -840,7 +839,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 texture_filter = 1
 position = Vector2(2, -12)
 scale = Vector2(4.5, 4.5)
-texture = ExtResource("9_acvyw")
+texture = ExtResource("16_w4nuh")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy3" unique_id=879793035]
 position = Vector2(0, -6)
@@ -851,7 +850,7 @@ target_position = Vector2(0, 0)
 position = Vector2(-3700, 21)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 1
 Speed = 10.0
 MoveDistance = 50.0
@@ -875,7 +874,7 @@ target_position = Vector2(0, 0)
 position = Vector2(-2433, -130)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 2
 Speed = 0.0
 MoveDistance = 0.0
@@ -899,7 +898,7 @@ target_position = Vector2(0, 0)
 position = Vector2(-1552, 4)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 MoveDistance = 250.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy6" unique_id=634150712]
@@ -910,7 +909,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 texture_filter = 1
 position = Vector2(5, 16)
 scale = Vector2(4.5, 4.5)
-texture = ExtResource("7_3so38")
+texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy6" unique_id=609767666]
 position = Vector2(-10, -4)
@@ -921,7 +920,7 @@ target_position = Vector2(1, 0)
 position = Vector2(-700, 22)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 1
 MoveDistance = 300.0
 
@@ -933,7 +932,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 texture_filter = 1
 position = Vector2(0, -41)
 scale = Vector2(4, 4)
-texture = ExtResource("8_wxwew")
+texture = ExtResource("15_4vo7a")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy7" unique_id=609767667]
 position = Vector2(0, -22)
@@ -944,7 +943,7 @@ target_position = Vector2(0, 0)
 position = Vector2(0, 21)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy8" unique_id=634150714]
@@ -955,7 +954,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 texture_filter = 1
 position = Vector2(0, -27)
 scale = Vector2(4.5, 4.5)
-texture = ExtResource("9_acvyw")
+texture = ExtResource("16_w4nuh")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy8" unique_id=609767668]
 position = Vector2(0, -21)
@@ -966,7 +965,7 @@ target_position = Vector2(0, 0)
 position = Vector2(-500, 13)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy9" unique_id=634150715]
@@ -976,7 +975,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 modulate = Color(1, 0.35, 0.35, 1)
 texture_filter = 1
 scale = Vector2(4.5, 4.5)
-texture = ExtResource("7_3so38")
+texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy9" unique_id=609767669]
 shape = SubResource("RectangleShape2D_wxwew")
@@ -986,9 +985,9 @@ target_position = Vector2(0, 0)
 position = Vector2(-1900, 13)
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("4_kldst")
+script = ExtResource("13_efseb")
 Type = 4
-ProjectileScene = ExtResource("18_proj")
+ProjectileScene = ExtResource("17_n4fq4")
 ShootInterval = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
@@ -998,7 +997,7 @@ shape = SubResource("RectangleShape2D_j5yw3")
 modulate = Color(0.5, 0.5, 1, 1)
 texture_filter = 1
 scale = Vector2(4.5, 4.5)
-texture = ExtResource("7_3so38")
+texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy10" unique_id=609767670]
 shape = SubResource("RectangleShape2D_wxwew")
@@ -1012,7 +1011,7 @@ tile_set = SubResource("TileSet_raj38")
 
 [node name="Coin" type="Area2D" parent="Coins" unique_id=1581031963]
 position = Vector2(400, 150)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin" unique_id=2055008763]
 shape = SubResource("CircleShape2D_j5yw3")
@@ -1020,11 +1019,11 @@ shape = SubResource("CircleShape2D_j5yw3")
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin" unique_id=546608006]
 texture_filter = 1
 scale = Vector2(4, 4)
-texture = ExtResource("5_dahhg")
+texture = ExtResource("20_o0po4")
 
 [node name="Coin2" type="Area2D" parent="Coins" unique_id=686530803]
 position = Vector2(600, 280)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin2" unique_id=463434279]
 shape = SubResource("CircleShape2D_j5yw3")
@@ -1032,11 +1031,11 @@ shape = SubResource("CircleShape2D_j5yw3")
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin2" unique_id=974573623]
 texture_filter = 1
 scale = Vector2(4, 4)
-texture = ExtResource("5_dahhg")
+texture = ExtResource("20_o0po4")
 
 [node name="Coin3" type="Area2D" parent="Coins" unique_id=168780771]
 position = Vector2(801, 150)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin3" unique_id=2061636987]
 shape = SubResource("CircleShape2D_j5yw3")
@@ -1044,11 +1043,11 @@ shape = SubResource("CircleShape2D_j5yw3")
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin3" unique_id=483352856]
 texture_filter = 1
 scale = Vector2(4, 4)
-texture = ExtResource("5_dahhg")
+texture = ExtResource("20_o0po4")
 
 [node name="Coin4" type="Area2D" parent="Coins" unique_id=121221526]
 position = Vector2(1000, 280)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin4" unique_id=920698204]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1060,7 +1059,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin5" type="Area2D" parent="Coins" unique_id=1161870017]
 position = Vector2(3181, 71)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin5" unique_id=404119719]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1073,7 +1072,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin6" type="Area2D" parent="Coins" unique_id=1609223924]
 position = Vector2(3389, 106)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin6" unique_id=439638209]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1086,7 +1085,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin7" type="Area2D" parent="Coins" unique_id=81764200]
 position = Vector2(2379, 258)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin7" unique_id=105800429]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1099,7 +1098,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin8" type="Area2D" parent="Coins" unique_id=1821734858]
 position = Vector2(3289, 46)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin8" unique_id=505241174]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1112,7 +1111,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin9" type="Area2D" parent="Coins" unique_id=557738117]
 position = Vector2(2848, 51)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin9" unique_id=1510580295]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1125,7 +1124,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin10" type="Area2D" parent="Coins" unique_id=1049713406]
 position = Vector2(2900, 121)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin10" unique_id=1022773604]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1138,7 +1137,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin11" type="Area2D" parent="Coins" unique_id=1440894983]
 position = Vector2(2775, 98)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin11" unique_id=1858538498]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1151,7 +1150,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin12" type="Area2D" parent="Coins" unique_id=1581031964]
 position = Vector2(3500, 260)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin12" unique_id=2055008764]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1163,7 +1162,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin13" type="Area2D" parent="Coins" unique_id=1581031965]
 position = Vector2(4500, 260)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin13" unique_id=2055008765]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1175,7 +1174,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin14" type="Area2D" parent="Coins" unique_id=1581031966]
 position = Vector2(5900, 150)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin14" unique_id=2055008766]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1187,7 +1186,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin15" type="Area2D" parent="Coins" unique_id=1581031967]
 position = Vector2(6900, 260)
-script = ExtResource("2_gl6un")
+script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin15" unique_id=2055008767]
 shape = SubResource("CircleShape2D_alh3a")
@@ -1202,7 +1201,7 @@ position = Vector2(1350, 317)
 
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
 position = Vector2(-650, -37)
-script = ExtResource("7_fgofq")
+script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
 shape = SubResource("RectangleShape2D_7lihs")
@@ -1212,7 +1211,7 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
 position = Vector2(1316, -70)
-script = ExtResource("7_fgofq")
+script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2" unique_id=666897722]
 position = Vector2(0, 31)
@@ -1224,7 +1223,7 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
 position = Vector2(2850, -57)
-script = ExtResource("7_fgofq")
+script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
 shape = SubResource("RectangleShape2D_7lihs")
@@ -1234,7 +1233,7 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
 position = Vector2(5350, -57)
-script = ExtResource("7_fgofq")
+script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint4" unique_id=666897724]
 shape = SubResource("RectangleShape2D_7lihs")
@@ -1245,16 +1244,16 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
-[node name="MovingPlatform" parent="Movingplatform" unique_id=2085462135 instance=ExtResource("16_mvpl")]
+[node name="MovingPlatform" parent="Movingplatform" unique_id=2085462135 instance=ExtResource("22_4a5cj")]
 position = Vector2(1800, 200)
 
-[node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("16_mvpl")]
+[node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("22_4a5cj")]
 position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
 
 [node name="LevelCompleteScreen" type="CanvasLayer" parent="." unique_id=551507232]
-script = ExtResource("29_i4lct")
+script = ExtResource("23_dntcx")
 
 [node name="Panel" type="Panel" parent="LevelCompleteScreen" unique_id=1662592036]
 anchors_preset = 15
@@ -1279,7 +1278,7 @@ offset_right = 357.0
 offset_bottom = 250.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("13_4q8tf")
+theme_override_fonts/font = ExtResource("8_4eofi")
 theme_override_font_sizes/font_size = 55
 text = "LEVEL COMPLETE!"
 horizontal_alignment = 1
@@ -1374,7 +1373,7 @@ vertical_alignment = 1
 
 [node name="MagnetPowerUp" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404631]
 position = Vector2(900, 260)
-script = ExtResource("11_dahhg")
+script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp" unique_id=1963666255]
 shape = SubResource("CircleShape2D_71axn")
@@ -1382,11 +1381,11 @@ shape = SubResource("CircleShape2D_71axn")
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/Magnets/MagnetPowerUp" unique_id=459351141]
 texture_filter = 1
 scale = Vector2(2, 2)
-texture = ExtResource("26_3jf1l")
+texture = ExtResource("26_2c274")
 
 [node name="MagnetPowerUp2" type="Area2D" parent="PowerUps/Magnets" unique_id=208422444]
 position = Vector2(2106, 70)
-script = ExtResource("11_dahhg")
+script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp2" unique_id=1505431566]
 shape = SubResource("CircleShape2D_71axn")
@@ -1394,11 +1393,11 @@ shape = SubResource("CircleShape2D_71axn")
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/Magnets/MagnetPowerUp2" unique_id=1656427898]
 texture_filter = 1
 scale = Vector2(2, 2)
-texture = ExtResource("26_3jf1l")
+texture = ExtResource("26_2c274")
 
 [node name="MagnetPowerUp3" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404632]
 position = Vector2(5300, 260)
-script = ExtResource("11_dahhg")
+script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp3" unique_id=1963666256]
 shape = SubResource("CircleShape2D_71axn")
@@ -1406,11 +1405,11 @@ shape = SubResource("CircleShape2D_71axn")
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/Magnets/MagnetPowerUp3" unique_id=788057063]
 texture_filter = 1
 scale = Vector2(2, 2)
-texture = ExtResource("26_3jf1l")
+texture = ExtResource("26_2c274")
 
 [node name="ShieldPowerUp" type="Area2D" parent="PowerUps" unique_id=333111220]
 position = Vector2(1250, 260)
-script = ExtResource("14_shldx")
+script = ExtResource("27_vf2ed")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/ShieldPowerUp" unique_id=333111221]
 shape = SubResource("CircleShape2D_71axn")
@@ -1419,7 +1418,7 @@ shape = SubResource("CircleShape2D_71axn")
 color = Color(0, 1, 1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
-[node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("17_star")]
+[node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_8k6aj")]
 position = Vector2(2100, 260)
 
 [node name="Pickups" type="Node2D" parent="." unique_id=1351883762]
@@ -1427,16 +1426,16 @@ position = Vector2(1250, 260)
 
 [node name="Swords" type="Node2D" parent="Pickups" unique_id=1180480395]
 
-[node name="SwordPickup" parent="Pickups/Swords" unique_id=1829312997 instance=ExtResource("21_sword")]
+[node name="SwordPickup" parent="Pickups/Swords" unique_id=1829312997 instance=ExtResource("29_gbitj")]
 position = Vector2(300, -30)
 
-[node name="SwordPickup2" parent="Pickups/Swords" unique_id=924163623 instance=ExtResource("21_sword")]
+[node name="SwordPickup2" parent="Pickups/Swords" unique_id=924163623 instance=ExtResource("29_gbitj")]
 position = Vector2(4250, -60)
 
 [node name="Heart" type="Node2D" parent="Pickups" unique_id=795867905]
 
-[node name="HeartPickup" parent="Pickups/Heart" unique_id=1366131351 instance=ExtResource("19_heart")]
+[node name="HeartPickup" parent="Pickups/Heart" unique_id=1366131351 instance=ExtResource("30_mn28y")]
 position = Vector2(4050, -30)
 
-[node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("19_heart")]
+[node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
 position = Vector2(5550, -110)
