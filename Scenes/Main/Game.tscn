@@ -28,11 +28,12 @@
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
 [ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/Pickups/star_power_up.tscn" id="28_8k6aj"]
+[ext_resource type="Texture2D" uid="uid://cbbiuv4un1jsb" path="res://leveldesign/Schield.png" id="29_ac8j0"]
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/Pickups/sword_pickup.tscn" id="29_gbitj"]
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
-size = Vector2(50, 80)
+size = Vector2(50, 92)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4q8tf"]
 size = Vector2(30, 60)
@@ -132,40 +133,70 @@ color = Color(0.9490196, 0.9490196, 0.9490196, 1)
 thickness = 4
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
-size = Vector2(30, 80)
+size = Vector2(56, 84)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dahhg"]
 size = Vector2(20, 1000)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5yw3"]
-size = Vector2(50, 50)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kyjoo"]
+size = Vector2(67, 36)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxwew"]
-size = Vector2(50, 50)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ac8j0"]
+size = Vector2(67, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5yw3"]
+size = Vector2(40, 44.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_acvyw"]
-size = Vector2(50, 50)
+size = Vector2(40, 57)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_alh3a"]
-size = Vector2(50, 50)
+size = Vector2(40, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8e0uq"]
-size = Vector2(50, 50)
+size = Vector2(40, 72)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i0vto"]
 load_path = "res://.godot/imported/enemy3.png-488b65617ae19288af416b1bc7d6e166.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3jf1l"]
-size = Vector2(50, 50)
+size = Vector2(40, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i0vto"]
-size = Vector2(50, 50)
+size = Vector2(50, 52)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3jf1l"]
 load_path = "res://.godot/imported/enemy2.png-d829694572805d3829ef3d5cd816f2f3.ctex"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_356ba"]
-size = Vector2(50, 50)
+size = Vector2(50, 52)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nu4m"]
+size = Vector2(67, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vl7yh"]
+size = Vector2(67, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_apnk5"]
+size = Vector2(40, 57)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ctxhw"]
+size = Vector2(40, 67)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxwew"]
+size = Vector2(40, 67)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ook5n"]
+size = Vector2(67, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4eofi"]
+size = Vector2(67, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nvl0l"]
+size = Vector2(67, 35)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ulun0"]
+size = Vector2(67, 35)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbihj"]
 texture = ExtResource("18_jeh1s")
@@ -390,7 +421,10 @@ shadow_offset = Vector2(0, 3.41)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i1pr2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
-radius = 20.0
+radius = 20.024984
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nvn6m"]
+size = Vector2(28, 38)
 
 [node name="Node2D" type="Node2D" unique_id=1679243187]
 script = ExtResource("1_kyjoo")
@@ -401,11 +435,12 @@ scale = Vector2(22.598957, 7.8125005)
 texture = ExtResource("2_ac8j0")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=443440453]
-position = Vector2(200, 263)
+position = Vector2(200, 271)
 collision_mask = 5
 script = ExtResource("3_0nu4m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
@@ -747,6 +782,7 @@ position = Vector2(7200, 260)
 script = ExtResource("9_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
+position = Vector2(-13, 2)
 shape = SubResource("RectangleShape2D_bf53h")
 
 [node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=4175977]
@@ -758,6 +794,7 @@ texture = ExtResource("10_ulun0")
 position = Vector2(7260, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
+position = Vector2(-33, 0)
 shape = SubResource("RectangleShape2D_dahhg")
 
 [node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("11_nvn6m")]
@@ -769,24 +806,24 @@ position = Vector2(4000, 250)
 position = Vector2(1342, 326)
 
 [node name="Spike2" parent="Spikes" unique_id=157495555 instance=ExtResource("12_m2jmm")]
-position = Vector2(5700, 300)
+position = Vector2(5700, 310)
 
 [node name="Spike3" parent="Spikes" unique_id=754823535 instance=ExtResource("12_m2jmm")]
-position = Vector2(5770, 300)
+position = Vector2(5770, 310)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1715919895]
 position = Vector2(6200, 279)
 
 [node name="Enemy" type="CharacterBody2D" parent="Enemies" unique_id=263876446]
-position = Vector2(-5500, 13)
+position = Vector2(-5552, 21)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
 MoveDistance = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy" unique_id=634150711]
-position = Vector2(0, -1)
-shape = SubResource("RectangleShape2D_j5yw3")
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_kyjoo")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy" unique_id=1110267752]
 texture_filter = 1
@@ -795,12 +832,12 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy" unique_id=609767665]
-position = Vector2(0, -1)
-shape = SubResource("RectangleShape2D_wxwew")
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_ac8j0")
 target_position = Vector2(0, 0)
 
 [node name="Enemy2" type="CharacterBody2D" parent="Enemies" unique_id=148747929]
-position = Vector2(-5100, 22)
+position = Vector2(-5100, 21)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -809,7 +846,7 @@ Speed = 10.0
 MoveDistance = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy2" unique_id=1384934600]
-position = Vector2(1, -9)
+position = Vector2(1, -11.5)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy2" unique_id=1399868777]
@@ -819,12 +856,12 @@ scale = Vector2(4, 4)
 texture = ExtResource("15_4vo7a")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy2" unique_id=471693211]
-position = Vector2(0, -9)
+position = Vector2(1, -11)
 shape = SubResource("RectangleShape2D_acvyw")
-target_position = Vector2(1, -11)
+target_position = Vector2(0, 0)
 
 [node name="Enemy3" type="CharacterBody2D" parent="Enemies" unique_id=1757553526]
-position = Vector2(-4431, 21)
+position = Vector2(-4429, 15)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -832,7 +869,7 @@ Type = 1
 MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy3" unique_id=1298542755]
-position = Vector2(0, -5)
+position = Vector2(5, -16.5)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy3" unique_id=542366519]
@@ -842,7 +879,7 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("16_w4nuh")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy3" unique_id=879793035]
-position = Vector2(0, -6)
+position = Vector2(5, -16)
 shape = SubResource("RectangleShape2D_alh3a")
 target_position = Vector2(0, 0)
 
@@ -856,7 +893,7 @@ Speed = 10.0
 MoveDistance = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy4" unique_id=246095921]
-position = Vector2(0, -6)
+position = Vector2(1, -16)
 shape = SubResource("RectangleShape2D_8e0uq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy4" unique_id=1181938234]
@@ -866,7 +903,7 @@ scale = Vector2(4.5, 4.5)
 texture = SubResource("CompressedTexture2D_i0vto")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy4" unique_id=846997503]
-position = Vector2(1, -6)
+position = Vector2(1, -16)
 shape = SubResource("RectangleShape2D_3jf1l")
 target_position = Vector2(0, 0)
 
@@ -890,7 +927,7 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_3jf1l")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy5" unique_id=873231589]
-position = Vector2(0, -14)
+position = Vector2(0, -15)
 shape = SubResource("RectangleShape2D_356ba")
 target_position = Vector2(0, 0)
 
@@ -902,8 +939,8 @@ script = ExtResource("13_efseb")
 MoveDistance = 250.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy6" unique_id=634150712]
-position = Vector2(-10, -4)
-shape = SubResource("RectangleShape2D_j5yw3")
+position = Vector2(-1.5, 2.5)
+shape = SubResource("RectangleShape2D_0nu4m")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy6" unique_id=1110267753]
 texture_filter = 1
@@ -912,9 +949,9 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy6" unique_id=609767666]
-position = Vector2(-10, -4)
-shape = SubResource("RectangleShape2D_wxwew")
-target_position = Vector2(1, 0)
+position = Vector2(-2, 2)
+shape = SubResource("RectangleShape2D_vl7yh")
+target_position = Vector2(0, 0)
 
 [node name="Enemy7" type="CharacterBody2D" parent="Enemies" unique_id=263876448]
 position = Vector2(-700, 22)
@@ -925,8 +962,8 @@ Type = 1
 MoveDistance = 300.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy7" unique_id=634150713]
-position = Vector2(0, -22)
-shape = SubResource("RectangleShape2D_j5yw3")
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_apnk5")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy7" unique_id=1110267754]
 texture_filter = 1
@@ -935,20 +972,20 @@ scale = Vector2(4, 4)
 texture = ExtResource("15_4vo7a")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy7" unique_id=609767667]
-position = Vector2(0, -22)
+position = Vector2(0, -25)
 shape = SubResource("RectangleShape2D_acvyw")
 target_position = Vector2(0, 0)
 
 [node name="Enemy8" type="CharacterBody2D" parent="Enemies" unique_id=263876449]
-position = Vector2(0, 21)
+position = Vector2(0, 20)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
 Type = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy8" unique_id=634150714]
-position = Vector2(0, -21)
-shape = SubResource("RectangleShape2D_j5yw3")
+position = Vector2(2, -29.5)
+shape = SubResource("RectangleShape2D_ctxhw")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy8" unique_id=1110267755]
 texture_filter = 1
@@ -957,19 +994,20 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("16_w4nuh")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy8" unique_id=609767668]
-position = Vector2(0, -21)
+position = Vector2(2, -30)
 shape = SubResource("RectangleShape2D_wxwew")
 target_position = Vector2(0, 0)
 
 [node name="Enemy9" type="CharacterBody2D" parent="Enemies" unique_id=263876450]
-position = Vector2(-500, 13)
+position = Vector2(-500, 20)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
 Type = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy9" unique_id=634150715]
-shape = SubResource("RectangleShape2D_j5yw3")
+position = Vector2(-6.5, -13.5)
+shape = SubResource("RectangleShape2D_ook5n")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy9" unique_id=1110267756]
 modulate = Color(1, 0.35, 0.35, 1)
@@ -978,11 +1016,12 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy9" unique_id=609767669]
-shape = SubResource("RectangleShape2D_wxwew")
+position = Vector2(-7, -13)
+shape = SubResource("RectangleShape2D_4eofi")
 target_position = Vector2(0, 0)
 
 [node name="Enemy10" type="CharacterBody2D" parent="Enemies" unique_id=263876451]
-position = Vector2(-1900, 13)
+position = Vector2(-1900, 20)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -991,7 +1030,8 @@ ProjectileScene = ExtResource("17_n4fq4")
 ShootInterval = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
-shape = SubResource("RectangleShape2D_j5yw3")
+position = Vector2(-6.5, -13.5)
+shape = SubResource("RectangleShape2D_nvl0l")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy10" unique_id=1110267757]
 modulate = Color(0.5, 0.5, 1, 1)
@@ -1000,7 +1040,8 @@ scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy10" unique_id=609767670]
-shape = SubResource("RectangleShape2D_wxwew")
+position = Vector2(-7, -13)
+shape = SubResource("RectangleShape2D_ulun0")
 target_position = Vector2(0, 0)
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1321363474]
@@ -1236,6 +1277,7 @@ position = Vector2(5350, -57)
 script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint4" unique_id=666897724]
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint4" unique_id=1510776203]
@@ -1407,19 +1449,21 @@ texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
+[node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_8k6aj")]
+position = Vector2(2100, 260)
+
 [node name="ShieldPowerUp" type="Area2D" parent="PowerUps" unique_id=333111220]
 position = Vector2(1250, 260)
 script = ExtResource("27_vf2ed")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/ShieldPowerUp" unique_id=333111221]
-shape = SubResource("CircleShape2D_71axn")
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_nvn6m")
 
-[node name="Polygon2D" type="Polygon2D" parent="PowerUps/ShieldPowerUp" unique_id=333111222]
-color = Color(0, 1, 1, 1)
-polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
-
-[node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_8k6aj")]
-position = Vector2(2100, 260)
+[node name="Sprite2D" type="Sprite2D" parent="PowerUps/ShieldPowerUp" unique_id=890236044]
+position = Vector2(1.0000458, 5.5)
+scale = Vector2(1.2187486, 1.171875)
+texture = ExtResource("29_ac8j0")
 
 [node name="Pickups" type="Node2D" parent="." unique_id=1351883762]
 position = Vector2(1250, 260)
