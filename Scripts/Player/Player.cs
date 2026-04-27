@@ -8,6 +8,7 @@ public partial class Player : CharacterBody2D
 	[Export] public float Deceleration = 900f;
 	[Export] public float AirAcceleration = 1200f;
 	[Export] public float TurnAcceleration = 3000f;
+	private AnimatedSprite2D _anim;
 
 	// Jump
 	[Export] public float JumpVelocity = -600f;
@@ -22,30 +23,13 @@ public partial class Player : CharacterBody2D
 	// State
 	private int _lives = 3;
 	private int _score = 0;
-	// Tracks how many 100-point thresholds have already paid out an extra life,
-	// so a +5 bonus that jumps over 100 still grants the life instead of missing the modulo
+	// Zählt wie viele 100er-stufen schon ein extra-leben ausgezahlt haben.
+	// Vergleich gegen den counter (statt _score % 100), damit ein bonus der
+	// von 96 auf 102 springt das leben trotzdem auslöst – siehe AddScore in Player.Profile.cs.
 	private int _livesFromScoreGranted = 0;
-	// Last run's final score, survives the scene switch so gameover can display it
-	public static int LastRunScore = 0;
-	// Highest score reached in the current process session – resets when the game closes,
-	// while the alltime highscore from user://highscore.dat persists across runs
-	public static int SessionHighscore = 0;
 
-	// Persistent shop currency – every coin pickup adds one, saved in user://profile.cfg
-	public static int Coins = 0;
-	// Currently selected character index, persisted across launches
-	public static int SelectedCharacter = 0;
-	// IDs of characters the player has unlocked (always contains 0 = default)
-	public static System.Collections.Generic.HashSet<int> UnlockedCharacters = new() { 0 };
-	private const string ProfilePath = "user://profile.cfg";
+	// Statics für coins, charakter-auswahl und highscore stehen in Player.Profile.cs
 
-	// Texture lookup for the player sprite. Index matches SelectedCharacter / shop ids.
-	// Bartolmay's shop UI uses these same ids, prices are defined in GetCharacterPrice.
-	private static readonly string[] CharacterTextures = {
-		"res://leveldesign/player.png",
-		"res://leveldesign/mischa.png",
-		"res://leveldesign/tim.png",
-	};
 	public bool IsDying = false;
 	public bool IsSmall = false;
 	private CollisionShape2D _standShape;
@@ -75,25 +59,7 @@ public partial class Player : CharacterBody2D
 	private float _lastRunDir = 0f;
 	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
 
-	// Sword attack (#45/53-ish) – j/x to swing. Cooldown + movement lockout so you
-	// can't just dash-slash through the level (tim's balance note)
-	private float _attackCooldown = 0f;
-	private float _attackLockout = 0f;
-	private const float AttackCooldownMax = 0.6f;
-	public float AttackReadiness => 1f - Mathf.Clamp(_attackCooldown / AttackCooldownMax, 0f, 1f);
-	private int _facing = 1;
-	// Limited sword swings per life (tim wanted it less spammable)
-	// Refill via sword pickups in the level, capped at MaxSwordUses
-	private int _swordUses = 3;
-	private const int MaxSwordUses = 5;
-	public int SwordUses => _swordUses;
-	private float _noSwordFlashTimer = 0f;
-
-	// Fire flower (#45): pickup for 10s, every swing also spits a fireball in facing dir
-	private bool _fireActive = false;
-	private float _fireTimer = 0f;
-	public float FireTimeLeft => _fireActive ? _fireTimer : 0f;
-	private PackedScene _projectileScene;
+	// Sword + fire flower fields liegen in Player.Combat.cs
 
 	// Camera shake
 	private Camera2D _camera;
@@ -132,22 +98,55 @@ _duckShape = GetNode<CollisionShape2D>("DuckShape");
 _duckShape.Disabled = true;
 		_camera = GetNode<Camera2D>("Camera2D");
 		// Preload projectile scene so fireballs don't hitch the first time you swing
-		_projectileScene = GD.Load<PackedScene>("res://Scenes/projectile.tscn");
+		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
 
 		// Coins + selected character come from user://profile.cfg
 		LoadProfile();
 		ApplyCharacterTexture();
+		_anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_anim.Play("still");
+	}
+	private void UpdateAnimation(float direction)
+{
+	if (_anim == null) return;
+
+	// In der Luft
+	if (!IsOnFloor())
+	{
+		_anim.FlipH = direction < 0;
+
+		// Springt nach oben
+		if (Velocity.Y < 0)
+		{
+			if (_anim.Animation != "jump_high")
+				_anim.Play("jump_high");
+		}
+		// Fällt nach unten
+		else
+		{
+			if (_anim.Animation != "jump_down")
+				_anim.Play("jump_down");
+		}
+
+		return;
 	}
 
-	private void ApplyCharacterTexture()
+	// Am Boden
+	if (direction != 0)
 	{
-		int idx = Mathf.Clamp(SelectedCharacter, 0, CharacterTextures.Length - 1);
-		var path = CharacterTextures[idx];
-		var tex = GD.Load<Texture2D>(path);
-		if (tex == null) return;
-		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-		if (sprite != null) sprite.Texture = tex;
+		_anim.FlipH = direction < 0;
+
+		if (_anim.Animation != "wallk")
+			_anim.Play("wallk");
 	}
+	else
+	{
+		if (_anim.Animation != "still")
+			_anim.Play("still");
+	}
+}
+
+	// ApplyCharacterTexture, LoadProfile etc. liegen in Player.Profile.cs
 
 	// Kicked by damage events – camera jitters for `duration` seconds at `strength` pixels
 	public void Shake(float strength, float duration)
@@ -156,51 +155,8 @@ _duckShape.Disabled = true;
 		_shakeTimer = duration;
 	}
 
-	// Sword swing – kills any enemy within a short arc in front of the player.
-	// Placeholder visual until we have a real swing sprite from schayan.
-	
-	private void Attack()
-	{
-		_attackCooldown = AttackCooldownMax;
-		// Lockout briefly cripples horizontal speed so you can't power-slash on the run
-		_attackLockout = 0.25f;
-		_swordUses--;
-		SpawnSwordSwoosh();
-		SoundManager.Instance.PlaySwordAttack();
-
-		// Hitbox: 120px reach in facing direction, 85px tall – bigger to compensate for
-		// the reduced attack rate and movement lockout (tim's balance note)
-		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
-		{
-			if (node is not Enemy enemy) continue;
-			Vector2 toEnemy = enemy.GlobalPosition - GlobalPosition;
-			bool sameSide = Mathf.Sign(toEnemy.X) == _facing || Mathf.Abs(toEnemy.X) < 15f;
-			if (sameSide && Mathf.Abs(toEnemy.X) < 120f && Mathf.Abs(toEnemy.Y) < 85f)
-				enemy.Kill();
-		}
-
-		// Same hitbox also deflects incoming enemy projectiles – timing reward,
-		// deflected shot flies back and kills whoever fired it (#53-ish)
-		foreach (Node node in GetTree().GetNodesInGroup("projectile"))
-		{
-			if (node is not Projectile proj) continue;
-			Vector2 toProj = proj.GlobalPosition - GlobalPosition;
-			bool sameSide = Mathf.Sign(toProj.X) == _facing || Mathf.Abs(toProj.X) < 15f;
-			if (sameSide && Mathf.Abs(toProj.X) < 120f && Mathf.Abs(toProj.Y) < 85f)
-				proj.Deflect();
-		}
-
-		// Fire flower active: swing also spits a fireball in the facing direction (#45)
-		if (_fireActive)
-			SpawnFireball();
-		// Little horizontal nudge on swing so the player feels the follow-through
-		Shake(2f, 0.05f);
-	}
-	
-	public void PlayNoSwordFlash()
-	{
-		_noSwordFlashTimer = 0.25f;
-	}
+	// Attack / SpawnSwordSwoosh / SpawnFireball / PlayNoSwordFlash / AddSwordUse
+	// liegen in Player.Combat.cs
 
 	private void SpawnLandingDust()
 	{
@@ -221,41 +177,6 @@ _duckShape.Disabled = true;
 		var tween = GetTree().CreateTween();
 		tween.TweenProperty(wrap, "scale", Vector2.One * 1.8f, 0.25f);
 		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.25f);
-		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
-	}
-
-	private void SpawnFireball()
-	{
-		if (_projectileScene == null) return;
-		if (_projectileScene.Instantiate() is not Projectile proj) return;
-		// Orange/yellow palette + layer-2 mask so it kills enemies, not the player
-		proj.SetAsPlayerShot();
-		proj.Velocity = new Vector2(_facing * 450f, 0f);
-		proj.GlobalPosition = GlobalPosition + new Vector2(_facing * 28f, 0f);
-		GetTree().CurrentScene.AddChild(proj);
-	}
-
-	private void SpawnSwordSwoosh()
-	{
-		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(_facing * 35f, 0f) };
-		var poly = new Polygon2D
-		{
-			Color = new Color(1f, 1f, 1f, 0.85f),
-			// Crescent-ish arc pointing in facing direction
-			Polygon = new Vector2[]
-			{
-				new Vector2(0, -30), new Vector2(15, -18), new Vector2(25, 0),
-				new Vector2(15, 18), new Vector2(0, 30), new Vector2(5, 12),
-				new Vector2(10, 0), new Vector2(5, -12)
-			}
-		};
-		if (_facing < 0) poly.Scale = new Vector2(-1, 1);
-		wrap.AddChild(poly);
-		GetTree().CurrentScene.AddChild(wrap);
-
-		var tween = GetTree().CreateTween();
-		tween.TweenProperty(poly, "modulate:a", 0f, 0.18f);
-		tween.Parallel().TweenProperty(wrap, "scale", new Vector2(1.3f, 1.3f), 0.18f);
 		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
@@ -315,7 +236,7 @@ _duckShape.Disabled = true;
 		SaveHighscore(_score);
 		Visible = false;
 		SetPhysicsProcess(false);
-		GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/GameOver.tscn");
 		return;
 	}
 
@@ -358,6 +279,12 @@ _duckShape.Disabled = true;
 
 	public override void _PhysicsProcess(double delta)
 	{
+		float direction = 0;
+		if (Input.IsActionPressed("move_left")) direction = -1;
+		else if (Input.IsActionPressed("move_right")) direction = 1;
+
+		
+	UpdateAnimation(direction);
 		float dt = (float)delta;
 if (Position.Y > 600f && !IsDying)
 	DieFall();
@@ -509,9 +436,9 @@ if (_isDucking)
 		}
 
 		// Horizontal movement
-		float direction = 0;
-		if (Input.IsActionPressed("move_left")) direction = -1;
-		else if (Input.IsActionPressed("move_right")) direction = 1;
+		//float direction = 0;
+		//if (Input.IsActionPressed("move_left")) direction = -1;
+		//else if (Input.IsActionPressed("move_right")) direction = 1;
 
 		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 
@@ -669,31 +596,8 @@ if (_isDucking)
 		}
 	}
 
-	public void AddScore(int amount)
-	{
-		_score += amount;
-		// Every 100 coins grants an extra life (#41). Compare against grant-count instead of
-		// modulo so a big bonus (e.g. stomp chain giving +6) still triggers when crossing 100.
-		int earned = _score / 100;
-		while (_livesFromScoreGranted < earned)
-		{
-			_livesFromScoreGranted++;
-			_lives = Mathf.Min(_lives + 1, 9);
-		}
-		// Track the best score reached in this play session (resets on game restart)
-		if (_score > SessionHighscore) SessionHighscore = _score;
-	}
-
-	// Direct life pickup – cap at 9 so the hud label doesn't overflow
-	public void AddLife()
-	{
-		_lives = Mathf.Min(_lives + 1, 9);
-	}
-
-	public void AddSwordUse()
-	{
-		_swordUses = Mathf.Min(_swordUses + 1, MaxSwordUses);
-	}
+	// AddScore + AddLife + AddCoin liegen in Player.Profile.cs
+	// AddSwordUse liegt in Player.Combat.cs
 
 	public void ActivateShield()
 	{
@@ -729,110 +633,8 @@ if (_isDucking)
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StarMusic);
 	}
 
-	public void SaveHighscorePublic() => SaveHighscore(_score);
-private void SaveHighscore(int score)
-	{
-		string path = "user://highscore.dat";
-		int best = 0;
-
-		if (FileAccess.FileExists(path))
-		{
-			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-			best = (int)(uint)file.Get32();
-		}
-
-		if (score > best)
-		{
-			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
-			file.Store32((uint)score);
-		}
-	}
-
-	public static int LoadHighscore()
-	{
-		string path = "user://highscore.dat";
-		if (!FileAccess.FileExists(path)) return 0;
-		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-		return (int)(uint)file.Get32();
-	}
-
-	// ========= SHOP / CHARACTER PROFILE =========
-
-	// Reads coins, selected character and unlocked-list from user://profile.cfg.
-	// Falls back to defaults silently if the file is missing or corrupt.
-	public static void LoadProfile()
-	{
-		var config = new ConfigFile();
-		if (config.Load(ProfilePath) != Error.Ok) return;
-
-		Coins = (int)config.GetValue("currency", "coins", 0);
-		SelectedCharacter = (int)config.GetValue("character", "selected", 0);
-
-		string unlockStr = (string)config.GetValue("character", "unlocked", "0");
-		UnlockedCharacters.Clear();
-		foreach (var part in unlockStr.Split(','))
-		{
-			if (int.TryParse(part, out int id)) UnlockedCharacters.Add(id);
-		}
-		// Default character must always be available even if the save is corrupt
-		UnlockedCharacters.Add(0);
-	}
-
-	public static void SaveProfile()
-	{
-		var config = new ConfigFile();
-		config.Load(ProfilePath); // keep any other sections intact
-		config.SetValue("currency", "coins", Coins);
-		config.SetValue("character", "selected", SelectedCharacter);
-		config.SetValue("character", "unlocked", string.Join(",", UnlockedCharacters));
-		config.Save(ProfilePath);
-	}
-
-	// Shop pricing table – id 0 is the starter, others cost coins. Bartolmays UI
-	// reads these to render the shop, returns 0 for unknown ids so unowned characters
-	// can't be free-checked accidentally.
-	public static int GetCharacterPrice(int id)
-	{
-		return id switch
-		{
-			0 => 0,
-			1 => 100,
-			2 => 250,
-			_ => -1,
-		};
-	}
-
-	// Returns true if the purchase went through. UI should refresh coin label after.
-	public static bool BuyCharacter(int id)
-	{
-		if (UnlockedCharacters.Contains(id)) return false;
-		int price = GetCharacterPrice(id);
-		if (price < 0 || Coins < price) return false;
-
-		Coins -= price;
-		UnlockedCharacters.Add(id);
-		SaveProfile();
-		return true;
-	}
-
-	// Switches active character if it's been unlocked. Saves the choice so it sticks
-	// across sessions; the player sprite picks this up on next Game.tscn load.
-	public static bool SelectCharacter(int id)
-	{
-		if (!UnlockedCharacters.Contains(id)) return false;
-		SelectedCharacter = id;
-		SaveProfile();
-		return true;
-	}
-
-	// Pickup entry – run score + persistent coin balance both go up. Saves immediately
-	// so a crash mid-level doesn't lose the player's earnings.
-	public void AddCoin(int amount)
-	{
-		AddScore(amount);
-		Coins += amount;
-		SaveProfile();
-	}
+	// SaveHighscore / LoadHighscore / LoadProfile / SaveProfile / GetCharacterPrice
+	// / BuyCharacter / SelectCharacter / AddCoin liegen in Player.Profile.cs
 
 	public async void Die()
 	{
@@ -868,7 +670,7 @@ private void SaveHighscore(int score)
 			SaveHighscore(_score);
 			Visible = false;
 			SetPhysicsProcess(false);
-			GetTree().ChangeSceneToFile("res://Scenes/GameOver.tscn");
+			GetTree().ChangeSceneToFile("res://Scenes/Main/GameOver.tscn");
 		}
 		else
 {

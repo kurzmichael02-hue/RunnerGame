@@ -222,6 +222,6 @@ public partial class PauseMenu : Control
 	{	
 		GetTree().Paused = false;
 		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 }

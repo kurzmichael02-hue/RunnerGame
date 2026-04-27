@@ -80,7 +80,7 @@ public partial class Settings : Control
 	private void OnMainMenuPressed()
 	{
 		SaveSettings();
-		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 
 	// =========================
@@ -121,7 +121,14 @@ public partial class Settings : Control
 		var events = InputMap.ActionGetEvents(action);
 
 		if (events.Count > 0 && events[0] is InputEventKey keyEvent)
-			return OS.GetKeycodeString(keyEvent.Keycode);
+		{
+			// nach reload aus settings.cfg ist nur physicalkeycode gesetzt,
+			// keycode = None. ohne fallback wird der button blank.
+			var key = keyEvent.PhysicalKeycode != Key.None
+				? keyEvent.PhysicalKeycode
+				: keyEvent.Keycode;
+			return OS.GetKeycodeString(key);
+		}
 
 		return "None";
 	}
@@ -132,6 +139,9 @@ public partial class Settings : Control
 	private void SaveSettings()
 	{
 		var config = new ConfigFile();
+		// existing config laden, sonst wird beim speichern attack (das pause-menu schreibt)
+		// und alles andere gewipt
+		config.Load(SAVE_PATH);
 
 		config.SetValue("audio", "volume", _volumeSlider.Value);
 
@@ -241,8 +251,8 @@ public partial class Settings : Control
 
 	private void OnResetPressed()
 {
-    ApplyDefaults();
-    UpdateButtonTexts();
-    SaveSettings();
+	ApplyDefaults();
+	UpdateButtonTexts();
+	SaveSettings();
 }
 }

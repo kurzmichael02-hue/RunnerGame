@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bn7r2t4ktavx6"]
 
-[ext_resource type="Script" uid="uid://d3q8nk7p2mxv4" path="res://Scripts/Enemies/PowerUps/StarPowerUp.cs" id="1_star"]
+[ext_resource type="Script" uid="uid://d3q8nk7p2mxv4" path="res://Scripts/PowerUps/StarPowerUp.cs" id="1_star"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_star"]
 radius = 22.0
