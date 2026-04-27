@@ -59,25 +59,7 @@ public partial class Player : CharacterBody2D
 	private float _lastRunDir = 0f;
 	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
 
-	// Sword attack (#45/53-ish) – j/x to swing. Cooldown + movement lockout so you
-	// can't just dash-slash through the level (tim's balance note)
-	private float _attackCooldown = 0f;
-	private float _attackLockout = 0f;
-	private const float AttackCooldownMax = 0.6f;
-	public float AttackReadiness => 1f - Mathf.Clamp(_attackCooldown / AttackCooldownMax, 0f, 1f);
-	private int _facing = 1;
-	// Limited sword swings per life (tim wanted it less spammable)
-	// Refill via sword pickups in the level, capped at MaxSwordUses
-	private int _swordUses = 3;
-	private const int MaxSwordUses = 5;
-	public int SwordUses => _swordUses;
-	private float _noSwordFlashTimer = 0f;
-
-	// Fire flower (#45): pickup for 10s, every swing also spits a fireball in facing dir
-	private bool _fireActive = false;
-	private float _fireTimer = 0f;
-	public float FireTimeLeft => _fireActive ? _fireTimer : 0f;
-	private PackedScene _projectileScene;
+	// Sword + fire flower fields liegen in Player.Combat.cs
 
 	// Camera shake
 	private Camera2D _camera;
@@ -173,51 +155,8 @@ _duckShape.Disabled = true;
 		_shakeTimer = duration;
 	}
 
-	// Sword swing – kills any enemy within a short arc in front of the player.
-	// Placeholder visual until we have a real swing sprite from schayan.
-	
-	private void Attack()
-	{
-		_attackCooldown = AttackCooldownMax;
-		// Lockout briefly cripples horizontal speed so you can't power-slash on the run
-		_attackLockout = 0.25f;
-		_swordUses--;
-		SpawnSwordSwoosh();
-		SoundManager.Instance.PlaySwordAttack();
-
-		// Hitbox: 120px reach in facing direction, 85px tall – bigger to compensate for
-		// the reduced attack rate and movement lockout (tim's balance note)
-		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
-		{
-			if (node is not Enemy enemy) continue;
-			Vector2 toEnemy = enemy.GlobalPosition - GlobalPosition;
-			bool sameSide = Mathf.Sign(toEnemy.X) == _facing || Mathf.Abs(toEnemy.X) < 15f;
-			if (sameSide && Mathf.Abs(toEnemy.X) < 120f && Mathf.Abs(toEnemy.Y) < 85f)
-				enemy.Kill();
-		}
-
-		// Same hitbox also deflects incoming enemy projectiles – timing reward,
-		// deflected shot flies back and kills whoever fired it (#53-ish)
-		foreach (Node node in GetTree().GetNodesInGroup("projectile"))
-		{
-			if (node is not Projectile proj) continue;
-			Vector2 toProj = proj.GlobalPosition - GlobalPosition;
-			bool sameSide = Mathf.Sign(toProj.X) == _facing || Mathf.Abs(toProj.X) < 15f;
-			if (sameSide && Mathf.Abs(toProj.X) < 120f && Mathf.Abs(toProj.Y) < 85f)
-				proj.Deflect();
-		}
-
-		// Fire flower active: swing also spits a fireball in the facing direction (#45)
-		if (_fireActive)
-			SpawnFireball();
-		// Little horizontal nudge on swing so the player feels the follow-through
-		Shake(2f, 0.05f);
-	}
-	
-	public void PlayNoSwordFlash()
-	{
-		_noSwordFlashTimer = 0.25f;
-	}
+	// Attack / SpawnSwordSwoosh / SpawnFireball / PlayNoSwordFlash / AddSwordUse
+	// liegen in Player.Combat.cs
 
 	private void SpawnLandingDust()
 	{
@@ -238,41 +177,6 @@ _duckShape.Disabled = true;
 		var tween = GetTree().CreateTween();
 		tween.TweenProperty(wrap, "scale", Vector2.One * 1.8f, 0.25f);
 		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.25f);
-		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
-	}
-
-	private void SpawnFireball()
-	{
-		if (_projectileScene == null) return;
-		if (_projectileScene.Instantiate() is not Projectile proj) return;
-		// Orange/yellow palette + layer-2 mask so it kills enemies, not the player
-		proj.SetAsPlayerShot();
-		proj.Velocity = new Vector2(_facing * 450f, 0f);
-		proj.GlobalPosition = GlobalPosition + new Vector2(_facing * 28f, 0f);
-		GetTree().CurrentScene.AddChild(proj);
-	}
-
-	private void SpawnSwordSwoosh()
-	{
-		var wrap = new Node2D { GlobalPosition = GlobalPosition + new Vector2(_facing * 35f, 0f) };
-		var poly = new Polygon2D
-		{
-			Color = new Color(1f, 1f, 1f, 0.85f),
-			// Crescent-ish arc pointing in facing direction
-			Polygon = new Vector2[]
-			{
-				new Vector2(0, -30), new Vector2(15, -18), new Vector2(25, 0),
-				new Vector2(15, 18), new Vector2(0, 30), new Vector2(5, 12),
-				new Vector2(10, 0), new Vector2(5, -12)
-			}
-		};
-		if (_facing < 0) poly.Scale = new Vector2(-1, 1);
-		wrap.AddChild(poly);
-		GetTree().CurrentScene.AddChild(wrap);
-
-		var tween = GetTree().CreateTween();
-		tween.TweenProperty(poly, "modulate:a", 0f, 0.18f);
-		tween.Parallel().TweenProperty(wrap, "scale", new Vector2(1.3f, 1.3f), 0.18f);
 		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
@@ -693,11 +597,7 @@ if (_isDucking)
 	}
 
 	// AddScore + AddLife + AddCoin liegen in Player.Profile.cs
-
-	public void AddSwordUse()
-	{
-		_swordUses = Mathf.Min(_swordUses + 1, MaxSwordUses);
-	}
+	// AddSwordUse liegt in Player.Combat.cs
 
 	public void ActivateShield()
 	{
