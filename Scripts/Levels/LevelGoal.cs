@@ -14,6 +14,9 @@ public partial class LevelGoal : Area2D
 
 	public override void _Ready()
 	{
+		// Reset() wurde nirgends gerufen – nach gameover->restart blieb das static
+		// flag true und das hud hat esc/pause für den ganzen run blockiert
+		Reset();
 		BodyEntered += OnBodyEntered;
 	}
 
