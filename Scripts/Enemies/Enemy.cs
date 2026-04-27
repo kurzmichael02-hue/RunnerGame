@@ -16,7 +16,6 @@ public partial class Enemy : CharacterBody2D
 	private float _damageCooldown = 0f;
 	private float _shootTimer = 0f;
 	private Vector2 _startPosition;
-	private ShapeCast2D _hitBox;
 
 	public override void _Ready()
 {
@@ -31,13 +30,8 @@ public partial class Enemy : CharacterBody2D
 		// Charger sprints when it sees the player, so give it a higher top speed
 		if (Type == EnemyType.Charger) Speed = 380f;
 
-		_hitBox = GetNode<ShapeCast2D>("HitBox");
-		_hitBox.TargetPosition = Vector2.Zero;
-		_hitBox.ExcludeParent = true;
-		_hitBox.CollideWithBodies = true;
-		_hitBox.CollideWithAreas = false;
-		_hitBox.Enabled = true;
-
+		// HitBox war als shapecast2d gecasted, in der scene ist's aber area2d -
+		// wurde sowieso nirgends abgefragt, kollision läuft über dx/dy weiter unten
 		SetCollisionMaskValue(1, true);
 	}
 
@@ -152,7 +146,6 @@ public partial class Enemy : CharacterBody2D
 	private void Die()
 	{
 		_isDead = true;
-		_hitBox.Enabled = false;
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();
