@@ -13,6 +13,7 @@ public partial class Settings : Control
 	private Button _moveRightBind;
 	private Button _moveLeftBind;
 	private Button _duckBind;
+	private Button _attackBind;
 
 	// State
 	private string _listeningAction = null;
@@ -33,6 +34,7 @@ public partial class Settings : Control
 		_moveRightBind  = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer2/MoveRightBind");
 		_moveLeftBind   = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer3/MoveLeftBind");
 		_duckBind       = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer4/DuckBind");
+		_attackBind     = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/HBoxContainer5/AttackBind");
 
 		if (HasNode("MenuPanel/VBoxContainer/ResetButton"))
 			_resetButton = GetNode<Button>("MenuPanel/VBoxContainer/ResetButton");
@@ -45,6 +47,8 @@ public partial class Settings : Control
 		_moveRightBind.Pressed += () => StartListening("move_right");
 		_moveLeftBind.Pressed  += () => StartListening("move_left");
 		_duckBind.Pressed      += () => StartListening("duck");
+		if (_attackBind != null)
+			_attackBind.Pressed += () => StartListening("attack");
 
 		if (_resetButton != null)
 			_resetButton.Pressed += OnResetPressed;
@@ -114,6 +118,7 @@ public partial class Settings : Control
 		_moveRightBind.Text = GetKeyName("move_right");
 		_moveLeftBind.Text  = GetKeyName("move_left");
 		_duckBind.Text      = GetKeyName("duck");
+		if (_attackBind != null) _attackBind.Text = GetKeyName("attack");
 	}
 
 	private string GetKeyName(string action)
@@ -149,6 +154,7 @@ public partial class Settings : Control
 		SaveKey(config, "move_right");
 		SaveKey(config, "move_left");
 		SaveKey(config, "duck");
+		SaveKey(config, "attack");
 
 		config.Save(SAVE_PATH);
 	}
@@ -174,6 +180,7 @@ public partial class Settings : Control
 		LoadKey(config, "move_right");
 		LoadKey(config, "move_left");
 		LoadKey(config, "duck");
+		LoadKey(config, "attack");
 
 		_isLoading = false;
 	}

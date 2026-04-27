@@ -243,6 +243,28 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_mjqtt")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_74x7w")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ys4a0")
 
+[node name="HBoxContainer5" type="HBoxContainer" parent="MenuPanel/VBoxContainer" unique_id=235029704]
+layout_mode = 2
+
+[node name="Attack" type="Label" parent="MenuPanel/VBoxContainer/HBoxContainer5" unique_id=883389399]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackBind" type="Button" parent="MenuPanel/VBoxContainer/HBoxContainer5" unique_id=209951033]
+custom_minimum_size = Vector2(150, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_mjqtt")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_74x7w")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ys4a0")
+
 [node name="HSeparator" type="HSeparator" parent="MenuPanel/VBoxContainer" unique_id=1886952098]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2

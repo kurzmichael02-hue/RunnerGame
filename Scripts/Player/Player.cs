@@ -103,8 +103,10 @@ _duckShape.Disabled = true;
 		// Coins + selected character come from user://profile.cfg
 		LoadProfile();
 		ApplyCharacterTexture();
-		_anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		_anim.Play("still");
+		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
+		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
+		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+		_anim?.Play("still");
 	}
 	private void UpdateAnimation(float direction)
 {
