@@ -210,3 +210,5 @@ volume_db = 1.645
 [node name="PlayerDeathSound3" type="AudioStreamPlayer" parent="GameFX" unique_id=764314982]
 stream = SubResource("AudioStreamWAV_g0r28")
 volume_db = -7.103
+
+[node name="GameFX2D" type="Node2D" parent="." unique_id=1683784275]
