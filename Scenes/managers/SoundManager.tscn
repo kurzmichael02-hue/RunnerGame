@@ -141,43 +141,53 @@ script = ExtResource("1_4m8jc")
 [node name="BackGroundMusic" type="AudioStreamPlayer" parent="Music" unique_id=1367356309]
 stream = SubResource("AudioStreamOggVorbis_dh1hk")
 volume_db = -15.374
+bus = &"Music"
 
 [node name="SettingsMusic" type="AudioStreamPlayer" parent="Music" unique_id=1666238966]
 stream = SubResource("AudioStreamOggVorbis_8mdu8")
 volume_db = -3.588
+bus = &"Music"
 
 [node name="StartScreenMusic" type="AudioStreamPlayer" parent="Music" unique_id=1005101336]
 stream = SubResource("AudioStreamOggVorbis_i4wp4")
 volume_db = -18.789
+bus = &"Music"
 
 [node name="GameOverMusic" type="AudioStreamPlayer" parent="Music" unique_id=1957673449]
 stream = SubResource("AudioStreamOggVorbis_ig6hh")
 volume_db = -10.789
+bus = &"Music"
 
 [node name="StarMusic" type="AudioStreamPlayer" parent="Music" unique_id=2138081827]
 stream = SubResource("AudioStreamOggVorbis_g0r28")
 volume_db = -8.988
+bus = &"Music"
 
 [node name="MenuFX" type="Node" parent="." unique_id=60666885]
 
 [node name="HoverSound" type="AudioStreamPlayer" parent="MenuFX" unique_id=917507989]
 stream = SubResource("AudioStreamWAV_8mdu8")
 volume_db = -11.491
+bus = &"MenuFX"
 
 [node name="ButtonSound" type="AudioStreamPlayer" parent="MenuFX" unique_id=885166095]
 stream = ExtResource("6_i4wp4")
 volume_db = -11.491
+bus = &"MenuFX"
 
 [node name="GameFX" type="Node" parent="." unique_id=726190896]
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="GameFX" unique_id=424882206]
 stream = ExtResource("2_8mdu8")
+bus = &"GameFX"
 
 [node name="EnemyDeathSound" type="AudioStreamPlayer" parent="GameFX" unique_id=1859251596]
 stream = ExtResource("3_i4wp4")
+bus = &"GameFX"
 
 [node name="CheckPointSound" type="AudioStreamPlayer" parent="GameFX" unique_id=1817018727]
 stream = ExtResource("4_dh1hk")
+bus = &"GameFX"
 
 [node name="CoinSound" type="AudioStreamPlayer" parent="GameFX" unique_id=1997865711]
 stream = SubResource("AudioStreamWAV_4m8jc")
@@ -200,3 +210,5 @@ volume_db = 1.645
 [node name="PlayerDeathSound3" type="AudioStreamPlayer" parent="GameFX" unique_id=764314982]
 stream = SubResource("AudioStreamWAV_g0r28")
 volume_db = -7.103
+
+[node name="GameFX2D" type="Node2D" parent="." unique_id=1683784275]

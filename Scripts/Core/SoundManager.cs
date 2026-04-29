@@ -223,4 +223,36 @@ public partial class SoundManager : Node
 
 		target.Play();
 	}
+	
+	//Helper Function to implement public Functions for Ui Usage
+	private void SetBusVolume(string busName, float valuePercent)
+	{
+		float linear = valuePercent / 100f;
+		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+
+		int busIndex = AudioServer.GetBusIndex(busName);
+		AudioServer.SetBusVolumeDb(busIndex, db);
+	}
+	
+	//public Wrapper Functions to use in UI
+	
+	public void SetMasterVolume(float value)
+	{
+		SetBusVolume("Master", value);
+	}
+
+	public void SetMusicVolume(float value)
+	{
+		SetBusVolume("Music", value);
+	}
+
+	public void SetGameFxVolume(float value)
+	{
+		SetBusVolume("GameFX", value);
+	}
+
+	public void SetMenuFxVolume(float value)
+	{
+		SetBusVolume("MenuFX", value);
+	}
 }
