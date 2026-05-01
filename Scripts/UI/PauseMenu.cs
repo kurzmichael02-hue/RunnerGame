@@ -92,8 +92,9 @@ public partial class PauseMenu : CanvasLayer {
 		
 		// AB HIER: NUR Keybinding
 		if (_listeningAction == null) return;
-		GetViewport().SetInputAsHandled(); 
 		if (@event is not InputEventKey keyEvent || !keyEvent.Pressed || keyEvent.Echo) return;
+
+		GetViewport().SetInputAsHandled(); 
 		if (keyEvent.PhysicalKeycode == Key.Escape)	{
 			CancelListening();
 			return;

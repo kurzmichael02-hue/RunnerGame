@@ -87,14 +87,15 @@ public partial class Settings : Control
 	{
 		SaveSettings();
 
-		var tree = GetTree();
-		if (tree == null)
-		{
-			GD.Print("ERROR: SceneTree ist null!");
-			return;
-		}
+		// Szenewechsel verzögert → kein Timing-Problem mehr
+		CallDeferred(nameof(ChangeToMainMenu));
+	}
 
-		tree.ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+	private void ChangeToMainMenu()
+	{
+		if (!IsInsideTree()) return;
+
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 
 	// =========================
@@ -110,23 +111,50 @@ public partial class Settings : Control
 	public override void _Input(InputEvent @event)
 	{
 		if (_listeningAction == null) return;
+		if (@event is not InputEventKey keyEvent || !keyEvent.Pressed || keyEvent.Echo)
+			return;
 		GetViewport().SetInputAsHandled();
 
-		if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
+		// ESC → abbrechen
+		if (keyEvent.PhysicalKeycode == Key.Escape)
 		{
-			InputMap.ActionEraseEvents(_listeningAction);
-
-			var ev = new InputEventKey();
-			ev.PhysicalKeycode = keyEvent.PhysicalKeycode;
-			ev.Keycode = keyEvent.Keycode;
-
-			InputMap.ActionAddEvent(_listeningAction, ev);
-
 			_listeningAction = null;
-
 			UpdateButtonTexts();
-			SaveSettings();
+			return;
 		}
+
+		// WICHTIG: gleiche Logik wie im PauseMenu (Swap)
+		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
+		{
+			if (action == _listeningAction) continue;
+
+			foreach (InputEvent existing in InputMap.ActionGetEvents(action))
+			{
+				if (existing is InputEventKey existingKey &&
+					existingKey.PhysicalKeycode == keyEvent.PhysicalKeycode)
+				{
+					var currentEvents = InputMap.ActionGetEvents(_listeningAction);
+
+					InputMap.ActionEraseEvents(action);
+					foreach (var e in currentEvents)
+						InputMap.ActionAddEvent(action, e);
+				}
+			}
+		}
+
+		// Neue Taste setzen
+		InputMap.ActionEraseEvents(_listeningAction);
+
+		var ev = new InputEventKey();
+		ev.PhysicalKeycode = keyEvent.PhysicalKeycode;
+		ev.Keycode = keyEvent.Keycode;
+
+		InputMap.ActionAddEvent(_listeningAction, ev);
+
+		_listeningAction = null;
+
+		UpdateButtonTexts();
+		SaveSettings();
 	}
 	private void UpdateButtonTexts()
 	{
@@ -280,8 +308,8 @@ public partial class Settings : Control
 
 	private void OnResetPressed()
 {
-    ApplyDefaults();
-    UpdateButtonTexts();
-    SaveSettings();
+	ApplyDefaults();
+	UpdateButtonTexts();
+	SaveSettings();
 }
 }
