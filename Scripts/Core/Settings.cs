@@ -25,7 +25,7 @@ public partial class Settings : Control
 	public override void _Ready()
 	{
 		ProcessMode = ProcessModeEnum.Always;
-
+		ConnectHoverRecursive(GetNode("MenuPanel"));
 		// Nodes
 		_mainMenuButton = GetNode<Button>("MenuPanel/VBoxContainer2/MainMenu");
 		_volumeSlider   = GetNode<HSlider>("MenuPanel/VBoxContainer2/HSlider");
@@ -65,19 +65,8 @@ public partial class Settings : Control
 	private void OnVolumeChanged(double value)
 	{
 		if (_isLoading) return;
-
-		float normalized = (float)value / 100f;
-		ApplyVolume(normalized);
-
+		SoundManager.Instance.SetMasterVolume((float)value);
 		SaveSettings();
-	}
-
-	private void ApplyVolume(float value)
-	{
-		float db = value <= 0.001f ? -80f : Mathf.LinearToDb(value);
-
-		int bus = AudioServer.GetBusIndex("Master");
-		AudioServer.SetBusVolumeDb(bus, db);
 	}
 
 	// =========================
@@ -201,7 +190,23 @@ public partial class Settings : Control
 		SaveKey(config, "attack");
 		config.Save(SAVE_PATH);
 	}
+	
+	private void ConnectHoverRecursive(Node node)
+	{
+		foreach (Node child in node.GetChildren())
+		{
+			if (child is Button button)
+			{
+				button.MouseEntered += () =>
+				{
+					SoundManager.Instance.PlayMenuHover();
+				};
+			}
 
+			ConnectHoverRecursive(child);
+		}
+	}
+	
 	private void LoadSettings()
 	{
 		var config = new ConfigFile();
@@ -209,7 +214,8 @@ public partial class Settings : Control
 
 		if (config.Load(SAVE_PATH) != Error.Ok)
 		{
-			_volumeSlider.Value = 100; ApplyVolume(1.0f);
+			_volumeSlider.Value = 100;
+			SoundManager.Instance.SetMasterVolume(100); 
 			_isLoading = false;
 			return;
 		}
@@ -220,7 +226,7 @@ public partial class Settings : Control
 		_volumeSlider.Value = volume;
 		_volumeSlider.ValueChanged += OnVolumeChanged;
 
-		ApplyVolume(volume / 100f);
+		SoundManager.Instance.SetMasterVolume(volume);
 
 		LoadKey(config, "jump");
 		LoadKey(config, "move_right");
@@ -278,7 +284,7 @@ public partial class Settings : Control
 		_volumeSlider.ValueChanged -= OnVolumeChanged;
 		_volumeSlider.Value = 100;
 		_volumeSlider.ValueChanged += OnVolumeChanged;
-		ApplyVolume(1.0f);
+		SoundManager.Instance.SetMasterVolume(100);
 	}
 
 
