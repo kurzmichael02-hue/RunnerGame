@@ -60,6 +60,13 @@ public partial class Projectile : Area2D
 		if (body is Player player)
 		{
 			if (player.IsDying) return;
+			// Respawn-i-frames: kein insta-kill wenn der spieler genau dort
+			// wieder einsteigt wo grad ein projektil unterwegs war
+			if (player.IsInvincible)
+			{
+				QueueFree();
+				return;
+			}
 			// Star plows through projectiles – projectile dies, player keeps going
 			if (player.StarActive)
 			{

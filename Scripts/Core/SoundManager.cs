@@ -110,7 +110,24 @@ public partial class SoundManager : Node
 				}
 			}
 		}
-	
+
+		// Read master volume from settings.cfg straight away – otherwise the main-menu
+		// music starts at full volume and gets quieter the moment the player opens
+		// settings, which is the bug bartolmay flagged.
+		LoadMasterVolumeFromConfig();
+	}
+
+	private void LoadMasterVolumeFromConfig()
+	{
+		var config = new ConfigFile();
+		if (config.Load("user://settings.cfg") != Error.Ok) return;
+		if (!config.HasSectionKey("audio", "volume")) return;
+
+		double value = (double)config.GetValue("audio", "volume", 100.0);
+		float linear = (float)(value / 100.0);
+		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+		int bus = AudioServer.GetBusIndex("Master");
+		AudioServer.SetBusVolumeDb(bus, db);
 	}
 	
 	//Ingame Objects
@@ -205,5 +222,37 @@ public partial class SoundManager : Node
 		}
 
 		target.Play();
+	}
+	
+	//Helper Function to implement public Functions for Ui Usage
+	private void SetBusVolume(string busName, float valuePercent)
+	{
+		float linear = valuePercent / 100f;
+		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+
+		int busIndex = AudioServer.GetBusIndex(busName);
+		AudioServer.SetBusVolumeDb(busIndex, db);
+	}
+	
+	//public Wrapper Functions to use in UI
+	
+	public void SetMasterVolume(float value)
+	{
+		SetBusVolume("Master", value);
+	}
+
+	public void SetMusicVolume(float value)
+	{
+		SetBusVolume("Music", value);
+	}
+
+	public void SetGameFxVolume(float value)
+	{
+		SetBusVolume("GameFX", value);
+	}
+
+	public void SetMenuFxVolume(float value)
+	{
+		SetBusVolume("MenuFX", value);
 	}
 }

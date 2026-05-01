@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6kltkia56inr"]
 
-[ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/Enemies/PowerUps/MagnetPowerUp.cs" id="1_npqgq"]
+[ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="1_npqgq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
 radius = 20.0

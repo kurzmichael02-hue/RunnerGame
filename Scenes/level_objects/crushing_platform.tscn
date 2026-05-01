@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dr9k7m3npv2xs"]
+
+[ext_resource type="Script" uid="uid://cqx7n3vmkr8wp" path="res://Scripts/Levels/CrushingPlatform.cs" id="1_crush"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crush"]
+size = Vector2(150, 25)
+
+[node name="CrushingPlatform" type="AnimatableBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_crush")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_crush")
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.4, 0.15, 0.15, 1)
+polygon = PackedVector2Array(-75, -12, 75, -12, 75, 12, -75, 12)
+
+[node name="TopEdge" type="Polygon2D" parent="."]
+color = Color(0.55, 0.25, 0.2, 1)
+polygon = PackedVector2Array(-75, -12, 75, -12, 75, -8, -75, -8)
+
+[node name="Spikes" type="Polygon2D" parent="."]
+color = Color(0.85, 0.85, 0.92, 1)
+polygon = PackedVector2Array(-70, 12, -64, 22, -58, 12, -45, 12, -39, 22, -33, 12, -20, 12, -14, 22, -8, 12, 5, 12, 11, 22, 17, 12, 30, 12, 36, 22, 42, 12, 55, 12, 61, 22, 67, 12)
