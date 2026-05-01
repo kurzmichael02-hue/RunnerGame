@@ -1,62 +1,77 @@
 using Godot;
 
-// Attached to the Game scene root – handles level-wide setup.
-// Right now just swaps to the gameplay music when the level loads.
+// Zentraler Controller für Pause + Musik + Levelstart
 public partial class GameManager : Node2D
 {
 	private PauseMenu _pauseMenu;
 	private PackedScene _pauseMenuScene;
-	
+
 	public override void _Ready()
 	{
 		ProcessMode = ProcessModeEnum.Always;
-		// Fresh run – clear the level-won flag that would otherwise block ESC pause after a retry
+
+		// Reset nach Retry
 		LevelGoal.Reset();
+
+		// Startmusik
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
-	
-		_pauseMenuScene = GD.Load<PackedScene>("res://Scenes/PauseMenu.tscn");
-			
+
+		_pauseMenuScene = GD.Load<PackedScene>("res://Scenes/Main/PauseMenu.tscn");
 	}
+
 	private void EnsurePauseMenu()
 	{
 		if (_pauseMenu != null) return;
 
 		_pauseMenu = _pauseMenuScene.Instantiate<PauseMenu>();
-		GetTree().Root.AddChild(_pauseMenu); // GANZ WICHTIG: Root, nicht CurrentScene
+
+		// WICHTIG: auf Root → funktioniert auch wenn pausiert
+		GetTree().Root.AddChild(_pauseMenu);
 
 		_pauseMenu.Visible = false;
 	}
-	
-	public override void _Input(InputEvent @event)
+
+	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (@event is InputEventKey key && key.Pressed && !key.Echo)
+		if (@event.IsActionPressed("ui_cancel"))
 		{
-			if (Input.IsActionPressed("ui_cancel"))
-			{
-				TogglePause();
-			}
+			TogglePause();
 		}
 	}
-	
-	private void TogglePause()
+
+	public void TogglePause()
 	{
 		if (LevelGoal.LevelCompleted) return;
 
 		EnsurePauseMenu();
 
-		if (GetTree().Paused)
+		bool isPaused = GetTree().Paused;
+
+		if (isPaused)
 		{
+			// RESUME
 			GetTree().Paused = false;
-			_pauseMenu.Visible = false;
+
+			if (_pauseMenu != null)
+			{
+				_pauseMenu.Visible = false;
+				_pauseMenu.QueueFree();  
+				_pauseMenu = null;
+			}
+
+			// Spielmusik zurück
 			SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 		}
 		else
 		{
+			// PAUSE
 			GetTree().Paused = true;
-			_pauseMenu.Visible = true;
+
+			if (_pauseMenu != null)
+				_pauseMenu.Visible = true;
+
+			// Pause-Musik
 			SoundManager.Instance.SwitchMusic(SoundManager.Instance.SettingsMusic);
 		}
 	}
-	
-	
 }

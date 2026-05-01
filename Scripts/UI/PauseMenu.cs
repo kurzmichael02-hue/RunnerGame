@@ -62,6 +62,7 @@ public partial class PauseMenu : CanvasLayer {
 	
 	private void OnAnyButtonHovered()
 	{
+		if (_listeningAction != null) return;
 		SoundManager.Instance.PlayMenuHover();
 	}
 
@@ -81,9 +82,9 @@ public partial class PauseMenu : CanvasLayer {
 		// ESC im Menü → zurück ins Spiel
 		if (@event.IsActionPressed("ui_cancel") && Visible)
 		{
-			// Wenn wir gerade KEIN Keybinding machen → Menü schließen
 			if (_listeningAction == null)
 			{
+				GetViewport().SetInputAsHandled(); //
 				OnResumePressed();
 				return;
 			}
@@ -163,7 +164,6 @@ public partial class PauseMenu : CanvasLayer {
 
 	private void SaveSettings()
 	{
-		GD.Print("=== SAVE SETTINGS CALLED ===");
 		var config = new ConfigFile();
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
@@ -173,18 +173,12 @@ public partial class PauseMenu : CanvasLayer {
 				var keycode = key.PhysicalKeycode != Key.None 
 					? key.PhysicalKeycode 
 					: key.Keycode;
-				GD.Print($"Saving {action} -> {keycode}");
 				config.SetValue("bindings", action, (int)keycode);
-			}
-			else {
-				GD.Print($"No binding found for {action}");
 			}
 		}
 		config.SetValue("audio", "volume", _volumeSlider.Value);
-		GD.Print($"Saving volume -> {_volumeSlider.Value}");
 
 		var result = config.Save("user://settings.cfg");
-		GD.Print($"Save result: {result}");
 	}
 
 
@@ -215,10 +209,12 @@ public partial class PauseMenu : CanvasLayer {
 
 	private void OnResumePressed()
 	{
-		GetTree().Paused = false;
-		Visible = false;
+		GetViewport().SetInputAsHandled();
+
+		// GameManager steuert alles!
+		GetNode<GameManager>("/root/Node2D").TogglePause();
+
 		SoundManager.Instance.PlayButton();
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 
 	private void OnVolumeChanged(double value)
@@ -240,6 +236,6 @@ public partial class PauseMenu : CanvasLayer {
 		SoundManager.Instance.PlayButton();
 		// WICHTIG: PauseMenu entfernen
 		QueueFree();
-		GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 }

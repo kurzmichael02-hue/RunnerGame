@@ -108,6 +108,7 @@ public partial class HUD : CanvasLayer
 _positionLabel.Text = meters + "m";
 		}
 
+		
 	}
 
 // Spawns one heart texturerect per max-so-far life slot, swaps between the full
