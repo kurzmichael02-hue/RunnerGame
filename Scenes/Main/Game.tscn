@@ -25,9 +25,13 @@
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
+[ext_resource type="Texture2D" uid="uid://c4t1nenv1vld" path="res://leveldesign/mischa.png" id="24_apnk5"]
 [ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
+[ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="25_ctxhw"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
+[ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="26_ook5n"]
+[ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="27_4eofi"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
 [ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/Pickups/star_power_up.tscn" id="28_8k6aj"]
 [ext_resource type="Texture2D" uid="uid://cbbiuv4un1jsb" path="res://leveldesign/Schield.png" id="29_ac8j0"]
@@ -1339,8 +1343,10 @@ script = ExtResource("21_e6dby")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint" unique_id=1547109945]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=1436791682]
+texture_filter = 1
+position = Vector2(2, -16)
+texture = ExtResource("24_apnk5")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
 position = Vector2(1316, -70)
@@ -1350,9 +1356,11 @@ script = ExtResource("21_e6dby")
 position = Vector2(0, 31)
 shape = SubResource("RectangleShape2D_raj38")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint2" unique_id=1510776201]
-position = Vector2(0, 32)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=1569178854]
+texture_filter = 1
+position = Vector2(17.999868, 19.499998)
+scale = Vector2(0.5546885, 0.44921872)
+texture = ExtResource("25_ctxhw")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
 position = Vector2(2850, -57)
@@ -1361,8 +1369,11 @@ script = ExtResource("21_e6dby")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint3" unique_id=1510776202]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1474348899]
+texture_filter = 1
+position = Vector2(26.500116, -6.9999905)
+scale = Vector2(0.85156375, 0.8906251)
+texture = ExtResource("26_ook5n")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
 position = Vector2(5350, -57)
@@ -1372,9 +1383,11 @@ script = ExtResource("21_e6dby")
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint4" unique_id=1510776203]
-position = Vector2(0, 4)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=326409949]
+texture_filter = 1
+position = Vector2(23.999805, -18)
+scale = Vector2(0.34765548, 0.25195313)
+texture = ExtResource("27_4eofi")
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
