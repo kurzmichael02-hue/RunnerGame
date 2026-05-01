@@ -9,6 +9,7 @@ public partial class PauseMenu : CanvasLayer {
 	private Button _duckBind;
 	private Button _attackBind;
 	private string _listeningAction = null;
+	private Button _activeBindButton = null;
 
 	public override void _Ready()
 	{
@@ -69,7 +70,13 @@ public partial class PauseMenu : CanvasLayer {
 	private void StartListening(string action, Button button)
 	{
 		_listeningAction = action;
-		button.Text = "Press a key...";
+
+		// Reset alten Button
+		if (_activeBindButton != null)
+			UpdateBindLabels();
+
+		_activeBindButton = button;
+		button.Text = "Press key...";
 	}
 
 	private void EnableKeyListening()
@@ -126,6 +133,7 @@ public partial class PauseMenu : CanvasLayer {
 		InputMap.ActionAddEvent(_listeningAction, newEvent);
 
 		_listeningAction = null;
+		_activeBindButton = null;
 		SetProcessUnhandledKeyInput(false);
 		UpdateBindLabels();
 		SaveSettings();
@@ -135,6 +143,7 @@ public partial class PauseMenu : CanvasLayer {
 	private void CancelListening()
 	{
 		_listeningAction = null;
+		_activeBindButton = null;
 		SetProcessUnhandledKeyInput(false);
 		UpdateBindLabels();
 	}

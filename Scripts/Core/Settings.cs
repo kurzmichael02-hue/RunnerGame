@@ -6,8 +6,8 @@ public partial class Settings : Control
 	// UI
 	private Button _mainMenuButton;
 	private Button _resetButton;
-
 	private HSlider _volumeSlider;
+	private Button _activeBindButton = null;
 
 	private Button _jumpBind;
 	private Button _moveRightBind;
@@ -92,7 +92,13 @@ public partial class Settings : Control
 	// =========================
 	private void StartListening(string action, Button button)
 	{
+		// alten Button zurücksetzen
+		if (_activeBindButton != null)
+			UpdateButtonTexts();
+
 		_listeningAction = action;
+		_activeBindButton = button;
+
 		button.Text = "Press key...";
 	}
 
@@ -108,6 +114,7 @@ public partial class Settings : Control
 		if (keyEvent.PhysicalKeycode == Key.Escape)
 		{
 			_listeningAction = null;
+			_activeBindButton = null;
 			UpdateButtonTexts();
 			return;
 		}
@@ -141,7 +148,7 @@ public partial class Settings : Control
 		InputMap.ActionAddEvent(_listeningAction, ev);
 
 		_listeningAction = null;
-
+		_activeBindButton = null;
 		UpdateButtonTexts();
 		SaveSettings();
 	}
