@@ -1,7 +1,7 @@
 using Godot;
 
-public partial class PauseMenu : Control
-{
+public partial class PauseMenu : CanvasLayer {
+	
 	private HSlider _volumeSlider;
 	private Button _jumpBind;
 	private Button _moveRightBind;
@@ -9,33 +9,30 @@ public partial class PauseMenu : Control
 	private Button _duckBind;
 	private Button _attackBind;
 	private string _listeningAction = null;
-	// Blockt valuechanged-feedback während loadsettings den slider initial setzt,
-	// sonst gibts einen kurzen volume-jump und doppeltes save am gameload
-	private bool _isLoading = false;
 
 	public override void _Ready()
 	{
-		// Always so the pause menu stays responsive while GetTree().Paused is true
 		ProcessMode = ProcessModeEnum.Always;
 
-		// When the pause menu pops up, drop focus on Resume so the player can
-		// navigate with arrow keys + enter without reaching for the mouse
-		VisibilityChanged += OnVisibilityChanged;
+		// Blockiert Klicks auf das Spiel dahinter
+		GetNode<Control>("MenuPanel").MouseFilter = Control.MouseFilterEnum.Stop;
+		SetProcessInput(true);
+		
 
-		GetNode<Button>("MenuPanel/VBoxContainer/Resume").Pressed += OnResumePressed;
-		GetNode<Button>("MenuPanel/VBoxContainer/Exit").Pressed += OnExitPressed;
-		GetNode<Button>("MenuPanel/VBoxContainer/Main Menu").Pressed += OnMainMenuPressed;
+		GetNode<Button>("MenuPanel/VBoxContainer2/Resume").Pressed += OnResumePressed;
+		GetNode<Button>("MenuPanel/VBoxContainer2/Exit").Pressed += OnExitPressed;
+		GetNode<Button>("MenuPanel/VBoxContainer2/MainMenu").Pressed += OnMainMenuPressed;
 
-		_volumeSlider = GetNode<HSlider>("MenuPanel/VBoxContainer/HSlider");
+		_volumeSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HSlider");
 		_volumeSlider.MinValue = 0;
 		_volumeSlider.MaxValue = 100;
 		_volumeSlider.ValueChanged += OnVolumeChanged;
 
-		_jumpBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer/JumpBind");
-		_moveRightBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer2/MoveRightBind");
-		_moveLeftBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer3/MoveLeftBind");
-		_duckBind = GetNode<Button>("MenuPanel/VBoxContainer/HBoxContainer4/DuckBind");
-		_attackBind = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/HBoxContainer5/AttackBind");
+		_jumpBind = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer/JumpBind");
+		_moveRightBind = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer2/MoveRightBind");
+		_moveLeftBind = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer3/MoveLeftBind");
+		_duckBind = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer4/DuckBind");
+		_attackBind = GetNodeOrNull<Button>("MenuPanel/VBoxContainer2/HBoxContainer5/AttackBind");
 
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
@@ -43,41 +40,36 @@ public partial class PauseMenu : Control
 		_duckBind.Pressed += () => StartListening("duck", _duckBind);
 		if (_attackBind != null)
 			_attackBind.Pressed += () => StartListening("attack", _attackBind);
-		
-		var root = GetNode("MenuPanel");
-
-		foreach (Node child in root.GetChildren())
-		{
-			foreach (Node subChild in child.GetChildren())
-			{
-				if (subChild is Button button)
-				{
-					button.MouseEntered += OnAnyButtonHovered;
-				}
-			}
-		}
-
+			
+		ConnectHoverRecursive(GetNode("MenuPanel"));
 		LoadSettings();
 		UpdateBindLabels();
 	}
 	
+	private void ConnectHoverRecursive(Node node)
+	{
+		foreach (Node child in node.GetChildren())
+		{
+			if (child is Button button)
+			{
+				button.MouseEntered += OnAnyButtonHovered;
+			}
+
+			// REKURSIV weiter runtergehen
+			ConnectHoverRecursive(child);
+		}
+	}
+	
 	private void OnAnyButtonHovered()
 	{
+		if (_listeningAction != null) return;
 		SoundManager.Instance.PlayMenuHover();
-	}
-
-	private void OnVisibilityChanged()
-	{
-		if (Visible)
-			GetNode<Button>("MenuPanel/VBoxContainer/Resume").GrabFocus();
 	}
 
 	private void StartListening(string action, Button button)
 	{
 		_listeningAction = action;
 		button.Text = "Press a key...";
-		SetProcessUnhandledKeyInput(false);
-		CallDeferred(nameof(EnableKeyListening));
 	}
 
 	private void EnableKeyListening()
@@ -85,13 +77,25 @@ public partial class PauseMenu : Control
 		SetProcessUnhandledKeyInput(true);
 	}
 
-	public override void _UnhandledKeyInput(InputEvent @event)
-	{
+	public override void _Input(InputEvent @event) {
+		
+		// ESC im Menü → zurück ins Spiel
+		if (@event.IsActionPressed("ui_cancel") && Visible)
+		{
+			if (_listeningAction == null)
+			{
+				GetViewport().SetInputAsHandled(); //
+				OnResumePressed();
+				return;
+			}
+		}
+		
+		// AB HIER: NUR Keybinding
 		if (_listeningAction == null) return;
 		if (@event is not InputEventKey keyEvent || !keyEvent.Pressed || keyEvent.Echo) return;
 
-		if (keyEvent.Keycode == Key.Escape)
-		{
+		GetViewport().SetInputAsHandled(); 
+		if (keyEvent.PhysicalKeycode == Key.Escape)	{
 			CancelListening();
 			return;
 		}
@@ -102,9 +106,11 @@ public partial class PauseMenu : Control
 			if (action == _listeningAction) continue;
 			foreach (InputEvent existing in InputMap.ActionGetEvents(action))
 			{
-				if (existing.AsText() == @event.AsText())
+				if (existing is InputEventKey existingKey &&
+					existingKey.PhysicalKeycode == keyEvent.PhysicalKeycode)
 				{
 					var currentEvents = InputMap.ActionGetEvents(_listeningAction);
+					
 					InputMap.ActionEraseEvents(action);
 					foreach (var e in currentEvents)
 						InputMap.ActionAddEvent(action, e);
@@ -113,7 +119,11 @@ public partial class PauseMenu : Control
 		}
 
 		InputMap.ActionEraseEvents(_listeningAction);
-		InputMap.ActionAddEvent(_listeningAction, @event);
+		
+		var newEvent = new InputEventKey();
+		newEvent.Keycode = keyEvent.Keycode;
+		newEvent.PhysicalKeycode = keyEvent.PhysicalKeycode;
+		InputMap.ActionAddEvent(_listeningAction, newEvent);
 
 		_listeningAction = null;
 		SetProcessUnhandledKeyInput(false);
@@ -156,31 +166,34 @@ public partial class PauseMenu : Control
 	private void SaveSettings()
 	{
 		var config = new ConfigFile();
-
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			var events = InputMap.ActionGetEvents(action);
 			if (events.Count > 0 && events[0] is InputEventKey key)
-				config.SetValue("bindings", action, (int)key.PhysicalKeycode);
+			{
+				var keycode = key.PhysicalKeycode != Key.None 
+					? key.PhysicalKeycode 
+					: key.Keycode;
+				config.SetValue("bindings", action, (int)keycode);
+			}
 		}
-
 		config.SetValue("audio", "volume", _volumeSlider.Value);
-		config.Save("user://settings.cfg");
+
+		var result = config.Save("user://settings.cfg");
 	}
+
 
 	private void LoadSettings()
 	{
 		var config = new ConfigFile();
 		if (config.Load("user://settings.cfg") != Error.Ok) return;
 
-		_isLoading = true;
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			if (!config.HasSectionKey("bindings", action)) continue;
 			int keycode = (int)config.GetValue("bindings", action);
-			// 0 = key.none = corrupte save, project.godot defaults beibehalten
-			if (keycode <= 0) continue;
 			var keyEvent = new InputEventKey();
+			keyEvent.Keycode = (Key)keycode;
 			keyEvent.PhysicalKeycode = (Key)keycode;
 			InputMap.ActionEraseEvents(action);
 			InputMap.ActionAddEvent(action, keyEvent);
@@ -193,35 +206,37 @@ public partial class PauseMenu : Control
 			float db = Mathf.LinearToDb((float)(volume / 100.0));
 			AudioServer.SetBusVolumeDb(0, db);
 		}
-		_isLoading = false;
 	}
 
 	private void OnResumePressed()
 	{
-		GetTree().Paused = false;
-		Visible = false;
+		GetViewport().SetInputAsHandled();
+
+		// GameManager steuert alles!
+		GetNode<GameManager>("/root/Node2D").TogglePause();
+
 		SoundManager.Instance.PlayButton();
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 	}
 
 	private void OnVolumeChanged(double value)
 	{
-		if (_isLoading) return;
 		float db = Mathf.LinearToDb((float)(value / 100.0));
 		AudioServer.SetBusVolumeDb(0, db);
 		SaveSettings();
 	}
 
-	private void OnExitPressed()
-	{	
+	private void OnExitPressed() {
 		SoundManager.Instance.PlayButton();
+		QueueFree();
 		GetTree().Quit();
 	}
 
 	private void OnMainMenuPressed()
-	{	
+	{
 		GetTree().Paused = false;
 		SoundManager.Instance.PlayButton();
+		// WICHTIG: PauseMenu entfernen
+		QueueFree();
 		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 }

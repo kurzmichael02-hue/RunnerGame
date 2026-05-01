@@ -14,7 +14,6 @@ public partial class LevelCompleteScreen : CanvasLayer
 
 	public override void _Ready()
 	{
-		Visible = false;
 		ProcessMode = ProcessModeEnum.Always;
 
 		// Sauber über Gruppen holen
@@ -30,31 +29,24 @@ public partial class LevelCompleteScreen : CanvasLayer
 		GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
 		GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
 	}
+	
+	public void ShowScreen()
+{
+	if (_shown) return;
 
-	public override void _Process(double delta)
-	{
-		// Sicherheit (verhindert Crash)
-		if (_player == null || _hud == null)
-			return;
+	_shown = true;
+	Visible = true;
 
-		// Nur EINMAL anzeigen
-		if (LevelGoal.LevelCompleted && GetTree().Paused && !_shown)
-		{
-			_shown = true;
-			Visible = true;
+	_scoreLabel.Text = "Score: " + _player.Score;
+	_livesLabel.Text = "Lives: " + _player.Lives;
 
-			// Score & Lives
-			_scoreLabel.Text = "Score: " + _player.Score;
-			_livesLabel.Text = "Lives: " + _player.Lives;
+	float time = _hud.ElapsedTime;
+	int minutes = (int)(time / 60);
+	int seconds = (int)(time % 60);
 
-			// Zeit aus HUD
-			float time = _hud.ElapsedTime;
-			int minutes = (int)(time / 60);
-			int seconds = (int)(time % 60);
+	_timeLabel.Text = $"Time: {minutes:00}:{seconds:00}";
+}
 
-			_timeLabel.Text = $"Time: {minutes:00}:{seconds:00}";
-		}
-	}
 
 	private void OnMainMenu()
 	{

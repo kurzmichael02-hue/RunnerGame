@@ -25,11 +25,11 @@ public partial class LevelGoal : Area2D
 		_reached = true;
 		LevelCompleted = true;
 		// Freeze the player immediately so they don't run past the goal during the celebration
-		player.SetPhysicsProcess(false);
+		player.ProcessMode = Node.ProcessModeEnum.Disabled;
 
 		// Time bonus – sub-minute clears top out at +600, two-minute+ gives nothing.
 		// Gives the player a real reason to speedrun instead of dawdling for coins.
-		var hud = GetTree().Root.FindChild("HUD", true, false) as HUD;
+		var hud = GetTree().GetFirstNodeInGroup("hud") as HUD;
 		if (hud != null)
 		{
 			SaveBestTime(hud.ElapsedTime);
@@ -61,9 +61,48 @@ public partial class LevelGoal : Area2D
 			tween.SetLoops(5);
 		}
 
-		await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
+
+		// kleine Wartezeit für Feedback
+		await ToSignal(GetTree().CreateTimer(1.2f), SceneTreeTimer.SignalName.Timeout);
+
+		// Screen anzeigen
+		ShowScreen();
+
+		// Mini Delay für UI Stabilität
+		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
+
+		// Spiel pausieren
 		GetTree().Paused = true;
+		
+		
 	}
+	
+	private void ShowScreen()
+	{
+		var scene = GD.Load<PackedScene>("res://Scenes/LevelCompleteScreen.tscn");
+
+		if (scene == null)
+		{
+			GD.PrintErr("LevelCompleteScreen konnte nicht geladen werden.");
+			return;
+		}
+
+		var screen = scene.Instantiate<LevelCompleteScreen>();
+
+		if (screen == null)
+		{
+			GD.PrintErr("LevelCompleteScreen Instanz fehlgeschlagen.");
+			return;
+		}
+
+		screen.ProcessMode = Node.ProcessModeEnum.Always;
+
+		GetTree().CurrentScene.AddChild(screen);
+
+		screen.CallDeferred(nameof(LevelCompleteScreen.ShowScreen));
+	}
+	
+	
 
 	// Floating gold label above the player showing the bonus – runs faster than the
 	// 1s pre-pause window so the tween has time to finish before GetTree().Paused kicks in
