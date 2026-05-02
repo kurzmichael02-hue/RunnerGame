@@ -44,6 +44,22 @@ corner_detail = 20
 shadow_color = Color(0.12156863, 0, 0.29803923, 1)
 shadow_size = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2jta2"]
+bg_color = Color(0.7676589, 0.61692303, 0.99999934, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_58rkf"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(0.12156863, 0, 0.29803923, 1)
+shadow_size = 1
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ipgag"]
 content_margin_left = 4.0
 content_margin_top = 4.0
@@ -143,6 +159,7 @@ alignment = 1
 [node name="MainMenu" type="Button" parent="MenuPanel/VBoxContainer2" unique_id=826496788]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_font_sizes/font_size = 20
@@ -151,34 +168,31 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_mjqtt")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ppjuv")
 text = "Main Menu"
 
-[node name="Volume" type="Label" parent="MenuPanel/VBoxContainer2" unique_id=920265149]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-theme_override_font_sizes/font_size = 20
-text = "Volume"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="HBox1" type="HBoxContainer" parent="MenuPanel/VBoxContainer2" unique_id=1294729956]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="Label" type="Label" parent="MenuPanel/VBoxContainer2/HBox1" unique_id=769187748]
-custom_minimum_size = Vector2(130, 0)
+[node name="MasterButton" type="Button" parent="MenuPanel/VBoxContainer2/HBox1" unique_id=410457939]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_vertical = 1
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_pressed_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.1749846, 0.17498463, 0.1749846, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_mcwqo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2jta2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_58rkf")
+toggle_mode = true
 text = "Master Volume"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="MasterSlider" type="HSlider" parent="MenuPanel/VBoxContainer2/HBox1" unique_id=1783698542]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("StyleBoxFlat_ipgag")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_646k0")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_efosg")
@@ -188,21 +202,26 @@ value = 100.0
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="MenuPanel/VBoxContainer2/HBoxC2" unique_id=1179300071]
-custom_minimum_size = Vector2(130, 0)
+[node name="MusicButton" type="Button" parent="MenuPanel/VBoxContainer2/HBoxC2" unique_id=1205488921]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_vertical = 1
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_pressed_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.1749846, 0.17498463, 0.1749846, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_mcwqo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2jta2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_58rkf")
+toggle_mode = true
 text = "Music Volume"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="MusicSlider" type="HSlider" parent="MenuPanel/VBoxContainer2/HBoxC2" unique_id=782039838]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("StyleBoxFlat_ipgag")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_646k0")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_efosg")
@@ -212,21 +231,26 @@ value = 100.0
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="MenuPanel/VBoxContainer2/HBoxC3" unique_id=135616072]
-custom_minimum_size = Vector2(130, 0)
+[node name="GameFXButton" type="Button" parent="MenuPanel/VBoxContainer2/HBoxC3" unique_id=1403748303]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_vertical = 1
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_pressed_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.1749846, 0.17498463, 0.1749846, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_mcwqo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2jta2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_58rkf")
+toggle_mode = true
 text = "Sound Effects"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="GameFXSlider" type="HSlider" parent="MenuPanel/VBoxContainer2/HBoxC3" unique_id=295306207]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("StyleBoxFlat_ipgag")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_646k0")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_efosg")
@@ -236,21 +260,26 @@ value = 100.0
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="MenuPanel/VBoxContainer2/HBoxC4" unique_id=439525277]
-custom_minimum_size = Vector2(130, 0)
+[node name="MenuFXButton" type="Button" parent="MenuPanel/VBoxContainer2/HBoxC4" unique_id=1662916830]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-size_flags_vertical = 1
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_pressed_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.1749846, 0.17498463, 0.1749846, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_mcwqo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_2jta2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_58rkf")
+toggle_mode = true
 text = "Menu Sounds"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="MenuFXSlider" type="HSlider" parent="MenuPanel/VBoxContainer2/HBoxC4" unique_id=639666348]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("StyleBoxFlat_ipgag")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_646k0")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_efosg")
@@ -282,6 +311,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -309,6 +339,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -336,6 +367,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -361,6 +393,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -386,6 +419,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -397,6 +431,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ppjuv")
 [node name="Reset" type="Button" parent="MenuPanel/VBoxContainer2" unique_id=347991679]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 theme_override_font_sizes/font_size = 20
