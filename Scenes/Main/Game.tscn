@@ -20,9 +20,13 @@
 [ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="18_jeh1s"]
 [ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Pickups/Coin.cs" id="19_wsy13"]
 [ext_resource type="Texture2D" uid="uid://ctplya5hj2fhu" path="res://leveldesign/coins.png" id="20_o0po4"]
+[ext_resource type="Texture2D" uid="uid://c4t1nenv1vld" path="res://leveldesign/mischa.png" id="21_ctxhw"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
+[ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
+[ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
+[ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="24_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
@@ -1022,8 +1026,11 @@ script = ExtResource("21_e6dby")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint" unique_id=1547109945]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=1390801544]
+texture_filter = 1
+position = Vector2(11.500011, -16)
+scale = Vector2(0.9140627, 1)
+texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
 position = Vector2(1316, -70)
@@ -1033,9 +1040,11 @@ script = ExtResource("21_e6dby")
 position = Vector2(0, 31)
 shape = SubResource("RectangleShape2D_raj38")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint2" unique_id=1510776201]
-position = Vector2(0, 32)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=1826642515]
+texture_filter = 1
+position = Vector2(17.499998, 17.499989)
+scale = Vector2(0.5117184, 0.47265628)
+texture = ExtResource("22_ook5n")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
 position = Vector2(2850, -57)
@@ -1044,8 +1053,11 @@ script = ExtResource("21_e6dby")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint3" unique_id=1510776202]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1726839946]
+texture_filter = 1
+position = Vector2(18.500023, -11.499999)
+scale = Vector2(1.0234379, 0.9765625)
+texture = ExtResource("23_4eofi")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
 position = Vector2(5350, -57)
@@ -1055,9 +1067,11 @@ script = ExtResource("21_e6dby")
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint4" unique_id=1510776203]
-position = Vector2(0, 4)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=798269252]
+texture_filter = 1
+position = Vector2(20.750177, -11.749995)
+scale = Vector2(0.29003975, 0.23535155)
+texture = ExtResource("24_nvl0l")
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
