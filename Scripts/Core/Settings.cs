@@ -23,6 +23,21 @@ public partial class Settings : Control
 	private HSlider _musicSlider;
 	private HSlider _gameFxSlider;
 	private HSlider _menuFxSlider;
+	
+	private Button _masterBtn;
+	private Button _musicBtn;
+	private Button _gameFxBtn;
+	private Button _menuFxBtn;
+
+	private bool _masterMuted = false;
+	private bool _musicMuted = false;
+	private bool _gameFxMuted = false;
+	private bool _menuFxMuted = false;
+
+	private float _lastMaster;
+	private float _lastMusic;
+	private float _lastGameFx;
+	private float _lastMenuFx;
 
 	// Save path
 	private const string SAVE_PATH = "user://settings.cfg";
@@ -34,7 +49,16 @@ public partial class Settings : Control
 		// Nodes
 		
 		_mainMenuButton = GetNode<Button>("MenuPanel/VBoxContainer2/MainMenu");
-
+		
+		_masterBtn = GetNode<Button>("MenuPanel/VBoxContainer2/HBox1/MasterButton");
+		_musicBtn = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxC2/MusicButton");
+		_gameFxBtn = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxC3/GameFXButton");
+		_menuFxBtn = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxC4/MenuFXButton");
+		
+		_masterBtn.Pressed += ToggleMaster;
+		_musicBtn.Pressed += ToggleMusic;
+		_gameFxBtn.Pressed += ToggleGameFx;
+		_menuFxBtn.Pressed += ToggleMenuFx;
 		
 		_masterSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HBox1/MasterSlider");
 		_musicSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HBoxC2/MusicSlider");
@@ -271,6 +295,11 @@ public partial class Settings : Control
 		LoadKey(config, "attack");
 
 		_isLoading = false;
+		
+UpdateButtonState(_masterBtn, _masterMuted, "Master Volume", "Master");
+UpdateButtonState(_musicBtn, _musicMuted, "Music Volume", "Music");
+UpdateButtonState(_gameFxBtn, _gameFxMuted, "Sound Effects", "Sound");
+UpdateButtonState(_menuFxBtn, _menuFxMuted, "Menu Sounds", "Menu");
 	}
 
 	private void SaveKey(ConfigFile config, string action)
@@ -358,5 +387,123 @@ public partial class Settings : Control
 	ApplyDefaults();
 	UpdateButtonTexts();
 	SaveSettings();
+}
+
+private void ToggleMaster()
+{
+	if (!_masterMuted)
+	{
+		// Werte speichern
+		_lastMaster = (float)_masterSlider.Value;
+		_lastMusic = (float)_musicSlider.Value;
+		_lastGameFx = (float)_gameFxSlider.Value;
+		_lastMenuFx = (float)_menuFxSlider.Value;
+
+		// ALLES muten
+		_masterSlider.Value = 0;
+		_musicSlider.Value = 0;
+		_gameFxSlider.Value = 0;
+		_menuFxSlider.Value = 0;
+
+		SoundManager.Instance.SetMasterVolume(0);
+		SoundManager.Instance.SetMusicVolume(0);
+		SoundManager.Instance.SetGameFxVolume(0);
+		SoundManager.Instance.SetMenuFxVolume(0);
+
+		// ALLE STATES setzen
+		_masterMuted = true;
+		_musicMuted = true;
+		_gameFxMuted = true;
+		_menuFxMuted = true;
+	}
+	else
+	{
+		// Werte zurück
+		_masterSlider.Value = _lastMaster;
+		_musicSlider.Value = _lastMusic;
+		_gameFxSlider.Value = _lastGameFx;
+		_menuFxSlider.Value = _lastMenuFx;
+
+		SoundManager.Instance.SetMasterVolume(_lastMaster);
+		SoundManager.Instance.SetMusicVolume(_lastMusic);
+		SoundManager.Instance.SetGameFxVolume(_lastGameFx);
+		SoundManager.Instance.SetMenuFxVolume(_lastMenuFx);
+
+		// ALLE STATES zurück
+		_masterMuted = false;
+		_musicMuted = false;
+		_gameFxMuted = false;
+		_menuFxMuted = false;
+	}
+
+	// UI UPDATE (RICHTIG)
+	UpdateButtonState(_masterBtn, _masterMuted, "Master Volume", "Master");
+	UpdateButtonState(_musicBtn, _musicMuted, "Music Volume", "Music");
+	UpdateButtonState(_gameFxBtn, _gameFxMuted, "Sound Effects", "Sound");
+	UpdateButtonState(_menuFxBtn, _menuFxMuted, "Menu Sounds", "Menu");
+}
+
+
+
+	private void ToggleMusic()
+	{
+		if (!_musicMuted)
+		{
+			_lastMusic = (float)_musicSlider.Value;
+			_musicSlider.Value = 0;
+			SoundManager.Instance.SetMusicVolume(0);
+			_musicMuted = true;
+		}
+		else
+		{
+			_musicSlider.Value = _lastMusic;
+			SoundManager.Instance.SetMusicVolume(_lastMusic);
+			_musicMuted = false;
+		}
+UpdateButtonState(_musicBtn, _musicMuted, "Music Volume", "Music");
+	}
+	private void ToggleGameFx()
+	{
+		if (!_gameFxMuted)
+		{
+			_lastGameFx = (float)_gameFxSlider.Value;
+			_gameFxSlider.Value = 0;
+			SoundManager.Instance.SetGameFxVolume(0);
+			_gameFxMuted = true;
+		}
+		else
+		{
+			_gameFxSlider.Value = _lastGameFx;
+			SoundManager.Instance.SetGameFxVolume(_lastGameFx);
+			_gameFxMuted = false;
+		}
+UpdateButtonState(_gameFxBtn, _gameFxMuted, "Sound Effects", "Sound");
+	}
+	private void ToggleMenuFx()
+	{
+		if (!_menuFxMuted)
+		{
+			_lastMenuFx = (float)_menuFxSlider.Value;
+			_menuFxSlider.Value = 0;
+			SoundManager.Instance.SetMenuFxVolume(0);
+			_menuFxMuted = true;
+		}
+		else
+		{
+			_menuFxSlider.Value = _lastMenuFx;
+			SoundManager.Instance.SetMenuFxVolume(_lastMenuFx);
+			_menuFxMuted = false;
+		}
+UpdateButtonState(_menuFxBtn, _menuFxMuted, "Menu Sounds", "Menu");
+	}
+	
+private void UpdateButtonState(Button btn, bool muted, string normalText, string mutedText)
+{
+	btn.ButtonPressed = muted;
+
+	if (muted)
+		btn.Text = $"{mutedText} (Muted)";
+	else
+		btn.Text = normalText;
 }
 }
