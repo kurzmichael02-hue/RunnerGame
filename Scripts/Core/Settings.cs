@@ -6,7 +6,7 @@ public partial class Settings : Control
 	// UI
 	private Button _mainMenuButton;
 	private Button _resetButton;
-	private HSlider _volumeSlider;
+
 	private Button _activeBindButton = null;
 
 	private Button _jumpBind;
@@ -18,6 +18,11 @@ public partial class Settings : Control
 	// State
 	private string _listeningAction = null;
 	private bool _isLoading = false;
+	
+	private HSlider _masterSlider;
+	private HSlider _musicSlider;
+	private HSlider _gameFxSlider;
+	private HSlider _menuFxSlider;
 
 	// Save path
 	private const string SAVE_PATH = "user://settings.cfg";
@@ -27,9 +32,16 @@ public partial class Settings : Control
 		ProcessMode = ProcessModeEnum.Always;
 		ConnectHoverRecursive(GetNode("MenuPanel"));
 		// Nodes
+		
 		_mainMenuButton = GetNode<Button>("MenuPanel/VBoxContainer2/MainMenu");
-		_volumeSlider   = GetNode<HSlider>("MenuPanel/VBoxContainer2/HSlider");
 
+		
+		_masterSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HBox1/MasterSlider");
+		_musicSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HBoxC2/MusicSlider");
+		_gameFxSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HBoxC3/GameFXSlider");
+		_menuFxSlider = GetNode<HSlider>("MenuPanel/VBoxContainer2/HBoxC4/MenuFXSlider");
+
+									
 		_jumpBind       = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer/JumpBind");
 		_moveRightBind  = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer2/MoveRightBind");
 		_moveLeftBind   = GetNode<Button>("MenuPanel/VBoxContainer2/HBoxContainer3/MoveLeftBind");
@@ -42,7 +54,11 @@ public partial class Settings : Control
 
 		// Events
 		_mainMenuButton.Pressed += OnMainMenuPressed;
-		_volumeSlider.ValueChanged += OnVolumeChanged;
+		
+		_masterSlider.ValueChanged += (v) => SoundManager.Instance.SetMasterVolume((float)v);
+		_musicSlider.ValueChanged += (v) => SoundManager.Instance.SetMusicVolume((float)v);
+		_gameFxSlider.ValueChanged += (v) => SoundManager.Instance.SetGameFxVolume((float)v);
+		_menuFxSlider.ValueChanged += (v) => SoundManager.Instance.SetMenuFxVolume((float)v);
 
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
@@ -188,7 +204,10 @@ public partial class Settings : Control
 	{
 		var config = new ConfigFile();
 
-		config.SetValue("audio", "volume", _volumeSlider.Value);
+		config.SetValue("audio", "master", _masterSlider.Value);
+		config.SetValue("audio", "music", _musicSlider.Value);
+		config.SetValue("audio", "gamefx", _gameFxSlider.Value);
+		config.SetValue("audio", "menufx", _menuFxSlider.Value);
 
 		SaveKey(config, "jump");
 		SaveKey(config, "move_right");
@@ -221,19 +240,29 @@ public partial class Settings : Control
 
 		if (config.Load(SAVE_PATH) != Error.Ok)
 		{
-			_volumeSlider.Value = 100;
-			SoundManager.Instance.SetMasterVolume(100); 
+			_masterSlider.Value = 100;
+			_musicSlider.Value = 100;
+			_gameFxSlider.Value = 100;
+			_menuFxSlider.Value = 100;
+
+			SoundManager.Instance.SetMasterVolume(100);
+			SoundManager.Instance.SetMusicVolume(100);
+			SoundManager.Instance.SetGameFxVolume(100);
+			SoundManager.Instance.SetMenuFxVolume(100);
+
 			_isLoading = false;
 			return;
 		}
 
-		float volume = (float)config.GetValue("audio", "volume", 100.0f);
+		_masterSlider.Value = (double)config.GetValue("audio", "master", 100.0);
+		_musicSlider.Value = (double)config.GetValue("audio", "music", 100.0);
+		_gameFxSlider.Value = (double)config.GetValue("audio", "gamefx", 100.0);
+		_menuFxSlider.Value = (double)config.GetValue("audio", "menufx", 100.0);
 
-		_volumeSlider.ValueChanged -= OnVolumeChanged;
-		_volumeSlider.Value = volume;
-		_volumeSlider.ValueChanged += OnVolumeChanged;
-
-		SoundManager.Instance.SetMasterVolume(volume);
+		SoundManager.Instance.SetMasterVolume((float)_masterSlider.Value);
+		SoundManager.Instance.SetMusicVolume((float)_musicSlider.Value);
+		SoundManager.Instance.SetGameFxVolume((float)_gameFxSlider.Value);
+		SoundManager.Instance.SetMenuFxVolume((float)_menuFxSlider.Value);
 
 		LoadKey(config, "jump");
 		LoadKey(config, "move_right");
@@ -288,10 +317,15 @@ public partial class Settings : Control
 		SetDefaultKey("duck");
 		SetDefaultKey("attack");
 
-		_volumeSlider.ValueChanged -= OnVolumeChanged;
-		_volumeSlider.Value = 100;
-		_volumeSlider.ValueChanged += OnVolumeChanged;
+		_masterSlider.Value = 100;
+		_musicSlider.Value = 100;
+		_gameFxSlider.Value = 100;
+		_menuFxSlider.Value = 100;
+
 		SoundManager.Instance.SetMasterVolume(100);
+		SoundManager.Instance.SetMusicVolume(100);
+		SoundManager.Instance.SetGameFxVolume(100);
+		SoundManager.Instance.SetMenuFxVolume(100);
 	}
 
 
