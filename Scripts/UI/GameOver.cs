@@ -60,6 +60,7 @@ public partial class GameOver : Control
 		// Main Menu pressed
 		private void _on_mainMenu_pressed()
 		{
+			SoundManager.Instance.PlayButton();
 			GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 		}
 
