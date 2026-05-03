@@ -62,9 +62,8 @@ public partial class HUD : CanvasLayer
 
 	public override void _Process(double delta)
 	{
-		// Wenn der player erst nach hud ready ist (scene-order kann das je nach
-		// reihenfolge im baum drehen), war _player null und das hud crashed beim
-		// ersten frame – also lazy nochmal greifen
+		// _player ist null wenn der player erst nach dem hud ready ist - hängt
+		// am scene-aufbau. lazy nochmal holen statt crash
 		if (_player == null)
 		{
 			_player = GetTree().GetFirstNodeInGroup("player") as Player;

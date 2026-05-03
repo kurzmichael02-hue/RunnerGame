@@ -30,8 +30,8 @@ public partial class Enemy : CharacterBody2D
 		// Charger sprints when it sees the player, so give it a higher top speed
 		if (Type == EnemyType.Charger) Speed = 380f;
 
-		// HitBox war als shapecast2d gecasted, in der scene ist's aber area2d -
-		// wurde sowieso nirgends abgefragt, kollision läuft über dx/dy weiter unten
+		// kollision läuft komplett über dx/dy unten, das alte shapecast war eh
+		// nie gequery worden (und falsch gecasted, hatte zu nem crash geführt)
 		SetCollisionMaskValue(1, true);
 	}
 
@@ -53,11 +53,9 @@ public partial class Enemy : CharacterBody2D
 		// otherwise enemies that happened to be standing on the checkpoint kill instantly
 		if (playerNode != null && !playerNode.IsDying && !playerNode.IsInvincible)
 		{
-			// Split into horizontal + vertical thresholds for cleaner contact detection.
-			// dy > 0 = enemy below player, dy < 0 = enemy above player.
-			// Box etwas größer als die alten 48/58 weil mischa gemerkt hat dass der
-			// jumping-enemy oft am player vorbei kommt ohne dass er zählt - besonders
-			// wenn der enemy noch in der luft ist und der player gerade tief genug ist
+			// dy > 0 = enemy unter player, dy < 0 = enemy über player.
+			// box etwas größer (55/65 statt 48/58), mischa hat gemerkt dass das
+			// jumping-enemy oft vorbei rauscht
 			float dx = Mathf.Abs(GlobalPosition.X - playerNode.GlobalPosition.X);
 			float dy = GlobalPosition.Y - playerNode.GlobalPosition.Y;
 			bool inContact = dx < 55f && Mathf.Abs(dy) < 65f;
@@ -71,8 +69,8 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Player stomps enemy from above (classic Mario stomp) (#88).
-				// dy > 12 statt 6 damit ein side-hit nicht aus versehen als stomp zählt
+				// player stompt enemy von oben. dy > 12 statt 6 sonst zählen
+				// side-hits manchmal als stomp und der player kommt damit durch
 				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 12f;
 				if (playerStomp)
 				{
@@ -81,22 +79,20 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Enemy fällt aktiv von oben auf den player (#... mischa hat das gemeldet,
-				// passierte vorher oft "garnix"). Wenn enemy in der luft ist und schneller
-				// fällt als der player, ist's eindeutig "enemy landet auf player".
+				// enemy fällt aktiv auf player drauf (mischa: passierte vorher
+				// oft garnix). enemy in der luft + fällt schneller als player = treffer
 				bool enemyDrop = !IsOnFloor() && Velocity.Y > 50f && dy < -8f
 					&& Velocity.Y > playerNode.Velocity.Y;
 				if (enemyDrop)
 				{
-					// Extra shake oben drauf damits sich angemessen anfühlt wenn ein
-					// gegner einem auf den kopf springt
+					// extra shake damit man's auch fühlt
 					playerNode.Shake(8f, 0.2f);
 					playerNode.Die();
 					_damageCooldown = 1.5f;
 					return;
 				}
 
-				// Side / horizontal contact – player dies bei normalem hit
+				// normaler side-hit
 				playerNode.Die();
 				_damageCooldown = 1.5f;
 				return;

@@ -190,7 +190,7 @@ public partial class PauseMenu : Control
 		{
 			double volume = (double)config.GetValue("audio", "volume");
 			_volumeSlider.Value = volume;
-			// linear=0 -> -inf db -> bus crashed. clamp wie in settings.cs
+			// linear=0 gibt -inf db, der bus geht dann kaputt. clamp wie settings.cs
 			float linear = (float)(volume / 100.0);
 			float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
 			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), db);
@@ -209,7 +209,7 @@ public partial class PauseMenu : Control
 	private void OnVolumeChanged(double value)
 	{
 		if (_isLoading) return;
-		// gleiche clamp-logik wie load – sonst liefert linear=0 ein -inf db
+		// selber clamp wie oben, sonst -inf db
 		float linear = (float)(value / 100.0);
 		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
 		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), db);

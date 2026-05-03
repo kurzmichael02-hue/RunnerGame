@@ -9,9 +9,7 @@ public partial class HighScores : Control
 
 		int highscore = LoadHighscore();
 		var highscoreLabel = GetNode<Label>("HighScoreLabel");
-		// Mischa wollte session + gesamt highscore klar getrennt sehen, schön formatiert.
-		// Multi-line statt einer langen zeile, damit auf der highscore-screen sofort
-		// klar ist was alltime ist und was die laufende session.
+		// mischa wollte alltime + session getrennt sehen, deswegen mehrzeilig
 		highscoreLabel.Text =
 			$"Alltime:  {highscore}\n" +
 			$"Session:  {Player.SessionHighscore}";

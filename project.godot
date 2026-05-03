@@ -27,12 +27,11 @@ SoundManager="*uid://c1ta0cybv4xuo"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-; maximiert beim start damit der player nicht extra fenster ziehen muss
+; maximiert beim start, sonst muss man jedes mal das fenster ziehen
 window/size/mode=2
 window/size/resizable=true
 window/stretch/mode="canvas_items"
-; expand statt keep - sonst gibts diese schwarzen balken oben/unten
-; bei breitem monitor weil keep das aspect ratio fixed lässt
+; expand sonst gibts die schwarzen ränder bei breitem monitor
 window/stretch/aspect="expand"
 
 [dotnet]

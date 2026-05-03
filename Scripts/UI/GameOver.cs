@@ -7,10 +7,8 @@ public partial class GameOver : Control
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
-		// Show the final run score next to the alltime highscore + the session best.
-		// session resets when the game closes, alltime persists in user://highscore.dat.
-		// Mischa wollte das übersichtlicher - jetzt jede zahl in eigener zeile statt
-		// alles in einem mega-string.
+		// run + alltime + session, alles in eigener zeile statt einem mega-string
+		// (war vorher kaum lesbar). session resettet sich wenn das spiel zu geht
 		var finalLabel = GetNodeOrNull<Label>("FinalScoreLabel");
 		if (finalLabel != null)
 		{

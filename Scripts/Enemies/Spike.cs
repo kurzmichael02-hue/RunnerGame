@@ -4,17 +4,16 @@ public partial class Spike : Area2D
 {
 	public override void _Ready()
 	{
-		// Default-mask ist nur layer 1 (player). Enemy ist auf layer 2 - ohne mask 2
-		// triggert der spike nie für gegner und mischas charger-auf-spike-feature
-		// würde garnix machen
+		// enemies sind auf layer 2, default-mask ist nur 1. ohne das hier triggert
+		// der spike nie für gegner
 		SetCollisionMaskValue(2, true);
 		BodyEntered += OnBodyEntered;
 	}
 
 	private void OnBodyEntered(Node2D body)
 	{
-		// Mischas request: charger der auf spikes läuft soll sterben (oder springen).
-		// Ich mach's für alle gegner-typen, ist konsistenter mit klassischem mario.
+		// mischa wollte das nur für den charger - mach's aber für alle, sonst
+		// ist's komisch wenn ein patroller einfach durch spikes durchstapft
 		if (body is Enemy enemy)
 		{
 			enemy.Kill();

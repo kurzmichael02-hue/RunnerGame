@@ -379,8 +379,7 @@ if (_isDucking)
 	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
 	Velocity = vel;
 	MoveAndSlide();
-	// Timer-tick muss trotzdem laufen, sonst frieren shield/star/shake/i-frames
-	// solange der spieler duckt. Vor dem return war das ein freeride-exploit.
+	// timer trotzdem ticken sonst hängt alles solange er duckt
 	UpdateTimers(dt);
 	return;
 }
@@ -526,9 +525,8 @@ if (_isDucking)
 		UpdateTimers(dt);
 	}
 
-	// Tick aller laufenden timer/effekte. Wurde aus _physicsprocess gezogen, weil
-	// der duck-zweig vorher returned hat und damit alle timer eingefroren sind
-	// (camera-shake hängen geblieben, star quasi unendlich solange man duckt).
+	// timer-tick. extra methode weil der duck-branch sonst returned und alles
+	// einfriert (shake, star, shield). bug, gefixt.
 	private void UpdateTimers(float dt)
 	{
 		// Invincibility timer after hit – just decrements, don't early-return or the
