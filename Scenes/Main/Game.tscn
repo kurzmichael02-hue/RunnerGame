@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://ctplya5hj2fhu" path="res://leveldesign/coins.png" id="20_o0po4"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
+[ext_resource type="PackedScene" uid="uid://dr9k7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
 [ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
@@ -1381,7 +1382,7 @@ polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
 [node name="MovingPlatform" parent="Movingplatform" unique_id=2085462135 instance=ExtResource("22_4a5cj")]
 position = Vector2(1800, 200)
 
-[node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("22_4a5cj")]
+[node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("22_crush")]
 position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5

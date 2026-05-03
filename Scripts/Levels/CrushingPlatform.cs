@@ -23,16 +23,15 @@ public partial class CrushingPlatform : AnimatableBody2D
 		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
 		Vector2 motion = target - Position;
 
-		// MoveAndCollide pushes whatever's in the way and returns info on what we hit.
-		// If we hit the player while moving down, the player gets squished.
+		// die platform hat oben drauf spikes (sieht man im sprite), also jeder
+		// kontakt = tödlich. nicht wie die normale moving platform wo man oben
+		// drauf landen kann.
 		var collision = MoveAndCollide(motion);
-		if (collision != null && motion.Y > 0f
+		if (collision != null
 			&& collision.GetCollider() is Player player
 			&& !player.IsDying && !player.IsInvincible)
 		{
-			// Skip kill during respawn i-frames so the player doesn't die instantly
-			// if they happen to spawn under a descending platform
-			player.DieFall();
+			player.Die();
 		}
 	}
 }
