@@ -380,6 +380,8 @@ if (_isDucking)
 	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
 	Velocity = vel;
 	MoveAndSlide();
+	// timer trotzdem ticken sonst hängt alles solange er duckt
+	UpdateTimers(dt);
 	return;
 }
 
@@ -521,6 +523,13 @@ if (_isDucking)
 				
 		}
 
+		UpdateTimers(dt);
+	}
+
+	// timer-tick. extra methode weil der duck-branch sonst returned und alles
+	// einfriert (shake, star, shield). bug, gefixt.
+	private void UpdateTimers(float dt)
+	{
 		// Invincibility timer after hit – just decrements, don't early-return or the
 		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
 		if (_invincibilityTimer > 0) _invincibilityTimer -= dt;
@@ -554,7 +563,7 @@ if (_isDucking)
 					(GD.Randf() * 2f - 1f) * _shakeStrength);
 			}
 		}
-		
+
 		// No Sword left – kurzes rotes flackern. nur den modulate während des flash-windows
 		// setzen, sonst überschreibt der frame-reset die die()/diefall-blink-tweens
 		if (_noSwordFlashTimer > 0f)

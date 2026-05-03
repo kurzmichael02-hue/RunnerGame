@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://c4t1nenv1vld" path="res://leveldesign/mischa.png" id="21_ctxhw"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
+[ext_resource type="PackedScene" uid="uid://dr9k7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
 [ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
 [ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
@@ -1078,7 +1079,7 @@ texture = ExtResource("24_nvl0l")
 [node name="MovingPlatform" parent="Movingplatform" unique_id=2085462135 instance=ExtResource("22_4a5cj")]
 position = Vector2(1800, 200)
 
-[node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("22_4a5cj")]
+[node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("22_crush")]
 position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
