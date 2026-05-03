@@ -23,13 +23,25 @@ public partial class CrushingPlatform : AnimatableBody2D
 		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
 		Vector2 motion = target - Position;
 
-		// die platform hat oben drauf spikes (sieht man im sprite), also jeder
-		// kontakt = tödlich. nicht wie die normale moving platform wo man oben
-		// drauf landen kann.
+		// platform bewegen, moveandcollide returnt wenn was im weg ist
 		var collision = MoveAndCollide(motion);
 		if (collision != null
-			&& collision.GetCollider() is Player player
-			&& !player.IsDying && !player.IsInvincible)
+			&& collision.GetCollider() is Player crushed
+			&& !crushed.IsDying && !crushed.IsInvincible)
+		{
+			crushed.Die();
+			return;
+		}
+
+		// moveandcollide kriegt's nicht mit wenn der player oben mitfährt statt
+		// dagegen gedrückt zu werden. deswegen manuell checken ob er im
+		// platform-bereich steht - die hat oben drauf spikes, also jeder kontakt = tot
+		var player = GetTree().GetFirstNodeInGroup("player") as Player;
+		if (player == null || player.IsDying || player.IsInvincible) return;
+
+		Vector2 toPlayer = player.GlobalPosition - GlobalPosition;
+		// platform ist 150 breit + spikes 10px hoch, body 24 hoch
+		if (Mathf.Abs(toPlayer.X) < 80f && Mathf.Abs(toPlayer.Y) < 35f)
 		{
 			player.Die();
 		}
