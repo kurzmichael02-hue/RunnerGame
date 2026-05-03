@@ -11,6 +11,9 @@ public partial class HighScores : Control
 		var highscoreLabel = GetNode<Label>("VBoxContainer/HighScoreLabel");
 		highscoreLabel.Text = $"Highscore: {highscore}";
 
+		 var sessionHighscoreLabel = GetNode<Label>("VBoxContainer/SessionHighScoreLabel");
+		 sessionHighscoreLabel.Text = $"Session-Highscore: {Player.SessionHighscore}";
+
 		// Best time was saved by levelgoal but never read back – now both show up (#68)
 		var bestTimeLabel = GetNodeOrNull<Label>("VBoxContainer/BestTimeLabel");
 		if (bestTimeLabel != null)
