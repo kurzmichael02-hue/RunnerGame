@@ -23,25 +23,22 @@ public partial class CrushingPlatform : AnimatableBody2D
 		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
 		Vector2 motion = target - Position;
 
-		// platform bewegen, moveandcollide returnt wenn was im weg ist
-		var collision = MoveAndCollide(motion);
-		if (collision != null
-			&& collision.GetCollider() is Player crushed
-			&& !crushed.IsDying && !crushed.IsInvincible)
-		{
-			crushed.Die();
-			return;
-		}
+		// platform einfach bewegen, kollision regelt godot
+		MoveAndCollide(motion);
 
-		// moveandcollide kriegt's nicht mit wenn der player oben mitfährt statt
-		// dagegen gedrückt zu werden. deswegen manuell checken ob er im
-		// platform-bereich steht - die hat oben drauf spikes, also jeder kontakt = tot
+		// nur sterben wenn der player VON OBEN auf die spikes kommt.
+		// von unten dagegen springen oder daneben stehen darf nicht killen.
 		var player = GetTree().GetFirstNodeInGroup("player") as Player;
 		if (player == null || player.IsDying || player.IsInvincible) return;
 
 		Vector2 toPlayer = player.GlobalPosition - GlobalPosition;
-		// platform ist 150 breit + spikes 10px hoch, body 24 hoch
-		if (Mathf.Abs(toPlayer.X) < 80f && Mathf.Abs(toPlayer.Y) < 35f)
+		// horizontal überlappt + player ist ÜBER der platform (negative dy = oben).
+		// dy > -55: nicht zu hoch in der luft (sonst stirbt man beim drüberspringen)
+		// dy < -8: player muss zumindest leicht über der platform-mitte sein
+		bool fromAbove = toPlayer.Y < -8f && toPlayer.Y > -55f;
+		bool horizOverlap = Mathf.Abs(toPlayer.X) < 78f;
+
+		if (horizOverlap && fromAbove)
 		{
 			player.Die();
 		}

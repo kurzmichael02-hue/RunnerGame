@@ -66,12 +66,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -165.75
-offset_top = -56.0
+offset_top = 80.0
 offset_right = 165.75
-offset_bottom = 236.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 25
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="Restart" type="Button" parent="VBoxContainer" unique_id=1231151666]
@@ -141,15 +141,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -339.0
-offset_top = -149.0
-offset_right = 342.0
-offset_bottom = -80.0
+offset_left = -250.0
+offset_top = -100.0
+offset_right = 250.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 34
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 

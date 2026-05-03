@@ -7,8 +7,8 @@ public partial class GameOver : Control
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
-		// run + alltime + session, alles in eigener zeile statt einem mega-string
-		// (war vorher kaum lesbar). session resettet sich wenn das spiel zu geht
+		// run/alltime/session zeile für zeile - sonst läuft das in einen unleserlichen
+		// mega-string. styling sitzt in der scene, hier nur text setzen
 		var finalLabel = GetNodeOrNull<Label>("FinalScoreLabel");
 		if (finalLabel != null)
 		{
@@ -17,19 +17,13 @@ public partial class GameOver : Control
 			int session = Player.SessionHighscore;
 
 			string topLine = (run > 0 && run >= best)
-				? $"Score:    {run}   NEW HIGHSCORE"
-				: $"Score:    {run}";
+				? $"Score:  {run}   ★ NEW HIGHSCORE ★"
+				: $"Score:  {run}";
 
 			finalLabel.Text =
 				$"{topLine}\n" +
 				$"Alltime:  {best}\n" +
 				$"Session:  {session}";
-			finalLabel.HorizontalAlignment = HorizontalAlignment.Center;
-			finalLabel.AddThemeFontSizeOverride("font_size", 32);
-			finalLabel.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f));
-			finalLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.8f));
-			finalLabel.AddThemeConstantOverride("shadow_offset_y", 2);
-			finalLabel.AddThemeConstantOverride("shadow_offset_x", 2);
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
