@@ -55,9 +55,12 @@ public partial class Enemy : CharacterBody2D
 		{
 			// Split into horizontal + vertical thresholds for cleaner contact detection.
 			// dy > 0 = enemy below player, dy < 0 = enemy above player.
+			// Box etwas größer als die alten 48/58 weil mischa gemerkt hat dass der
+			// jumping-enemy oft am player vorbei kommt ohne dass er zählt - besonders
+			// wenn der enemy noch in der luft ist und der player gerade tief genug ist
 			float dx = Mathf.Abs(GlobalPosition.X - playerNode.GlobalPosition.X);
 			float dy = GlobalPosition.Y - playerNode.GlobalPosition.Y;
-			bool inContact = dx < 48f && Mathf.Abs(dy) < 58f;
+			bool inContact = dx < 55f && Mathf.Abs(dy) < 65f;
 
 			if (inContact && _damageCooldown <= 0f)
 			{
@@ -68,8 +71,9 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Player stomps enemy from above (classic Mario stomp) (#88)
-				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 6f;
+				// Player stomps enemy from above (classic Mario stomp) (#88).
+				// dy > 12 statt 6 damit ein side-hit nicht aus versehen als stomp zählt
+				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 12f;
 				if (playerStomp)
 				{
 					playerNode.StompedEnemy = true;
@@ -77,8 +81,22 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Enemy lands on player (jumping enemy falling on top) – player dies.
-				// Side / horizontal contact also goes through this branch.
+				// Enemy fällt aktiv von oben auf den player (#... mischa hat das gemeldet,
+				// passierte vorher oft "garnix"). Wenn enemy in der luft ist und schneller
+				// fällt als der player, ist's eindeutig "enemy landet auf player".
+				bool enemyDrop = !IsOnFloor() && Velocity.Y > 50f && dy < -8f
+					&& Velocity.Y > playerNode.Velocity.Y;
+				if (enemyDrop)
+				{
+					// Extra shake oben drauf damits sich angemessen anfühlt wenn ein
+					// gegner einem auf den kopf springt
+					playerNode.Shake(8f, 0.2f);
+					playerNode.Die();
+					_damageCooldown = 1.5f;
+					return;
+				}
+
+				// Side / horizontal contact – player dies bei normalem hit
 				playerNode.Die();
 				_damageCooldown = 1.5f;
 				return;
