@@ -8,20 +8,27 @@ public partial class HighScores : Control
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
 		int highscore = LoadHighscore();
+		// label liegt jetzt in VBoxContainer (bartolmay hat das vbox-layout gemacht)
+		// und mischa will alltime + session zeile für zeile sehen
 		var highscoreLabel = GetNode<Label>("VBoxContainer/HighScoreLabel");
-		highscoreLabel.Text = $"Highscore: {highscore}";
+		highscoreLabel.Text =
+			$"Alltime:  {highscore}\n" +
+			$"Session:  {Player.SessionHighscore}";
 
-		 var sessionHighscoreLabel = GetNode<Label>("VBoxContainer/SessionHighScoreLabel");
-		 sessionHighscoreLabel.Text = $"Session-Highscore: {Player.SessionHighscore}";
+
+		 
 
 		// Best time was saved by levelgoal but never read back – now both show up (#68)
+
 		var bestTimeLabel = GetNodeOrNull<Label>("VBoxContainer/BestTimeLabel");
 		if (bestTimeLabel != null)
 		{
 			float best = LoadBestTime();
 			bestTimeLabel.Text = best >= float.MaxValue
-				? "Best Time: --:--"
-				: $"Best Time: {(int)(best / 60):00}:{(int)(best % 60):00}";
+				? "Best Time:  --:--"
+				: $"Best Time:  {(int)(best / 60):00}:{(int)(best % 60):00}";
+			// goldener farbton damit die zeit sich vom highscore-block absetzt
+			bestTimeLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.3f));
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");

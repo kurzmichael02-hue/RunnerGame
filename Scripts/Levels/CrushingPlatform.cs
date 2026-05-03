@@ -23,16 +23,24 @@ public partial class CrushingPlatform : AnimatableBody2D
 		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
 		Vector2 motion = target - Position;
 
-		// MoveAndCollide pushes whatever's in the way and returns info on what we hit.
-		// If we hit the player while moving down, the player gets squished.
-		var collision = MoveAndCollide(motion);
-		if (collision != null && motion.Y > 0f
-			&& collision.GetCollider() is Player player
-			&& !player.IsDying && !player.IsInvincible)
+		// platform einfach bewegen, kollision regelt godot
+		MoveAndCollide(motion);
+
+		// nur sterben wenn der player VON OBEN auf die spikes kommt.
+		// von unten dagegen springen oder daneben stehen darf nicht killen.
+		var player = GetTree().GetFirstNodeInGroup("player") as Player;
+		if (player == null || player.IsDying || player.IsInvincible) return;
+
+		Vector2 toPlayer = player.GlobalPosition - GlobalPosition;
+		// horizontal überlappt + player ist ÜBER der platform (negative dy = oben).
+		// dy > -55: nicht zu hoch in der luft (sonst stirbt man beim drüberspringen)
+		// dy < -8: player muss zumindest leicht über der platform-mitte sein
+		bool fromAbove = toPlayer.Y < -8f && toPlayer.Y > -55f;
+		bool horizOverlap = Mathf.Abs(toPlayer.X) < 78f;
+
+		if (horizOverlap && fromAbove)
 		{
-			// Skip kill during respawn i-frames so the player doesn't die instantly
-			// if they happen to spawn under a descending platform
-			player.DieFall();
+			player.Die();
 		}
 	}
 }

@@ -7,18 +7,23 @@ public partial class GameOver : Control
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
-		// Show the final run score next to the alltime highscore + the session best.
-		// session resets when the game closes, alltime persists in user://highscore.dat
+		// run/alltime/session zeile für zeile - sonst läuft das in einen unleserlichen
+		// mega-string. styling sitzt in der scene, hier nur text setzen
 		var finalLabel = GetNodeOrNull<Label>("FinalScoreLabel");
 		if (finalLabel != null)
 		{
 			int run = Player.LastRunScore;
 			int best = Player.LoadHighscore();
 			int session = Player.SessionHighscore;
-			if (run > 0 && run >= best)
-				finalLabel.Text = $"Score: {run} — NEW HIGHSCORE!  Session: {session}";
-			else
-				finalLabel.Text = $"Score: {run}  |  Highscore: {best}  |  Session: {session}";
+
+			string topLine = (run > 0 && run >= best)
+				? $"Score:  {run}   ★ NEW HIGHSCORE ★"
+				: $"Score:  {run}";
+
+			finalLabel.Text =
+				$"{topLine}\n" +
+				$"Alltime:  {best}\n" +
+				$"Session:  {session}";
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
@@ -55,6 +60,7 @@ public partial class GameOver : Control
 		// Main Menu pressed
 		private void _on_mainMenu_pressed()
 		{
+			SoundManager.Instance.PlayButton();
 			GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 		}
 

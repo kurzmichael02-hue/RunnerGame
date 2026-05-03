@@ -14,6 +14,9 @@ public partial class LevelGoal : Area2D
 
 	public override void _Ready()
 	{
+		// static flag muss bei jedem level-load zurück, sonst blockt das hud
+		// nach gameover->restart die ganze pause-funktion
+		Reset();
 		BodyEntered += OnBodyEntered;
 	}
 

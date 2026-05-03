@@ -175,20 +175,28 @@ public partial class PauseMenu : CanvasLayer {
 	private void SaveSettings()
 	{
 		var config = new ConfigFile();
+		// erst laden – sonst überschreiben wir die music/gamefx/menufx-werte
+		// die settings.cs gespeichert hat. ohne das load verliert man alles ausser
+		// dem master-slider sobald man einmal pause öffnet.
+		config.Load("user://settings.cfg");
+
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
 			var events = InputMap.ActionGetEvents(action);
 			if (events.Count > 0 && events[0] is InputEventKey key)
 			{
-				var keycode = key.PhysicalKeycode != Key.None 
-					? key.PhysicalKeycode 
+				var keycode = key.PhysicalKeycode != Key.None
+					? key.PhysicalKeycode
 					: key.Keycode;
-				config.SetValue("bindings", action, (int)keycode);
+				// "keys" statt "bindings" – gleicher key wie settings.cs,
+				// sonst liest settings.cs beim nächsten öffnen die alten werte
+				config.SetValue("keys", action, (int)keycode);
 			}
 		}
-		config.SetValue("audio", "volume", _volumeSlider.Value);
+		// "master" statt "volume" – gleicher key wie settings.cs + was soundmanager liest
+		config.SetValue("audio", "master", _volumeSlider.Value);
 
-		var result = config.Save("user://settings.cfg");
+		config.Save("user://settings.cfg");
 	}
 
 
@@ -199,8 +207,8 @@ public partial class PauseMenu : CanvasLayer {
 
 		foreach (string action in new[] { "jump", "move_right", "move_left", "duck", "attack" })
 		{
-			if (!config.HasSectionKey("bindings", action)) continue;
-			int keycode = (int)config.GetValue("bindings", action);
+			if (!config.HasSectionKey("keys", action)) continue;
+			int keycode = (int)config.GetValue("keys", action);
 			var keyEvent = new InputEventKey();
 			keyEvent.Keycode = (Key)keycode;
 			keyEvent.PhysicalKeycode = (Key)keycode;
@@ -208,12 +216,14 @@ public partial class PauseMenu : CanvasLayer {
 			InputMap.ActionAddEvent(action, keyEvent);
 		}
 
-		if (config.HasSectionKey("audio", "volume"))
+		if (config.HasSectionKey("audio", "master"))
 		{
-			double volume = (double)config.GetValue("audio", "volume");
+			double volume = (double)config.GetValue("audio", "master");
 			_volumeSlider.Value = volume;
-			float db = Mathf.LinearToDb((float)(volume / 100.0));
-			AudioServer.SetBusVolumeDb(0, db);
+			// linear=0 gibt -inf db, der bus geht dann kaputt. clamp wie settings.cs
+			float linear = (float)(volume / 100.0);
+			float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+			AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), db);
 		}
 	}
 
@@ -229,8 +239,10 @@ public partial class PauseMenu : CanvasLayer {
 
 	private void OnVolumeChanged(double value)
 	{
-		float db = Mathf.LinearToDb((float)(value / 100.0));
-		AudioServer.SetBusVolumeDb(0, db);
+		// linear=0 gibt -inf db, der bus geht dann kaputt - clamp drauf
+		float linear = (float)(value / 100.0);
+		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+		AudioServer.SetBusVolumeDb(AudioServer.GetBusIndex("Master"), db);
 		SaveSettings();
 	}
 

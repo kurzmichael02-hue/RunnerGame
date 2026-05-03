@@ -16,7 +16,6 @@ public partial class Enemy : CharacterBody2D
 	private float _damageCooldown = 0f;
 	private float _shootTimer = 0f;
 	private Vector2 _startPosition;
-	private ShapeCast2D _hitBox;
 
 	public override void _Ready()
 {
@@ -31,13 +30,8 @@ public partial class Enemy : CharacterBody2D
 		// Charger sprints when it sees the player, so give it a higher top speed
 		if (Type == EnemyType.Charger) Speed = 380f;
 
-		_hitBox = GetNode<ShapeCast2D>("HitBox");
-		_hitBox.TargetPosition = Vector2.Zero;
-		_hitBox.ExcludeParent = true;
-		_hitBox.CollideWithBodies = true;
-		_hitBox.CollideWithAreas = false;
-		_hitBox.Enabled = true;
-
+		// kollision läuft komplett über dx/dy unten, das alte shapecast war eh
+		// nie gequery worden (und falsch gecasted, hatte zu nem crash geführt)
 		SetCollisionMaskValue(1, true);
 	}
 
@@ -59,11 +53,12 @@ public partial class Enemy : CharacterBody2D
 		// otherwise enemies that happened to be standing on the checkpoint kill instantly
 		if (playerNode != null && !playerNode.IsDying && !playerNode.IsInvincible)
 		{
-			// Split into horizontal + vertical thresholds for cleaner contact detection.
-			// dy > 0 = enemy below player, dy < 0 = enemy above player.
+			// dy > 0 = enemy unter player, dy < 0 = enemy über player.
+			// box etwas größer (55/65 statt 48/58), mischa hat gemerkt dass das
+			// jumping-enemy oft vorbei rauscht
 			float dx = Mathf.Abs(GlobalPosition.X - playerNode.GlobalPosition.X);
 			float dy = GlobalPosition.Y - playerNode.GlobalPosition.Y;
-			bool inContact = dx < 48f && Mathf.Abs(dy) < 58f;
+			bool inContact = dx < 55f && Mathf.Abs(dy) < 65f;
 
 			if (inContact && _damageCooldown <= 0f)
 			{
@@ -74,8 +69,9 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Player stomps enemy from above (classic Mario stomp) (#88)
-				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 6f;
+				// player stompt enemy von oben. dy > 12 statt 6 sonst zählen
+				// side-hits manchmal als stomp und der player kommt damit durch
+				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 12f;
 				if (playerStomp)
 				{
 					playerNode.StompedEnemy = true;
@@ -83,8 +79,20 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// Enemy lands on player (jumping enemy falling on top) – player dies.
-				// Side / horizontal contact also goes through this branch.
+				// enemy fällt aktiv auf player drauf (mischa: passierte vorher
+				// oft garnix). enemy in der luft + fällt schneller als player = treffer
+				bool enemyDrop = !IsOnFloor() && Velocity.Y > 50f && dy < -8f
+					&& Velocity.Y > playerNode.Velocity.Y;
+				if (enemyDrop)
+				{
+					// extra shake damit man's auch fühlt
+					playerNode.Shake(8f, 0.2f);
+					playerNode.Die();
+					_damageCooldown = 1.5f;
+					return;
+				}
+
+				// normaler side-hit
 				playerNode.Die();
 				_damageCooldown = 1.5f;
 				return;
@@ -152,7 +160,6 @@ public partial class Enemy : CharacterBody2D
 	private void Die()
 	{
 		_isDead = true;
-		_hitBox.Enabled = false;
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();

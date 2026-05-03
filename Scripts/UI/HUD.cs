@@ -62,6 +62,15 @@ public partial class HUD : CanvasLayer
 
 	public override void _Process(double delta)
 	{
+		// _player ist null wenn der player erst nach dem hud ready ist - hängt
+		// am scene-aufbau. lazy nochmal holen statt crash
+		if (_player == null)
+		{
+			_player = GetTree().GetFirstNodeInGroup("player") as Player;
+			if (_player == null) return;
+			_playerStartX = _player.Position.X;
+		}
+
 		_scoreLabel.Text = "Score: " + _player.Score;
 		_livesLabel.Text = "Lives: " + _player.Lives;
 		_powerUpLabel.Text = BuildPowerUpText();

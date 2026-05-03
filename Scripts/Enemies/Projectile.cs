@@ -67,8 +67,11 @@ public partial class Projectile : Area2D
 				QueueFree();
 				return;
 			}
-			// Star plows through projectiles – projectile dies, player keeps going
-			if (player.StarActive)
+			// Star plows through projectiles – projectile dies, player keeps going.
+			// Auch StarInvincibilityActive checken: star läuft 6s, invincibility 6.5s.
+			// In dem 0.5s grace-window wäre der spieler sonst durch projektile sterbbar
+			// obwohl enemies noch ordentlich sterben (die checken StarInvincibilityActive).
+			if (player.StarActive || player.StarInvincibilityActive)
 			{
 				QueueFree();
 				return;

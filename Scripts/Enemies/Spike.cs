@@ -9,13 +9,14 @@ public partial class Spike : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
+		// nur player. enemies sollen nicht durch spielerhindernisse sterben
+		// (vorher mal anders gemacht, michi will's so)
 		if (body is not Player player) return;
 		if (player.IsDying) return;
-		// Respawn-i-frames: vermeidet einen direkt-tod wenn der spieler auf einem
-		// spike-feld respawnt und der trigger sofort wieder feuert
+		// respawn-i-frames - sonst stirbt man direkt wenn man auf einem spike-feld respawnt
 		if (player.IsInvincible) return;
 
-		// Spikes always cost a life, even when big – like falling off the map (#105)
+		// spikes kosten immer ein leben, auch wenn big - wie pit-fall
 		player.CallDeferred(nameof(Player.DieFall));
 	}
 }
