@@ -9,9 +9,18 @@ public partial class HighScores : Control
 
 		int highscore = LoadHighscore();
 		var highscoreLabel = GetNode<Label>("HighScoreLabel");
-		// Show alltime + this-session top score side by side – session resets when the
-		// game closes, alltime persists in user://highscore.dat (#22)
-		highscoreLabel.Text = $"Highscore: {highscore}    Session: {Player.SessionHighscore}";
+		// Mischa wollte session + gesamt highscore klar getrennt sehen, schön formatiert.
+		// Multi-line statt einer langen zeile, damit auf der highscore-screen sofort
+		// klar ist was alltime ist und was die laufende session.
+		highscoreLabel.Text =
+			$"Alltime:  {highscore}\n" +
+			$"Session:  {Player.SessionHighscore}";
+		highscoreLabel.HorizontalAlignment = HorizontalAlignment.Center;
+		highscoreLabel.AddThemeFontSizeOverride("font_size", 36);
+		highscoreLabel.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f));
+		highscoreLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.8f));
+		highscoreLabel.AddThemeConstantOverride("shadow_offset_y", 2);
+		highscoreLabel.AddThemeConstantOverride("shadow_offset_x", 2);
 
 		// Best time was saved by levelgoal but never read back – now both show up (#68)
 		var bestTimeLabel = GetNodeOrNull<Label>("BestTimeLabel");
@@ -19,8 +28,14 @@ public partial class HighScores : Control
 		{
 			float best = LoadBestTime();
 			bestTimeLabel.Text = best >= float.MaxValue
-				? "Best Time: --:--"
-				: $"Best Time: {(int)(best / 60):00}:{(int)(best % 60):00}";
+				? "Best Time:  --:--"
+				: $"Best Time:  {(int)(best / 60):00}:{(int)(best % 60):00}";
+			bestTimeLabel.HorizontalAlignment = HorizontalAlignment.Center;
+			bestTimeLabel.AddThemeFontSizeOverride("font_size", 32);
+			bestTimeLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.3f));
+			bestTimeLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.8f));
+			bestTimeLabel.AddThemeConstantOverride("shadow_offset_y", 2);
+			bestTimeLabel.AddThemeConstantOverride("shadow_offset_x", 2);
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");

@@ -8,17 +8,30 @@ public partial class GameOver : Control
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
 		// Show the final run score next to the alltime highscore + the session best.
-		// session resets when the game closes, alltime persists in user://highscore.dat
+		// session resets when the game closes, alltime persists in user://highscore.dat.
+		// Mischa wollte das übersichtlicher - jetzt jede zahl in eigener zeile statt
+		// alles in einem mega-string.
 		var finalLabel = GetNodeOrNull<Label>("FinalScoreLabel");
 		if (finalLabel != null)
 		{
 			int run = Player.LastRunScore;
 			int best = Player.LoadHighscore();
 			int session = Player.SessionHighscore;
-			if (run > 0 && run >= best)
-				finalLabel.Text = $"Score: {run} — NEW HIGHSCORE!  Session: {session}";
-			else
-				finalLabel.Text = $"Score: {run}  |  Highscore: {best}  |  Session: {session}";
+
+			string topLine = (run > 0 && run >= best)
+				? $"Score:    {run}   NEW HIGHSCORE"
+				: $"Score:    {run}";
+
+			finalLabel.Text =
+				$"{topLine}\n" +
+				$"Alltime:  {best}\n" +
+				$"Session:  {session}";
+			finalLabel.HorizontalAlignment = HorizontalAlignment.Center;
+			finalLabel.AddThemeFontSizeOverride("font_size", 32);
+			finalLabel.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f));
+			finalLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.8f));
+			finalLabel.AddThemeConstantOverride("shadow_offset_y", 2);
+			finalLabel.AddThemeConstantOverride("shadow_offset_x", 2);
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
