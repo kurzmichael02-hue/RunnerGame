@@ -281,6 +281,7 @@ _duckShape.Disabled = true;
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (GetTree().Paused) return;
 		float direction = 0;
 		if (Input.IsActionPressed("move_left")) direction = -1;
 		else if (Input.IsActionPressed("move_right")) direction = 1;

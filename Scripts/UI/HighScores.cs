@@ -8,35 +8,27 @@ public partial class HighScores : Control
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 
 		int highscore = LoadHighscore();
-		var highscoreLabel = GetNode<Label>("HighScoreLabel");
-		// mischa wollte alltime + session getrennt sehen, deswegen mehrzeilig
+		// label liegt jetzt in VBoxContainer (bartolmay hat das vbox-layout gemacht)
+		// und mischa will alltime + session zeile für zeile sehen
+		var highscoreLabel = GetNode<Label>("VBoxContainer/HighScoreLabel");
 		highscoreLabel.Text =
 			$"Alltime:  {highscore}\n" +
 			$"Session:  {Player.SessionHighscore}";
-		highscoreLabel.HorizontalAlignment = HorizontalAlignment.Center;
-		highscoreLabel.AddThemeFontSizeOverride("font_size", 36);
-		highscoreLabel.AddThemeColorOverride("font_color", new Color(1f, 1f, 1f));
-		highscoreLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.8f));
-		highscoreLabel.AddThemeConstantOverride("shadow_offset_y", 2);
-		highscoreLabel.AddThemeConstantOverride("shadow_offset_x", 2);
 
-		// Best time was saved by levelgoal but never read back – now both show up (#68)
-		var bestTimeLabel = GetNodeOrNull<Label>("BestTimeLabel");
+		// best time wurde vorher zwar gespeichert aber nirgends gelesen
+		var bestTimeLabel = GetNodeOrNull<Label>("VBoxContainer/BestTimeLabel");
 		if (bestTimeLabel != null)
 		{
 			float best = LoadBestTime();
 			bestTimeLabel.Text = best >= float.MaxValue
 				? "Best Time:  --:--"
 				: $"Best Time:  {(int)(best / 60):00}:{(int)(best % 60):00}";
-			bestTimeLabel.HorizontalAlignment = HorizontalAlignment.Center;
-			bestTimeLabel.AddThemeFontSizeOverride("font_size", 32);
+			// goldener farbton damit die zeit sich vom highscore-block absetzt
 			bestTimeLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.3f));
-			bestTimeLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.8f));
-			bestTimeLabel.AddThemeConstantOverride("shadow_offset_y", 2);
-			bestTimeLabel.AddThemeConstantOverride("shadow_offset_x", 2);
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
+		
 
 		foreach (Node child in vbox.GetChildren())
 		{

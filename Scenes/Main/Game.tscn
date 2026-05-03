@@ -6,9 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="4_vl7yh"]
 [ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/UI/HUD.cs" id="5_apnk5"]
 [ext_resource type="Texture2D" uid="uid://b1dye8ua1bd5h" path="res://leveldesign/jump.png" id="5_vl7yh"]
-[ext_resource type="Script" uid="uid://cbyjr00feknyv" path="res://Scripts/UI/PauseMenu.cs" id="6_ctxhw"]
 [ext_resource type="Texture2D" uid="uid://2872p6pw2lwk" path="res://leveldesign/Player animation.png" id="6_vl7yh"]
-[ext_resource type="Texture2D" uid="uid://culqk8muuunm3" path="res://Scenes/Settings.png" id="7_ook5n"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="8_4eofi"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b6spruxkscwub" path="res://leveldesign/zielflagge.png" id="10_ulun0"]
@@ -22,10 +20,14 @@
 [ext_resource type="Texture2D" uid="uid://pl6whamox0nh" path="res://leveldesign/Background/tileset.png" id="18_jeh1s"]
 [ext_resource type="Script" uid="uid://5autww4y6532" path="res://Scripts/Pickups/Coin.cs" id="19_wsy13"]
 [ext_resource type="Texture2D" uid="uid://ctplya5hj2fhu" path="res://leveldesign/coins.png" id="20_o0po4"]
+[ext_resource type="Texture2D" uid="uid://c4t1nenv1vld" path="res://leveldesign/mischa.png" id="21_ctxhw"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
 [ext_resource type="PackedScene" uid="uid://dr9k7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
+[ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
+[ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
+[ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="24_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
@@ -125,97 +127,6 @@ animations = [{
 "name": &"wallk",
 "speed": 15.0
 }]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x3xnh"]
-texture = ExtResource("7_ook5n")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8r6kd"]
-bg_color = Color(0.97869855, 0.9757758, 1, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-corner_detail = 4
-shadow_color = Color(0, 0, 0, 0.22745098)
-shadow_size = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alh3a"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.12204193, 0.00019651785, 0.29891908, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-shadow_color = Color(0, 0, 0, 0.3529412)
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4q8tf"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.8392157, 0.81960785, 1, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-shadow_color = Color(0, 0, 0, 0.3529412)
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rajel"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.9676011, 0.95574206, 0.95238906, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vvhu1"]
-bg_color = Color(0.12156863, 0, 0.29803923, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbihj"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.12156863, 0, 0.29803923, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x3xnh"]
-bg_color = Color(0.12156863, 0, 0.29803923, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-shadow_color = Color(0, 0, 0, 0.3529412)
-shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tfod6"]
-bg_color = Color(0.8392157, 0.81960785, 1, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-shadow_color = Color(0, 0, 0, 0.3529412)
-shadow_size = 5
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_alh3a"]
-color = Color(0.9490196, 0.9490196, 0.9490196, 1)
-thickness = 4
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
 size = Vector2(56, 84)
@@ -630,230 +541,6 @@ theme_override_font_sizes/font_size = 28
 text = "J"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="PauseMenu" type="Control" parent="HUD" unique_id=804085390]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("6_ctxhw")
-
-[node name="MenuPanel" type="Panel" parent="HUD/PauseMenu" unique_id=598116344]
-custom_minimum_size = Vector2(550, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_x3xnh")
-
-[node name="PAUSED" type="Label" parent="HUD/PauseMenu/MenuPanel" unique_id=306054917]
-layout_mode = 0
-offset_left = 354.0
-offset_top = 40.0
-offset_right = 827.0
-offset_bottom = 141.0
-theme_override_colors/font_color = Color(0.08717359, 0.00010087002, 0.25063923, 1)
-theme_override_fonts/font = ExtResource("8_4eofi")
-theme_override_font_sizes/font_size = 50
-text = "PAUSED MENU"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/PauseMenu/MenuPanel" unique_id=1249940046]
-custom_minimum_size = Vector2(360, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -178.0
-offset_right = 180.0
-offset_bottom = 281.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="Resume" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=403074533]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_alh3a")
-theme_override_styles/hover = SubResource("StyleBoxFlat_4q8tf")
-text = "Resume"
-
-[node name="Volume" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=2076000748]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Volume"
-
-[node name="HSlider" type="HSlider" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=698720291]
-layout_mode = 2
-focus_mode = 0
-theme_override_styles/slider = SubResource("StyleBoxFlat_rajel")
-theme_override_styles/grabber_area = SubResource("StyleBoxFlat_vvhu1")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_lbihj")
-value = 100.0
-
-[node name="Controls" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1984968726]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 20
-text = "Controls"
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1348822448]
-custom_minimum_size = Vector2(360, 40)
-layout_mode = 2
-
-[node name="Jump" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer" unique_id=1400312293]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Jump"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="JumpBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer" unique_id=267424879]
-custom_minimum_size = Vector2(150, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1328932318]
-custom_minimum_size = Vector2(360, 40)
-layout_mode = 2
-
-[node name="Move Right" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=22779779]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Move Right"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MoveRightBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer2" unique_id=940770991]
-custom_minimum_size = Vector2(150, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1333664018]
-custom_minimum_size = Vector2(360, 40)
-layout_mode = 2
-
-[node name="Move Left" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1233098572]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Move Left"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MoveLeftBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer3" unique_id=1418861368]
-custom_minimum_size = Vector2(150, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1917550980]
-layout_mode = 2
-
-[node name="Duck" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=653322350]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Duck"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="DuckBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer4" unique_id=1156049707]
-custom_minimum_size = Vector2(150, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-
-[node name="HBoxContainer5" type="HBoxContainer" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=1917550981]
-layout_mode = 2
-
-[node name="Attack" type="Label" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer5" unique_id=653322351]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_colors/font_color = Color(0.078431375, 0, 0.36862746, 1)
-text = "Attack"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AttackBind" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer/HBoxContainer5" unique_id=1156049708]
-custom_minimum_size = Vector2(150, 35)
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-
-[node name="HSeparator" type="HSeparator" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=911804471]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_alh3a")
-
-[node name="Main Menu" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=2016534937]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-text = "Main Menu"
-
-[node name="Exit" type="Button" parent="HUD/PauseMenu/MenuPanel/VBoxContainer" unique_id=639170337]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_8r6kd")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_x3xnh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tfod6")
-text = "Exit"
 
 [node name="TimerLabel" type="Label" parent="HUD" unique_id=2065377756]
 modulate = Color(1, 0, 0, 1)
@@ -1340,8 +1027,11 @@ script = ExtResource("21_e6dby")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint" unique_id=1547109945]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=1390801544]
+texture_filter = 1
+position = Vector2(11.500011, -16)
+scale = Vector2(0.9140627, 1)
+texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
 position = Vector2(1316, -70)
@@ -1351,9 +1041,11 @@ script = ExtResource("21_e6dby")
 position = Vector2(0, 31)
 shape = SubResource("RectangleShape2D_raj38")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint2" unique_id=1510776201]
-position = Vector2(0, 32)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=1826642515]
+texture_filter = 1
+position = Vector2(17.499998, 17.499989)
+scale = Vector2(0.5117184, 0.47265628)
+texture = ExtResource("22_ook5n")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
 position = Vector2(2850, -57)
@@ -1362,8 +1054,11 @@ script = ExtResource("21_e6dby")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint3" unique_id=1510776202]
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1726839946]
+texture_filter = 1
+position = Vector2(18.500023, -11.499999)
+scale = Vector2(1.0234379, 0.9765625)
+texture = ExtResource("23_4eofi")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
 position = Vector2(5350, -57)
@@ -1373,9 +1068,11 @@ script = ExtResource("21_e6dby")
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Polygon2D" type="Polygon2D" parent="Checkpoints/Checkpoint4" unique_id=1510776203]
-position = Vector2(0, 4)
-polygon = PackedVector2Array(-15, -40, 15, -40, 15, 40, -15, 40)
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=798269252]
+texture_filter = 1
+position = Vector2(20.750177, -11.749995)
+scale = Vector2(0.29003975, 0.23535155)
+texture = ExtResource("24_nvl0l")
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
