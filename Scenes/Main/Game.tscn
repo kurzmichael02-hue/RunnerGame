@@ -5,7 +5,9 @@
 [ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player/Player.cs" id="3_0nu4m"]
 [ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="4_vl7yh"]
 [ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/UI/HUD.cs" id="5_apnk5"]
+[ext_resource type="Texture2D" uid="uid://im52oor15y5n" path="res://leveldesign/SChießen.png" id="5_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b1dye8ua1bd5h" path="res://leveldesign/jump.png" id="5_vl7yh"]
+[ext_resource type="Texture2D" uid="uid://deysqsk6s8ln" path="res://leveldesign/Ducken.png" id="6_ulun0"]
 [ext_resource type="Texture2D" uid="uid://2872p6pw2lwk" path="res://leveldesign/Player animation.png" id="6_vl7yh"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="8_4eofi"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
@@ -47,6 +49,10 @@ size = Vector2(30, 79)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
 size = Vector2(30, 30)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvn6m"]
+atlas = ExtResource("5_nvl0l")
+region = Rect2(1252, 341, 283, 341)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_nvl0l"]
 atlas = ExtResource("5_vl7yh")
 region = Rect2(1027, 200, 234, 450)
@@ -83,6 +89,14 @@ region = Rect2(549, 250, 234, 386)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_nvn6m")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_nvl0l")
 }],
 "loop": true,
@@ -103,11 +117,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"still",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"walk",
 "speed": 5.0
 }, {
 "frames": [{
@@ -132,6 +141,42 @@ animations = [{
 "loop": true,
 "name": &"wallk",
 "speed": 15.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ulun0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvn6m")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2jmm"]
+atlas = ExtResource("6_ulun0")
+region = Rect2(1110, 200, 370, 824)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nvn6m"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2jmm")
+}],
+"loop": true,
+"name": &"duck",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
@@ -467,10 +512,21 @@ shape = SubResource("RectangleShape2D_4q8tf")
 shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1604708776]
-position = Vector2(-6, -20)
+position = Vector2(-7, -21)
 scale = Vector2(0.46885175, 0.37510318)
 sprite_frames = SubResource("SpriteFrames_nvl0l")
-animation = &"walk"
+animation = &"still"
+
+[node name="AttackSprite" type="AnimatedSprite2D" parent="Player" unique_id=728290982]
+position = Vector2(34, 1)
+scale = Vector2(0.49469963, 0.4395161)
+sprite_frames = SubResource("SpriteFrames_ulun0")
+
+[node name="DuckSprite" type="AnimatedSprite2D" parent="Player" unique_id=1876635633]
+position = Vector2(34, 19.000008)
+scale = Vector2(0.40997416, 0.46220934)
+sprite_frames = SubResource("SpriteFrames_nvn6m")
+animation = &"duck"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
 script = ExtResource("5_apnk5")
