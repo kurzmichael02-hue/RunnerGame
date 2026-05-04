@@ -12,7 +12,7 @@ public partial class Enemy : CharacterBody2D
 
 	private bool _isDead = false;
 	private int _direction = 1;
-	private float _jumpTimer = 0f;
+	private float _jumpTimer = 1.2f;
 	private float _damageCooldown = 0f;
 	private float _shootTimer = 0f;
 	private Vector2 _startPosition;

@@ -9,6 +9,7 @@ size = Vector2(30, 80)
 
 [node name="Checkpoint" type="Area2D" unique_id=677189036]
 script = ExtResource("1_2cwi7")
+InactiveTexture = ExtResource("3_chkpt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=909314680]
 shape = SubResource("RectangleShape2D_7lihs")
