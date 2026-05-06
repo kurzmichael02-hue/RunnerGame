@@ -1,10 +1,13 @@
 using Godot;
+using System;
 
 public partial class Checkpoint : Area2D
 {
 	// Beide texturen als export – können im editor per instanz gesetzt werden.
 	// ActiveTexture ist optional: wenn nicht gesetzt, grüner tint als fallback.
 	[Export] public Texture2D InactiveTexture;
+	[Export] public Texture2D InactiveTexture;
+	
 	[Export] public Texture2D ActiveTexture;
 
 	private Sprite2D _sprite;
@@ -36,7 +39,35 @@ public partial class Checkpoint : Area2D
 		var player = body as Player;
 		if (player != null)
 			player.SetCheckpoint(GlobalPosition);
+	{
+		_sprite = GetNode<Sprite2D>("Sprite2D");
+		_sprite.Texture = InactiveTexture;
+   		_sprite.Scale = new Vector2(4.5f, 4.5f);
+		
+
+		BodyEntered += OnBodyEntered;
+	}
+	
+	private void OnBodyEntered(Node body)
+{
+	if (_activated)
+		return;
+
+	if (body.IsInGroup("player"))
+	{
+		_activated = true;
+		_sprite.Texture = ActiveTexture;
+		_sprite.Scale = new Vector2(0.5f, 0.5f);
+
+		var player = body as Player; 
+
+		if (player != null)
+		{
+			player.SetCheckpoint(GlobalPosition);
+		}
 
 		SoundManager.Instance.PlayCheckpoint();
 	}
+}
+
 }

@@ -15,7 +15,11 @@ public partial class HighScores : Control
 			$"Alltime:  {highscore}\n" +
 			$"Session:  {Player.SessionHighscore}";
 
-		// best time wurde vorher zwar gespeichert aber nirgends gelesen
+
+		 
+
+		// Best time was saved by levelgoal but never read back – now both show up (#68)
+
 		var bestTimeLabel = GetNodeOrNull<Label>("VBoxContainer/BestTimeLabel");
 		if (bestTimeLabel != null)
 		{

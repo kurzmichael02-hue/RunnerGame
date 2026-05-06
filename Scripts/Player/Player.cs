@@ -8,7 +8,7 @@ public partial class Player : CharacterBody2D
 	[Export] public float Deceleration = 900f;
 	[Export] public float AirAcceleration = 1200f;
 	[Export] public float TurnAcceleration = 3000f;
-	private AnimatedSprite2D _anim;
+	
 
 	// Jump
 	[Export] public float JumpVelocity = -600f;
@@ -58,7 +58,10 @@ public partial class Player : CharacterBody2D
 	private float _sprintTimer = 0f;
 	private float _lastRunDir = 0f;
 	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
-
+	private AnimatedSprite2D _anim;
+	private AnimatedSprite2D _attackSprite;
+	private AnimatedSprite2D _duckSprite;
+	
 	// Sword + fire flower fields liegen in Player.Combat.cs
 
 	// Camera shake
@@ -94,8 +97,8 @@ public partial class Player : CharacterBody2D
 		// Player does not physically collide with enemies (Layer 2)
 		SetCollisionMaskValue(2, false);
 		_standShape = GetNode<CollisionShape2D>("StandShape");
-_duckShape = GetNode<CollisionShape2D>("DuckShape");
-_duckShape.Disabled = true;
+		_duckShape = GetNode<CollisionShape2D>("DuckShape");
+		_duckShape.Disabled = true;
 		_camera = GetNode<Camera2D>("Camera2D");
 		// Preload projectile scene so fireballs don't hitch the first time you swing
 		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
@@ -106,11 +109,61 @@ _duckShape.Disabled = true;
 		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
 		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
 		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-		_anim?.Play("still");
+		_attackSprite = GetNode<AnimatedSprite2D>("AttackSprite");
+		_duckSprite = GetNode<AnimatedSprite2D>("DuckSprite");
+		
+		
+		_duckSprite.Visible = false;
+		_anim.Play("still");
+		_attackSprite.Visible = false;
 	}
 	private void UpdateAnimation(float direction)
 {
-	if (_anim == null) return;
+		if (_anim == null || _attackSprite == null || _duckSprite == null) return;
+		
+		
+		// DUCK (höchste Priorität)
+	if (_isDucking)
+	{
+		_anim.Visible = false;
+		_duckSprite.Visible = true;
+
+		_duckSprite.FlipH = _facing < 0;
+
+		if (_duckSprite.Animation != "duck")
+			_duckSprite.Play("duck");
+
+		return;
+	}
+
+	// zurück zu normal
+	_duckSprite.Visible = false;
+	_anim.Visible = true;
+	
+	
+		if (_attackLockout > 0f)
+		{
+			_anim.Visible = false;
+			_attackSprite.Visible = true;
+
+			_attackSprite.FlipH = _facing < 0;
+
+			if (_attackSprite.Animation != "attack")
+				_attackSprite.Play("attack");
+
+			return;
+		}
+
+		_attackSprite.Visible = false;
+		_anim.Visible = true;
+		
+		
+		if (_isDucking)
+		{
+			if (_anim.Animation != "duck")
+				_anim.Play("duck");
+			return;
+		}
 
 	// In der Luft
 	if (!IsOnFloor())
