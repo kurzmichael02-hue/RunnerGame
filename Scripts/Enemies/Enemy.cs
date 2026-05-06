@@ -79,10 +79,9 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// enemy fällt aktiv auf player drauf (mischa: passierte vorher
-				// oft garnix). enemy in der luft + fällt schneller als player = treffer
-				bool enemyDrop = !IsOnFloor() && Velocity.Y > 50f && dy < -8f
-					&& Velocity.Y > playerNode.Velocity.Y;
+				// enemy fällt auf player. Velocity.Y > 20f reicht für alle enemy-typen (vorher 50f).
+				// dy < -5f = enemy ist über dem player (filtert side-hits aus).
+				bool enemyDrop = !IsOnFloor() && Velocity.Y > 20f && dy < -5f;
 				if (enemyDrop)
 				{
 					// extra shake damit man's auch fühlt
