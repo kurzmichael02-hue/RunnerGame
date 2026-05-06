@@ -3,11 +3,11 @@ using Godot;
 public partial class Player : CharacterBody2D
 {
 	// Movement
-	[Export] public float MaxSpeed = 500f;
-	[Export] public float Acceleration = 800f;
+	[Export] public float MaxSpeed = 440f;         // vorher 500f – langsamer auf benutzeranforderung
+	[Export] public float Acceleration = 650f;     // vorher 800f – bewegung startet träger
 	[Export] public float Deceleration = 900f;
-	[Export] public float AirAcceleration = 1200f;
-	[Export] public float TurnAcceleration = 3000f;
+	[Export] public float AirAcceleration = 1000f; // vorher 1200f – luftkontrolle etwas reduziert
+	[Export] public float TurnAcceleration = 2500f; // vorher 3000f – richtungswechsel weicher
 	
 
 	// Jump
@@ -48,6 +48,8 @@ public partial class Player : CharacterBody2D
 	public bool IsInvincible => _invincibilityTimer > 0f;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
+	// wie lange der player nach einem wall-jump nicht nochmal an wände springen darf
+	private float _wallJumpCooldown = 0f;
 	private bool _isJumping = false;
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
@@ -210,6 +212,23 @@ public partial class Player : CharacterBody2D
 		_shakeTimer = duration;
 	}
 
+
+	// Pilz-Power-Up: player wächst wieder auf normale größe.
+	// Macht nur was wenn der player gerade klein ist (IsSmall=true).
+	public void Grow()
+	{
+		if (!IsSmall) return;
+		IsSmall = false;
+		Scale = Vector2.One;
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		// kurze i-frames damit der player nicht sofort wieder getroffen wird
+		_invincibilityTimer = 1.0f;
+		// grünes blinken als visuelles feedback
+		var tween = CreateTween();
+		tween.SetLoops(3);
+		tween.TweenProperty(this, "modulate", new Color(0.4f, 1f, 0.4f, 1f), 0.1f);
+		tween.TweenProperty(this, "modulate", Colors.White, 0.1f);
+	}
 	// Attack / SpawnSwordSwoosh / SpawnFireball / PlayNoSwordFlash / AddSwordUse
 	// liegen in Player.Combat.cs
 
@@ -460,15 +479,17 @@ if (_isDucking)
 		// Mid-air jump: wall jump takes priority over double jump if the player is on a wall (#98)
 		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_isDucking)
 		{
-			if (IsOnWall())
+		if (IsOnWall() && _wallJumpCooldown <= 0f)
 			{
-				// Wall jump: bounce off the wall, refresh the double-jump as reward
+				// Wall jump: mehr laterale kraft (1.0f statt 0.85f), weniger höhe (0.75f statt 0.9f).
+				// cooldown 0.5s verhindert spam – player muss sich erst von wand wegbewegen.
 				Vector2 wallNormal = GetWallNormal();
-				velocity.X = wallNormal.X * MaxSpeed * 0.85f;
-				velocity.Y = JumpVelocity * 0.9f;
+				velocity.X = wallNormal.X * MaxSpeed * 1.0f;
+				velocity.Y = JumpVelocity * 0.75f;
 				_doubleJumpUsed = false;
 				_jumpBufferTimer = 0f;
-				JumpHoldTimer = JumpHoldTime * 0.8f;
+				JumpHoldTimer = JumpHoldTime * 0.7f;
+				_wallJumpCooldown = 0.5f;
 				SoundManager.Instance.PlayJump();
 			}
 			else if (!_doubleJumpUsed)
@@ -586,6 +607,7 @@ if (_isDucking)
 		// Invincibility timer after hit – just decrements, don't early-return or the
 		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
 		if (_invincibilityTimer > 0) _invincibilityTimer -= dt;
+		if (_wallJumpCooldown > 0f) _wallJumpCooldown -= dt;
 
 		// Shield timer
 		if (_shieldActive)
