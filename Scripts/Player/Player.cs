@@ -3,12 +3,12 @@ using Godot;
 public partial class Player : CharacterBody2D
 {
 	// Movement
-	[Export] public float MaxSpeed = 500f;
-	[Export] public float Acceleration = 800f;
+	[Export] public float MaxSpeed = 440f;         // vorher 500f – langsamer auf benutzeranforderung
+	[Export] public float Acceleration = 650f;     // vorher 800f – bewegung startet träger
 	[Export] public float Deceleration = 900f;
-	[Export] public float AirAcceleration = 1200f;
-	[Export] public float TurnAcceleration = 3000f;
-	private AnimatedSprite2D _anim;
+	[Export] public float AirAcceleration = 1000f; // vorher 1200f – luftkontrolle etwas reduziert
+	[Export] public float TurnAcceleration = 2500f; // vorher 3000f – richtungswechsel weicher
+	
 
 	// Jump
 	[Export] public float JumpVelocity = -600f;
@@ -48,6 +48,8 @@ public partial class Player : CharacterBody2D
 	public bool IsInvincible => _invincibilityTimer > 0f;
 	private float _coyoteTimer = 0f;
 	private float _jumpBufferTimer = 0f;
+	// wie lange der player nach einem wall-jump nicht nochmal an wände springen darf
+	private float _wallJumpCooldown = 0f;
 	private bool _isJumping = false;
 	private bool _isDucking = false;
 	private bool _doubleJumpUsed = false;
@@ -58,7 +60,10 @@ public partial class Player : CharacterBody2D
 	private float _sprintTimer = 0f;
 	private float _lastRunDir = 0f;
 	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
-
+	private AnimatedSprite2D _anim;
+	private AnimatedSprite2D _attackSprite;
+	private AnimatedSprite2D _duckSprite;
+	
 	// Sword + fire flower fields liegen in Player.Combat.cs
 
 	// Camera shake
@@ -94,8 +99,8 @@ public partial class Player : CharacterBody2D
 		// Player does not physically collide with enemies (Layer 2)
 		SetCollisionMaskValue(2, false);
 		_standShape = GetNode<CollisionShape2D>("StandShape");
-_duckShape = GetNode<CollisionShape2D>("DuckShape");
-_duckShape.Disabled = true;
+		_duckShape = GetNode<CollisionShape2D>("DuckShape");
+		_duckShape.Disabled = true;
 		_camera = GetNode<Camera2D>("Camera2D");
 		// Preload projectile scene so fireballs don't hitch the first time you swing
 		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
@@ -106,11 +111,61 @@ _duckShape.Disabled = true;
 		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
 		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
 		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-		_anim?.Play("still");
+		_attackSprite = GetNode<AnimatedSprite2D>("AttackSprite");
+		_duckSprite = GetNode<AnimatedSprite2D>("DuckSprite");
+		
+		
+		_duckSprite.Visible = false;
+		_anim.Play("still");
+		_attackSprite.Visible = false;
 	}
 	private void UpdateAnimation(float direction)
 {
-	if (_anim == null) return;
+		if (_anim == null || _attackSprite == null || _duckSprite == null) return;
+		
+		
+		// DUCK (höchste Priorität)
+	if (_isDucking)
+	{
+		_anim.Visible = false;
+		_duckSprite.Visible = true;
+
+		_duckSprite.FlipH = _facing < 0;
+
+		if (_duckSprite.Animation != "duck")
+			_duckSprite.Play("duck");
+
+		return;
+	}
+
+	// zurück zu normal
+	_duckSprite.Visible = false;
+	_anim.Visible = true;
+	
+	
+		if (_attackLockout > 0f)
+		{
+			_anim.Visible = false;
+			_attackSprite.Visible = true;
+
+			_attackSprite.FlipH = _facing < 0;
+
+			if (_attackSprite.Animation != "attack")
+				_attackSprite.Play("attack");
+
+			return;
+		}
+
+		_attackSprite.Visible = false;
+		_anim.Visible = true;
+		
+		
+		if (_isDucking)
+		{
+			if (_anim.Animation != "duck")
+				_anim.Play("duck");
+			return;
+		}
 
 	// In der Luft
 	if (!IsOnFloor())
@@ -157,6 +212,23 @@ _duckShape.Disabled = true;
 		_shakeTimer = duration;
 	}
 
+
+	// Pilz-Power-Up: player wächst wieder auf normale größe.
+	// Macht nur was wenn der player gerade klein ist (IsSmall=true).
+	public void Grow()
+	{
+		if (!IsSmall) return;
+		IsSmall = false;
+		Scale = Vector2.One;
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		// kurze i-frames damit der player nicht sofort wieder getroffen wird
+		_invincibilityTimer = 1.0f;
+		// grünes blinken als visuelles feedback
+		var tween = CreateTween();
+		tween.SetLoops(3);
+		tween.TweenProperty(this, "modulate", new Color(0.4f, 1f, 0.4f, 1f), 0.1f);
+		tween.TweenProperty(this, "modulate", Colors.White, 0.1f);
+	}
 	// Attack / SpawnSwordSwoosh / SpawnFireball / PlayNoSwordFlash / AddSwordUse
 	// liegen in Player.Combat.cs
 
@@ -407,15 +479,17 @@ if (_isDucking)
 		// Mid-air jump: wall jump takes priority over double jump if the player is on a wall (#98)
 		else if (Input.IsActionJustPressed("jump") && !IsOnFloor() && !_isDucking)
 		{
-			if (IsOnWall())
+		if (IsOnWall() && _wallJumpCooldown <= 0f)
 			{
-				// Wall jump: bounce off the wall, refresh the double-jump as reward
+				// Wall jump: mehr laterale kraft (1.0f statt 0.85f), weniger höhe (0.75f statt 0.9f).
+				// cooldown 0.5s verhindert spam – player muss sich erst von wand wegbewegen.
 				Vector2 wallNormal = GetWallNormal();
-				velocity.X = wallNormal.X * MaxSpeed * 0.85f;
-				velocity.Y = JumpVelocity * 0.9f;
+				velocity.X = wallNormal.X * MaxSpeed * 1.0f;
+				velocity.Y = JumpVelocity * 0.75f;
 				_doubleJumpUsed = false;
 				_jumpBufferTimer = 0f;
-				JumpHoldTimer = JumpHoldTime * 0.8f;
+				JumpHoldTimer = JumpHoldTime * 0.7f;
+				_wallJumpCooldown = 0.5f;
 				SoundManager.Instance.PlayJump();
 			}
 			else if (!_doubleJumpUsed)
@@ -533,6 +607,7 @@ if (_isDucking)
 		// Invincibility timer after hit – just decrements, don't early-return or the
 		// shield/star/shake/magnet timers below freeze and stick (camera offset got stuck)
 		if (_invincibilityTimer > 0) _invincibilityTimer -= dt;
+		if (_wallJumpCooldown > 0f) _wallJumpCooldown -= dt;
 
 		// Shield timer
 		if (_shieldActive)

@@ -1,7 +1,8 @@
 using Godot;
 
-// Variant of MovingPlatform that kills the player on contact while moving downward.
-// No one-way collision – the player can't jump through it from underneath either.
+// Variant of MovingPlatform that kills the player on contact from above (spikes on top).
+// Unlike the regular moving platform, this one uses MoveAndCollide so Godot handles
+// the physics coupling – otherwise direct Position = ... skips sweep detection.
 public partial class CrushingPlatform : AnimatableBody2D
 {
 	[Export] public Vector2 EndOffset = new Vector2(0, 80);
@@ -22,21 +23,23 @@ public partial class CrushingPlatform : AnimatableBody2D
 		float phase = (Mathf.Sin(_time * Mathf.Pi * 2f / CycleTime) + 1f) * 0.5f;
 		Vector2 target = _startPosition.Lerp(_startPosition + EndOffset, phase);
 		Vector2 motion = target - Position;
-
-		// platform einfach bewegen, kollision regelt godot
 		MoveAndCollide(motion);
 
-		// nur sterben wenn der player VON OBEN auf die spikes kommt.
-		// von unten dagegen springen oder daneben stehen darf nicht killen.
+		// Spike-kill: player muss von OBEN auf die Spikes kommen.
+		// Platform collision shape ist 25 hoch (half=12.5), Spikes ragen bis -22.
+		// Player-collision-center ist ~49px über den Player-Füßen, also steht der
+		// Player mit center bei ca. platform.Y - 71 wenn er auf den Spikes steht.
+		// Daher threshold -90 statt vorher -55 (war zu eng und hat nie gefeuert).
 		var player = GetTree().GetFirstNodeInGroup("player") as Player;
 		if (player == null || player.IsDying || player.IsInvincible) return;
 
 		Vector2 toPlayer = player.GlobalPosition - GlobalPosition;
-		// horizontal überlappt + player ist ÜBER der platform (negative dy = oben).
-		// dy > -55: nicht zu hoch in der luft (sonst stirbt man beim drüberspringen)
-		// dy < -8: player muss zumindest leicht über der platform-mitte sein
-		bool fromAbove = toPlayer.Y < -8f && toPlayer.Y > -55f;
-		bool horizOverlap = Mathf.Abs(toPlayer.X) < 78f;
+
+		// toPlayer.Y < 0  → player ist über der platform (kleines Y = höher im Bild)
+		// -90 bis -5: trifft wenn player auf/über den spikes steht, nicht wenn er darunter ist
+		bool fromAbove = toPlayer.Y < -5f && toPlayer.Y > -90f;
+		// plattform ist 150 breit (half=75), kleiner puffer für randberührungen
+		bool horizOverlap = Mathf.Abs(toPlayer.X) < 80f;
 
 		if (horizOverlap && fromAbove)
 		{

@@ -5,7 +5,9 @@
 [ext_resource type="Script" uid="uid://b05ypja1cvxy2" path="res://Scripts/Player/Player.cs" id="3_0nu4m"]
 [ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="4_vl7yh"]
 [ext_resource type="Script" uid="uid://ciu2rfyycynfb" path="res://Scripts/UI/HUD.cs" id="5_apnk5"]
+[ext_resource type="Texture2D" uid="uid://im52oor15y5n" path="res://leveldesign/SChießen.png" id="5_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b1dye8ua1bd5h" path="res://leveldesign/jump.png" id="5_vl7yh"]
+[ext_resource type="Texture2D" uid="uid://deysqsk6s8ln" path="res://leveldesign/Ducken.png" id="6_ulun0"]
 [ext_resource type="Texture2D" uid="uid://2872p6pw2lwk" path="res://leveldesign/Player animation.png" id="6_vl7yh"]
 [ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="8_4eofi"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
@@ -23,10 +25,11 @@
 [ext_resource type="Texture2D" uid="uid://c4t1nenv1vld" path="res://leveldesign/mischa.png" id="21_ctxhw"]
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
-[ext_resource type="PackedScene" uid="uid://dr9k7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
+[ext_resource type="PackedScene" uid="uid://dsak7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
 [ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
 [ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
+[ext_resource type="Texture2D" uid="uid://jlqak5aaahj4" path="res://leveldesign/checkpointnotreached.png" id="23_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="24_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
@@ -45,6 +48,10 @@ size = Vector2(30, 79)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
 size = Vector2(30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvn6m"]
+atlas = ExtResource("5_nvl0l")
+region = Rect2(1252, 341, 283, 341)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nvl0l"]
 atlas = ExtResource("5_vl7yh")
@@ -80,6 +87,14 @@ region = Rect2(549, 250, 234, 386)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nvl0l"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvn6m")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nvl0l")
@@ -126,6 +141,42 @@ animations = [{
 "loop": true,
 "name": &"wallk",
 "speed": 15.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ulun0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvn6m")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2jmm"]
+atlas = ExtResource("6_ulun0")
+region = Rect2(1110, 200, 370, 824)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nvn6m"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2jmm")
+}],
+"loop": true,
+"name": &"duck",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
@@ -461,10 +512,21 @@ shape = SubResource("RectangleShape2D_4q8tf")
 shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1604708776]
-position = Vector2(-6, -20)
+position = Vector2(-7, -21)
 scale = Vector2(0.46885175, 0.37510318)
 sprite_frames = SubResource("SpriteFrames_nvl0l")
-animation = &"jump_down"
+animation = &"still"
+
+[node name="AttackSprite" type="AnimatedSprite2D" parent="Player" unique_id=728290982]
+position = Vector2(34, 1)
+scale = Vector2(0.49469963, 0.4395161)
+sprite_frames = SubResource("SpriteFrames_ulun0")
+
+[node name="DuckSprite" type="AnimatedSprite2D" parent="Player" unique_id=1876635633]
+position = Vector2(34, 19.000008)
+scale = Vector2(0.40997416, 0.46220934)
+sprite_frames = SubResource("SpriteFrames_nvn6m")
+animation = &"duck"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
 script = ExtResource("5_apnk5")
@@ -1023,11 +1085,14 @@ position = Vector2(1350, 317)
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
 position = Vector2(-650, -37)
 script = ExtResource("21_e6dby")
+InactiveTexture = ExtResource("23_nvl0l")
+ActiveTexture = ExtResource("21_ctxhw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
 shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=1390801544]
+visible = false
 texture_filter = 1
 position = Vector2(11.500011, -16)
 scale = Vector2(0.9140627, 1)
@@ -1036,6 +1101,8 @@ texture = ExtResource("21_ctxhw")
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
 position = Vector2(1316, -70)
 script = ExtResource("21_e6dby")
+InactiveTexture = ExtResource("23_nvl0l")
+ActiveTexture = ExtResource("22_ook5n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2" unique_id=666897722]
 position = Vector2(0, 31)
@@ -1050,19 +1117,29 @@ texture = ExtResource("22_ook5n")
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
 position = Vector2(2850, -57)
 script = ExtResource("21_e6dby")
+InactiveTexture = ExtResource("23_nvl0l")
+ActiveTexture = ExtResource("23_4eofi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
 shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1726839946]
 texture_filter = 1
-position = Vector2(18.500023, -11.499999)
-scale = Vector2(1.0234379, 0.9765625)
+position = Vector2(12.9997425, -24.499992)
+scale = Vector2(3.687493, 4.34375)
+texture = ExtResource("23_nvl0l")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1118259535]
+visible = false
+position = Vector2(9, -2)
+scale = Vector2(0.7109375, 0.7421875)
 texture = ExtResource("23_4eofi")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
 position = Vector2(5350, -57)
 script = ExtResource("21_e6dby")
+InactiveTexture = ExtResource("23_nvl0l")
+ActiveTexture = ExtResource("24_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint4" unique_id=666897724]
 position = Vector2(0, 4)

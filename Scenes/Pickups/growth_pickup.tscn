@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://bgrowth1pickup"]
+
+[ext_resource type="Script" path="res://Scripts/Pickups/GrowthPickup.cs" id="1_growth"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_growth"]
+radius = 18.0
+
+[node name="GrowthPickup" type="Area2D"]
+script = ExtResource("1_growth")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_growth")
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.25, 0.75, 0.2, 1)
+polygon = PackedVector2Array(0, -16, 12, -6, 10, 8, 0, 14, -10, 8, -12, -6)
+
+[node name="Cap" type="Polygon2D" parent="."]
+color = Color(0.85, 0.3, 0.1, 1)
+polygon = PackedVector2Array(0, -22, 14, -12, 6, -8, -6, -8, -14, -12)
+
+[node name="Spots" type="Polygon2D" parent="."]
+color = Color(1, 1, 1, 0.8)
+polygon = PackedVector2Array(-5, -16, -2, -18, 1, -16, 1, -13, -2, -11, -5, -13)
