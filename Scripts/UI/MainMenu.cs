@@ -73,4 +73,9 @@ private void OnAnyButtonHovered()
 		GetTree().Quit();
 	}
 
+	private void _on_character_selection_pressed()
+	{
+		SoundManager.Instance.PlayButton();
+		GetTree().ChangeSceneToFile("res://Scenes/Main/CharacterSelection.tscn");
+	}
 }
