@@ -144,7 +144,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
 
-[node name="Button" type="Button" parent="HBoxContainer2" unique_id=750542043]
+[node name="MainMenu" type="Button" parent="HBoxContainer2" unique_id=750542043]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -156,7 +156,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_ogh4c")
 theme_override_styles/hover = SubResource("StyleBoxFlat_u5eno")
 text = "Main Menu"
 
-[node name="Button2" type="Button" parent="HBoxContainer2" unique_id=1475705960]
+[node name="Exit" type="Button" parent="HBoxContainer2" unique_id=1475705960]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -167,3 +167,16 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_t0ed0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ogh4c")
 theme_override_styles/hover = SubResource("StyleBoxFlat_u5eno")
 text = "Exit"
+
+[node name="ExitConfirmDialog" type="ConfirmationDialog" parent="." unique_id=1442588969]
+oversampling_override = 1.0
+title = "Wichtig!"
+position = Vector2i(0, 36)
+size = Vector2i(351, 100)
+ok_button_text = "Ja"
+dialog_text = "Möchtest du dieses Spiel wirklich beenden?"
+cancel_button_text = "Nein"
+
+[connection signal="pressed" from="HBoxContainer2/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="HBoxContainer2/Exit" to="." method="_on_exit_pressed"]
+[connection signal="confirmed" from="ExitConfirmDialog" to="." method="_on_exit_confirmed"]
