@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bgrowth1pickup"]
+[gd_scene format=3 uid="uid://b4l7wwt6ubta2"]
 
 [ext_resource type="Script" path="res://Scripts/Pickups/GrowthPickup.cs" id="1_growth"]
 
