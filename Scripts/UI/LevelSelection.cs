@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class MainMenu : Control
+public partial class LevelSelection : Control
 {
 	
 	private ConfirmationDialog _exitDialog;
@@ -20,8 +20,6 @@ public override void _Ready()
 		}
 	}
 	
-	_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
-	_exitDialog.Confirmed += OnExitConfirmed;
 
 	// Start button gets focus so arrow keys + enter work without touching the mouse.
 	// Deferred because children aren't fully ready yet inside _Ready.
@@ -37,45 +35,27 @@ private void OnAnyButtonHovered()
 	{
 	}
 
-	// START BUTTON
-	private void _on_start_pressed()
+	// Level 1
+	private void _on_level1_pressed()
 	{
 		
 		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/Main/LevelSelection.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Levels/Level1.tscn");
 	}
 
-	// SETTINGS BUTTON
-	private void _on_settings_pressed()
+	// Testlevel
+	private void _on_testLevel_pressed()
 	{
 		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/Main/Settings.tscn");
-	}
-
-	// HIGHSCORES BUTTON
-	private void _on_highscores_pressed()
-	{
-		
-		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/Main/HighScores.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/Levels/TestLevel.tscn");
 	}
 
 	// EXIT BUTTON
 	private void _on_exit_pressed()
 	{
 		SoundManager.Instance.PlayButton();
-		_exitDialog.PopupCentered();
+		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
 	
-		//CONFIRM EXIT
-	private void OnExitConfirmed()
-	{
-		GetTree().Quit();
-	}
 
-	private void _on_character_selection_pressed()
-	{
-		SoundManager.Instance.PlayButton();
-		GetTree().ChangeSceneToFile("res://Scenes/Main/CharacterSelection.tscn");
-	}
 }
