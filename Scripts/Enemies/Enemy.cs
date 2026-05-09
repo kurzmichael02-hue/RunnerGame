@@ -69,9 +69,8 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// player stompt enemy von oben. dy > 12 statt 6 sonst zählen
-				// side-hits manchmal als stomp und der player kommt damit durch
-				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 12f;
+				// player stompt enemy von oben. dy > 25 verhindert false stomps bei side-hits
+				bool playerStomp = playerNode.Velocity.Y > 150f && dy > 25f;
 				if (playerStomp)
 				{
 					playerNode.StompedEnemy = true;
