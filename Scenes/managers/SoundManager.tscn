@@ -191,24 +191,30 @@ bus = &"GameFX"
 
 [node name="CoinSound" type="AudioStreamPlayer" parent="GameFX" unique_id=1997865711]
 stream = SubResource("AudioStreamWAV_4m8jc")
+bus = &"GameFX"
 
 [node name="SwordAttackSound" type="AudioStreamPlayer" parent="GameFX" unique_id=1030743042]
 stream = ExtResource("5_i4wp4")
+bus = &"GameFX"
 
 [node name="NoSwordLeftSound" type="AudioStreamPlayer" parent="GameFX" unique_id=1716385231]
 stream = ExtResource("6_dh1hk")
 volume_db = 4.561
+bus = &"GameFX"
 
 [node name="PlayerDeathSound1" type="AudioStreamPlayer" parent="GameFX" unique_id=1417868855]
 stream = SubResource("AudioStreamWAV_dh1hk")
 volume_db = -3.215
+bus = &"GameFX"
 
 [node name="PlayerDeathSound2" type="AudioStreamPlayer" parent="GameFX" unique_id=106789473]
 stream = SubResource("AudioStreamWAV_ig6hh")
 volume_db = 1.645
+bus = &"GameFX"
 
 [node name="PlayerDeathSound3" type="AudioStreamPlayer" parent="GameFX" unique_id=764314982]
 stream = SubResource("AudioStreamWAV_g0r28")
 volume_db = -7.103
+bus = &"GameFX"
 
 [node name="GameFX2D" type="Node2D" parent="." unique_id=1683784275]

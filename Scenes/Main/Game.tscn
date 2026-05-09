@@ -39,6 +39,7 @@
 [ext_resource type="Texture2D" uid="uid://cbbiuv4un1jsb" path="res://leveldesign/Schield.png" id="29_ac8j0"]
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/Pickups/sword_pickup.tscn" id="29_gbitj"]
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
+[ext_resource type="PackedScene" uid="uid://b4l7wwt6ubta2" path="res://Scenes/Pickups/growth_pickup.tscn" id="40_nvn6m"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbihj"]
 texture = ExtResource("18_jeh1s")
@@ -1372,3 +1373,6 @@ position = Vector2(4050, -30)
 
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
 position = Vector2(5550, -109)
+
+[node name="GrowthPickup" parent="." unique_id=90358124 instance=ExtResource("40_nvn6m")]
+position = Vector2(5136, 95)
