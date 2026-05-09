@@ -1354,7 +1354,7 @@ position = Vector2(4050, -30)
 position = Vector2(5550, -110)
 
 [node name="ItemBlock" parent="." unique_id=1760551000 instance=ExtResource("40_nvn6m")]
-position = Vector2(490, 232)
+position = Vector2(490, 190)
 
 [node name="GrowthPickup" parent="." unique_id=802328739 instance=ExtResource("41_m2jmm")]
 position = Vector2(1543, 243)
