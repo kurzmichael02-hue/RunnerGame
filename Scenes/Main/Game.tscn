@@ -39,8 +39,6 @@
 [ext_resource type="Texture2D" uid="uid://cbbiuv4un1jsb" path="res://leveldesign/Schield.png" id="29_ac8j0"]
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/Pickups/sword_pickup.tscn" id="29_gbitj"]
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
-[ext_resource type="PackedScene" path="res://Scenes/level_objects/item_block.tscn" id="40_nvn6m"]
-[ext_resource type="PackedScene" path="res://Scenes/Pickups/growth_pickup.tscn" id="41_m2jmm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 101)
@@ -1353,8 +1351,3 @@ position = Vector2(4050, -30)
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
 position = Vector2(5550, -110)
 
-[node name="ItemBlock" parent="." unique_id=1760551000 instance=ExtResource("40_nvn6m")]
-position = Vector2(490, 190)
-
-[node name="GrowthPickup" parent="." unique_id=802328739 instance=ExtResource("41_m2jmm")]
-position = Vector2(1543, 243)
