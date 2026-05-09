@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://wkfgl7nu6bsh"]
+[gd_scene format=4 uid="uid://do8oiq6n3lsrt"]
 
 [ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/Core/GameManager.cs" id="1_kyjoo"]
 [ext_resource type="Texture2D" uid="uid://d3inn0asxct2u" path="res://leveldesign/Background/back.png" id="2_ac8j0"]

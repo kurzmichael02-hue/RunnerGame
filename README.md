@@ -73,4 +73,4 @@ res://
 
 ## Status
 
-In development – DHBW Semester 3
+In development – DHBW Semester 3-4
