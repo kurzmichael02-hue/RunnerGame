@@ -1350,3 +1350,4 @@ position = Vector2(4050, -30)
 
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
 position = Vector2(5550, -110)
+

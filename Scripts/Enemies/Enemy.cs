@@ -69,9 +69,9 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// player stompt enemy von oben. dy > 12 statt 6 sonst zählen
-				// side-hits manchmal als stomp und der player kommt damit durch
-				bool playerStomp = playerNode.Velocity.Y > 100f && dy > 12f;
+				// dy > 40 = enemy center muss deutlich unter player-center liegen, verhindert
+				// false stomps bei seitlichen treffern wo höhen minimal abweichen
+				bool playerStomp = playerNode.Velocity.Y > 120f && dy > 40f;
 				if (playerStomp)
 				{
 					playerNode.StompedEnemy = true;
@@ -79,9 +79,9 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// enemy fällt auf player. Velocity.Y > 20f reicht für alle enemy-typen (vorher 50f).
-				// dy < -5f = enemy ist über dem player (filtert side-hits aus).
-				bool enemyDrop = !IsOnFloor() && Velocity.Y > 20f && dy < -5f;
+				// enemy fällt auf player. dy < -25f = enemy-center muss deutlich über player-center
+				// sein, sonst würden side-hits mit minimaler höhendifferenz fälschlich als drop gelten
+				bool enemyDrop = !IsOnFloor() && Velocity.Y > 20f && dy < -25f;
 				if (enemyDrop)
 				{
 					// extra shake damit man's auch fühlt
