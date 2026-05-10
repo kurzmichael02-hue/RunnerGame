@@ -446,8 +446,38 @@ if (_isDucking)
 
 	_jumpBufferTimer = 0f;
 	Vector2 vel = Velocity;
+	
+	//Slowing down the player or making him slide when ducking depending on if he's on a slope or not
+	if (IsOnFloor())
+	{
+		Vector2 normal = GetFloorNormal();
+
+		float slopeAngle = Mathf.RadToDeg(
+			Mathf.Acos(normal.Dot(Vector2.Up))
+		);
+
+		// Only slide on actual slopes
+		if (slopeAngle > 10f)
+		{
+			// Determine downhill direction
+			float slideDirection = normal.X;
+
+			// Slide speed depends on slope steepness
+		float slideSpeed = slopeAngle * 220f;
+
+		vel.X = slideDirection * slideSpeed;
+	}
+	
 	// Ducking slows the player to 40% of max speed – feels heavier, harder to dodge
+	else 
+	{
+		vel.X = duckDir * MaxSpeed * 0.4f;
+	}
+}
+else
+{
 	vel.X = duckDir * MaxSpeed * 0.4f;
+}
 	if (!IsOnFloor()) vel.Y += FallGravity * dt;
 	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
 	Velocity = vel;
@@ -538,7 +568,32 @@ if (_isDucking)
 
 		// Up to +15% max speed once fully charged (4.5s of clean running) – a nudge, not a dash
 		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.15f);
+		
+		//Decrese speed if on slope
+		if (IsOnFloor())
+		{
+			Vector2 normal = GetFloorNormal();
 
+			// Angel of the Slope 
+			float slopeAngle = Mathf.RadToDeg(
+				Mathf.Acos(normal.Dot(Vector2.Up))
+			);
+
+			// The steeper the slower
+			float slopeFactor = Mathf.Clamp(
+				1f - (slopeAngle / 45f),
+				0.45f,
+				1f
+			);
+
+			// Check if player is going up
+			bool movingUpSlope =
+				(direction > 0 && normal.X < 0) ||
+				(direction < 0 && normal.X > 0);
+
+			if (movingUpSlope)
+				effectiveMaxSpeed *= slopeFactor;
+		}
 		// Swinging the sword puts a hard brake on you for ~0.25s so you can't
 		// dash-slash at full speed through enemies
 		if (_attackLockout > 0f)
