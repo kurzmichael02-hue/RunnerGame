@@ -35,15 +35,13 @@ public partial class Player : CharacterBody2D
 
 	private const string ProfilePath = "user://profile.cfg";
 
-	// Texturen-tabelle – id matched die shop-ids in getcharacterprice. wenn
-	// schayan später eigene assets liefert, hier path eintragen. solange das
-	// scene-setup einen animatedsprite2d nutzt (visible), wirkt der textur-tausch
-	// am unsichtbaren sprite2d nur als fallback – richtiger character-switch
-	// braucht eigene spriteframes pro figur.
-	private static readonly string[] CharacterTextures = {
-		"res://leveldesign/player.png",
-		"res://leveldesign/mischa.png",
-		"res://leveldesign/tim.png",
+	// Farb-tints pro charakter – kein eigenes sprite-sheet nötig, tint unterscheidet die figuren visuell.
+	// SelfModulate auf jedem AnimatedSprite2D-knoten damit hit-blink / star-effekte auf dem parent-node
+	// nicht interferieren.
+	private static readonly Color[] CharacterTints = {
+		new Color(1f, 1f, 1f),       // 0: default
+		new Color(0.75f, 0.55f, 1f), // 1: Mischa – lila
+		new Color(1f, 0.65f, 0.35f), // 2: Tim – orange
 	};
 
 	// ===== PROFILE LOAD / SAVE =====
@@ -180,17 +178,15 @@ public partial class Player : CharacterBody2D
 		if (_score > SessionHighscore) SessionHighscore = _score;
 	}
 
-	// Tauscht den player-sprite gegen die textur des aktiven charakters.
-	// Wenn die scene einen animatedsprite2d nutzt, hat der den sichtbaren sprite
-	// und der einzelne sprite2d hier ist meist visible=false – der kosmetische
-	// switch greift dann erst wenn schayan eigene animation-frames pro char liefert.
 	private void ApplyCharacterTexture()
 	{
-		int idx = Mathf.Clamp(SelectedCharacter, 0, CharacterTextures.Length - 1);
-		var path = CharacterTextures[idx];
-		var tex = GD.Load<Texture2D>(path);
-		if (tex == null) return;
-		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-		if (sprite != null) sprite.Texture = tex;
+		int idx = Mathf.Clamp(SelectedCharacter, 0, CharacterTints.Length - 1);
+		Color tint = CharacterTints[idx];
+		string[] nodes = { "AnimatedSprite2D", "AttackSprite", "DuckSprite" };
+		foreach (string name in nodes)
+		{
+			var node = GetNodeOrNull<CanvasItem>(name);
+			if (node != null) node.SelfModulate = tint;
+		}
 	}
 }
