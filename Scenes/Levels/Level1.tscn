@@ -754,7 +754,7 @@ shape = SubResource("RectangleShape2D_alh3a")
 target_position = Vector2(0, 0)
 
 [node name="Enemy4" type="CharacterBody2D" parent="Enemies" unique_id=679314473]
-position = Vector2(-3700, 21)
+position = Vector2(-3200, 21)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -1107,7 +1107,7 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 position = Vector2(1350, 317)
 
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
-position = Vector2(-650, -37)
+position = Vector2(-650, -50)
 script = ExtResource("21_e6dby")
 InactiveTexture = ExtResource("23_nvl0l")
 ActiveTexture = ExtResource("21_ctxhw")
@@ -1123,7 +1123,7 @@ scale = Vector2(0.9140627, 1)
 texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
-position = Vector2(1316, -70)
+position = Vector2(1316, -50)
 script = ExtResource("21_e6dby")
 InactiveTexture = ExtResource("23_nvl0l")
 ActiveTexture = ExtResource("22_ook5n")
@@ -1139,7 +1139,7 @@ scale = Vector2(0.5117184, 0.47265628)
 texture = ExtResource("22_ook5n")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
-position = Vector2(2850, -57)
+position = Vector2(2850, -50)
 script = ExtResource("21_e6dby")
 InactiveTexture = ExtResource("23_nvl0l")
 ActiveTexture = ExtResource("23_4eofi")
@@ -1160,7 +1160,7 @@ scale = Vector2(0.7109375, 0.7421875)
 texture = ExtResource("23_4eofi")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
-position = Vector2(5350, -57)
+position = Vector2(5350, -50)
 script = ExtResource("21_e6dby")
 InactiveTexture = ExtResource("23_nvl0l")
 ActiveTexture = ExtResource("24_nvl0l")

@@ -17,6 +17,7 @@ public partial class Checkpoint : Area2D
 	{
 		_sprite = GetNode<Sprite2D>("Sprite2D");
 		_sprite.Visible = true;
+		_sprite.Position = Vector2.Zero;
 
 		if (InactiveTexture != null)
 		{
