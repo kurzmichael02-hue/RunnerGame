@@ -45,7 +45,7 @@ public partial class CharacterSelection : Node
 	private void UpdateLabel()
 	{
 		string name = CharNames[Player.SelectedCharacter < CharNames.Length ? Player.SelectedCharacter : 0];
-		_selectedLabel.Text = $"selected: {name}  |  coins: {Player.Coins}";
+		_selectedLabel.Text = $"Selected: {name}  |  coins: {Player.Coins}";
 	}
 
 	private void _on_main_menu_pressed()

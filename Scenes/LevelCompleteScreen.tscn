@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="1_6emyg"]
 [ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="2_crvh3"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="3_x2xnx"]
+[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://leveldesign/Fonts/DropShade-Shadow.ttf" id="3_x2xnx"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k3l58"]
 texture = ExtResource("2_crvh3")

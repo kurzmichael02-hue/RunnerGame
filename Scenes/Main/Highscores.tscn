@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://o83bnx7iqeg" path="res://Scripts/UI/HighScores.cs" id="1_mp3kb"]
 [ext_resource type="Texture2D" uid="uid://1n0u5rrysw56" path="res://leveldesign/HighscoreBackground.png" id="2_vn51m"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="3_5uhc2"]
+[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://leveldesign/Fonts/DropShade-Shadow.ttf" id="3_5uhc2"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
 texture = ExtResource("2_vn51m")
