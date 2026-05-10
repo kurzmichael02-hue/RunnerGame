@@ -13,6 +13,9 @@ public partial class Player : CharacterBody2D
 	// überlebt und dort als final score angezeigt werden kann.
 	public static int LastRunScore = 0;
 
+	// zuletzt gespieltes level – gameover restart lädt das gleiche level nach
+	public static string CurrentLevelPath = "res://Scenes/Levels/Level1.tscn";
+
 	// Höchster score in der laufenden process-session – resettet sobald das spiel
 	// geschlossen wird. Der alltime-rekord landet in user://highscore.dat.
 	public static int SessionHighscore = 0;

@@ -52,9 +52,8 @@ public partial class GameOver : Control
 		// RESTART BUTTON
 		private void _on_restart_pressed()
 		{
-			
 			SoundManager.Instance.PlayButton();
-			GetTree().ChangeSceneToFile("res://Scenes/Main/Game.tscn");
+			GetTree().ChangeSceneToFile(Player.CurrentLevelPath);
 		}
 
 		// Main Menu pressed
