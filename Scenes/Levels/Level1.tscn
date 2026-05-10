@@ -647,7 +647,7 @@ offset_bottom = 23.0
 grow_horizontal = 0
 
 [node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
-position = Vector2(7201, -20)
+position = Vector2(7201, 260)
 script = ExtResource("9_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
@@ -760,7 +760,7 @@ collision_mask = 4
 script = ExtResource("13_efseb")
 Type = 1
 Speed = 10.0
-MoveDistance = 50.0
+MoveDistance = 200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy4" unique_id=246095921]
 position = Vector2(1, -16)
@@ -869,7 +869,7 @@ shape = SubResource("RectangleShape2D_wxwew")
 target_position = Vector2(0, 0)
 
 [node name="Enemy9" type="CharacterBody2D" parent="Enemies" unique_id=263876450]
-position = Vector2(-2049, -76)
+position = Vector2(-2049, 20)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -891,7 +891,7 @@ shape = SubResource("RectangleShape2D_4eofi")
 target_position = Vector2(0, 0)
 
 [node name="Enemy10" type="CharacterBody2D" parent="Enemies" unique_id=263876451]
-position = Vector2(-1877, -366)
+position = Vector2(-1877, 20)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -1342,7 +1342,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_8k6aj")]
-position = Vector2(3031, 594)
+position = Vector2(3031, 200)
 
 [node name="ShieldPowerUp" type="Area2D" parent="PowerUps" unique_id=333111220]
 position = Vector2(1330, 36)
