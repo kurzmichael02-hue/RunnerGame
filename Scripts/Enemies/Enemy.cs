@@ -69,9 +69,8 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// dy > 40 = enemy center muss deutlich unter player-center liegen, verhindert
-				// false stomps bei seitlichen treffern wo höhen minimal abweichen
-				bool playerStomp = playerNode.Velocity.Y > 120f && dy > 40f;
+				// dy > 20 = enemy center muss unter player-center liegen
+				bool playerStomp = playerNode.Velocity.Y > 80f && dy > 20f;
 				if (playerStomp)
 				{
 					playerNode.StompedEnemy = true;
@@ -91,9 +90,11 @@ public partial class Enemy : CharacterBody2D
 					return;
 				}
 
-				// normaler side-hit
+				// normaler side-hit – spieler wegschubsen damit der feind nicht als "hut" sitzenbleibt
 				playerNode.Die();
 				_damageCooldown = 1.5f;
+				float knockDir = playerNode.GlobalPosition.X > GlobalPosition.X ? 1f : -1f;
+				playerNode.Velocity = new Vector2(knockDir * 280f, -150f);
 				return;
 			}
 		}
@@ -163,11 +164,12 @@ public partial class Enemy : CharacterBody2D
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();
 
-		// Squash + fade instead of instant disappear so stomps feel satisfying
-		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+		// Squash + fade – check AnimatedSprite2D first, fallback to Sprite2D
+		Node2D spriteNode = (Node2D)GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D")
+		                 ?? GetNodeOrNull<Sprite2D>("Sprite2D");
 		var tween = CreateTween();
-		if (sprite != null)
-			tween.TweenProperty(sprite, "scale:y", sprite.Scale.Y * 0.25f, 0.12f);
+		if (spriteNode != null)
+			tween.TweenProperty(spriteNode, "scale:y", 0.25f, 0.12f);
 		tween.Parallel().TweenProperty(this, "modulate:a", 0f, 0.3f);
 		tween.TweenCallback(Callable.From(() => QueueFree()));
 	}
