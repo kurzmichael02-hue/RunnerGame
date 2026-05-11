@@ -15,6 +15,10 @@ public partial class CrushingPlatform : AnimatableBody2D
 	{
 		_startPosition = Position;
 		ProcessMode = ProcessModeEnum.Pausable;
+		// AnimatableBody2D hat sync_to_physics=true als default – das verträgt sich nicht
+		// mit MoveAndCollide und erzeugt Error-Spam jede Physics-Frame. Wir steuern die
+		// Bewegung selbst, also aus.
+		SyncToPhysics = false;
 	}
 
 	public override void _PhysicsProcess(double delta)
