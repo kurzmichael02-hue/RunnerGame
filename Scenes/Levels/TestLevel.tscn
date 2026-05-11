@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://b1dye8ua1bd5h" path="res://leveldesign/jump.png" id="5_vl7yh"]
 [ext_resource type="Texture2D" uid="uid://deysqsk6s8ln" path="res://leveldesign/Ducken.png" id="6_ulun0"]
 [ext_resource type="Texture2D" uid="uid://2872p6pw2lwk" path="res://leveldesign/Player animation.png" id="6_vl7yh"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://leveldesign/Fonts/DropShade-Shadow.ttf" id="8_4eofi"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b6spruxkscwub" path="res://leveldesign/zielflagge.png" id="10_ulun0"]
 [ext_resource type="PackedScene" uid="uid://bq4r7m2nlaxtv" path="res://Scenes/level_objects/fire_flower.tscn" id="11_nvn6m"]
@@ -28,10 +27,8 @@
 [ext_resource type="PackedScene" uid="uid://dsak7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
 [ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
 [ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
-[ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
 [ext_resource type="Texture2D" uid="uid://jlqak5aaahj4" path="res://leveldesign/checkpointnotreached.png" id="23_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="24_nvl0l"]
-[ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
@@ -433,39 +430,6 @@ size = Vector2(30, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_raj38"]
 size = Vector2(30, 80)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i1pr2"]
-texture = ExtResource("24_uctmh")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_356ba"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 1)
-shadow_size = 5
-shadow_offset = Vector2(0, 3.41)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4lct"]
-bg_color = Color(0.11764706, 0.6156863, 0.76862746, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.2901961)
-shadow_offset = Vector2(0, 3.41)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iyesh"]
-bg_color = Color(0.003921569, 0.101960786, 0.101960786, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.22745098)
-shadow_offset = Vector2(0, 3.41)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i1pr2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
 radius = 20.024984
@@ -1161,121 +1125,6 @@ position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
 
-[node name="LevelCompleteScreen" type="CanvasLayer" parent="." unique_id=551507232]
-script = ExtResource("23_dntcx")
-
-[node name="Panel" type="Panel" parent="LevelCompleteScreen" unique_id=1662592036]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 1076.0
-offset_right = 16.0
-offset_bottom = 1076.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_i1pr2")
-
-[node name="Label" type="Label" parent="LevelCompleteScreen/Panel" unique_id=2051350068]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -357.0
-offset_top = 139.0
-offset_right = 357.0
-offset_bottom = 250.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_4eofi")
-theme_override_font_sizes/font_size = 55
-text = "LEVEL COMPLETE!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="LevelCompleteScreen/Panel" unique_id=592846342]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -174.75
-offset_top = -72.0
-offset_right = 174.75
-offset_bottom = 264.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 22
-alignment = 1
-
-[node name="ScoreLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=136442758]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="LivesLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=452853751]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TimeLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=1262654083]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Retry" type="Button" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=9523664]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_356ba")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i4lct")
-theme_override_styles/hover = SubResource("StyleBoxFlat_iyesh")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_i1pr2")
-text = "Retry"
-
-[node name="MainMenu" type="Button" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=2067522106]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_356ba")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i4lct")
-theme_override_styles/hover = SubResource("StyleBoxFlat_iyesh")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_i1pr2")
-text = "Main Menu
-"
-
-[node name="Congratulation" type="Label" parent="LevelCompleteScreen/Panel" unique_id=300159827]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -357.0
-offset_top = 23.0
-offset_right = 392.0
-offset_bottom = 147.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 35
-text = "Well done!
-~ Congratulations ~"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="PowerUps" type="Node2D" parent="." unique_id=2086917614]
 
 [node name="Magnets" type="Node2D" parent="PowerUps" unique_id=2029079143]
@@ -1350,4 +1199,3 @@ position = Vector2(4050, -30)
 
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
 position = Vector2(5550, -110)
-

@@ -43,6 +43,7 @@ public partial class SoundManager : Node
 	{
 		Instance = this;
 		
+
 		//initialising the Audiostream Players
 		
 		// ====================

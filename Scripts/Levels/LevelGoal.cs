@@ -82,7 +82,7 @@ public partial class LevelGoal : Area2D
 	
 	private void ShowScreen()
 	{
-		var scene = GD.Load<PackedScene>("res://Scenes/LevelCompleteScreen.tscn");
+		var scene = GD.Load<PackedScene>("res://Scenes/Main/LevelCompleteScreen.tscn");
 
 		if (scene == null)
 		{
