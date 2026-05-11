@@ -3,10 +3,13 @@ using System;
 
 public partial class GameOver : Control
 {
+	private ConfirmationDialog _exitDialog;
+	
 	public override void _Ready()
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
-
+		_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
+		
 		// run/alltime/session zeile für zeile - sonst läuft das in einen unleserlichen
 		// mega-string. styling sitzt in der scene, hier nur text setzen
 		var finalLabel = GetNodeOrNull<Label>("FinalScoreLabel");
@@ -64,10 +67,16 @@ public partial class GameOver : Control
 		}
 
 		// EXIT BUTTON
+		
 		private void _on_exit_pressed()
-		{
-
-			SoundManager.Instance.PlayButton();
-			GetTree().Quit();
-		}
+	{
+		SoundManager.Instance.PlayButton();
+		_exitDialog.PopupCentered();
+	}
+	
+		//CONFIRM EXIT
+	private void OnExitConfirmed()
+	{
+		GetTree().Quit();
+	}
 }

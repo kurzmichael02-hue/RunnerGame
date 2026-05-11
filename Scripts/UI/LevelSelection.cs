@@ -6,14 +6,15 @@ public override void _Ready()
 {
 	SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 
-	var vbox = GetNode<VBoxContainer>("VBoxContainer");
+	var vbox = GetNode<HBoxContainer>("HBoxContainer");
 	foreach (Node child in vbox.GetChildren())
 	{
 		if (child is Button btn)
 			btn.MouseEntered += OnAnyButtonHovered;
 	}
 
-	vbox.GetChild<Button>(0).CallDeferred(Button.MethodName.GrabFocus);
+	var level1Button = GetNode<Button>("HBoxContainer/Level1");
+	level1Button.CallDeferred(Button.MethodName.GrabFocus);
 }
 
 private void OnAnyButtonHovered() => SoundManager.Instance.PlayMenuHover();

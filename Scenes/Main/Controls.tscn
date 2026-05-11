@@ -1,0 +1,313 @@
+[gd_scene format=3 uid="uid://cslr0secnlg02"]
+
+[ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="1_2slkb"]
+[ext_resource type="Script" uid="uid://dlob3hqmc5ud0" path="res://Scripts/Core/Controls.cs" id="1_fnysx"]
+[ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="2_fnysx"]
+[ext_resource type="Texture2D" uid="uid://fe78f03665pl" path="res://leveldesign/Background/The green forest_Pixel art_BG.png" id="2_n8eei"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_foxm7"]
+texture = ExtResource("2_n8eei")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8eei"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_bottom_right = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_foxm7"]
+bg_color = Color(0, 0.85490197, 0.43529412, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 4
+shadow_color = Color(0, 0, 0, 0.22745098)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ywu84"]
+bg_color = Color(5.0055983e-06, 0.567771, 0.2805758, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.3529412)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wmpfm"]
+bg_color = Color(0.22352941, 1, 0.078431375, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.3529412)
+shadow_size = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s75ka"]
+bg_color = Color(0.97869855, 0.9757758, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 4
+shadow_color = Color(0, 0, 0, 0.22745098)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig8ki"]
+bg_color = Color(0.12156863, 0, 0.29803923, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.3529412)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_30fas"]
+bg_color = Color(0.8392157, 0.81960785, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.3529412)
+shadow_size = 2
+
+[node name="Controls" type="Control" unique_id=1819248298]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fnysx")
+
+[node name="Panel" type="Panel" parent="." unique_id=1195362568]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_foxm7")
+
+[node name="Controls" type="Label" parent="." unique_id=526493622]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -338.0
+offset_top = -308.0
+offset_right = 340.0
+offset_bottom = -178.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_fonts/font = ExtResource("1_2slkb")
+theme_override_font_sizes/font_size = 70
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=2136777961]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -294.0
+offset_top = -202.0
+offset_right = 283.0
+offset_bottom = 199.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2" unique_id=1698906879]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Jump" type="Label" parent="VBoxContainer2/HBoxContainer" unique_id=661989425]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8eei")
+text = "Jump"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JumpBind" type="Button" parent="VBoxContainer2/HBoxContainer" unique_id=563764474]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_foxm7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ywu84")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wmpfm")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2" unique_id=530635384]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Move Right" type="Label" parent="VBoxContainer2/HBoxContainer2" unique_id=1597406824]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8eei")
+text = "Move Right"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveRightBind" type="Button" parent="VBoxContainer2/HBoxContainer2" unique_id=1591050333]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_foxm7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ywu84")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wmpfm")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2" unique_id=537543726]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Move Left" type="Label" parent="VBoxContainer2/HBoxContainer3" unique_id=1981098616]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8eei")
+text = "Move Left"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveLeftBind" type="Button" parent="VBoxContainer2/HBoxContainer3" unique_id=603519066]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_foxm7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ywu84")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wmpfm")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2" unique_id=1127513135]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Duck" type="Label" parent="VBoxContainer2/HBoxContainer4" unique_id=352716961]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8eei")
+text = "Duck"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DuckBind" type="Button" parent="VBoxContainer2/HBoxContainer4" unique_id=1118683974]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_foxm7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ywu84")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wmpfm")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2" unique_id=812844321]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Attack" type="Label" parent="VBoxContainer2/HBoxContainer5" unique_id=1040198077]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8eei")
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AttackBind" type="Button" parent="VBoxContainer2/HBoxContainer5" unique_id=1822130231]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_styles/normal = SubResource("StyleBoxFlat_foxm7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ywu84")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wmpfm")
+
+[node name="Reset" type="Button" parent="VBoxContainer2" unique_id=554872085]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_foxm7")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ywu84")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wmpfm")
+text = "Reset"
+
+[node name="Back" type="Button" parent="." unique_id=1967542624]
+layout_mode = 0
+offset_left = 418.0
+offset_top = 604.0
+offset_right = 865.0
+offset_bottom = 677.0
+size_flags_vertical = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0.85490197, 0.43529412, 1)
+theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+theme_override_fonts/font = ExtResource("2_fnysx")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_s75ka")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ig8ki")
+theme_override_styles/hover = SubResource("StyleBoxFlat_30fas")
+text = "Back"
+
+[connection signal="pressed" from="Back" to="." method="OnBackPressed"]
