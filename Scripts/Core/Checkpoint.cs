@@ -5,52 +5,44 @@ public partial class Checkpoint : Area2D
 	[Export] public Texture2D InactiveTexture;
 	[Export] public Texture2D ActiveTexture;
 
+	[Export] public Vector2 InactiveScale = new Vector2(4.5f, 4.5f);
+	[Export] public Vector2 ActiveScale = new Vector2(0.5f, 0.5f);
+
 	private Sprite2D _sprite;
 	private bool _activated = false;
-
-	// flag sprite is 32px → render at 96px so it's clearly visible
-	private const float InactiveH = 96f;
-	// normalize all portrait photos to the same height regardless of source resolution
-	private const float ActiveH = 80f;
 
 	public override void _Ready()
 	{
 		_sprite = GetNode<Sprite2D>("Sprite2D");
-		_sprite.Visible = true;
-		_sprite.Position = Vector2.Zero;
 
 		if (InactiveTexture != null)
-		{
 			_sprite.Texture = InactiveTexture;
-			_sprite.Scale = ScaleForHeight(InactiveTexture, InactiveH);
-		}
+
+		_sprite.Scale = InactiveScale;
 
 		BodyEntered += OnBodyEntered;
 	}
 
-	private void OnBodyEntered(Node body)
+	private void OnBodyEntered(Node2D body)
 	{
-		if (_activated) return;
-		if (!body.IsInGroup("player")) return;
+		if (_activated)
+			return;
+
+		if (!body.IsInGroup("player"))
+			return;
+
 		_activated = true;
 
 		if (ActiveTexture != null)
-		{
 			_sprite.Texture = ActiveTexture;
-			_sprite.Scale = ScaleForHeight(ActiveTexture, ActiveH);
+
+		_sprite.Scale = ActiveScale;
+
+		if (body is Player player)
+		{
+			player.SetCheckpoint(GlobalPosition);
 		}
-		else
-			_sprite.Modulate = new Color(0.2f, 1f, 0.35f);
 
-		var player = body as Player;
-		player?.SetCheckpoint(GlobalPosition);
 		SoundManager.Instance.PlayCheckpoint();
-	}
-
-	private static Vector2 ScaleForHeight(Texture2D tex, float targetH)
-	{
-		float h = tex.GetHeight();
-		float s = h > 0f ? targetH / h : 1f;
-		return Vector2.One * s;
 	}
 }
