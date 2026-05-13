@@ -25,10 +25,6 @@
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
 [ext_resource type="PackedScene" uid="uid://dsak7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
-[ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
-[ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
-[ext_resource type="Texture2D" uid="uid://jlqak5aaahj4" path="res://leveldesign/checkpointnotreached.png" id="23_nvl0l"]
-[ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="24_nvl0l"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
@@ -618,8 +614,9 @@ script = ExtResource("9_nvl0l")
 position = Vector2(-19, -9)
 shape = SubResource("RectangleShape2D_bf53h")
 
-[node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=4175977]
+[node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=780706104]
 texture_filter = 1
+position = Vector2(-14, -29)
 scale = Vector2(6, 6)
 texture = ExtResource("10_ulun0")
 
@@ -1070,73 +1067,56 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 position = Vector2(1350, 317)
 
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
-position = Vector2(-650, -50)
+position = Vector2(-651, -50)
 script = ExtResource("21_e6dby")
-InactiveTexture = ExtResource("23_nvl0l")
-ActiveTexture = ExtResource("21_ctxhw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
+position = Vector2(1, 11)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=1390801544]
-visible = false
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=966390880]
 texture_filter = 1
-position = Vector2(11.500011, -16)
-scale = Vector2(0.9140627, 1)
+position = Vector2(17, -3)
 texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
-position = Vector2(1316, -50)
+position = Vector2(1311, -138)
 script = ExtResource("21_e6dby")
-InactiveTexture = ExtResource("23_nvl0l")
-ActiveTexture = ExtResource("22_ook5n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2" unique_id=666897722]
-position = Vector2(0, 31)
+position = Vector2(1, -11)
 shape = SubResource("RectangleShape2D_raj38")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=1826642515]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=368949502]
 texture_filter = 1
-position = Vector2(17.499998, 17.499989)
-scale = Vector2(0.5117184, 0.47265628)
-texture = ExtResource("22_ook5n")
+position = Vector2(17, -27)
+texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
-position = Vector2(2850, -50)
+position = Vector2(2609, -418)
 script = ExtResource("21_e6dby")
-InactiveTexture = ExtResource("23_nvl0l")
-ActiveTexture = ExtResource("23_4eofi")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
+position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1726839946]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1934943991]
 texture_filter = 1
-position = Vector2(12.9997425, -24.499992)
-scale = Vector2(3.687493, 4.34375)
-texture = ExtResource("23_nvl0l")
-
-[node name="Sprite2D2" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1118259535]
-visible = false
-position = Vector2(9, -2)
-scale = Vector2(0.7109375, 0.7421875)
-texture = ExtResource("23_4eofi")
+position = Vector2(15, -18)
+texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
 position = Vector2(5350, -50)
 script = ExtResource("21_e6dby")
-InactiveTexture = ExtResource("23_nvl0l")
-ActiveTexture = ExtResource("24_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint4" unique_id=666897724]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=798269252]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=891154093]
 texture_filter = 1
-position = Vector2(20.750177, -11.749995)
-scale = Vector2(0.29003975, 0.23535155)
-texture = ExtResource("24_nvl0l")
+position = Vector2(15, -18)
+texture = ExtResource("21_ctxhw")
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
