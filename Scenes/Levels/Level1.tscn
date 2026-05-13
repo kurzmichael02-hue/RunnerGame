@@ -1069,15 +1069,8 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 position = Vector2(1350, 317)
 
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
-<<<<<<< HEAD
 position = Vector2(-651, -50)
 script = ExtResource("21_e6dby")
-=======
-position = Vector2(-651, -38)
-script = ExtResource("21_e6dby")
-InactiveTexture = SubResource("CompressedTexture2D_jxcpn")
-ActiveTexture = SubResource("CompressedTexture2D_s0x8o")
->>>>>>> a8120ab0d0f13170e6837728850c263a03562be0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
 position = Vector2(1, 11)
@@ -1089,15 +1082,8 @@ position = Vector2(17, -3)
 texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
-<<<<<<< HEAD
 position = Vector2(1311, -138)
 script = ExtResource("21_e6dby")
-=======
-position = Vector2(1284, -175)
-script = ExtResource("21_e6dby")
-InactiveTexture = ExtResource("23_nvl0l")
-ActiveTexture = ExtResource("26_fkdqx")
->>>>>>> a8120ab0d0f13170e6837728850c263a03562be0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2" unique_id=666897722]
 position = Vector2(1, -11)
