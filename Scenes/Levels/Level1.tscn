@@ -27,10 +27,8 @@
 [ext_resource type="PackedScene" uid="uid://dsak7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
-[ext_resource type="Texture2D" uid="uid://c2hhmxo1imt6y" path="res://leveldesign/seekuh2.png" id="26_fkdqx"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
 [ext_resource type="PackedScene" uid="uid://bn7r2t4ktavx6" path="res://Scenes/Pickups/star_power_up.tscn" id="28_8k6aj"]
-[ext_resource type="Texture2D" uid="uid://vcpk840u7j1t" path="res://leveldesign/schayan2.png" id="28_qw1mm"]
 [ext_resource type="Texture2D" uid="uid://cbbiuv4un1jsb" path="res://leveldesign/Schield.png" id="29_ac8j0"]
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/Pickups/sword_pickup.tscn" id="29_gbitj"]
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
@@ -440,12 +438,6 @@ radius = 20.0
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4q8tf"]
 load_path = "res://.godot/imported/coins.png-2e4be7fa3d5cbf1127a8ff7432f12f02.ctex"
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jxcpn"]
-load_path = "res://.godot/imported/checkpointnotreached.png-0a86bf78c27312837d25778f813b1475.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s0x8o"]
-load_path = "res://.godot/imported/mischa2.png-5b735a3c74008916e18cb78e56faed38.ctex"
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7lihs"]
 size = Vector2(30, 80)
 
@@ -609,16 +601,16 @@ offset_bottom = 23.0
 grow_horizontal = 0
 
 [node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
-position = Vector2(7195, -25)
+position = Vector2(7168, 261)
 script = ExtResource("9_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
-position = Vector2(-19, -9)
+position = Vector2(12, 1)
 shape = SubResource("RectangleShape2D_bf53h")
 
 [node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=780706104]
 texture_filter = 1
-position = Vector2(-14, -29)
+position = Vector2(17, -28)
 scale = Vector2(6, 6)
 texture = ExtResource("10_ulun0")
 
