@@ -12,7 +12,7 @@ public partial class Checkpoint : Area2D
 		BodyEntered += OnBodyEntered;
 	}
 
-	private void OnBodyEntered(Node body)
+	private void OnBodyEntered(Node2D body)
 	{
 		if (_activated)
 			return;

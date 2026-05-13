@@ -284,7 +284,7 @@ public partial class Player : CharacterBody2D
 	// Reset size in case player was small before falling
 	IsSmall = false;
 	Scale = Vector2.One;
-	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 
 	// Falling into a pit burns the star – tim's request, feels fair because the pit already
 	// bypasses star invincibility so keeping it after respawn would be a free ride.
@@ -823,7 +823,7 @@ else
 		_invincibilityTimer = 1.5f;
 		
 		// Shrink collision and scale visually
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 30) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		Scale = new Vector2(0.6f, 0.6f);
 		
 		// Blink effect
