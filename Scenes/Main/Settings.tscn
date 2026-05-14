@@ -10,28 +10,28 @@ texture = ExtResource("2_2jta2")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1nw0"]
 bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 corner_detail = 4
 shadow_color = Color(0, 0, 0, 0.22745098)
 shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mjqtt"]
 bg_color = Color(0, 0.7294284, 0.7372836, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 shadow_color = Color(0, 0, 0, 0.3529412)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ppjuv"]
-bg_color = Color(0.52156866, 0.99607843, 1, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
+bg_color = Color(0, 0.972549, 0.9843137, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
 shadow_color = Color(0, 0, 0, 0.3529412)
 shadow_size = 2
 
@@ -70,7 +70,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_shadow_color = Color(0.52156866, 0.99607843, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.972549, 0.9843137, 1)
 theme_override_constants/shadow_offset_x = 4
 theme_override_fonts/font = ExtResource("3_2jta2")
 theme_override_font_sizes/font_size = 70
@@ -86,27 +86,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -223.0
-offset_top = -100.0
-offset_right = 231.0
-offset_bottom = 191.0
+offset_left = -263.0
+offset_top = -109.0
+offset_right = 264.0
+offset_bottom = 185.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
 alignment = 1
-
-[node name="MainMenu" type="Button" parent="MenuPanel/VBoxContainer" unique_id=826496788]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_colors/font_hover_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
-theme_override_fonts/font = ExtResource("4_58rkf")
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_w1nw0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mjqtt")
-theme_override_styles/hover = SubResource("StyleBoxFlat_ppjuv")
-text = "Main Menu"
 
 [node name="Volume" type="Button" parent="MenuPanel/VBoxContainer" unique_id=1740786531]
 layout_mode = 2
@@ -134,7 +121,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_mjqtt")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ppjuv")
 text = "Controls"
 
-[node name="Exit" type="Button" parent="MenuPanel/VBoxContainer" unique_id=1130217111]
+[node name="MainMenu" type="Button" parent="MenuPanel/VBoxContainer" unique_id=826496788]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_default_cursor_shape = 2
@@ -145,17 +132,7 @@ theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_w1nw0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_mjqtt")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ppjuv")
-text = "Exit"
+text = "Main Menu"
 
-[node name="ExitConfirmDialog" type="ConfirmationDialog" parent="." unique_id=1140823287]
-oversampling_override = 1.0
-title = "Wichtig!"
-position = Vector2i(0, 36)
-size = Vector2i(351, 100)
-ok_button_text = "Ja"
-dialog_text = "Möchtest du dieses Spiel wirklich beenden?"
-cancel_button_text = "Nein"
-
-[connection signal="pressed" from="MenuPanel/VBoxContainer/MainMenu" to="." method="OnMainMenuPressed"]
 [connection signal="pressed" from="MenuPanel/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
-[connection signal="confirmed" from="ExitConfirmDialog" to="." method="OnExitConfirmed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/MainMenu" to="." method="OnMainMenuPressed"]

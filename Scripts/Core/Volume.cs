@@ -5,6 +5,7 @@ public partial class Volume : Control
 {
 	private Button _backButton;
 	private Button _resetButton;
+	public Control PreviousPanel;
 
 	private HSlider _masterSlider;
 	private HSlider _musicSlider;
@@ -135,9 +136,8 @@ _menuFxBtn.Pressed += async () =>
 		LoadSettings();
 	}
 
-	// =========================================================
-	// SLIDER EVENTS
-	// =========================================================
+	
+
 
 	private void OnMasterChanged(double value)
 	{
@@ -530,23 +530,24 @@ _menuFxBtn.Pressed += async () =>
 	// BACK
 	// =========================================================
 
-	private void OnBackPressed()
+private void OnBackPressed()
+{
+	SoundManager.Instance.PlayButton();
+
+	// PauseMenu-Modus
+	if (PreviousPanel != null)
 	{
-		if (!IsInsideTree())
-			return;
-
-		SoundManager.Instance.PlayButton();
-
-		CallDeferred(nameof(ChangeToSettings));
+		PreviousPanel.Visible = true;
+		Visible = false;
+		return;
 	}
 
-	private void ChangeToSettings()
-	{
-		if (!IsInsideTree())
-			return;
+	// Standalone-Modus
+	GetTree().ChangeSceneToFile(
+		"res://Scenes/Main/Settings.tscn"
+	);
+}
 
-		GetTree().ChangeSceneToFile("res://Scenes/Main/Settings.tscn");
-	}
 
 	// =========================================================
 	// HOVER

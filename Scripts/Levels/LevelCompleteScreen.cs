@@ -30,12 +30,18 @@ public partial class LevelCompleteScreen : CanvasLayer
 		//GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
 		//GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
 		
-GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
+		GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
 
-GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
-ConnectHoverRecursive(this);
+		GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
+		ConnectHoverRecursive(this);
 	}
 	
+	public enum MenuSource
+{
+	PauseMenu,
+	Settings
+}
+
 	public void ShowScreen()
 {
 	if (_shown) return;

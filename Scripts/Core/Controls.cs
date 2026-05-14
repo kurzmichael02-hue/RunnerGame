@@ -3,12 +3,8 @@ using System;
 
 public partial class Controls : Control
 {
-	// =========================
-	// UI
-	// =========================
 
 	private Button _resetButton;
-	private bool _changingScene = false;
 	private Button _backButton;
 
 	private Button _jumpBind;
@@ -16,6 +12,7 @@ public partial class Controls : Control
 	private Button _moveLeftBind;
 	private Button _duckBind;
 	private Button _attackBind;
+	public Control PreviousPanel;
 
 	private Button _activeBindButton = null;
 
@@ -87,40 +84,24 @@ _attackBind.Pressed += () =>
 		UpdateButtonTexts();
 		ConnectHoverRecursive(this);
 	}
-
-
-
 private void OnBackPressed()
 {
-	if (_changingScene)
-		return;
-
-	_changingScene = true;
-
-	if (!IsInsideTree())
-		return;
-
 	if (SoundManager.Instance != null)
 		SoundManager.Instance.PlayButton();
 
-	CallDeferred(nameof(ChangeToSettings));
-}
-
-private void ChangeToSettings()
-{
-	if (!IsInsideTree())
+	// PauseMenu-Modus
+	if (PreviousPanel != null)
+	{
+		PreviousPanel.Visible = true;
+		Visible = false;
 		return;
+	}
 
-	SceneTree tree = GetTree();
-
-	if (tree == null)
-		return;
-
-	tree.ChangeSceneToFile(
+	// Standalone Settings-Modus
+	GetTree().ChangeSceneToFile(
 		"res://Scenes/Main/Settings.tscn"
 	);
 }
-
 
 
 	// =========================
@@ -352,9 +333,8 @@ private void ChangeToSettings()
 					SoundManager.Instance.PlayMenuHover();
 			};
 		}
-
 		ConnectHoverRecursive(child);
+		}
 	}
-}
 	
 }
