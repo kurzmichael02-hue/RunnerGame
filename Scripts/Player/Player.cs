@@ -107,13 +107,14 @@ public partial class Player : CharacterBody2D
 
 		// Coins + selected character come from user://profile.cfg
 		LoadProfile();
-		ApplyCharacterTexture();
+		
 		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
 		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
 		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		_attackSprite = GetNode<AnimatedSprite2D>("AttackSprite");
 		_duckSprite = GetNode<AnimatedSprite2D>("DuckSprite");
 		
+		ApplyCharacterTexture();
 		
 		_duckSprite.Visible = false;
 		_anim.Play("still");

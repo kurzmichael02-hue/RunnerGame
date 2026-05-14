@@ -24,7 +24,7 @@ public partial class Controls : Control
 	// =========================
 	// SAVE PATH
 	// =========================
-	private const string SAVE_PATH = "user://settings.cfg";
+	private static readonly string SAVE_PATH = "user://settings.cfg";
 
 	// =========================
 	// READY
@@ -244,7 +244,7 @@ private void OnBackPressed()
 	// =========================
 	// LOAD
 	// =========================
-	private void LoadSettings()
+	public static void LoadSettings()
 	{
 		var config = new ConfigFile();
 
@@ -258,7 +258,7 @@ private void OnBackPressed()
 		LoadKey(config, "attack");
 	}
 
-	private void LoadKey(ConfigFile config, string action)
+	public static void LoadKey(ConfigFile config, string action)
 	{
 		if (!config.HasSectionKey("keys", action))
 			return;
