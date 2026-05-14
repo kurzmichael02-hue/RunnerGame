@@ -58,7 +58,12 @@ public partial class Settings : Control
 
 		_exitDialog.Confirmed += OnExitConfirmed;
 
-
+if (SoundManager.Instance != null)
+{
+	SoundManager.Instance.SwitchMusic(
+		SoundManager.Instance.SettingsMusic
+	);
+}
 
 		// =========================
 		// HOVER SOUND

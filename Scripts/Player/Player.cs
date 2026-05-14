@@ -711,10 +711,22 @@ else
 			_starTimer -= dt;
 			_starInvincibilityTimer -= dt;
 
+			//if (_starTimer <= 0f && _starActive)
+			//{
+				//_starActive = false;
+				//SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+			//}
+
 			if (_starTimer <= 0f && _starActive)
 			{
 				_starActive = false;
-				SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+
+				if (!LevelGoal.LevelCompleted)
+				{
+					SoundManager.Instance.SwitchMusic(
+						SoundManager.Instance.GameMusic
+					);
+				}
 			}
 
 			if (_starInvincibilityTimer <= 0f && _starInvincibilityActive)

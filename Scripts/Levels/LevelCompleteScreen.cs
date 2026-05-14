@@ -37,22 +37,31 @@ public partial class LevelCompleteScreen : CanvasLayer
 	}
 	
 	public enum MenuSource
-{
-	PauseMenu,
-	Settings
-}
+	{
+		PauseMenu,
+		Settings
+	}
 
 	public void ShowScreen()
 {
+
 	if (_shown) return;
 
 	_shown = true;
 	Visible = true;
+	
+	if (SoundManager.Instance != null)
+	{
+		SoundManager.Instance.SwitchMusic(
+			SoundManager.Instance.GameOverMusic
+		);
+	}
 
 	_scoreLabel.Text = "Score: " + _player.Score;
 	_livesLabel.Text = "Lives: " + _player.Lives;
 
 	float time = _hud.ElapsedTime;
+	
 	int minutes = (int)(time / 60);
 	int seconds = (int)(time % 60);
 

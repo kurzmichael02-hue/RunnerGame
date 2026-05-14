@@ -75,8 +75,12 @@ public partial class LevelGoal : Area2D
 		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 
 		// Spiel pausieren
-		GetTree().Paused = true;
-		
+		//GetTree().Paused = true;
+		foreach (Node enemy in GetTree().GetNodesInGroup("enemy"))
+		{
+			enemy.ProcessMode =
+				Node.ProcessModeEnum.Disabled;
+		}
 		
 	}
 	
