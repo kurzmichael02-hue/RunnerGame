@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://culqk8muuunm3"
-path="res://.godot/imported/Settings.png-57c26b2a68dddbbb66fe94fb2cad1b39.ctex"
+uid="uid://1ggvrliahv2i"
+path="res://.godot/imported/LevelComplete.png-9ab779d9d7301db81cbdb865c1c4e548.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Settings.png"
-dest_files=["res://.godot/imported/Settings.png-57c26b2a68dddbbb66fe94fb2cad1b39.ctex"]
+source_file="res://leveldesign/Background/LevelComplete.png"
+dest_files=["res://.godot/imported/LevelComplete.png-9ab779d9d7301db81cbdb865c1c4e548.ctex"]
 
 [params]
 

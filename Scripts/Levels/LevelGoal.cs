@@ -75,14 +75,18 @@ public partial class LevelGoal : Area2D
 		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 
 		// Spiel pausieren
-		GetTree().Paused = true;
-		
+		//GetTree().Paused = true;
+		foreach (Node enemy in GetTree().GetNodesInGroup("enemy"))
+		{
+			enemy.ProcessMode =
+				Node.ProcessModeEnum.Disabled;
+		}
 		
 	}
 	
 	private void ShowScreen()
 	{
-		var scene = GD.Load<PackedScene>("res://Scenes/LevelCompleteScreen.tscn");
+		var scene = GD.Load<PackedScene>("res://Scenes/Main/LevelCompleteScreen.tscn");
 
 		if (scene == null)
 		{

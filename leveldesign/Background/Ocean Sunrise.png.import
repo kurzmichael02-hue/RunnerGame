@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di3ect7wts2de"
-path="res://.godot/imported/Background Settings.png-b40a9eaf95fcc1e3b76a7b95b37b3c1d.ctex"
+uid="uid://b1jlhf5qg2k1"
+path="res://.godot/imported/Ocean Sunrise.png-d30cad8254f5da84da90287ab4adbc1f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Background Settings.png"
-dest_files=["res://.godot/imported/Background Settings.png-b40a9eaf95fcc1e3b76a7b95b37b3c1d.ctex"]
+source_file="res://leveldesign/Background/Ocean Sunrise.png"
+dest_files=["res://.godot/imported/Ocean Sunrise.png-d30cad8254f5da84da90287ab4adbc1f.ctex"]
 
 [params]
 

@@ -10,6 +10,7 @@ public override void _Ready()
 {
 	SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 
+	
 	var vbox = GetNode<VBoxContainer>("VBoxContainer");
 
 	foreach (Node child in vbox.GetChildren())
@@ -26,6 +27,7 @@ public override void _Ready()
 	// Start button gets focus so arrow keys + enter work without touching the mouse.
 	// Deferred because children aren't fully ready yet inside _Ready.
 	GetNode<Button>("VBoxContainer/Start").CallDeferred(Button.MethodName.GrabFocus);
+	Controls.LoadSettings();
 }
 
 private void OnAnyButtonHovered()

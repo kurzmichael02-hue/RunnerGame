@@ -107,13 +107,14 @@ public partial class Player : CharacterBody2D
 
 		// Coins + selected character come from user://profile.cfg
 		LoadProfile();
-		ApplyCharacterTexture();
+		
 		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
 		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
 		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		_attackSprite = GetNode<AnimatedSprite2D>("AttackSprite");
 		_duckSprite = GetNode<AnimatedSprite2D>("DuckSprite");
 		
+		ApplyCharacterTexture();
 		
 		_duckSprite.Visible = false;
 		_anim.Play("still");
@@ -276,7 +277,7 @@ public partial class Player : CharacterBody2D
 	// Reset size in case player was small before falling
 	IsSmall = false;
 	Scale = Vector2.One;
-	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 
 	// Falling into a pit burns the star – tim's request, feels fair because the pit already
 	// bypasses star invincibility so keeping it after respawn would be a free ride.
@@ -700,10 +701,22 @@ else
 			_starTimer -= dt;
 			_starInvincibilityTimer -= dt;
 
+			//if (_starTimer <= 0f && _starActive)
+			//{
+				//_starActive = false;
+				//SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+			//}
+
 			if (_starTimer <= 0f && _starActive)
 			{
 				_starActive = false;
-				SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+
+				if (!LevelGoal.LevelCompleted)
+				{
+					SoundManager.Instance.SwitchMusic(
+						SoundManager.Instance.GameMusic
+					);
+				}
 			}
 
 			if (_starInvincibilityTimer <= 0f && _starInvincibilityActive)
@@ -813,7 +826,7 @@ else
 		_invincibilityTimer = 1.5f;
 		
 		// Shrink collision and scale visually
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 30) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		Scale = new Vector2(0.6f, 0.6f);
 		
 		// Blink effect

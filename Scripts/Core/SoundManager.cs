@@ -41,8 +41,15 @@ public partial class SoundManager : Node
 
 	public override void _Ready()
 	{
+		if (Instance != null && Instance != this)
+		{
+			QueueFree();
+			return;
+		}
+
 		Instance = this;
 		
+
 		//initialising the Audiostream Players
 		
 		// ====================
@@ -114,22 +121,57 @@ public partial class SoundManager : Node
 		// Read master volume from settings.cfg straight away – otherwise the main-menu
 		// music starts at full volume and gets quieter the moment the player opens
 		// settings, which is the bug bartolmay flagged.
-		LoadMasterVolumeFromConfig();
+		LoadAudioSettings();
 	}
 
-	private void LoadMasterVolumeFromConfig()
-	{
-		var config = new ConfigFile();
-		if (config.Load("user://settings.cfg") != Error.Ok) return;
-		if (!config.HasSectionKey("audio", "master")) return;
-
-		double value = (double)config.GetValue("audio", "master", 100.0);
-		float linear = (float)(value / 100.0);
-		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
-		int bus = AudioServer.GetBusIndex("Master");
-		AudioServer.SetBusVolumeDb(bus, db);
-	}
+	//private void LoadMasterVolumeFromConfig()
+	//{
+		//var config = new ConfigFile();
+		//if (config.Load("user://settings.cfg") != Error.Ok) return;
+		//if (!config.HasSectionKey("audio", "master")) return;
+//
+		//double value = (double)config.GetValue("audio", "master", 100.0);
+		//float linear = (float)(value / 100.0);
+		//float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+		//int bus = AudioServer.GetBusIndex("Master");
+		//AudioServer.SetBusVolumeDb(bus, db);
+	//}
+	//
 	
+	
+	private void LoadAudioSettings()
+{
+	var config = new ConfigFile();
+
+	if (config.Load("user://settings.cfg") != Error.Ok)
+		return;
+
+	LoadBusVolume(config, "master", "Master");
+	LoadBusVolume(config, "music", "Music");
+	LoadBusVolume(config, "gamefx", "GameFX");
+	LoadBusVolume(config, "menufx", "MenuFX");
+}
+private void LoadBusVolume(ConfigFile config, string configKey, string busName)
+{
+	if (!config.HasSectionKey("audio", configKey))
+		return;
+
+	double value =
+		(double)config.GetValue("audio", configKey, 100.0);
+
+	float linear = (float)(value / 100.0);
+
+	float db =
+		linear <= 0.001f
+		? -80f
+		: Mathf.LinearToDb(linear);
+
+	int bus = AudioServer.GetBusIndex(busName);
+
+	AudioServer.SetBusVolumeDb(bus, db);
+}
+
+
 	//Ingame Objects
 	public void PlayCoin()
 	{

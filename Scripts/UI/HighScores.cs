@@ -51,9 +51,7 @@ public partial class HighScores : Control
 		SoundManager.Instance.PlayMenuHover();
 	}
 
-		public override void _Process(double delta)
-		{
-		}
+
 		
 		private int LoadHighscore()
 		{
