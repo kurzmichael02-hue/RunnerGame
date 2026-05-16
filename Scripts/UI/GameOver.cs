@@ -16,7 +16,7 @@ public partial class GameOver : Control
 			int best = Player.LoadHighscore();
 			int session = Player.SessionHighscore;
 
-			string topLine = (run > 0 && run >= best)
+			string topLine = (run > 0 && run > best)
 				? $"Score:  {run}   ★ NEW HIGHSCORE ★"
 				: $"Score:  {run}";
 

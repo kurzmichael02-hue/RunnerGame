@@ -79,10 +79,10 @@ public partial class Settings : Control
 		// Events
 		_mainMenuButton.Pressed += OnMainMenuPressed;
 		
-		_masterSlider.ValueChanged += (v) => SoundManager.Instance.SetMasterVolume((float)v);
-		_musicSlider.ValueChanged += (v) => SoundManager.Instance.SetMusicVolume((float)v);
-		_gameFxSlider.ValueChanged += (v) => SoundManager.Instance.SetGameFxVolume((float)v);
-		_menuFxSlider.ValueChanged += (v) => SoundManager.Instance.SetMenuFxVolume((float)v);
+		_masterSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetMasterVolume((float)v); SaveSettings(); } };
+		_musicSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetMusicVolume((float)v); SaveSettings(); } };
+		_gameFxSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetGameFxVolume((float)v); SaveSettings(); } };
+		_menuFxSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetMenuFxVolume((float)v); SaveSettings(); } };
 
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);

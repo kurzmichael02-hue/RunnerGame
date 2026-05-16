@@ -307,15 +307,15 @@ if (config.HasSectionKey("audio", "menufx"))
 	_menuFxSlider.Value = (double)config.GetValue("audio", "menufx");
 	SoundManager.Instance.SetMenuFxVolume((float)_menuFxSlider.Value);
 }
-UpdateButtonState(_masterBtn, _masterMuted, "Master Volume", "Master");
-UpdateButtonState(_musicBtn, _musicMuted, "Music Volume", "Music");
-UpdateButtonState(_gameFxBtn, _gameFxMuted, "Sound Effects", "Sound");
-UpdateButtonState(_menuFxBtn, _menuFxMuted, "Menu Sounds", "Menu");
-
 _masterMuted = _masterSlider.Value == 0;
 _musicMuted = _musicSlider.Value == 0;
 _gameFxMuted = _gameFxSlider.Value == 0;
 _menuFxMuted = _menuFxSlider.Value == 0;
+
+UpdateButtonState(_masterBtn, _masterMuted, "Master Volume", "Master");
+UpdateButtonState(_musicBtn, _musicMuted, "Music Volume", "Music");
+UpdateButtonState(_gameFxBtn, _gameFxMuted, "Sound Effects", "Sound");
+UpdateButtonState(_menuFxBtn, _menuFxMuted, "Menu Sounds", "Menu");
 
 _isLoading = false;
 
@@ -326,12 +326,8 @@ private void OnResumePressed()
 {
 	GetViewport().SetInputAsHandled();
 
-	var gm = GetNodeOrNull<GameManager>("/root/Node2D");
-
-	if (gm != null)
-	{
-		gm.TogglePause();
-	}
+	var gm = GetTree().GetFirstNodeInGroup("game_manager") as GameManager;
+	gm?.TogglePause();
 
 	SoundManager.Instance.PlayButton();
 }
@@ -471,9 +467,5 @@ private void UpdateButtonState(Button btn, bool muted, string normalText, string
 		QueueFree();
 		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
-		public override void _UnhandledInput(InputEvent @event)
-	{
-		_Input(@event);
 	}
-	
-}
+
