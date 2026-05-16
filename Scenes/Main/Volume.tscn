@@ -334,7 +334,9 @@ size_flags_vertical = 3
 theme_override_styles/slider = SubResource("StyleBoxFlat_nkews")
 theme_override_styles/grabber_area = SubResource("StyleBoxFlat_04sdc")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_pkkti")
-value = 100.0
+max_value = 1.0
+step = 0.01
+value = 1.0
 
 [node name="Reset" type="Button" parent="." unique_id=1788593883]
 layout_mode = 1
