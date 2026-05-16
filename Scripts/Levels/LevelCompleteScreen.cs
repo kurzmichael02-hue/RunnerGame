@@ -53,7 +53,7 @@ public partial class LevelCompleteScreen : CanvasLayer
 	if (SoundManager.Instance != null)
 	{
 		SoundManager.Instance.SwitchMusic(
-			SoundManager.Instance.GameOverMusic
+			SoundManager.Instance.LevelCompleteMusic
 		);
 	}
 

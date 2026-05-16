@@ -166,7 +166,7 @@ public partial class Enemy : CharacterBody2D
 
 		// Squash + fade – check AnimatedSprite2D first, fallback to Sprite2D
 		Node2D spriteNode = (Node2D)GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D")
-		                 ?? GetNodeOrNull<Sprite2D>("Sprite2D");
+						 ?? GetNodeOrNull<Sprite2D>("Sprite2D");
 		var tween = CreateTween();
 		if (spriteNode != null)
 			tween.TweenProperty(spriteNode, "scale:y", 0.25f, 0.12f);
