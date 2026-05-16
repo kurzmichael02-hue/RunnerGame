@@ -504,6 +504,7 @@ position = Vector2(34, 19.000008)
 scale = Vector2(0.40997416, 0.46220934)
 sprite_frames = SubResource("SpriteFrames_nvn6m")
 animation = &"duck"
+frame_progress = 0.38147506
 
 [node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=550331144]
 position = Vector2(0, 2.75)
@@ -622,7 +623,7 @@ position = Vector2(-33, 0)
 shape = SubResource("RectangleShape2D_dahhg")
 
 [node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("11_nvn6m")]
-position = Vector2(4000, 250)
+position = Vector2(4020, 140)
 
 [node name="Spikes" type="Node2D" parent="." unique_id=63224165]
 
@@ -662,7 +663,7 @@ shape = SubResource("RectangleShape2D_ac8j0")
 target_position = Vector2(0, 0)
 
 [node name="Enemy2" type="CharacterBody2D" parent="Enemies" unique_id=148747929]
-position = Vector2(-5100, 21)
+position = Vector2(-5097, 16)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -671,12 +672,12 @@ Speed = 10.0
 MoveDistance = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy2" unique_id=1384934600]
-position = Vector2(1, -11.5)
+position = Vector2(2, -10)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy2" unique_id=1399868777]
 texture_filter = 1
-position = Vector2(0, -27)
+position = Vector2(2, -26)
 scale = Vector2(4, 4)
 texture = ExtResource("15_4vo7a")
 
@@ -709,7 +710,7 @@ shape = SubResource("RectangleShape2D_alh3a")
 target_position = Vector2(0, 0)
 
 [node name="Enemy4" type="CharacterBody2D" parent="Enemies" unique_id=679314473]
-position = Vector2(-3200, 21)
+position = Vector2(-2272, -106)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -717,19 +718,19 @@ Type = 1
 Speed = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy4" unique_id=246095921]
-position = Vector2(1, -16)
+position = Vector2(1, -17)
 shape = SubResource("RectangleShape2D_8e0uq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy4" unique_id=1181938234]
 texture_filter = 1
-position = Vector2(-1, -12)
+position = Vector2(-2, -12)
 scale = Vector2(4.5, 4.5)
 texture = SubResource("CompressedTexture2D_i0vto")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy4" unique_id=846997503]
-position = Vector2(1, -16)
+position = Vector2(1, -13)
 shape = SubResource("RectangleShape2D_3jf1l")
-target_position = Vector2(0, 0)
+target_position = Vector2(0, -1)
 
 [node name="Enemy5" type="CharacterBody2D" parent="Enemies" unique_id=2047385679]
 position = Vector2(-2433, -130)
@@ -823,29 +824,30 @@ shape = SubResource("RectangleShape2D_wxwew")
 target_position = Vector2(0, 0)
 
 [node name="Enemy9" type="CharacterBody2D" parent="Enemies" unique_id=263876450]
-position = Vector2(-2049, 20)
+position = Vector2(-2313, -362)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
 Type = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy9" unique_id=634150715]
-position = Vector2(-6.5, -13.5)
+position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_ook5n")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy9" unique_id=1110267756]
 modulate = Color(1, 0.35, 0.35, 1)
 texture_filter = 1
+position = Vector2(7, 14)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy9" unique_id=609767669]
-position = Vector2(-7, -13)
+position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_4eofi")
 target_position = Vector2(0, 0)
 
 [node name="Enemy10" type="CharacterBody2D" parent="Enemies" unique_id=263876451]
-position = Vector2(-1877, 20)
+position = Vector2(-1058, 6)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -854,17 +856,18 @@ ProjectileScene = ExtResource("17_n4fq4")
 ShootInterval = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
-position = Vector2(-6.5, -13.5)
+position = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_nvl0l")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy10" unique_id=1110267757]
 modulate = Color(0.5, 0.5, 1, 1)
 texture_filter = 1
+position = Vector2(10, 15)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy10" unique_id=609767670]
-position = Vector2(-7, -13)
+position = Vector2(2, -2)
 shape = SubResource("RectangleShape2D_ulun0")
 target_position = Vector2(0, 0)
 
@@ -945,15 +948,16 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin7" type="Area2D" parent="Coins" unique_id=81764200]
-position = Vector2(2379, 258)
+position = Vector2(2058, 201)
 script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin7" unique_id=105800429]
+position = Vector2(1, 1)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin7/CollisionShape2D" unique_id=2109363038]
 texture_filter = 1
-position = Vector2(2, 2)
+position = Vector2(2, 1)
 scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
@@ -1128,7 +1132,7 @@ CycleTime = 3.5
 position = Vector2(63, -220)
 
 [node name="MagnetPowerUp" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404631]
-position = Vector2(900, 260)
+position = Vector2(880, 438)
 script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp" unique_id=1963666255]
@@ -1140,7 +1144,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="MagnetPowerUp2" type="Area2D" parent="PowerUps/Magnets" unique_id=208422444]
-position = Vector2(2106, 70)
+position = Vector2(1590, 354)
 script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp2" unique_id=1505431566]
@@ -1152,7 +1156,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="MagnetPowerUp3" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404632]
-position = Vector2(5300, 260)
+position = Vector2(5683, 472)
 script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp3" unique_id=1963666256]
@@ -1164,18 +1168,18 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_8k6aj")]
-position = Vector2(3031, 200)
+position = Vector2(3034, 0)
 
 [node name="ShieldPowerUp" type="Area2D" parent="PowerUps" unique_id=333111220]
-position = Vector2(1330, 36)
+position = Vector2(1516, 188)
 script = ExtResource("27_vf2ed")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/ShieldPowerUp" unique_id=333111221]
-position = Vector2(-1, -1)
+position = Vector2(-1, -8)
 shape = SubResource("RectangleShape2D_nvn6m")
 
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/ShieldPowerUp" unique_id=890236044]
-position = Vector2(1.0000458, 5.5)
+position = Vector2(1.0000458, 0)
 scale = Vector2(1.2187486, 1.171875)
 texture = ExtResource("29_ac8j0")
 
@@ -1186,10 +1190,10 @@ position = Vector2(1335, 260)
 position = Vector2(79, -225)
 
 [node name="SwordPickup" parent="Pickups/Swords" unique_id=1829312997 instance=ExtResource("29_gbitj")]
-position = Vector2(300, -30)
+position = Vector2(-30, 258)
 
 [node name="SwordPickup2" parent="Pickups/Swords" unique_id=924163623 instance=ExtResource("29_gbitj")]
-position = Vector2(4250, -60)
+position = Vector2(5153, -125)
 
 [node name="Heart" type="Node2D" parent="Pickups" unique_id=795867905]
 position = Vector2(145, -223)
@@ -1198,7 +1202,7 @@ position = Vector2(145, -223)
 position = Vector2(4050, -30)
 
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
-position = Vector2(5550, -109)
+position = Vector2(4789, 138)
 
 [node name="GrowthPickup" parent="." unique_id=90358124 instance=ExtResource("40_nvn6m")]
 position = Vector2(5136, 95)
