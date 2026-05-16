@@ -50,6 +50,7 @@ public partial class LevelCompleteScreen : CanvasLayer
 
 	private void OnMainMenu()
 	{
+		SoundManager.Instance.PlayButton();
 		LevelGoal.Reset();
 		GetTree().Paused = false;
 		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
@@ -57,6 +58,7 @@ public partial class LevelCompleteScreen : CanvasLayer
 
 	private void OnRetry()
 	{
+		SoundManager.Instance.PlayButton();
 		LevelGoal.Reset();
 		GetTree().Paused = false;
 		GetTree().ReloadCurrentScene();

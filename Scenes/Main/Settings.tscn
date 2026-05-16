@@ -285,6 +285,30 @@ theme_override_styles/grabber_area = SubResource("StyleBoxFlat_646k0")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_efosg")
 value = 100.0
 
+[node name="HBoxC5" type="HBoxContainer" parent="MenuPanel/VBoxContainer2" unique_id=999000001]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BrightnessLabel" type="Label" parent="MenuPanel/VBoxContainer2/HBoxC5" unique_id=999000002]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12156863, 0, 0.29803923, 1)
+text = "Helligkeit"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BrightnessSlider" type="HSlider" parent="MenuPanel/VBoxContainer2/HBoxC5" unique_id=999000003]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_ipgag")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_646k0")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_efosg")
+min_value = 10.0
+value = 100.0
+
 [node name="Controls" type="Label" parent="MenuPanel/VBoxContainer2" unique_id=1641948092]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.16862746, 0.16862746, 0.16862746, 1)

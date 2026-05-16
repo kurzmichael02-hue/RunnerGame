@@ -6,6 +6,7 @@ public partial class Settings : Control
 	// UI
 	private Button _mainMenuButton;
 	private Button _resetButton;
+	private HSlider _brightnessSlider;
 
 	private Button _activeBindButton = null;
 
@@ -83,6 +84,10 @@ public partial class Settings : Control
 		_musicSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetMusicVolume((float)v); SaveSettings(); } };
 		_gameFxSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetGameFxVolume((float)v); SaveSettings(); } };
 		_menuFxSlider.ValueChanged += (v) => { if (!_isLoading) { SoundManager.Instance.SetMenuFxVolume((float)v); SaveSettings(); } };
+
+		_brightnessSlider = GetNodeOrNull<HSlider>("MenuPanel/VBoxContainer2/HBoxC5/BrightnessSlider");
+		if (_brightnessSlider != null)
+			_brightnessSlider.ValueChanged += (v) => { if (!_isLoading) { ApplyBrightness(GetTree(), (float)v); SaveSettings(); } };
 
 		_jumpBind.Pressed += () => StartListening("jump", _jumpBind);
 		_moveRightBind.Pressed += () => StartListening("move_right", _moveRightBind);
@@ -232,6 +237,8 @@ public partial class Settings : Control
 		config.SetValue("audio", "music", _musicSlider.Value);
 		config.SetValue("audio", "gamefx", _gameFxSlider.Value);
 		config.SetValue("audio", "menufx", _menuFxSlider.Value);
+		if (_brightnessSlider != null)
+			config.SetValue("display", "brightness", _brightnessSlider.Value);
 
 		SaveKey(config, "jump");
 		SaveKey(config, "move_right");
@@ -287,6 +294,12 @@ public partial class Settings : Control
 		SoundManager.Instance.SetMusicVolume((float)_musicSlider.Value);
 		SoundManager.Instance.SetGameFxVolume((float)_gameFxSlider.Value);
 		SoundManager.Instance.SetMenuFxVolume((float)_menuFxSlider.Value);
+
+		if (_brightnessSlider != null)
+		{
+			_brightnessSlider.Value = (double)config.GetValue("display", "brightness", 100.0);
+			ApplyBrightness(GetTree(), (float)_brightnessSlider.Value);
+		}
 
 		LoadKey(config, "jump");
 		LoadKey(config, "move_right");
@@ -355,6 +368,47 @@ UpdateButtonState(_menuFxBtn, _menuFxMuted, "Menu Sounds", "Menu");
 		SoundManager.Instance.SetMusicVolume(100);
 		SoundManager.Instance.SetGameFxVolume(100);
 		SoundManager.Instance.SetMenuFxVolume(100);
+
+		if (_brightnessSlider != null)
+		{
+			_brightnessSlider.Value = 100;
+			ApplyBrightness(GetTree(), 100f);
+		}
+	}
+
+	// Brightness: 10-100 → schwarzes Overlay mit alpha 0.0-0.72 über alles gelegt.
+	// Overlay lebt auf Root damit es scene-übergreifend wirkt.
+	public static void ApplyBrightness(SceneTree tree, float brightness)
+	{
+		float alpha = Mathf.Clamp((100f - brightness) / 100f * 0.72f, 0f, 0.72f);
+		var existing = tree.Root.GetNodeOrNull<CanvasLayer>("BrightnessOverlay");
+		if (existing == null)
+		{
+			var layer = new CanvasLayer { Name = "BrightnessOverlay", Layer = 128 };
+			var rect = new ColorRect
+			{
+				Name = "Overlay",
+				Color = new Color(0f, 0f, 0f, alpha),
+				AnchorRight = 1f,
+				AnchorBottom = 1f
+			};
+			layer.AddChild(rect);
+			tree.Root.CallDeferred(Node.MethodName.AddChild, layer);
+		}
+		else
+		{
+			var rect = existing.GetNodeOrNull<ColorRect>("Overlay");
+			if (rect != null) rect.Color = new Color(0f, 0f, 0f, alpha);
+		}
+	}
+
+	public static void ApplyBrightnessFromConfig(SceneTree tree)
+	{
+		var config = new ConfigFile();
+		float brightness = 100f;
+		if (config.Load("user://settings.cfg") == Error.Ok)
+			brightness = (float)(double)config.GetValue("display", "brightness", 100.0);
+		ApplyBrightness(tree, brightness);
 	}
 
 

@@ -17,6 +17,9 @@ public partial class GameManager : Node2D
 		// Startmusik
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
 
+		// Helligkeit aus settings.cfg anwenden
+		Settings.ApplyBrightnessFromConfig(GetTree());
+
 		_pauseMenuScene = GD.Load<PackedScene>("res://Scenes/Main/PauseMenu.tscn");
 	}
 
