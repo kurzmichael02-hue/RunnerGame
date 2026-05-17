@@ -17,6 +17,7 @@ public partial class Settings : Control
 
 	public override void _Ready()
 	{
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
 		ProcessMode = ProcessModeEnum.Always;
 
 		// =========================
@@ -42,12 +43,12 @@ public partial class Settings : Control
 		_controlsButton.Pressed += OnControlsPressed;
 
 
-if (SoundManager.Instance != null)
+/*if (SoundManager.Instance != null)
 {
 	SoundManager.Instance.SwitchMusic(
 		SoundManager.Instance.SettingsMusic
 	);
-}
+}*/
 
 		// =========================
 		// HOVER SOUND
