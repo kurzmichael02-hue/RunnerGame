@@ -28,7 +28,7 @@ public partial class HighScores : Control
 				? "Best Time:  --:--"
 				: $"Best Time:  {(int)(best / 60):00}:{(int)(best % 60):00}";
 			// goldener farbton damit die zeit sich vom highscore-block absetzt
-			bestTimeLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.3f));
+			//bestTimeLabel.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.3f));
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
