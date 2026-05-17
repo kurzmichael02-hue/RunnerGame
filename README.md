@@ -14,6 +14,14 @@ Mario-style 2D-Platformer in Godot 4.6 + C#. Fünf Leute, ein Semester.
 | Maksym Mykhailych | Project Lead & Docs |
 | Tim | Sound & FX |
 
+## Setup
+
+1. [Godot 4.6.2 Mono](https://godotengine.org/download/) herunterladen
+2. [.NET 8 SDK](https://dotnet.microsoft.com/download) installieren
+3. Repo klonen: `git clone https://github.com/kurzmichael02-hue/RunnerGame.git`
+4. Projekt in Godot öffnen (`project.godot`)
+5. Oben auf ▶ drücken — fertig
+
 ## Tech Stack
 
 - Godot 4.6.2 · C# (.NET 8)
