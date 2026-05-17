@@ -12,6 +12,13 @@ DHBW Mannheim · Software Engineering Gruppenproject · Godot 4.6.2 + C# (.NET 8
 | Maksym | `dev` | Project Lead, Docs, Merges |
 | Tim | `feature/sound` | Sound & FX |
 
+## Vor jedem Start — PFLICHT
+
+1. `git fetch origin` — remote-Stand holen
+2. `git log --oneline origin/dev ^HEAD` — was ist auf dev das ich nicht hab?
+3. Wenn da was steht: erst mergen, dann arbeiten. Niemals blind drauflosarbeiten.
+4. Datum + Uhrzeit beachten — commits anderer Leute die "gestern" oder "heute" sind können alles verändern.
+
 ## Branch-Strategie
 
 - `main` — stable
