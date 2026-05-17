@@ -1,12 +1,8 @@
-# 2D Runner Game
+# RunnerGame
 
-2D jump 'n' run built as a group project for the Software Engineering
-module at DHBW Mannheim. Godot 4.6 + C#, five people, one semester.
+DHBW Mannheim · Software Engineering · Gruppenarbeit Semester 3/4
 
-A Mario-inspired platformer with movement tech (coyote time, jump buffer,
-double jump, wall jump, P-Speed), a sword-based combat system with
-deflectable projectiles, five enemy types, stackable power-ups and a full
-scoring + best-time persistence layer.
+Mario-style 2D-Platformer in Godot 4.6 + C#. Fünf Leute, ein Semester.
 
 ## Team
 
