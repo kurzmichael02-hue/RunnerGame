@@ -6,17 +6,19 @@ using Godot;
 public partial class GrowthPickup : Area2D
 {
 	private float _time = 0f;
+	private float _baseY;
 
 	public override void _Ready()
 	{
+		_baseY = Position.Y;
 		BodyEntered += OnBodyEntered;
 	}
 
 	public override void _Process(double delta)
 	{
-		// Hüpft sanft auf und ab damit man sieht dass es ein pickup ist
+		// Bob um feste Ausgangsposition – kein kumulativer Drift
 		_time += (float)delta;
-		Position = new Vector2(Position.X, Position.Y + Mathf.Sin(_time * 4f) * 0.3f);
+		Position = new Vector2(Position.X, _baseY + Mathf.Sin(_time * 4f) * 5f);
 	}
 
 	private void OnBodyEntered(Node2D body)

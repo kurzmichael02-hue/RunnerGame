@@ -159,14 +159,6 @@ public partial class Player : CharacterBody2D
 
 		_attackSprite.Visible = false;
 		_anim.Visible = true;
-		
-		
-		if (_isDucking)
-		{
-			if (_anim.Animation != "duck")
-				_anim.Play("duck");
-			return;
-		}
 
 	// In der Luft
 	if (!IsOnFloor())
@@ -552,8 +544,6 @@ else
 
 		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 
-		// P-Speed charge: running same direction on the ground builds it, stopping or
-		// switching direction dumps it. In-air keeps whatever you built up on the ground.
 		if (IsOnFloor())
 		{
 			if (direction != 0 && direction == _lastRunDir)

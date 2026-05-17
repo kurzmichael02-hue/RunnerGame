@@ -47,7 +47,8 @@ public partial class CrushingPlatform : AnimatableBody2D
 
 		if (horizOverlap && fromAbove)
 		{
-			player.Die();
+			// Crusher tötet sofort, egal ob groß oder klein
+			player.DieFall();
 		}
 	}
 }

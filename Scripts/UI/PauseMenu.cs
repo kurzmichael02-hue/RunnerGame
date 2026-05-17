@@ -112,9 +112,11 @@ private void OnResumePressed()
 {
 	SoundManager.Instance.PlayButton();
 
-	SoundManager.Instance.SwitchMusic(
-		SoundManager.Instance.GameMusic
-	);
+	var player = GetTree().GetFirstNodeInGroup("player") as Player;
+	bool starActive = player != null && (player.StarActive || player.StarInvincibilityActive);
+	SoundManager.Instance.SwitchMusic(starActive
+		? SoundManager.Instance.StarMusic
+		: SoundManager.Instance.GameMusic);
 
 	_pausePanel.Visible = true;
 	_volumePanel.Visible = false;
