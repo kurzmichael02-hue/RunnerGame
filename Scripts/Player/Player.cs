@@ -882,13 +882,13 @@ else
 		IsDying = true;
 		Shake(7f, 0.25f);
 
-		if (IsSmall)
-		{
-		_lives--;
-		_lives = Mathf.Max(_lives, 0);
-		}
+		//if (IsSmall)
+		//{
+		//_lives--;
+		//_lives = Mathf.Max(_lives, 0);
+		//}
 
-		if (_lives <= 0)
+		if (_lives <= 1)
 		{	
 			SoundManager.Instance.PlayPlayerDeath();
 			LastRunScore = _score;
@@ -921,6 +921,8 @@ else
 	}
 	else
 	{
+		_lives--;
+		_lives = Mathf.Max(_lives, 0);
 		// Second hit – actually die and respawn
 		SoundManager.Instance.PlayPlayerDeath();
 		IsSmall = false;
