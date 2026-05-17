@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://wkfgl7nu6bsh"]
+[gd_scene format=4 uid="uid://bd5b1sj5eamkf"]
 
 [ext_resource type="Script" uid="uid://7u2cuckl3tk7" path="res://Scripts/Core/GameManager.cs" id="1_kyjoo"]
 [ext_resource type="Texture2D" uid="uid://d3inn0asxct2u" path="res://leveldesign/Background/back.png" id="2_ac8j0"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b1dye8ua1bd5h" path="res://leveldesign/jump.png" id="5_vl7yh"]
 [ext_resource type="Texture2D" uid="uid://deysqsk6s8ln" path="res://leveldesign/Ducken.png" id="6_ulun0"]
 [ext_resource type="Texture2D" uid="uid://2872p6pw2lwk" path="res://leveldesign/Player animation.png" id="6_vl7yh"]
+[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://leveldesign/Fonts/DropShade-Shadow.ttf" id="8_4eofi"]
 [ext_resource type="Script" uid="uid://dcug7kgtbsx1d" path="res://Scripts/Levels/LevelGoal.cs" id="9_nvl0l"]
 [ext_resource type="Texture2D" uid="uid://b6spruxkscwub" path="res://leveldesign/zielflagge.png" id="10_ulun0"]
 [ext_resource type="PackedScene" uid="uid://bq4r7m2nlaxtv" path="res://Scenes/level_objects/fire_flower.tscn" id="11_nvn6m"]
@@ -25,6 +26,12 @@
 [ext_resource type="Script" uid="uid://da3q77auqilrx" path="res://Scripts/Core/Checkpoint.cs" id="21_e6dby"]
 [ext_resource type="PackedScene" uid="uid://dyn4mpl2kfg7h" path="res://Scenes/level_objects/moving_platform.tscn" id="22_4a5cj"]
 [ext_resource type="PackedScene" uid="uid://dsak7m3npv2xs" path="res://Scenes/level_objects/crushing_platform.tscn" id="22_crush"]
+[ext_resource type="Texture2D" uid="uid://ddb247r47mhbo" path="res://leveldesign/seekuh.png" id="22_ook5n"]
+[ext_resource type="Texture2D" uid="uid://dy4mqepandehx" path="res://leveldesign/schayan.png" id="23_4eofi"]
+[ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="23_dntcx"]
+[ext_resource type="Texture2D" uid="uid://jlqak5aaahj4" path="res://leveldesign/checkpointnotreached.png" id="23_nvl0l"]
+[ext_resource type="Texture2D" uid="uid://b4csxyjda3n6g" path="res://leveldesign/tim.png" id="24_nvl0l"]
+[ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="24_uctmh"]
 [ext_resource type="Script" uid="uid://cmqogys0mc6km" path="res://Scripts/PowerUps/MagnetPowerUp.cs" id="25_11ow7"]
 [ext_resource type="Texture2D" uid="uid://jo0owr6f73n6" path="res://leveldesign/magnet.png" id="26_2c274"]
 [ext_resource type="Script" uid="uid://bqr3nx8ty5wvu" path="res://Scripts/PowerUps/ShieldPowerUp.cs" id="27_vf2ed"]
@@ -33,7 +40,6 @@
 [ext_resource type="PackedScene" uid="uid://cp7samkn3vwxq" path="res://Scenes/Pickups/sword_pickup.tscn" id="29_gbitj"]
 [ext_resource type="PackedScene" uid="uid://dhp5nan7t2q6x" path="res://Scenes/Pickups/heart_pickup.tscn" id="30_mn28y"]
 [ext_resource type="PackedScene" uid="uid://b4l7wwt6ubta2" path="res://Scenes/Pickups/growth_pickup.tscn" id="40_nvn6m"]
-[ext_resource type="Texture2D" uid="uid://bvy8tfdwo0kdj" path="res://leveldesign/energydrinkfinished.png" id="41_m2jmm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbihj"]
 texture = ExtResource("18_jeh1s")
@@ -227,8 +233,14 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.62544775, 0.0003538573, 0.6424131, 1)
 sources/0 = SubResource("TileSetAtlasSource_lbihj")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jxcpn"]
-size = Vector2(83, 68)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
+size = Vector2(50, 101)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q8tf"]
+size = Vector2(30, 79)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
+size = Vector2(30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nvn6m"]
 atlas = ExtResource("5_nvl0l")
@@ -360,9 +372,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
-size = Vector2(50, 89.5)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bf53h"]
 size = Vector2(72, 84)
 
@@ -444,16 +453,46 @@ size = Vector2(30, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_raj38"]
 size = Vector2(30, 80)
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i1pr2"]
+texture = ExtResource("24_uctmh")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_356ba"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i4lct"]
+bg_color = Color(0.11764706, 0.6156863, 0.76862746, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.2901961)
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iyesh"]
+bg_color = Color(0.003921569, 0.101960786, 0.101960786, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.22745098)
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i1pr2"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_71axn"]
 radius = 20.024984
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nvn6m"]
 size = Vector2(28, 38)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_efseb"]
-size = Vector2(23, 36)
-
-[node name="Node2D" type="Node2D" unique_id=1679243187]
+[node name="Node2D2" type="Node2D" unique_id=1679243187]
 script = ExtResource("1_kyjoo")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=569983748]
@@ -470,9 +509,9 @@ position = Vector2(200, 271)
 collision_mask = 5
 script = ExtResource("3_0nu4m")
 
-[node name="DuckShape" type="CollisionShape2D" parent="Player" unique_id=485732826]
-position = Vector2(16.5, 15)
-shape = SubResource("RectangleShape2D_jxcpn")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
 drag_horizontal_enabled = true
@@ -487,6 +526,13 @@ texture_filter = 1
 position = Vector2(-0.99999994, -7.9999995)
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("4_vl7yh")
+
+[node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=327617137]
+position = Vector2(0, 9.5)
+shape = SubResource("RectangleShape2D_4q8tf")
+
+[node name="DuckShape" type="CollisionShape2D" parent="Player" unique_id=1483275952]
+shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1604708776]
 position = Vector2(-7, -21)
@@ -504,11 +550,6 @@ position = Vector2(34, 19.000008)
 scale = Vector2(0.40997416, 0.46220934)
 sprite_frames = SubResource("SpriteFrames_nvn6m")
 animation = &"duck"
-frame_progress = 0.38147506
-
-[node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=550331144]
-position = Vector2(0, 2.75)
-shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=389092071]
 script = ExtResource("5_apnk5")
@@ -602,16 +643,15 @@ offset_bottom = 23.0
 grow_horizontal = 0
 
 [node name="LevelGoal" type="Area2D" parent="." unique_id=1122938889]
-position = Vector2(7168, 261)
+position = Vector2(7201, -20)
 script = ExtResource("9_nvl0l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGoal" unique_id=505499595]
-position = Vector2(12, 1)
+position = Vector2(-19, -9)
 shape = SubResource("RectangleShape2D_bf53h")
 
-[node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=780706104]
+[node name="Sprite2D" type="Sprite2D" parent="LevelGoal" unique_id=4175977]
 texture_filter = 1
-position = Vector2(17, -28)
 scale = Vector2(6, 6)
 texture = ExtResource("10_ulun0")
 
@@ -623,7 +663,7 @@ position = Vector2(-33, 0)
 shape = SubResource("RectangleShape2D_dahhg")
 
 [node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("11_nvn6m")]
-position = Vector2(4020, 140)
+position = Vector2(4000, 250)
 
 [node name="Spikes" type="Node2D" parent="." unique_id=63224165]
 
@@ -663,7 +703,7 @@ shape = SubResource("RectangleShape2D_ac8j0")
 target_position = Vector2(0, 0)
 
 [node name="Enemy2" type="CharacterBody2D" parent="Enemies" unique_id=148747929]
-position = Vector2(-5097, 16)
+position = Vector2(-5100, 21)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -672,12 +712,12 @@ Speed = 10.0
 MoveDistance = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy2" unique_id=1384934600]
-position = Vector2(2, -10)
+position = Vector2(1, -11.5)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy2" unique_id=1399868777]
 texture_filter = 1
-position = Vector2(2, -26)
+position = Vector2(0, -27)
 scale = Vector2(4, 4)
 texture = ExtResource("15_4vo7a")
 
@@ -710,27 +750,28 @@ shape = SubResource("RectangleShape2D_alh3a")
 target_position = Vector2(0, 0)
 
 [node name="Enemy4" type="CharacterBody2D" parent="Enemies" unique_id=679314473]
-position = Vector2(-2272, -106)
+position = Vector2(-3700, 21)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
 Type = 1
 Speed = 10.0
+MoveDistance = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy4" unique_id=246095921]
-position = Vector2(1, -17)
+position = Vector2(1, -16)
 shape = SubResource("RectangleShape2D_8e0uq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy4" unique_id=1181938234]
 texture_filter = 1
-position = Vector2(-2, -12)
+position = Vector2(-1, -12)
 scale = Vector2(4.5, 4.5)
 texture = SubResource("CompressedTexture2D_i0vto")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy4" unique_id=846997503]
-position = Vector2(1, -13)
+position = Vector2(1, -16)
 shape = SubResource("RectangleShape2D_3jf1l")
-target_position = Vector2(0, -1)
+target_position = Vector2(0, 0)
 
 [node name="Enemy5" type="CharacterBody2D" parent="Enemies" unique_id=2047385679]
 position = Vector2(-2433, -130)
@@ -824,30 +865,29 @@ shape = SubResource("RectangleShape2D_wxwew")
 target_position = Vector2(0, 0)
 
 [node name="Enemy9" type="CharacterBody2D" parent="Enemies" unique_id=263876450]
-position = Vector2(-2313, -362)
+position = Vector2(-2049, -76)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
 Type = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy9" unique_id=634150715]
-position = Vector2(1, 2)
+position = Vector2(-6.5, -13.5)
 shape = SubResource("RectangleShape2D_ook5n")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy9" unique_id=1110267756]
 modulate = Color(1, 0.35, 0.35, 1)
 texture_filter = 1
-position = Vector2(7, 14)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy9" unique_id=609767669]
-position = Vector2(1, 0)
+position = Vector2(-7, -13)
 shape = SubResource("RectangleShape2D_4eofi")
 target_position = Vector2(0, 0)
 
 [node name="Enemy10" type="CharacterBody2D" parent="Enemies" unique_id=263876451]
-position = Vector2(-1058, 6)
+position = Vector2(-1877, -366)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("13_efseb")
@@ -856,18 +896,17 @@ ProjectileScene = ExtResource("17_n4fq4")
 ShootInterval = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
-position = Vector2(2, 1)
+position = Vector2(-6.5, -13.5)
 shape = SubResource("RectangleShape2D_nvl0l")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy10" unique_id=1110267757]
 modulate = Color(0.5, 0.5, 1, 1)
 texture_filter = 1
-position = Vector2(10, 15)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("14_g4d0g")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy10" unique_id=609767670]
-position = Vector2(2, -2)
+position = Vector2(-7, -13)
 shape = SubResource("RectangleShape2D_ulun0")
 target_position = Vector2(0, 0)
 
@@ -948,16 +987,15 @@ scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin7" type="Area2D" parent="Coins" unique_id=81764200]
-position = Vector2(2058, 201)
+position = Vector2(2379, 258)
 script = ExtResource("19_wsy13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin7" unique_id=105800429]
-position = Vector2(1, 1)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin7/CollisionShape2D" unique_id=2109363038]
 texture_filter = 1
-position = Vector2(2, 1)
+position = Vector2(2, 2)
 scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
@@ -1065,56 +1103,65 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 position = Vector2(1350, 317)
 
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
-position = Vector2(-651, -50)
+position = Vector2(-650, -37)
 script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
-position = Vector2(1, 11)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=966390880]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=1390801544]
+visible = false
 texture_filter = 1
-position = Vector2(17, -3)
+position = Vector2(11.500011, -16)
+scale = Vector2(0.9140627, 1)
 texture = ExtResource("21_ctxhw")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
-position = Vector2(1311, -138)
+position = Vector2(1316, -70)
 script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2" unique_id=666897722]
-position = Vector2(1, -11)
+position = Vector2(0, 31)
 shape = SubResource("RectangleShape2D_raj38")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=368949502]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=1826642515]
 texture_filter = 1
-position = Vector2(17, -27)
-texture = ExtResource("21_ctxhw")
+position = Vector2(17.499998, 17.499989)
+scale = Vector2(0.5117184, 0.47265628)
+texture = ExtResource("22_ook5n")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
-position = Vector2(2609, -418)
+position = Vector2(2850, -57)
 script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
-position = Vector2(0, -3)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1934943991]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1726839946]
 texture_filter = 1
-position = Vector2(15, -18)
-texture = ExtResource("21_ctxhw")
+position = Vector2(12.9997425, -24.499992)
+scale = Vector2(3.687493, 4.34375)
+texture = ExtResource("23_nvl0l")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1118259535]
+visible = false
+position = Vector2(9, -2)
+scale = Vector2(0.7109375, 0.7421875)
+texture = ExtResource("23_4eofi")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
-position = Vector2(5350, -50)
+position = Vector2(5350, -57)
 script = ExtResource("21_e6dby")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint4" unique_id=666897724]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_7lihs")
 
-[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=891154093]
+[node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=798269252]
 texture_filter = 1
-position = Vector2(15, -18)
-texture = ExtResource("21_ctxhw")
+position = Vector2(20.750177, -11.749995)
+scale = Vector2(0.29003975, 0.23535155)
+texture = ExtResource("24_nvl0l")
 
 [node name="Movingplatform" type="Node2D" parent="." unique_id=1443811552]
 
@@ -1126,13 +1173,128 @@ position = Vector2(4900, 230)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
 
+[node name="LevelCompleteScreen" type="CanvasLayer" parent="." unique_id=551507232]
+script = ExtResource("23_dntcx")
+
+[node name="Panel" type="Panel" parent="LevelCompleteScreen" unique_id=1662592036]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 1076.0
+offset_right = 16.0
+offset_bottom = 1076.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_i1pr2")
+
+[node name="Label" type="Label" parent="LevelCompleteScreen/Panel" unique_id=2051350068]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.0
+offset_top = 139.0
+offset_right = 357.0
+offset_bottom = 250.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_4eofi")
+theme_override_font_sizes/font_size = 55
+text = "LEVEL COMPLETE!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelCompleteScreen/Panel" unique_id=592846342]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -174.75
+offset_top = -72.0
+offset_right = 174.75
+offset_bottom = 264.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=136442758]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LivesLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=452853751]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=1262654083]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Retry" type="Button" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=9523664]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_356ba")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i4lct")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iyesh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_i1pr2")
+text = "Retry"
+
+[node name="MainMenu" type="Button" parent="LevelCompleteScreen/Panel/VBoxContainer" unique_id=2067522106]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_356ba")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_i4lct")
+theme_override_styles/hover = SubResource("StyleBoxFlat_iyesh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_i1pr2")
+text = "Main Menu
+"
+
+[node name="Congratulation" type="Label" parent="LevelCompleteScreen/Panel" unique_id=300159827]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -357.0
+offset_top = 23.0
+offset_right = 392.0
+offset_bottom = 147.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 35
+text = "Well done!
+~ Congratulations ~"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="PowerUps" type="Node2D" parent="." unique_id=2086917614]
 
 [node name="Magnets" type="Node2D" parent="PowerUps" unique_id=2029079143]
 position = Vector2(63, -220)
 
 [node name="MagnetPowerUp" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404631]
-position = Vector2(880, 438)
+position = Vector2(900, 260)
 script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp" unique_id=1963666255]
@@ -1144,7 +1306,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="MagnetPowerUp2" type="Area2D" parent="PowerUps/Magnets" unique_id=208422444]
-position = Vector2(1590, 354)
+position = Vector2(2106, 70)
 script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp2" unique_id=1505431566]
@@ -1156,7 +1318,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="MagnetPowerUp3" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404632]
-position = Vector2(5683, 472)
+position = Vector2(5300, 260)
 script = ExtResource("25_11ow7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp3" unique_id=1963666256]
@@ -1168,18 +1330,18 @@ scale = Vector2(2, 2)
 texture = ExtResource("26_2c274")
 
 [node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_8k6aj")]
-position = Vector2(3034, 0)
+position = Vector2(3031, 594)
 
 [node name="ShieldPowerUp" type="Area2D" parent="PowerUps" unique_id=333111220]
-position = Vector2(1516, 188)
+position = Vector2(1330, 36)
 script = ExtResource("27_vf2ed")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/ShieldPowerUp" unique_id=333111221]
-position = Vector2(-1, -8)
+position = Vector2(-1, -1)
 shape = SubResource("RectangleShape2D_nvn6m")
 
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/ShieldPowerUp" unique_id=890236044]
-position = Vector2(1.0000458, 0)
+position = Vector2(1.0000458, 5.5)
 scale = Vector2(1.2187486, 1.171875)
 texture = ExtResource("29_ac8j0")
 
@@ -1190,10 +1352,10 @@ position = Vector2(1335, 260)
 position = Vector2(79, -225)
 
 [node name="SwordPickup" parent="Pickups/Swords" unique_id=1829312997 instance=ExtResource("29_gbitj")]
-position = Vector2(-30, 258)
+position = Vector2(300, -30)
 
 [node name="SwordPickup2" parent="Pickups/Swords" unique_id=924163623 instance=ExtResource("29_gbitj")]
-position = Vector2(5153, -125)
+position = Vector2(4250, -60)
 
 [node name="Heart" type="Node2D" parent="Pickups" unique_id=795867905]
 position = Vector2(145, -223)
@@ -1202,16 +1364,7 @@ position = Vector2(145, -223)
 position = Vector2(4050, -30)
 
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("30_mn28y")]
-position = Vector2(4789, 138)
+position = Vector2(5550, -109)
 
 [node name="GrowthPickup" parent="." unique_id=90358124 instance=ExtResource("40_nvn6m")]
 position = Vector2(5136, 95)
-
-[node name="Sprite2D" type="Sprite2D" parent="GrowthPickup" unique_id=990381118]
-texture_filter = 1
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("41_m2jmm")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="GrowthPickup" unique_id=1330731351]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_efseb")

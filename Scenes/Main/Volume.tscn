@@ -39,7 +39,7 @@ content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(0.9676011, 0.95574206, 0.95238906, 1)
+bg_color = Color(0.96862745, 0.95686275, 0.9529412, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -63,6 +63,45 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nkews"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.12156863, 0, 0.29803923, 1)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_04sdc"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.4745098, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.12156863, 0, 0.29803923, 1)
+shadow_size = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pkkti"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.4745098, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.12156863, 0, 0.29803923, 1)
+shadow_size = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tk4rt"]
 bg_color = Color(0.4745098, 1, 1, 1)
@@ -118,9 +157,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -344.0
-offset_top = -300.0
+offset_top = -319.0
 offset_right = 344.0
-offset_bottom = -196.0
+offset_bottom = -206.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.12156863, 0, 0.29803923, 1)
@@ -141,9 +180,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -285.0
-offset_top = -178.0
+offset_top = -211.0
 offset_right = 286.0
-offset_bottom = 81.0
+offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 8
@@ -270,6 +309,35 @@ theme_override_styles/grabber_area = SubResource("StyleBoxFlat_fle7m")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_8fx4q")
 value = 100.0
 
+[node name="BrightnessContainer" type="VBoxContainer" parent="." unique_id=642401265]
+layout_mode = 0
+offset_left = 355.0
+offset_top = 432.0
+offset_right = 926.0
+offset_bottom = 510.0
+
+[node name="Brightness" type="Label" parent="BrightnessContainer" unique_id=1161067466]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.4745098, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.12156863, 0, 0.29803923, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_fonts/font = ExtResource("2_8kw7e")
+theme_override_font_sizes/font_size = 30
+text = "Brightness"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BrightnessSlider" type="HSlider" parent="BrightnessContainer" unique_id=1222879298]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/slider = SubResource("StyleBoxFlat_nkews")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_04sdc")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_pkkti")
+max_value = 1.0
+step = 0.01
+value = 1.0
+
 [node name="Reset" type="Button" parent="." unique_id=1788593883]
 layout_mode = 1
 anchors_preset = 8
@@ -278,9 +346,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -211.0
-offset_top = 120.0
+offset_top = 175.0
 offset_right = 209.0
-offset_bottom = 174.0
+offset_bottom = 229.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
@@ -303,10 +371,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -212.0
-offset_top = 188.0
-offset_right = 209.0
-offset_bottom = 244.0
+offset_left = -208.0
+offset_top = 246.0
+offset_right = 213.0
+offset_bottom = 302.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3

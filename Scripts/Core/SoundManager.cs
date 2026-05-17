@@ -19,6 +19,7 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _music;
 	private AudioStreamPlayer _gameOverMusic;
 	private AudioStreamPlayer _starMusic;
+	private AudioStreamPlayer _levelCompleteMusic;
 	private AudioStreamPlayer _playerDeath1;
 	private AudioStreamPlayer _playerDeath2;
 	private AudioStreamPlayer _playerDeath3;
@@ -38,6 +39,7 @@ public partial class SoundManager : Node
 	public AudioStreamPlayer StartScreenMusic => _startScreenMusic;
 	public AudioStreamPlayer GameOverMusic => _gameOverMusic;
 	public AudioStreamPlayer StarMusic => _starMusic;
+	public AudioStreamPlayer LevelCompleteMusic => _levelCompleteMusic;
 
 	public override void _Ready()
 	{
@@ -80,6 +82,7 @@ public partial class SoundManager : Node
 		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
 		_gameOverMusic = GetNode<AudioStreamPlayer>("Music/GameOverMusic");
 		_starMusic = GetNode<AudioStreamPlayer>("Music/StarMusic");
+		_levelCompleteMusic = GetNode<AudioStreamPlayer>("Music/LevelCompleteMusic");
 
 
 		// ====================
