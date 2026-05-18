@@ -44,16 +44,19 @@ DHBW Mannheim · Software Engineering Gruppenproject · Godot 4.6.2 + C# (.NET 8
 ## Szenen
 
 - `Scenes/Levels/Level1.tscn` — einziges echtes Level
-- `Scenes/Levels/TestLevel.tscn` — Dev-Testlevel, noch im LevelSelection-Menü sichtbar
-- `Scenes/Main/` — MainMenu, Settings, LevelSelection, GameOver, Highscores, PauseMenu, CharacterSelection
-- `Scenes/LevelCompleteScreen.tscn` — Level-Abschluss-Screen
+- `Scenes/Levels/TestLevel.tscn` — Dev-Testlevel, Button in LevelSelection versteckt (`visible=false`)
+- `Scenes/Main/` — MainMenu, Settings, LevelSelection, GameOver, Highscores, PauseMenu, CharacterSelection, Volume, Controls, LevelCompleteScreen, Game
 - `Scenes/level_objects/` — checkpoint, crushing_platform, moving_platform, projectile, spike, item_block, level_goal
 
 ## Offen / bekannte Baustellen
 
-- **Tim (Char 2, orange)** — in `Player.Profile.cs` definiert (Preis 250 Coins) aber kein Button in `CharacterSelection.tscn`. Bartolmay muss den dritten Button im Editor anlegen.
-- **TestLevel im Menü sichtbar** — `LevelSelection.cs` hat `_on_testLevel_pressed()`, Button ist in der Scene aktiv
-- **Brightness + Coins im HUD** — funktional implementiert, Bartolmay macht Styling
+- **Tim (Char 2, orange)** — in `Player.Profile.cs` definiert (Preis 250 Coins) aber kein Button in `CharacterSelection.tscn`. Bartolmay muss dritten Button im Editor anlegen.
+- **Brightness-Slider** — Logik in `Volume.cs` fertig, Bartolmay hat Node gebaut. Styling ggf. noch ausstehend.
+- **Coins im HUD** — läuft, Bartolmay macht Styling wenn Zeit ist.
+
+## Branch-Status (Mai 2026)
+
+`feature/game-logic` → in `dev` gemergt (aa69dff, 17.05.2026). Tim hat getestet ✓.
 
 ## Was bereits gefixed wurde (feature/game-logic, Mai 2026)
 
