@@ -39,9 +39,9 @@ public partial class Player : CharacterBody2D
 	// SelfModulate auf jedem AnimatedSprite2D-knoten damit hit-blink / star-effekte auf dem parent-node
 	// nicht interferieren.
 private static readonly Color[] CharacterTints = {
-	new Color(1f, 1f, 1f),
-	new Color(1f, 1f, 1f),
-	new Color(1f, 1f, 1f),
+	new Color(1f, 1f, 1f),        // 0: default
+	new Color(0.75f, 0.55f, 1f),  // 1: Mischa – lila
+	new Color(1f, 0.65f, 0.35f),  // 2: Tim – orange
 };
 
 	// ===== PROFILE LOAD / SAVE =====

@@ -1,12 +1,8 @@
-# 2D Runner Game
+# RunnerGame
 
-2D jump 'n' run built as a group project for the Software Engineering
-module at DHBW Mannheim. Godot 4.6 + C#, five people, one semester.
+DHBW Mannheim · Software Engineering · Gruppenarbeit Semester 3/4
 
-A Mario-inspired platformer with movement tech (coyote time, jump buffer,
-double jump, wall jump, P-Speed), a sword-based combat system with
-deflectable projectiles, five enemy types, stackable power-ups and a full
-scoring + best-time persistence layer.
+Mario-style 2D-Platformer in Godot 4.6 + C#. Fünf Leute, ein Semester.
 
 ## Team
 
@@ -17,6 +13,14 @@ scoring + best-time persistence layer.
 | Bartolmay | UI & Menus |
 | Maksym Mykhailych | Project Lead & Docs |
 | Tim | Sound & FX |
+
+## Setup
+
+1. [Godot 4.6.2 Mono](https://godotengine.org/download/) herunterladen
+2. [.NET 8 SDK](https://dotnet.microsoft.com/download) installieren
+3. Repo klonen: `git clone https://github.com/kurzmichael02-hue/RunnerGame.git`
+4. Projekt in Godot öffnen (`project.godot`)
+5. Oben auf ▶ drücken — fertig
 
 ## Tech Stack
 

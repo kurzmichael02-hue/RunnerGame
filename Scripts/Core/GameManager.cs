@@ -9,12 +9,14 @@ public partial class GameManager : Node2D
 	public override void _Ready()
 	{
 		ProcessMode = ProcessModeEnum.Always;
+		AddToGroup("game_manager");
 
 		// Reset nach Retry
 		LevelGoal.Reset();
 
 		// Startmusik
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+
 
 		_pauseMenuScene = GD.Load<PackedScene>("res://Scenes/Main/PauseMenu.tscn");
 	}
@@ -64,12 +66,16 @@ public partial class GameManager : Node2D
 			if (_pauseMenu != null)
 			{
 				_pauseMenu.Visible = false;
-				_pauseMenu.QueueFree();  
+				_pauseMenu.QueueFree();
 				_pauseMenu = null;
 			}
 
-			// Spielmusik zurück
-			SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+			// Musik zurück – Star hat Vorrang, sonst normale Spielmusik
+			var player = GetTree().GetFirstNodeInGroup("player") as Player;
+			bool starActive = player != null && (player.StarActive || player.StarInvincibilityActive);
+			SoundManager.Instance.SwitchMusic(starActive
+				? SoundManager.Instance.StarMusic
+				: SoundManager.Instance.GameMusic);
 		}
 		else
 		{

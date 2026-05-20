@@ -71,7 +71,7 @@ public partial class HUD : CanvasLayer
 			_playerStartX = _player.Position.X;
 		}
 
-		_scoreLabel.Text = "Score: " + _player.Score;
+		_scoreLabel.Text = $"Score: {_player.Score}   Coins: {Player.Coins}";
 		_livesLabel.Text = "Lives: " + _player.Lives;
 		_powerUpLabel.Text = BuildPowerUpText();
 		UpdateHearts();

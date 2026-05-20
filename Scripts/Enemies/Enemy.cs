@@ -26,6 +26,9 @@ public partial class Enemy : CharacterBody2D
 	_startPosition = Position;
 	// Random initial patrol direction so not every enemy starts the same way
 	_direction = GD.Randf() > 0.5f ? 1 : -1;
+	// Offset jump timer so multiple jumping enemies don't all jump in sync
+	if (Type == EnemyType.Jumping)
+		_jumpTimer = (float)GD.RandRange(0.2, 1.2);
 		if (Type == EnemyType.Fast) Speed = 220f;
 		// Charger sprints when it sees the player, so give it a higher top speed
 		if (Type == EnemyType.Charger) Speed = 380f;

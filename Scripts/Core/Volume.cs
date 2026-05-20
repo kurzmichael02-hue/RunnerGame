@@ -12,6 +12,7 @@ public partial class Volume : Control
 	private HSlider _musicSlider;
 	private HSlider _gameFxSlider;
 	private HSlider _menuFxSlider;
+	private HSlider _brightnessSlider;
 
 	private Button _masterBtn;
 	private Button _musicBtn;
@@ -57,6 +58,7 @@ public partial class Volume : Control
 		_musicSlider = GetNode<HSlider>("VBoxContainer2/HBoxC2/MusicSlider");
 		_gameFxSlider = GetNode<HSlider>("VBoxContainer2/HBoxC3/GameFXSlider");
 		_menuFxSlider = GetNode<HSlider>("VBoxContainer2/HBoxC4/MenuFXSlider");
+		_brightnessSlider = GetNodeOrNull<HSlider>("VBoxContainer2/BrightnessContainer/BrightnessSlider");
 
 		// =========================
 		// BUTTON EVENTS
@@ -132,6 +134,8 @@ _menuFxBtn.Pressed += async () =>
 		_musicSlider.ValueChanged += OnMusicChanged;
 		_gameFxSlider.ValueChanged += OnGameFxChanged;
 		_menuFxSlider.ValueChanged += OnMenuFxChanged;
+		if (_brightnessSlider != null)
+			_brightnessSlider.ValueChanged += OnBrightnessChanged;
 
 		ConnectHoverRecursive(this);
 
@@ -141,6 +145,34 @@ _menuFxBtn.Pressed += async () =>
 
 	
 
+
+	private void OnBrightnessChanged(double value)
+	{
+		if (_isLoading) return;
+		ApplyBrightness((float)value);
+		SaveSettings();
+	}
+
+	// brightness: 0.0 = komplett dunkel, 1.0 = volle Helligkeit
+	// schwarzes Overlay auf Root-Layer — wirkt über alle Szenen
+	private void ApplyBrightness(float brightness)
+	{
+		float alpha = Mathf.Clamp(1f - brightness, 0f, 0.85f);
+		var existing = GetTree().Root.GetNodeOrNull<CanvasLayer>("BrightnessOverlay");
+		if (existing == null)
+		{
+			var layer = new CanvasLayer { Name = "BrightnessOverlay", Layer = 128 };
+			var rect = new ColorRect { Name = "Overlay", AnchorRight = 1f, AnchorBottom = 1f };
+			rect.Color = new Color(0f, 0f, 0f, alpha);
+			layer.AddChild(rect);
+			GetTree().Root.CallDeferred(Node.MethodName.AddChild, layer);
+		}
+		else
+		{
+			var rect = existing.GetNodeOrNull<ColorRect>("Overlay");
+			if (rect != null) rect.Color = new Color(0f, 0f, 0f, alpha);
+		}
+	}
 
 	private void OnMasterChanged(double value)
 	{
@@ -432,6 +464,12 @@ _menuFxBtn.Pressed += async () =>
 		_lastGameFx = 100;
 		_lastMenuFx = 100;
 
+		if (_brightnessSlider != null)
+		{
+			_brightnessSlider.Value = 1.0;
+			ApplyBrightness(1f);
+		}
+
 		UpdateAllButtons();
 	}
 
@@ -459,6 +497,9 @@ _menuFxBtn.Pressed += async () =>
 		config.SetValue("last", "music", _lastMusic);
 		config.SetValue("last", "gamefx", _lastGameFx);
 		config.SetValue("last", "menufx", _lastMenuFx);
+
+		if (_brightnessSlider != null)
+			config.SetValue("display", "brightness", _brightnessSlider.Value);
 
 		config.Save(SAVE_PATH);
 	}
@@ -502,6 +543,12 @@ _menuFxBtn.Pressed += async () =>
 		SoundManager.Instance.SetMusicVolume((float)_musicSlider.Value);
 		SoundManager.Instance.SetGameFxVolume((float)_gameFxSlider.Value);
 		SoundManager.Instance.SetMenuFxVolume((float)_menuFxSlider.Value);
+
+		if (_brightnessSlider != null)
+		{
+			_brightnessSlider.Value = (double)config.GetValue("display", "brightness", 1.0);
+			ApplyBrightness((float)_brightnessSlider.Value);
+		}
 
 		_isLoading = false;
 
