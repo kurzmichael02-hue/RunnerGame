@@ -51,6 +51,15 @@ public partial class GameManager : Node2D
 		{
 			// RESUME
 			GetTree().Paused = false;
+			
+			var hud =
+				GetTree().GetFirstNodeInGroup("hud")
+				as CanvasLayer;
+
+			if (hud != null)
+			{
+				hud.Visible = true;
+			}
 
 			if (_pauseMenu != null)
 			{
@@ -66,6 +75,15 @@ public partial class GameManager : Node2D
 		{
 			// PAUSE
 			GetTree().Paused = true;
+			
+			var hud =
+				GetTree().GetFirstNodeInGroup("hud")
+				as CanvasLayer;
+
+			if (hud != null)
+			{
+				hud.Visible = false;
+			}
 
 			if (_pauseMenu != null)
 				_pauseMenu.Visible = true;

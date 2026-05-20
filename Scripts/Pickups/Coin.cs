@@ -40,6 +40,14 @@ public partial class Coin : Area2D
 		var tween = GetTree().CreateTween();
 		tween.TweenProperty(wrap, "global_position", worldPos + new Vector2(0, -55), 0.6f);
 		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.6f);
-		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
+		tween.TweenCallback(
+	Callable.From(() =>
+	{
+		if (IsInstanceValid(wrap))
+		{
+			wrap.QueueFree();
+		}
+	})
+);
 	}
 }

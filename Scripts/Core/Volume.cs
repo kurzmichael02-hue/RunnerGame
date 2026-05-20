@@ -6,6 +6,7 @@ public partial class Volume : Control
 	private Button _backButton;
 	private Button _resetButton;
 	public Control PreviousPanel;
+	
 
 	private HSlider _masterSlider;
 	private HSlider _musicSlider;
@@ -18,6 +19,7 @@ public partial class Volume : Control
 	private Button _menuFxBtn;
 
 	private bool _isLoading = false;
+	private bool _changingScene = false;
 
 	private bool _masterMuted = false;
 	private bool _musicMuted = false;
@@ -134,6 +136,7 @@ _menuFxBtn.Pressed += async () =>
 		ConnectHoverRecursive(this);
 
 		LoadSettings();
+		
 	}
 
 	
@@ -532,6 +535,11 @@ _menuFxBtn.Pressed += async () =>
 
 private void OnBackPressed()
 {
+	if (_changingScene)
+		return;
+
+	_changingScene = true;
+
 	SoundManager.Instance.PlayButton();
 
 	// PauseMenu-Modus
@@ -539,11 +547,28 @@ private void OnBackPressed()
 	{
 		PreviousPanel.Visible = true;
 		Visible = false;
+
+		_changingScene = false;
+
 		return;
 	}
 
-	// Standalone-Modus
-	GetTree().ChangeSceneToFile(
+	CallDeferred(
+		nameof(DeferredBackToSettings)
+	);
+}
+
+private void DeferredBackToSettings()
+{
+	if (!IsInsideTree())
+		return;
+
+	SceneTree tree = GetTree();
+
+	if (tree == null)
+		return;
+
+	tree.ChangeSceneToFile(
 		"res://Scenes/Main/Settings.tscn"
 	);
 }

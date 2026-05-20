@@ -13,6 +13,7 @@ public partial class Controls : Control
 	private Button _duckBind;
 	private Button _attackBind;
 	public Control PreviousPanel;
+	private bool _changingScene = false;
 
 	private Button _activeBindButton = null;
 
@@ -84,8 +85,14 @@ _attackBind.Pressed += () =>
 		UpdateButtonTexts();
 		ConnectHoverRecursive(this);
 	}
+
 private void OnBackPressed()
 {
+	if (_changingScene)
+		return;
+
+	_changingScene = true;
+
 	if (SoundManager.Instance != null)
 		SoundManager.Instance.PlayButton();
 
@@ -94,15 +101,31 @@ private void OnBackPressed()
 	{
 		PreviousPanel.Visible = true;
 		Visible = false;
+
+		_changingScene = false;
+
 		return;
 	}
 
-	// Standalone Settings-Modus
-	GetTree().ChangeSceneToFile(
-		"res://Scenes/Main/Settings.tscn"
+	CallDeferred(
+		nameof(DeferredBackToSettings)
 	);
 }
 
+private void DeferredBackToSettings()
+{
+	if (!IsInsideTree())
+		return;
+
+	SceneTree tree = GetTree();
+
+	if (tree == null)
+		return;
+
+	tree.ChangeSceneToFile(
+		"res://Scenes/Main/Settings.tscn"
+	);
+}
 
 	// =========================
 	// START LISTENING

@@ -22,6 +22,7 @@ public partial class PauseMenu : CanvasLayer
 	public override void _Ready()
 	{
 		ProcessMode = ProcessModeEnum.Always;
+		
 
 		GetNode<Control>("MenuPanel").MouseFilter =
 			Control.MouseFilterEnum.Stop;
@@ -76,8 +77,13 @@ public partial class PauseMenu : CanvasLayer
 
 		_exitDialog.Confirmed +=
 			OnExitConfirmDialogConfirmed;
+			
+			
+	
 
 		ConnectHoverRecursive(GetNode("MenuPanel"));
+		
+		
 	}
 
 	private void ConnectHoverRecursive(Node node)
@@ -120,6 +126,8 @@ private void OnResumePressed()
 	_volumePanel.Visible = false;
 	_controlsPanel.Visible = false;
 
+
+
 	GetTree().Paused = false;
 
 	Hide();
@@ -135,6 +143,8 @@ private async void OnMainMenuPressed()
 	_pausePanel.Visible = true;
 	_volumePanel.Visible = false;
 	_controlsPanel.Visible = false;
+	
+
 
 	GetTree().Paused = false;
 
