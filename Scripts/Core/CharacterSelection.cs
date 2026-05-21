@@ -2,7 +2,6 @@ using Godot;
 
 public partial class CharacterSelection : Node
 {
-	private ConfirmationDialog _exitDialog;
 	private Label _selectedLabel;
 
 	// button index maps to player char id
@@ -13,7 +12,6 @@ public partial class CharacterSelection : Node
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 		Player.LoadProfile();
-		_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
 		_selectedLabel = GetNode<Label>("SelectedLabel");
 		UpdateLabel();
 	}
@@ -53,12 +51,4 @@ public partial class CharacterSelection : Node
 		SoundManager.Instance.PlayButton();
 		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
 	}
-
-	private void _on_exit_pressed()
-	{
-		SoundManager.Instance.PlayButton();
-		_exitDialog.PopupCentered();
-	}
-
-	private void _on_exit_confirmed() => GetTree().Quit();
 }
