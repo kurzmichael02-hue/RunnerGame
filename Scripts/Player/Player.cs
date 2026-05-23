@@ -206,15 +206,15 @@ public partial class Player : CharacterBody2D
 	}
 
 	// Check ob der player aufstehen kann ohne in einem block über ihm festzustecken.
-	// Physik-shape-query auf die stand-collision an player-position, exclude den
-	// player selbst damit wir uns nicht selbst erkennen.
+	// GlobalTransform vom standShape benutzen damit player-scale (z.b. wenn klein/IsSmall)
+	// korrekt einberechnet wird — sonst denkt der check der player ist groß und blockt das aufstehen.
 	private bool CanStandUp()
 	{
 		if (_standShape?.Shape is not RectangleShape2D standRect) return true;
 		var query = new PhysicsShapeQueryParameters2D
 		{
 			Shape = new RectangleShape2D { Size = standRect.Size },
-			Transform = new Transform2D(0f, GlobalPosition + _standShape.Position),
+			Transform = _standShape.GlobalTransform,
 			CollisionMask = CollisionMask,
 			Exclude = new Godot.Collections.Array<Godot.Rid> { GetRid() }
 		};
