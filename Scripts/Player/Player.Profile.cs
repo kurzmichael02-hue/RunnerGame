@@ -35,14 +35,34 @@ public partial class Player : CharacterBody2D
 
 	private const string ProfilePath = "user://profile.cfg";
 
-	// Farb-tints pro charakter – kein eigenes sprite-sheet nötig, tint unterscheidet die figuren visuell.
-	// SelfModulate auf jedem AnimatedSprite2D-knoten damit hit-blink / star-effekte auf dem parent-node
-	// nicht interferieren.
+	// tints sind weiß damit nix mehr lila wird wenn Mischa gewählt — character-swap läuft
+	// über sprite-frames-tausch unten, nicht über farbe.
 private static readonly Color[] CharacterTints = {
-	new Color(1f, 1f, 1f),        // 0: default
-	new Color(0.75f, 0.55f, 1f),  // 1: Mischa – lila
-	new Color(1f, 0.65f, 0.35f),  // 2: Tim – orange
+	new Color(1f, 1f, 1f),  // 0: default
+	new Color(1f, 1f, 1f),  // 1: Mischa
+	new Color(1f, 1f, 1f),  // 2: Tim
 };
+
+// Mischa-sprite cache. Schayan muss noch ein richtiges sprite-sheet liefern,
+// bis dahin statisches bild für alle animations.
+private static SpriteFrames _mischaFrames;
+private static SpriteFrames GetMischaFrames()
+{
+	if (_mischaFrames != null) return _mischaFrames;
+	var tex = GD.Load<Texture2D>("res://leveldesign/mischa.png");
+	_mischaFrames = new SpriteFrames();
+	string[] anims = { "still", "wallk", "jump_high", "jump_down", "attack", "duck" };
+	foreach (var a in anims)
+	{
+		_mischaFrames.AddAnimation(a);
+		_mischaFrames.AddFrame(a, tex);
+		_mischaFrames.SetAnimationLoop(a, true);
+		_mischaFrames.SetAnimationSpeed(a, 5);
+	}
+	return _mischaFrames;
+}
+
+private SpriteFrames _defaultFrames;
 
 	// ===== PROFILE LOAD / SAVE =====
 
@@ -188,5 +208,12 @@ private static readonly Color[] CharacterTints = {
 			var node = GetNodeOrNull<CanvasItem>(name);
 			if (node != null) node.SelfModulate = tint;
 		}
+
+		// sprite-swap nur fürs haupt-AnimatedSprite2D — attack/duck bleiben default
+		// weil mischa.png keine attack/duck-poses hat.
+		var main = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+		if (main == null) return;
+		if (_defaultFrames == null) _defaultFrames = main.SpriteFrames;
+		main.SpriteFrames = SelectedCharacter == 1 ? GetMischaFrames() : _defaultFrames;
 	}
 }
