@@ -157,14 +157,16 @@ _menuFxBtn.Pressed += async () =>
 	// schwarzes Overlay auf Root-Layer — wirkt über alle Szenen
 	private void ApplyBrightness(float brightness)
 	{
-		float alpha = Mathf.Clamp(1f - brightness, 0f, 0.85f);
+		// max 0.55 damit der Screen nie komplett schwarz wird — sonst kann's
+		// aussehen als wäre das Spiel eingefroren
+		float alpha = Mathf.Clamp(1f - brightness, 0f, 0.55f);
 		var existing = GetTree().Root.GetNodeOrNull<CanvasLayer>("BrightnessOverlay");
 		if (existing == null)
 		{
 			var layer = new CanvasLayer { Name = "BrightnessOverlay", Layer = 128 };
 			var rect = new ColorRect { Name = "Overlay", AnchorRight = 1f, AnchorBottom = 1f };
 			rect.Color = new Color(0f, 0f, 0f, alpha);
-			// WICHTIG: Overlay darf keine Maus-Eingaben abfangen, sonst sind alle
+			// Overlay darf keine Maus-Eingaben abfangen, sonst sind alle
 			// Buttons und Slider darunter tot
 			rect.MouseFilter = Control.MouseFilterEnum.Ignore;
 			layer.AddChild(rect);
@@ -173,7 +175,11 @@ _menuFxBtn.Pressed += async () =>
 		else
 		{
 			var rect = existing.GetNodeOrNull<ColorRect>("Overlay");
-			if (rect != null) rect.Color = new Color(0f, 0f, 0f, alpha);
+			if (rect != null)
+			{
+				rect.Color = new Color(0f, 0f, 0f, alpha);
+				rect.MouseFilter = Control.MouseFilterEnum.Ignore;
+			}
 		}
 	}
 
