@@ -58,7 +58,7 @@ public partial class Volume : Control
 		_musicSlider = GetNode<HSlider>("VBoxContainer2/HBoxC2/MusicSlider");
 		_gameFxSlider = GetNode<HSlider>("VBoxContainer2/HBoxC3/GameFXSlider");
 		_menuFxSlider = GetNode<HSlider>("VBoxContainer2/HBoxC4/MenuFXSlider");
-		_brightnessSlider = GetNodeOrNull<HSlider>("VBoxContainer2/BrightnessContainer/BrightnessSlider");
+		_brightnessSlider = GetNodeOrNull<HSlider>("BrightnessContainer/BrightnessSlider");
 
 		// =========================
 		// BUTTON EVENTS
