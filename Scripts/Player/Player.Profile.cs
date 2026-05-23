@@ -44,12 +44,13 @@ private static readonly Color[] CharacterTints = {
 };
 
 // Mischa-sprite cache. Schayan muss noch ein richtiges sprite-sheet liefern,
-// bis dahin statisches bild für alle animations.
+// bis dahin statisches bild (player2.png — gleiches asset wie in der character selection)
+// für alle animations.
 private static SpriteFrames _mischaFrames;
 private static SpriteFrames GetMischaFrames()
 {
 	if (_mischaFrames != null) return _mischaFrames;
-	var tex = GD.Load<Texture2D>("res://leveldesign/mischa.png");
+	var tex = GD.Load<Texture2D>("res://leveldesign/player2.png");
 	_mischaFrames = new SpriteFrames();
 	string[] anims = { "still", "wallk", "jump_high", "jump_down", "attack", "duck" };
 	foreach (var a in anims)
