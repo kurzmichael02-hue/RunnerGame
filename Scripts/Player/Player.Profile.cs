@@ -64,6 +64,8 @@ private static SpriteFrames GetMischaFrames()
 }
 
 private SpriteFrames _defaultFrames;
+private Vector2 _defaultMainScale;
+private bool _scaleCached;
 
 	// ===== PROFILE LOAD / SAVE =====
 
@@ -211,10 +213,33 @@ private SpriteFrames _defaultFrames;
 		}
 
 		// sprite-swap nur fürs haupt-AnimatedSprite2D — attack/duck bleiben default
-		// weil mischa.png keine attack/duck-poses hat.
+		// weil player2.png keine attack/duck-poses hat.
 		var main = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		if (main == null) return;
 		if (_defaultFrames == null) _defaultFrames = main.SpriteFrames;
-		main.SpriteFrames = SelectedCharacter == 1 ? GetMischaFrames() : _defaultFrames;
+		if (!_scaleCached) { _defaultMainScale = main.Scale; _scaleCached = true; }
+
+		if (SelectedCharacter == 1)
+		{
+			main.SpriteFrames = GetMischaFrames();
+			// player2.png ist nur 32x32, default-frames sind viel größer.
+			// scale hochjagen damit Mischa nicht winzig erscheint.
+			var defTex = _defaultFrames.GetFrameTexture("still", 0);
+			var mTex = GetMischaFrames().GetFrameTexture("still", 0);
+			if (defTex != null && mTex != null)
+			{
+				var defSize = defTex.GetSize();
+				var mSize = mTex.GetSize();
+				main.Scale = new Vector2(
+					_defaultMainScale.X * defSize.X / mSize.X,
+					_defaultMainScale.Y * defSize.Y / mSize.Y
+				);
+			}
+		}
+		else
+		{
+			main.SpriteFrames = _defaultFrames;
+			main.Scale = _defaultMainScale;
+		}
 	}
 }
