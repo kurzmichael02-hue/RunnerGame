@@ -213,7 +213,7 @@ public partial class Player : CharacterBody2D
 		if (!IsSmall) return;
 		IsSmall = false;
 		Scale = Vector2.One;
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		// kurze i-frames damit der player nicht sofort wieder getroffen wird
 		_invincibilityTimer = 1.0f;
 		// grünes blinken als visuelles feedback
@@ -843,7 +843,7 @@ else
 		SoundManager.Instance.PlayPlayerDeath();
 		IsSmall = false;
 		Scale = Vector2.One;
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		
 		Visible = false;
 		SetPhysicsProcess(false);
