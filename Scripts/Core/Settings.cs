@@ -11,18 +11,10 @@ public partial class Settings : Control
 	private Button _mainMenuButton;
 	private Button _volumeButton;
 	private Button _controlsButton;
-	private Button _exitButton;
 
-	private ConfirmationDialog _exitDialog;
 
-	// =========================
-	// STATE
-	// =========================
 	private bool _changingScene = false;
 
-	// =========================
-	// READY
-	// =========================
 	public override void _Ready()
 	{
 		ProcessMode = ProcessModeEnum.Always;
@@ -39,14 +31,8 @@ public partial class Settings : Control
 		_controlsButton =
 			GetNode<Button>("MenuPanel/VBoxContainer/Controls");
 
-		_exitButton =
-			GetNode<Button>("MenuPanel/VBoxContainer/Exit");
 
-		// =========================
-		// DIALOG
-		// =========================
-		_exitDialog =
-			GetNode<ConfirmationDialog>("ExitConfirmDialog");
+
 
 		// =========================
 		// EVENTS
@@ -54,9 +40,7 @@ public partial class Settings : Control
 		_mainMenuButton.Pressed += OnMainMenuPressed;
 		_volumeButton.Pressed += OnVolumePressed;
 		_controlsButton.Pressed += OnControlsPressed;
-		_exitButton.Pressed += OnExitPressed;
 
-		_exitDialog.Confirmed += OnExitConfirmed;
 
 if (SoundManager.Instance != null)
 {
@@ -69,6 +53,7 @@ if (SoundManager.Instance != null)
 		// HOVER SOUND
 		// =========================
 		ConnectHoverRecursive(this);
+		
 	}
 
 	// =========================
@@ -144,26 +129,6 @@ if (SoundManager.Instance != null)
 		tree.ChangeSceneToFile(path);
 	}
 
-	// =========================
-	// EXIT
-	// =========================
-	private void OnExitPressed()
-	{
-		if (SoundManager.Instance != null)
-			SoundManager.Instance.PlayButton();
-
-		_exitDialog.PopupCentered();
-	}
-
-	private void OnExitConfirmed()
-	{
-		SceneTree tree = GetTree();
-
-		if (tree == null)
-			return;
-
-		tree.Quit();
-	}
 
 	// =========================
 	// HOVER SOUND

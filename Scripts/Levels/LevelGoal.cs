@@ -46,6 +46,9 @@ public partial class LevelGoal : Area2D
 
 		player.SaveHighscorePublic();
 
+		SaveLevelHighscore(player.Score);
+		SaveLevelSession(player.Score);
+
 		// Gold blink – works for both the placeholder polygon and schayans flag sprite
 		var poly = GetNodeOrNull<Polygon2D>("Polygon2D");
 		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
@@ -132,21 +135,93 @@ public partial class LevelGoal : Area2D
 		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
+	//private void SaveBestTime(float time)
+	//{
+		//string path = "user://level1_time.dat";
+		//float best = float.MaxValue;
+//
+		//if (FileAccess.FileExists(path))
+		//{
+			//using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+			//best = file.GetFloat();
+		//}
+//
+		//if (time < best)
+		//{
+			//using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+			//file.StoreFloat(time);
+		//}
+	//}
+	
 	private void SaveBestTime(float time)
 	{
-		string path = "user://level1_time.dat";
+		string levelName =
+			Player.CurrentLevelPath
+				.GetFile()
+				.GetBaseName();
+
+		string path =
+			$"user://{levelName}_time.dat";
+
 		float best = float.MaxValue;
 
 		if (FileAccess.FileExists(path))
 		{
-			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+			using var file =
+				FileAccess.Open(path, FileAccess.ModeFlags.Read);
+
 			best = file.GetFloat();
 		}
 
 		if (time < best)
 		{
-			using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+			using var file =
+				FileAccess.Open(path, FileAccess.ModeFlags.Write);
+
 			file.StoreFloat(time);
 		}
 	}
+	private void SaveLevelHighscore(int score)
+{
+	string levelName =
+		Player.CurrentLevelPath
+			.GetFile()
+			.GetBaseName();
+
+	string path =
+		$"user://{levelName}_highscore.dat";
+
+	int best = 0;
+
+	if (FileAccess.FileExists(path))
+	{
+		using var file =
+			FileAccess.Open(path, FileAccess.ModeFlags.Read);
+
+		best = (int)(uint)file.Get32();
+	}
+
+	if (score > best)
+	{
+		using var file =
+			FileAccess.Open(path, FileAccess.ModeFlags.Write);
+
+		file.Store32((uint)score);
+	}
+}
+private void SaveLevelSession(int score)
+{
+	string levelName =
+		Player.CurrentLevelPath
+			.GetFile()
+			.GetBaseName();
+
+	string path =
+		$"user://{levelName}_session.dat";
+
+	using var file =
+		FileAccess.Open(path, FileAccess.ModeFlags.Write);
+
+	file.Store32((uint)score);
+}
 }

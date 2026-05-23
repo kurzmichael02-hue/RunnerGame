@@ -71,6 +71,7 @@ offset_bottom = 135.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 17
+alignment = 1
 
 [node name="Level1" type="Button" parent="HBoxContainer" unique_id=1231151666]
 layout_mode = 2
@@ -88,7 +89,6 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
 text = "Level 1"
 
 [node name="TestLevel" type="Button" parent="HBoxContainer" unique_id=1497075719]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
