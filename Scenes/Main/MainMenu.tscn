@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://du45uyxipjvda" path="res://leveldesign/Background/MountainView.png" id="2_lq24o"]
 [ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="3_l53to"]
 [ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="3_lq24o"]
+[ext_resource type="Texture2D" uid="uid://ctplya5hj2fhu" path="res://leveldesign/coins.png" id="5_cu5nb"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
 texture = ExtResource("2_lq24o")
@@ -172,6 +173,38 @@ size = Vector2i(351, 100)
 ok_button_text = "Ja"
 dialog_text = "Möchtest du dieses Spiel wirklich beenden?"
 cancel_button_text = "Nein"
+
+[node name="CoinsContainer" type="HBoxContainer" parent="." unique_id=1321474138]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 477.0
+offset_top = -324.0
+offset_right = 620.0
+offset_bottom = -279.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CoinsContainer" unique_id=292992135]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+texture = ExtResource("5_cu5nb")
+stretch_mode = 5
+
+[node name="CoinsLabel" type="Label" parent="CoinsContainer" unique_id=1417079804]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 0.8509804, 0.36862746, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_fonts/font = ExtResource("3_lq24o")
+theme_override_font_sizes/font_size = 25
+vertical_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]

@@ -5,6 +5,7 @@ public partial class MainMenu : Control
 {
 	
 	private ConfirmationDialog _exitDialog;
+	private Label _coinsLabel;
 	
 public override void _Ready()
 {
@@ -23,6 +24,10 @@ public override void _Ready()
 	
 	_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
 	_exitDialog.Confirmed += OnExitConfirmed;
+	
+	Player.LoadProfile();
+	_coinsLabel = GetNode<Label>("CoinsContainer/CoinsLabel");
+	_coinsLabel.Text = $"{Player.Coins}";
 
 	// Start button gets focus so arrow keys + enter work without touching the mouse.
 	// Deferred because children aren't fully ready yet inside _Ready.
