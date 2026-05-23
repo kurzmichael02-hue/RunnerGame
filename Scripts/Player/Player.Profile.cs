@@ -65,6 +65,7 @@ private static SpriteFrames GetMischaFrames()
 
 private SpriteFrames _defaultFrames;
 private Vector2 _defaultMainScale;
+private Vector2 _defaultMainPos;
 private bool _scaleCached;
 
 	// ===== PROFILE LOAD / SAVE =====
@@ -217,29 +218,37 @@ private bool _scaleCached;
 		var main = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		if (main == null) return;
 		if (_defaultFrames == null) _defaultFrames = main.SpriteFrames;
-		if (!_scaleCached) { _defaultMainScale = main.Scale; _scaleCached = true; }
+		if (!_scaleCached)
+		{
+			_defaultMainScale = main.Scale;
+			_defaultMainPos = main.Position;
+			_scaleCached = true;
+		}
 
 		if (SelectedCharacter == 1)
 		{
 			main.SpriteFrames = GetMischaFrames();
-			// player2.png ist nur 32x32, default-frames sind viel größer.
-			// scale hochjagen damit Mischa nicht winzig erscheint.
+			// pixel-art scharf rendern, sonst sieht player2 verschwommen aus beim hochskalieren
+			main.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
+
+			// uniform scale basierend auf default-frame-höhe damit aspect-ratio stimmt.
 			var defTex = _defaultFrames.GetFrameTexture("still", 0);
 			var mTex = GetMischaFrames().GetFrameTexture("still", 0);
 			if (defTex != null && mTex != null)
 			{
-				var defSize = defTex.GetSize();
-				var mSize = mTex.GetSize();
-				main.Scale = new Vector2(
-					_defaultMainScale.X * defSize.X / mSize.X,
-					_defaultMainScale.Y * defSize.Y / mSize.Y
-				);
+				float s = _defaultMainScale.Y * defTex.GetSize().Y / mTex.GetSize().Y;
+				main.Scale = new Vector2(s, s);
 			}
+			// Mischa nach unten verschieben damit füße am boden sind (player2.png
+			// hat anderes proportions-zentrum als die default-frames)
+			main.Position = new Vector2(_defaultMainPos.X, _defaultMainPos.Y + 30);
 		}
 		else
 		{
 			main.SpriteFrames = _defaultFrames;
 			main.Scale = _defaultMainScale;
+			main.Position = _defaultMainPos;
+			main.TextureFilter = CanvasItem.TextureFilterEnum.ParentNode;
 		}
 	}
 }
