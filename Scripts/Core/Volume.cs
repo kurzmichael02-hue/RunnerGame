@@ -164,6 +164,9 @@ _menuFxBtn.Pressed += async () =>
 			var layer = new CanvasLayer { Name = "BrightnessOverlay", Layer = 128 };
 			var rect = new ColorRect { Name = "Overlay", AnchorRight = 1f, AnchorBottom = 1f };
 			rect.Color = new Color(0f, 0f, 0f, alpha);
+			// WICHTIG: Overlay darf keine Maus-Eingaben abfangen, sonst sind alle
+			// Buttons und Slider darunter tot
+			rect.MouseFilter = Control.MouseFilterEnum.Ignore;
 			layer.AddChild(rect);
 			GetTree().Root.CallDeferred(Node.MethodName.AddChild, layer);
 		}
