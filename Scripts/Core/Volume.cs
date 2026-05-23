@@ -157,9 +157,9 @@ _menuFxBtn.Pressed += async () =>
 	// schwarzes Overlay auf Root-Layer — wirkt über alle Szenen
 	private void ApplyBrightness(float brightness)
 	{
-		// max 0.55 damit der Screen nie komplett schwarz wird — sonst kann's
-		// aussehen als wäre das Spiel eingefroren
-		float alpha = Mathf.Clamp(1f - brightness, 0f, 0.55f);
+		// brightness 1 → alpha 0 (komplett hell), brightness 0 → alpha 0.55 (dunkelste stufe).
+		// nicht clampen sondern skalieren, sonst macht der slider in der unteren hälfte nix mehr.
+		float alpha = (1f - brightness) * 0.55f;
 		var existing = GetTree().Root.GetNodeOrNull<CanvasLayer>("BrightnessOverlay");
 		if (existing == null)
 		{
