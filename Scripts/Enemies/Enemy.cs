@@ -162,7 +162,17 @@ public partial class Enemy : CharacterBody2D
 
 	private void Die()
 	{
+		if (_isDead) return;
 		_isDead = true;
+
+		// gegner sofort aus jedem physik-system rausnehmen. shape-disable bleibt deferred
+		// weil sicher, aber Layer/Mask=0 + RemoveFromGroup wirken immediat und verhindern
+		// dass tweenender body noch irgendwo gegen player/sword-attack registriert wird.
+		// das war der "collision teleportiert mit player"-bug — body war noch detectable
+		// während er squash-tween liefen.
+		RemoveFromGroup("enemy");
+		CollisionLayer = 0;
+		CollisionMask = 0;
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred("disabled", true);
 		SetPhysicsProcess(false);
 		SoundManager.Instance.PlayEnemyDeath();

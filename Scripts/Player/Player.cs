@@ -205,6 +205,23 @@ public partial class Player : CharacterBody2D
 		_shakeTimer = duration;
 	}
 
+	// Check ob der player aufstehen kann ohne in einem block über ihm festzustecken.
+	// GlobalTransform vom standShape benutzen damit player-scale (z.b. wenn klein/IsSmall)
+	// korrekt einberechnet wird — sonst denkt der check der player ist groß und blockt das aufstehen.
+	private bool CanStandUp()
+	{
+		if (_standShape?.Shape is not RectangleShape2D standRect) return true;
+		var query = new PhysicsShapeQueryParameters2D
+		{
+			Shape = new RectangleShape2D { Size = standRect.Size },
+			Transform = _standShape.GlobalTransform,
+			CollisionMask = CollisionMask,
+			Exclude = new Godot.Collections.Array<Godot.Rid> { GetRid() }
+		};
+		var hits = GetWorld2D().DirectSpaceState.IntersectShape(query, 1);
+		return hits.Count == 0;
+	}
+
 
 	// Pilz-Power-Up: player wächst wieder auf normale größe.
 	// Macht nur was wenn der player gerade klein ist (IsSmall=true).
@@ -213,7 +230,7 @@ public partial class Player : CharacterBody2D
 		if (!IsSmall) return;
 		IsSmall = false;
 		Scale = Vector2.One;
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		// kurze i-frames damit der player nicht sofort wieder getroffen wird
 		_invincibilityTimer = 1.0f;
 		// grünes blinken als visuelles feedback
@@ -426,9 +443,15 @@ if (wantDuck && !_isDucking)
 }
 else if (!Input.IsActionPressed("duck") && _isDucking)
 {
-	_isDucking = false;
-	_standShape.Disabled = false;
-	_duckShape.Disabled = true;
+	// nur aufstehen wenn über dem Player platz ist — sonst bleibt der player
+	// ducked weil sonst die stand-collision in einen block über uns reinrutscht
+	// und der player für immer im block feststeckt.
+	if (CanStandUp())
+	{
+		_isDucking = false;
+		_standShape.Disabled = false;
+		_duckShape.Disabled = true;
+	}
 }
 
 if (_isDucking)
@@ -504,11 +527,11 @@ else
 		{
 		if (IsOnWall() && _wallJumpCooldown <= 0f)
 			{
-				// Wall jump: mehr laterale kraft (1.0f statt 0.85f), weniger höhe (0.75f statt 0.9f).
+				// Wall jump: mehr laterale kraft, runtergedreht auf 0.6 weil der player vorher zu hoch sprang.
 				// cooldown 0.5s verhindert spam – player muss sich erst von wand wegbewegen.
 				Vector2 wallNormal = GetWallNormal();
 				velocity.X = wallNormal.X * MaxSpeed * 1.0f;
-				velocity.Y = JumpVelocity * 0.75f;
+				velocity.Y = JumpVelocity * 0.6f;
 				_doubleJumpUsed = false;
 				_jumpBufferTimer = 0f;
 				JumpHoldTimer = JumpHoldTime * 0.7f;
@@ -843,7 +866,7 @@ else
 		SoundManager.Instance.PlayPlayerDeath();
 		IsSmall = false;
 		Scale = Vector2.One;
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		
 		Visible = false;
 		SetPhysicsProcess(false);
