@@ -205,6 +205,23 @@ public partial class Player : CharacterBody2D
 		_shakeTimer = duration;
 	}
 
+	// Check ob der player aufstehen kann ohne in einem block über ihm festzustecken.
+	// Physik-shape-query auf die stand-collision an player-position, exclude den
+	// player selbst damit wir uns nicht selbst erkennen.
+	private bool CanStandUp()
+	{
+		if (_standShape?.Shape is not RectangleShape2D standRect) return true;
+		var query = new PhysicsShapeQueryParameters2D
+		{
+			Shape = new RectangleShape2D { Size = standRect.Size },
+			Transform = new Transform2D(0f, GlobalPosition + _standShape.Position),
+			CollisionMask = CollisionMask,
+			Exclude = new Godot.Collections.Array<Godot.Rid> { GetRid() }
+		};
+		var hits = GetWorld2D().DirectSpaceState.IntersectShape(query, 1);
+		return hits.Count == 0;
+	}
+
 
 	// Pilz-Power-Up: player wächst wieder auf normale größe.
 	// Macht nur was wenn der player gerade klein ist (IsSmall=true).
@@ -426,9 +443,15 @@ if (wantDuck && !_isDucking)
 }
 else if (!Input.IsActionPressed("duck") && _isDucking)
 {
-	_isDucking = false;
-	_standShape.Disabled = false;
-	_duckShape.Disabled = true;
+	// nur aufstehen wenn über dem Player platz ist — sonst bleibt der player
+	// ducked weil sonst die stand-collision in einen block über uns reinrutscht
+	// und der player für immer im block feststeckt.
+	if (CanStandUp())
+	{
+		_isDucking = false;
+		_standShape.Disabled = false;
+		_duckShape.Disabled = true;
+	}
 }
 
 if (_isDucking)
