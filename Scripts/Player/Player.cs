@@ -504,11 +504,11 @@ else
 		{
 		if (IsOnWall() && _wallJumpCooldown <= 0f)
 			{
-				// Wall jump: mehr laterale kraft (1.0f statt 0.85f), weniger höhe (0.75f statt 0.9f).
+				// Wall jump: mehr laterale kraft, runtergedreht auf 0.6 weil der player vorher zu hoch sprang.
 				// cooldown 0.5s verhindert spam – player muss sich erst von wand wegbewegen.
 				Vector2 wallNormal = GetWallNormal();
 				velocity.X = wallNormal.X * MaxSpeed * 1.0f;
-				velocity.Y = JumpVelocity * 0.75f;
+				velocity.Y = JumpVelocity * 0.6f;
 				_doubleJumpUsed = false;
 				_jumpBufferTimer = 0f;
 				JumpHoldTimer = JumpHoldTime * 0.7f;
