@@ -12,7 +12,7 @@ public override void _Ready()
 	SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 
 	
-	var vbox = GetNode<VBoxContainer>("VBoxContainer");
+	var vbox = GetNode<VBoxContainer>("VBoxContainer"); 
 
 	foreach (Node child in vbox.GetChildren())
 	{
