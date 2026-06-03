@@ -119,6 +119,30 @@ public partial class Player : CharacterBody2D
 		_duckSprite.Visible = false;
 		_anim.Play("still");
 		_attackSprite.Visible = false;
+
+		CreateBoundaryWalls();
+	}
+
+	// Unsichtbare wand-StaticBody2D ganz am rand des world space — links bei X=0
+	// (terrain in Level1 startet ungefähr da) und rechts X=7270 (kurz hinter goal X=7168).
+	// Echte physik statt position-clamp damit der player wirklich blockiert wird.
+	private void CreateBoundaryWalls()
+	{
+		var parent = GetParent();
+		if (parent == null) return;
+		parent.CallDeferred(Node.MethodName.AddChild, MakeWall(-30));
+		parent.CallDeferred(Node.MethodName.AddChild, MakeWall(7270));
+	}
+
+	private static StaticBody2D MakeWall(float x)
+	{
+		var wall = new StaticBody2D { Position = new Vector2(x, 0), CollisionLayer = 1 };
+		var shape = new CollisionShape2D
+		{
+			Shape = new RectangleShape2D { Size = new Vector2(20, 2000) }
+		};
+		wall.AddChild(shape);
+		return wall;
 	}
 	private void UpdateAnimation(float direction)
 {
@@ -203,6 +227,16 @@ public partial class Player : CharacterBody2D
 	{
 		_shakeStrength = strength;
 		_shakeTimer = duration;
+	}
+
+	// Alle lebenden gegner auf ihre start-position zurücksetzen. Wird beim respawn
+	// gerufen damit kein gegner direkt über dem checkpoint hängt und insta-killt.
+	private void ResetEnemiesToStart()
+	{
+		foreach (Node n in GetTree().GetNodesInGroup("enemy"))
+		{
+			if (n is Enemy e) e.ResetToStart();
+		}
 	}
 
 	// Check ob der player aufstehen kann ohne in einem block über ihm festzustecken.
@@ -331,9 +365,11 @@ public partial class Player : CharacterBody2D
 	await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
 	Position = _checkpointPosition;
+	ResetEnemiesToStart();
 	Visible = true;
 	SetPhysicsProcess(true);
-	_invincibilityTimer = 1.5f;
+	// invincibility = enemy grace period damit beide synchron enden
+	_invincibilityTimer = 3f;
 	IsDying = false;
 	ResetAirState();
 
@@ -459,6 +495,11 @@ if (_isDucking)
 	float duckDir = 0;
 	if (Input.IsActionPressed("move_left")) duckDir = -1;
 	else if (Input.IsActionPressed("move_right")) duckDir = 1;
+
+	// facing auch beim ducken updaten, sonst flipt der duck-sprite nicht
+	// wenn der player die richtung wechselt während er geduckt ist.
+	if (duckDir != 0)
+		_facing = duckDir > 0 ? 1 : -1;
 
 	_jumpBufferTimer = 0f;
 	Vector2 vel = Velocity;
@@ -628,10 +669,6 @@ else
 			float decel = IsOnFloor() ? Deceleration : AirAcceleration;
 			velocity.X = Mathf.MoveToward(velocity.X, 0f, decel * dt);
 		}
-
-		// Left boundary
-		if (Position.X < 0)
-			Position = new Vector2(0, Position.Y);
 
 		Velocity = velocity;
 		MoveAndSlide();
@@ -846,8 +883,10 @@ else
 	{
 		// First hit – shrink player, don't die yet
 		IsSmall = true;
-		_invincibilityTimer = 1.5f;
-		
+		// kurze i-frames damit player nicht direkt nochmal stirbt, aber nicht so lange
+		// dass man durch andere gegner durchläuft
+		_invincibilityTimer = 0.5f;
+
 		// Shrink collision and scale visually
 		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		Scale = new Vector2(0.6f, 0.6f);
@@ -875,9 +914,11 @@ else
 		await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
 		Position = _checkpointPosition;
+		ResetEnemiesToStart();
 		Visible = true;
 		SetPhysicsProcess(true);
-		_invincibilityTimer = 1.5f;
+		// kurze i-frames nach respawn, damit man nicht direkt wieder stirbt aber auch nicht zu lange wartet
+		_invincibilityTimer = 0.5f;
 		IsDying = false;
 		ResetAirState();
 

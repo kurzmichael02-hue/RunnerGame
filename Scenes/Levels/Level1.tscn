@@ -367,7 +367,7 @@ size = Vector2(50, 89.5)
 size = Vector2(72, 84)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dahhg"]
-size = Vector2(20, 1000)
+size = Vector2(7, 6496)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kyjoo"]
 size = Vector2(67, 36)
@@ -619,7 +619,7 @@ texture = ExtResource("10_ulun0")
 position = Vector2(7260, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" unique_id=553594656]
-position = Vector2(-33, 0)
+position = Vector2(12.5, -2748)
 shape = SubResource("RectangleShape2D_dahhg")
 
 [node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("11_nvn6m")]
