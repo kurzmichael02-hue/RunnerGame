@@ -154,7 +154,11 @@ public partial class SoundManager : Node
 	LoadBusVolume(config, "gamefx", "GameFX");
 	LoadBusVolume(config, "menufx", "MenuFX");
 }
-private void LoadBusVolume(ConfigFile config, string configKey, string busName)
+
+private void LoadBusVolume(
+	ConfigFile config,
+	string configKey,
+	string busName)
 {
 	if (!config.HasSectionKey("audio", configKey))
 		return;
@@ -162,14 +166,11 @@ private void LoadBusVolume(ConfigFile config, string configKey, string busName)
 	double value =
 		(double)config.GetValue("audio", configKey, 100.0);
 
-	float linear = (float)(value / 100.0);
-
 	float db =
-		linear <= 0.001f
-		? -80f
-		: Mathf.LinearToDb(linear);
+		AudioUtils.PercentToDb((float)value);
 
-	int bus = AudioServer.GetBusIndex(busName);
+	int bus =
+		AudioServer.GetBusIndex(busName);
 
 	AudioServer.SetBusVolumeDb(bus, db);
 }
@@ -279,11 +280,10 @@ private void LoadBusVolume(ConfigFile config, string configKey, string busName)
 	//Helper Function to implement public Functions for Ui Usage
 	private void SetBusVolume(string busName, float valuePercent)
 	{
-		float linear = valuePercent / 100f;
-		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
+	float db = AudioUtils.PercentToDb(valuePercent);
 
-		int busIndex = AudioServer.GetBusIndex(busName);
-		AudioServer.SetBusVolumeDb(busIndex, db);
+	int busIndex = AudioServer.GetBusIndex(busName);
+	AudioServer.SetBusVolumeDb(busIndex, db);
 	}
 	
 	//public Wrapper Functions to use in UI
