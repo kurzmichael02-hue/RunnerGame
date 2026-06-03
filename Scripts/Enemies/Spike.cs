@@ -4,6 +4,8 @@ public partial class Spike : Area2D
 {
 	private Player _playerInside;
 
+	private bool _initialOverlapChecked = false;
+
 	public override void _Ready()
 	{
 		BodyEntered += OnBodyEntered;
@@ -15,6 +17,13 @@ public partial class Spike : Area2D
 	// Deshalb: Player tracken und jeden Frame prüfen sobald i-frames ablaufen.
 	public override void _PhysicsProcess(double delta)
 	{
+		if (!_initialOverlapChecked)
+		{
+			_initialOverlapChecked = true;
+			foreach (var body in GetOverlappingBodies())
+				OnBodyEntered(body);
+		}
+
 		if (_playerInside == null) return;
 		if (_playerInside.IsDying || _playerInside.IsInvincible) return;
 
