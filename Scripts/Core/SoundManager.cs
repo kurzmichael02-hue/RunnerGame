@@ -261,12 +261,19 @@ private void LoadBusVolume(ConfigFile config, string configKey, string busName)
 	//Switch Music Function Stops every music and switches to the Audio Stream Player, which is chosen as the parameter
 	public void SwitchMusic(AudioStreamPlayer target)
 	{
-		foreach (var music in _musicPlayers)
-		{
-			music.Stop();
-		}
 
-		target.Play();
+	// Stop everything else
+	foreach (var music in _musicPlayers)
+	{
+		if (music != target)
+			music.Stop();
+	}
+	
+		// If target already playing -> Do Nothing
+	if (target.Playing)
+		return;
+
+	target.Play();
 	}
 	
 	//Helper Function to implement public Functions for Ui Usage
