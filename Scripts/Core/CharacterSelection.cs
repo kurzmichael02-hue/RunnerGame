@@ -21,7 +21,18 @@ public partial class CharacterSelection : Node
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 		Player.LoadProfile();
+		//Player.Coins = 999;
+		//
+		//Player.UnlockedCharacters.Clear();
+		//Player.UnlockedCharacters.Add(0);
+		//
+		//Player.SelectedCharacter = 0;
+		//
+		//Player.SaveProfile();
+
+
 		_mischaButton =	GetNode<Button>("HBoxContainer/Button2");
+
 		_selectedLabel = GetNode<Label>("SelectedLabel");
 		_mischaLockIcon = GetNode<TextureRect>("HBoxContainer/Button2/LockIcon");
 		_confirmPanel =	GetNode<Panel>("ConfirmPanel");
