@@ -64,7 +64,8 @@ public partial class ItemBlock : StaticBody2D
 
 		// item direkt über dem block spawnen
 		SpawnItem();
-		SoundManager.Instance.PlayCoin(); // TODO: eigenen block-sound wenn vorhanden
+		// nutzt vorerst den Coin-Sound als Block-Feedback
+		SoundManager.Instance.PlayCoin();
 	}
 
 	private void SpawnItem()
