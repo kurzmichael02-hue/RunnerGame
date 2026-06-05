@@ -21,15 +21,6 @@ public partial class CharacterSelection : Node
 	{
 		SoundManager.Instance.SwitchMusic(SoundManager.Instance.StartScreenMusic);
 		Player.LoadProfile();
-		//Player.Coins = 999;
-		//
-		//Player.UnlockedCharacters.Clear();
-		//Player.UnlockedCharacters.Add(0);
-		//
-		//Player.SelectedCharacter = 0;
-		//
-		//Player.SaveProfile();
-
 
 		_mischaButton =	GetNode<Button>("HBoxContainer/Button2");
 
@@ -40,8 +31,6 @@ public partial class CharacterSelection : Node
 		UpdateLabel();
 		
 	}
-
-	public override void _Process(double delta) { }
 
 	private void _on_button_pressed() => TrySelect(0);
 	private void _on_button_2_pressed() => TrySelect(1);

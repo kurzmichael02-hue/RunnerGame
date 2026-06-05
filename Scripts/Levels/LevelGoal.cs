@@ -77,14 +77,12 @@ public partial class LevelGoal : Area2D
 		// Mini Delay für UI Stabilität
 		await ToSignal(GetTree().CreateTimer(0.05f), SceneTreeTimer.SignalName.Timeout);
 
-		// Spiel pausieren
-		//GetTree().Paused = true;
+		// Gegner einfrieren statt das ganze Spiel zu pausieren, damit der
+		// Level-Complete-Screen weiter auf Eingaben reagiert.
 		foreach (Node enemy in GetTree().GetNodesInGroup("enemy"))
 		{
-			enemy.ProcessMode =
-				Node.ProcessModeEnum.Disabled;
+			enemy.ProcessMode = Node.ProcessModeEnum.Disabled;
 		}
-		
 	}
 	
 	private void ShowScreen()
@@ -114,8 +112,7 @@ public partial class LevelGoal : Area2D
 	
 	
 
-	// Floating gold label above the player showing the bonus – runs faster than the
-	// 1s pre-pause window so the tween has time to finish before GetTree().Paused kicks in
+	// Schwebendes Gold-Label ueber dem Spieler, das den Zeitbonus anzeigt und nach oben ausblendet.
 	private void SpawnBonusPopup(Vector2 worldPos, int amount)
 	{
 		var wrap = new Node2D { GlobalPosition = worldPos + new Vector2(0, -60) };
@@ -135,24 +132,7 @@ public partial class LevelGoal : Area2D
 		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
 	}
 
-	//private void SaveBestTime(float time)
-	//{
-		//string path = "user://level1_time.dat";
-		//float best = float.MaxValue;
-//
-		//if (FileAccess.FileExists(path))
-		//{
-			//using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-			//best = file.GetFloat();
-		//}
-//
-		//if (time < best)
-		//{
-			//using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
-			//file.StoreFloat(time);
-		//}
-	//}
-	
+	// Speichert die beste (kuerzeste) Zeit pro Level in einer eigenen Datei.
 	private void SaveBestTime(float time)
 	{
 		string levelName =

@@ -40,10 +40,6 @@ private void OnAnyButtonHovered()
 	SoundManager.Instance.PlayMenuHover();
 }
 
-	public override void _Process(double delta)
-	{
-	}
-
 	// START BUTTON
 	private void _on_start_pressed()
 	{

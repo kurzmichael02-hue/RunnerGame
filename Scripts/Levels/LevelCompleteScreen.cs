@@ -27,11 +27,7 @@ public partial class LevelCompleteScreen : CanvasLayer
 		_timeLabel = GetNode<Label>("Panel/VBoxContainer/TimeLabel");
 
 		// Buttons verbinden
-		//GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
-		//GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
-		
 		GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
-
 		GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
 		ConnectHoverRecursive(this);
 	}

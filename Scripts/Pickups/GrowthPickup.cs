@@ -46,7 +46,8 @@ public partial class GrowthPickup : Area2D
 		if (player.IsSmall)
 		{
 			player.Grow();
-			SoundManager.Instance.PlayCoin(); // TODO: eigenen wachstums-sound einfügen wenn vorhanden
+			// nutzt vorerst den Coin-Sound als Wachstums-Feedback
+			SoundManager.Instance.PlayCoin();
 		}
 		// auch wenn player groß ist: pilz verschwindet (einmalverwendung)
 		QueueFree();
