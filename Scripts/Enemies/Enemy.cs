@@ -80,13 +80,16 @@ public partial class Enemy : CharacterBody2D
 
 				if (playerNode.StarInvincibilityActive) { Die(); return; }
 
-				// Stomp positions-basiert statt velocity-basiert: wenn die player-füße
-				// (unterkante) auf höhe der gegner-oberhälfte sind UND der player nicht
-				// nach oben springt → stomp. Robuster als die alte velocity > 80 schwelle
-				// die sanftes landen verpasst hat (= player stirbt obwohl er oben drauf ist).
+				// Stomp: der Spieler muss von oben auf den Gegner kommen. Ein Stomp
+				// setzt voraus, dass der Spieler NICHT auf dem Terrain steht (er steht
+				// dann auf dem Gegner, daher !IsOnFloor), nach unten kommt und sein
+				// Mittelpunkt ueber dem des Gegners liegt. Ohne den IsOnFloor-Check
+				// wuerde ein geduckter Spieler am Boden bei seitlichem Kontakt faelschlich
+				// einen Stomp ausloesen.
 				float playerBottom = pRect.Position.Y + pRect.Size.Y;
 				float enemyTop = eRect.Position.Y;
-				bool fromAbove = playerBottom <= enemyTop + eRect.Size.Y * 0.6f;
+				bool fromAbove = !playerNode.IsOnFloor()
+					&& playerBottom <= enemyTop + eRect.Size.Y * 0.6f;
 				bool notRising = playerNode.Velocity.Y > -50f;
 				if (fromAbove && notRising && dy > 0f)
 				{
