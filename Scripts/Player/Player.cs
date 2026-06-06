@@ -245,10 +245,24 @@ public partial class Player : CharacterBody2D
 	private bool CanStandUp()
 	{
 		if (_standShape?.Shape is not RectangleShape2D standRect) return true;
+		if (_duckShape?.Shape is not RectangleShape2D duckRect) return true;
+
+		// Nur den Raum ueber dem geduckten Kopf pruefen, nicht die volle Stand-Form.
+		// Wuerde man die ganze Stand-Form testen, ragt sie unten in den Boden und der
+		// Check schlaegt immer fehl -> der Spieler koennte nie wieder aufstehen.
+		Vector2 scale = GlobalScale;
+		float standTop = _standShape.GlobalPosition.Y - standRect.Size.Y * scale.Y * 0.5f;
+		float duckTop = _duckShape.GlobalPosition.Y - duckRect.Size.Y * scale.Y * 0.5f;
+		float gap = duckTop - standTop;
+		if (gap <= 1f) return true; // kaum hoehenunterschied -> aufstehen immer erlaubt
+
+		// schmale box knapp ueber dem geduckten kopf, deckt nur die aufricht-hoehe ab
+		var boxSize = new Vector2(standRect.Size.X * scale.X * 0.6f, gap);
+		var center = new Vector2(_standShape.GlobalPosition.X, standTop + gap * 0.5f);
 		var query = new PhysicsShapeQueryParameters2D
 		{
-			Shape = new RectangleShape2D { Size = standRect.Size },
-			Transform = _standShape.GlobalTransform,
+			Shape = new RectangleShape2D { Size = boxSize },
+			Transform = new Transform2D(0f, center),
 			CollisionMask = CollisionMask,
 			Exclude = new Godot.Collections.Array<Godot.Rid> { GetRid() }
 		};
@@ -395,6 +409,12 @@ public partial class Player : CharacterBody2D
 		// Refill sword uses per life – pickups carry over during the life itself
 		_swordUses = 3;
 		Velocity = Vector2.Zero;
+
+		// Duck-State zuruecksetzen, sonst respawnt der Spieler geduckt und haengt fest,
+		// wenn er im Moment des Todes geduckt war.
+		_isDucking = false;
+		if (_standShape != null) _standShape.Disabled = false;
+		if (_duckShape != null) _duckShape.Disabled = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
