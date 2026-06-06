@@ -36,11 +36,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cg2ps"]
 size = Vector2(50, 101)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4q8tf"]
-size = Vector2(30, 79)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x3xnh"]
-size = Vector2(30, 30)
+size = Vector2(83, 68)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nvn6m"]
 atlas = ExtResource("5_nvl0l")
@@ -437,7 +434,7 @@ size = Vector2(28, 38)
 script = ExtResource("1_kyjoo")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=569983748]
-position = Vector2(3791, 271.50006)
+position = Vector2(3806.9998, 273)
 scale = Vector2(22.598957, 7.8125005)
 texture = ExtResource("2_ac8j0")
 
@@ -445,10 +442,6 @@ texture = ExtResource("2_ac8j0")
 position = Vector2(200, 271)
 collision_mask = 5
 script = ExtResource("3_0nu4m")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=485732826]
-position = Vector2(0, -1.5)
-shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=331759653]
 drag_horizontal_enabled = true
@@ -465,10 +458,11 @@ scale = Vector2(3.5, 3.5)
 texture = ExtResource("4_vl7yh")
 
 [node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=327617137]
-position = Vector2(0, 9.5)
-shape = SubResource("RectangleShape2D_4q8tf")
+position = Vector2(0, 2.75)
+shape = SubResource("RectangleShape2D_cg2ps")
 
 [node name="DuckShape" type="CollisionShape2D" parent="Player" unique_id=1483275952]
+position = Vector2(16.5, 15)
 shape = SubResource("RectangleShape2D_x3xnh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1604708776]
@@ -809,7 +803,7 @@ script = ExtResource("13_efseb")
 Type = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy9" unique_id=634150715]
-position = Vector2(-6.5, -13.5)
+position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_ook5n")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy9" unique_id=1110267756]
@@ -833,7 +827,7 @@ ProjectileScene = ExtResource("17_n4fq4")
 ShootInterval = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
-position = Vector2(-6.5, -13.5)
+position = Vector2(2, 1)
 shape = SubResource("RectangleShape2D_nvl0l")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy10" unique_id=1110267757]
