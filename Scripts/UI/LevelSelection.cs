@@ -28,7 +28,7 @@ private void _on_level1_pressed()
 
 private void _on_testLevel_pressed()
 {
-	Player.CurrentLevelPath = "res://Scenes/Levels/TestLevel.tscn";
+	Player.CurrentLevelPath = "res://Scenes/Levels/Level2.tscn";
 	SoundManager.Instance.PlayButton();
 	GetTree().ChangeSceneToFile(Player.CurrentLevelPath);
 }
