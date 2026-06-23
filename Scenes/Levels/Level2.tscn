@@ -503,8 +503,6 @@ sprite_frames = SubResource("SpriteFrames_ulun0")
 position = Vector2(34, 19.000008)
 scale = Vector2(0.40997416, 0.46220934)
 sprite_frames = SubResource("SpriteFrames_nvn6m")
-animation = &"duck"
-frame_progress = 0.38147506
 
 [node name="StandShape" type="CollisionShape2D" parent="Player" unique_id=550331144]
 position = Vector2(0, 2.75)
@@ -626,48 +624,48 @@ position = Vector2(12.5, -2748)
 shape = SubResource("RectangleShape2D_dahhg")
 
 [node name="FireFlower" parent="." unique_id=1094001584 instance=ExtResource("13_mypd1")]
-position = Vector2(4020, 140)
+position = Vector2(1500, -850)
 
 [node name="Spikes" type="Node2D" parent="." unique_id=63224165]
-position = Vector2(103, 211)
+position = Vector2(404, -5)
 
 [node name="Spike" parent="Spikes" unique_id=677823221 instance=ExtResource("14_s6uab")]
-position = Vector2(934.00006, 264)
+position = Vector2(99, -118.00001)
 scale = Vector2(0.9, 0.9)
 
 [node name="Spike2" parent="Spikes" unique_id=157495555 instance=ExtResource("14_s6uab")]
-position = Vector2(5700, 310)
+position = Vector2(1485, -102)
 
 [node name="Spike3" parent="Spikes" unique_id=754823535 instance=ExtResource("14_s6uab")]
-position = Vector2(5770, 310)
+position = Vector2(1100, -662)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1715919895]
 position = Vector2(6200, 279)
 
 [node name="Enemy" type="CharacterBody2D" parent="Enemies" unique_id=263876446]
-position = Vector2(-5552, 21)
+position = Vector2(-5648, -291)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
 MoveDistance = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy" unique_id=634150711]
-position = Vector2(-0.5, 1)
+position = Vector2(-66, 10)
 shape = SubResource("RectangleShape2D_kyjoo")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy" unique_id=1110267752]
 texture_filter = 1
-position = Vector2(6, 15)
+position = Vector2(-59, 24)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("16_bv0qk")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy" unique_id=609767665]
-position = Vector2(0, 1)
+position = Vector2(-66, 10)
 shape = SubResource("RectangleShape2D_ac8j0")
-target_position = Vector2(0, 0)
+target_position = Vector2(0, 1)
 
 [node name="Enemy2" type="CharacterBody2D" parent="Enemies" unique_id=148747929]
-position = Vector2(-5097, 16)
+position = Vector2(-5860, -431)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
@@ -676,22 +674,22 @@ Speed = 10.0
 MoveDistance = 50.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy2" unique_id=1384934600]
-position = Vector2(2, -10)
+position = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy2" unique_id=1399868777]
 texture_filter = 1
-position = Vector2(2, -26)
+position = Vector2(2, -21)
 scale = Vector2(4, 4)
 texture = ExtResource("17_pago5")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy2" unique_id=471693211]
-position = Vector2(1, -11)
+position = Vector2(1, -5)
 shape = SubResource("RectangleShape2D_acvyw")
 target_position = Vector2(0, 0)
 
 [node name="Enemy3" type="CharacterBody2D" parent="Enemies" unique_id=1757553526]
-position = Vector2(-3957, 21)
+position = Vector2(-5008, -869)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
@@ -699,22 +697,22 @@ Type = 1
 MoveDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy3" unique_id=1298542755]
-position = Vector2(5, -16.5)
+position = Vector2(-1, 7)
 shape = SubResource("RectangleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy3" unique_id=542366519]
 texture_filter = 1
-position = Vector2(2, -12)
+position = Vector2(-6, -2)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("18_ifigw")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy3" unique_id=879793035]
-position = Vector2(5, -16)
+position = Vector2(-1, -5)
 shape = SubResource("RectangleShape2D_alh3a")
-target_position = Vector2(0, 0)
+target_position = Vector2(-1, -1)
 
 [node name="Enemy4" type="CharacterBody2D" parent="Enemies" unique_id=679314473]
-position = Vector2(-2272, -106)
+position = Vector2(-5279, -448)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
@@ -722,22 +720,22 @@ Type = 1
 Speed = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy4" unique_id=246095921]
-position = Vector2(1, -17)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_8e0uq")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy4" unique_id=1181938234]
 texture_filter = 1
-position = Vector2(-2, -12)
+position = Vector2(-4, 8)
 scale = Vector2(4.5, 4.5)
 texture = SubResource("CompressedTexture2D_i0vto")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy4" unique_id=846997503]
-position = Vector2(1, -13)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_3jf1l")
-target_position = Vector2(0, -1)
+target_position = Vector2(0, 0)
 
 [node name="Enemy5" type="CharacterBody2D" parent="Enemies" unique_id=2047385679]
-position = Vector2(-2433, -130)
+position = Vector2(-4199, -644)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
@@ -746,44 +744,44 @@ Speed = 0.0
 MoveDistance = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy5" unique_id=1302359908]
-position = Vector2(0, -15)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_i0vto")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy5" unique_id=1495682700]
 texture_filter = 1
-position = Vector2(1, -33)
+position = Vector2(1, -15)
 scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_3jf1l")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy5" unique_id=873231589]
-position = Vector2(0, -15)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_356ba")
 target_position = Vector2(0, 0)
 
 [node name="Enemy6" type="CharacterBody2D" parent="Enemies" unique_id=263876447]
-position = Vector2(-1552, 4)
+position = Vector2(-5219, -647)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
 MoveDistance = 250.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy6" unique_id=634150712]
-position = Vector2(-1.5, 2.5)
+position = Vector2(1, 15)
 shape = SubResource("RectangleShape2D_0nu4m")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy6" unique_id=1110267753]
 texture_filter = 1
-position = Vector2(5, 16)
+position = Vector2(8, 28)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("16_bv0qk")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy6" unique_id=609767666]
-position = Vector2(-2, 2)
+position = Vector2(1, 15)
 shape = SubResource("RectangleShape2D_vl7yh")
 target_position = Vector2(0, 0)
 
 [node name="Enemy7" type="CharacterBody2D" parent="Enemies" unique_id=263876448]
-position = Vector2(-700, 22)
+position = Vector2(-5124, -1226)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
@@ -791,67 +789,67 @@ Type = 1
 MoveDistance = 300.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy7" unique_id=634150713]
-position = Vector2(0, -25)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_apnk5")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy7" unique_id=1110267754]
 texture_filter = 1
-position = Vector2(0, -41)
+position = Vector2(0, -9)
 scale = Vector2(4, 4)
 texture = ExtResource("17_pago5")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy7" unique_id=609767667]
-position = Vector2(0, -25)
+position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_acvyw")
-target_position = Vector2(0, 0)
+target_position = Vector2(1, 0)
 
 [node name="Enemy8" type="CharacterBody2D" parent="Enemies" unique_id=263876449]
-position = Vector2(0, 20)
+position = Vector2(-5610, -993)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
 Type = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy8" unique_id=634150714]
-position = Vector2(2, -29.5)
+position = Vector2(1, 7)
 shape = SubResource("RectangleShape2D_ctxhw")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy8" unique_id=1110267755]
 texture_filter = 1
-position = Vector2(0, -27)
+position = Vector2(-3, 10)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("18_ifigw")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy8" unique_id=609767668]
-position = Vector2(2, -30)
+position = Vector2(1, 8)
 shape = SubResource("RectangleShape2D_wxwew")
 target_position = Vector2(0, 0)
 
 [node name="Enemy9" type="CharacterBody2D" parent="Enemies" unique_id=263876450]
-position = Vector2(-2313, -362)
+position = Vector2(-5539, -1544)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
 Type = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy9" unique_id=634150715]
-position = Vector2(1, 2)
+position = Vector2(2, 15)
 shape = SubResource("RectangleShape2D_ook5n")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy9" unique_id=1110267756]
 modulate = Color(1, 0.35, 0.35, 1)
 texture_filter = 1
-position = Vector2(7, 14)
+position = Vector2(8, 30)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("16_bv0qk")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy9" unique_id=609767669]
-position = Vector2(1, 0)
+position = Vector2(2, 15)
 shape = SubResource("RectangleShape2D_4eofi")
 target_position = Vector2(0, 0)
 
 [node name="Enemy10" type="CharacterBody2D" parent="Enemies" unique_id=263876451]
-position = Vector2(-1058, 6)
+position = Vector2(-5556, -1219)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("15_fqugr")
@@ -860,50 +858,54 @@ ProjectileScene = ExtResource("19_pe0d0")
 ShootInterval = 1.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemies/Enemy10" unique_id=634150716]
-position = Vector2(2, 1)
+position = Vector2(8, 9)
 shape = SubResource("RectangleShape2D_nvl0l")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemies/Enemy10" unique_id=1110267757]
 modulate = Color(0.5, 0.5, 1, 1)
 texture_filter = 1
-position = Vector2(10, 15)
+position = Vector2(14, 24)
 scale = Vector2(4.5, 4.5)
 texture = ExtResource("16_bv0qk")
 
 [node name="HitBox" type="ShapeCast2D" parent="Enemies/Enemy10" unique_id=609767670]
-position = Vector2(2, -2)
+position = Vector2(7, 10)
 shape = SubResource("RectangleShape2D_ulun0")
-target_position = Vector2(0, 0)
+target_position = Vector2(1, 0)
 
 [node name="Coins" type="Node2D" parent="." unique_id=510832193]
 position = Vector2(95, 336)
 
 [node name="Coin" type="Area2D" parent="Coins" unique_id=1581031963]
-position = Vector2(400, 78)
+position = Vector2(656, -390)
 script = ExtResource("20_yf0ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin" unique_id=2055008763]
+position = Vector2(1, -2)
 shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin" unique_id=546608006]
 texture_filter = 1
+position = Vector2(2, 0)
 scale = Vector2(4, 4)
 texture = ExtResource("21_vt7u7")
 
 [node name="Coin2" type="Area2D" parent="Coins" unique_id=686530803]
-position = Vector2(556, 78)
+position = Vector2(1800, -365)
 script = ExtResource("20_yf0ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin2" unique_id=463434279]
+position = Vector2(1, -1)
 shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin2" unique_id=974573623]
 texture_filter = 1
+position = Vector2(1, 0)
 scale = Vector2(4, 4)
 texture = ExtResource("21_vt7u7")
 
 [node name="Coin3" type="Area2D" parent="Coins" unique_id=168780771]
-position = Vector2(762, 55)
+position = Vector2(1873, -603)
 script = ExtResource("20_yf0ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin3" unique_id=2061636987]
@@ -911,158 +913,175 @@ shape = SubResource("CircleShape2D_j5yw3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin3" unique_id=483352856]
 texture_filter = 1
+position = Vector2(1, -1)
 scale = Vector2(4, 4)
 texture = ExtResource("21_vt7u7")
 
 [node name="Coin4" type="Area2D" parent="Coins" unique_id=121221526]
-position = Vector2(891, 49)
+position = Vector2(1977, -604)
 script = ExtResource("20_yf0ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin4" unique_id=920698204]
+position = Vector2(-2, 0)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin4/CollisionShape2D" unique_id=276341414]
 texture_filter = 1
+position = Vector2(2, 1)
 scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
 [node name="Coin5" type="Area2D" parent="Coins" unique_id=1161870017]
-position = Vector2(3181, 71)
+position = Vector2(2070, -603)
 script = ExtResource("20_yf0ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin5" unique_id=404119719]
+position = Vector2(-4, -1)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin5/CollisionShape2D" unique_id=1127930969]
+texture_filter = 1
+position = Vector2(2, 2)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin6" type="Area2D" parent="Coins" unique_id=1609223924]
+position = Vector2(1786, -600)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin6" unique_id=439638209]
+position = Vector2(1, -3)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin6/CollisionShape2D" unique_id=767892046]
+texture_filter = 1
+position = Vector2(2, 0)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin7" type="Area2D" parent="Coins" unique_id=81764200]
+position = Vector2(418, -653)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin7" unique_id=105800429]
+position = Vector2(-1, 1)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin7/CollisionShape2D" unique_id=2109363038]
+texture_filter = 1
+position = Vector2(2, 2)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin8" type="Area2D" parent="Coins" unique_id=1821734858]
+position = Vector2(1227, -708)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin8" unique_id=505241174]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin8/CollisionShape2D" unique_id=1970758541]
+texture_filter = 1
+position = Vector2(1, 4)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin9" type="Area2D" parent="Coins" unique_id=557738117]
+position = Vector2(1600, -708)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin9" unique_id=1510580295]
+position = Vector2(1, 0)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin9/CollisionShape2D" unique_id=1988975137]
+texture_filter = 1
+position = Vector2(2, 1)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin10" type="Area2D" parent="Coins" unique_id=1049713406]
+position = Vector2(-61, -854)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin10" unique_id=1022773604]
+position = Vector2(-1, 1)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin10/CollisionShape2D" unique_id=1459562677]
+texture_filter = 1
+position = Vector2(4, 3)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin11" type="Area2D" parent="Coins" unique_id=1440894983]
+position = Vector2(2233, -1151)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin11" unique_id=1858538498]
+position = Vector2(-1, 2)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin11/CollisionShape2D" unique_id=1645379556]
+texture_filter = 1
+position = Vector2(-1, 1)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin12" type="Area2D" parent="Coins" unique_id=1581031964]
+position = Vector2(2150, -1149)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin12" unique_id=2055008764]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin12/CollisionShape2D" unique_id=546608007]
+texture_filter = 1
+position = Vector2(2, 1)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin13" type="Area2D" parent="Coins" unique_id=1581031965]
+position = Vector2(1271, -1397)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin13" unique_id=2055008765]
+position = Vector2(-1, 4)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin13/CollisionShape2D" unique_id=546608008]
+texture_filter = 1
+position = Vector2(3, 0)
+scale = Vector2(4, 4)
+texture = SubResource("CompressedTexture2D_4q8tf")
+
+[node name="Coin14" type="Area2D" parent="Coins" unique_id=1581031966]
+position = Vector2(1556, -1401)
+script = ExtResource("20_yf0ma")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin14" unique_id=2055008766]
+position = Vector2(-1, 3)
+shape = SubResource("CircleShape2D_alh3a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin14/CollisionShape2D" unique_id=546608009]
 texture_filter = 1
 position = Vector2(1, 3)
 scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
-[node name="Coin6" type="Area2D" parent="Coins" unique_id=1609223924]
-position = Vector2(3389, 106)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin6" unique_id=439638209]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin6/CollisionShape2D" unique_id=767892046]
-texture_filter = 1
-position = Vector2(2, 1)
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin7" type="Area2D" parent="Coins" unique_id=81764200]
-position = Vector2(2058, 201)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin7" unique_id=105800429]
-position = Vector2(1, 1)
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin7/CollisionShape2D" unique_id=2109363038]
-texture_filter = 1
-position = Vector2(2, 1)
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin8" type="Area2D" parent="Coins" unique_id=1821734858]
-position = Vector2(3289, 46)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin8" unique_id=505241174]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin8/CollisionShape2D" unique_id=1970758541]
-texture_filter = 1
-position = Vector2(1, 1)
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin9" type="Area2D" parent="Coins" unique_id=557738117]
-position = Vector2(2848, 51)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin9" unique_id=1510580295]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin9/CollisionShape2D" unique_id=1988975137]
-texture_filter = 1
-position = Vector2(0, 1)
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin10" type="Area2D" parent="Coins" unique_id=1049713406]
-position = Vector2(2900, 121)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin10" unique_id=1022773604]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin10/CollisionShape2D" unique_id=1459562677]
-texture_filter = 1
-position = Vector2(4, 2)
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin11" type="Area2D" parent="Coins" unique_id=1440894983]
-position = Vector2(2775, 98)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin11" unique_id=1858538498]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin11/CollisionShape2D" unique_id=1645379556]
-texture_filter = 1
-position = Vector2(1, 5)
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin12" type="Area2D" parent="Coins" unique_id=1581031964]
-position = Vector2(3561, -108)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin12" unique_id=2055008764]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin12/CollisionShape2D" unique_id=546608007]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin13" type="Area2D" parent="Coins" unique_id=1581031965]
-position = Vector2(4500, 260)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin13" unique_id=2055008765]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin13/CollisionShape2D" unique_id=546608008]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
-[node name="Coin14" type="Area2D" parent="Coins" unique_id=1581031966]
-position = Vector2(5900, 150)
-script = ExtResource("20_yf0ma")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin14" unique_id=2055008766]
-shape = SubResource("CircleShape2D_alh3a")
-
-[node name="Sprite2D" type="Sprite2D" parent="Coins/Coin14/CollisionShape2D" unique_id=546608009]
-texture_filter = 1
-scale = Vector2(4, 4)
-texture = SubResource("CompressedTexture2D_4q8tf")
-
 [node name="Coin15" type="Area2D" parent="Coins" unique_id=1581031967]
-position = Vector2(6900, 260)
+position = Vector2(-20, -1609)
 script = ExtResource("20_yf0ma")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Coins/Coin15" unique_id=2055008767]
+position = Vector2(2, 2)
 shape = SubResource("CircleShape2D_alh3a")
 
 [node name="Sprite2D" type="Sprite2D" parent="Coins/Coin15/CollisionShape2D" unique_id=546608010]
 texture_filter = 1
+position = Vector2(1, 1)
 scale = Vector2(4, 4)
 texture = SubResource("CompressedTexture2D_4q8tf")
 
@@ -1070,24 +1089,24 @@ texture = SubResource("CompressedTexture2D_4q8tf")
 position = Vector2(1350, 317)
 
 [node name="Checkpoint" type="Area2D" parent="Checkpoints" unique_id=1417984093]
-position = Vector2(-651, -50)
+position = Vector2(-1135, -1012)
 script = ExtResource("22_c1qal")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint" unique_id=1410383504]
-position = Vector2(1, 11)
+position = Vector2(-7, -17)
 shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint" unique_id=966390880]
 texture_filter = 1
-position = Vector2(17, -3)
+position = Vector2(7, -33)
 texture = ExtResource("23_6ll2v")
 
 [node name="Checkpoint2" type="Area2D" parent="Checkpoints" unique_id=906239222]
-position = Vector2(1311, -138)
+position = Vector2(-1264, -329)
 script = ExtResource("22_c1qal")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint2" unique_id=666897722]
-position = Vector2(1, -11)
+position = Vector2(5, -12)
 shape = SubResource("RectangleShape2D_raj38")
 
 [node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint2" unique_id=368949502]
@@ -1096,11 +1115,11 @@ position = Vector2(17, -27)
 texture = ExtResource("23_6ll2v")
 
 [node name="Checkpoint3" type="Area2D" parent="Checkpoints" unique_id=906239223]
-position = Vector2(2609, -418)
+position = Vector2(746, -691)
 script = ExtResource("22_c1qal")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint3" unique_id=666897723]
-position = Vector2(0, -3)
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint3" unique_id=1934943991]
@@ -1109,11 +1128,11 @@ position = Vector2(15, -18)
 texture = ExtResource("23_6ll2v")
 
 [node name="Checkpoint4" type="Area2D" parent="Checkpoints" unique_id=906239224]
-position = Vector2(5350, -50)
+position = Vector2(943, -1267)
 script = ExtResource("22_c1qal")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoints/Checkpoint4" unique_id=666897724]
-position = Vector2(0, 4)
+position = Vector2(4, -3)
 shape = SubResource("RectangleShape2D_7lihs")
 
 [node name="Sprite2D" type="Sprite2D" parent="Checkpoints/Checkpoint4" unique_id=891154093]
@@ -1125,10 +1144,10 @@ texture = ExtResource("23_6ll2v")
 position = Vector2(278, 478)
 
 [node name="MovingPlatform" parent="Movingplatform" unique_id=2085462135 instance=ExtResource("24_si2ly")]
-position = Vector2(5470, 66)
+position = Vector2(1225, -1237)
 
 [node name="MovingPlatform2" parent="Movingplatform" unique_id=1745949074 instance=ExtResource("25_iydc0")]
-position = Vector2(4900, 230)
+position = Vector2(1999, -542)
 EndOffset = Vector2(0, -60)
 CycleTime = 3.5
 
@@ -1139,7 +1158,7 @@ position = Vector2(3, 676)
 position = Vector2(63, -220)
 
 [node name="MagnetPowerUp" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404631]
-position = Vector2(880, 438)
+position = Vector2(2259, -466)
 script = ExtResource("26_gniti")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp" unique_id=1963666255]
@@ -1151,7 +1170,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("27_s4s2h")
 
 [node name="MagnetPowerUp2" type="Area2D" parent="PowerUps/Magnets" unique_id=208422444]
-position = Vector2(1590, 354)
+position = Vector2(-8, -716)
 script = ExtResource("26_gniti")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp2" unique_id=1505431566]
@@ -1163,10 +1182,11 @@ scale = Vector2(2, 2)
 texture = ExtResource("27_s4s2h")
 
 [node name="MagnetPowerUp3" type="Area2D" parent="PowerUps/Magnets" unique_id=1529404632]
-position = Vector2(5683, 472)
+position = Vector2(1885, -1226)
 script = ExtResource("26_gniti")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/Magnets/MagnetPowerUp3" unique_id=1963666256]
+position = Vector2(0, 1)
 shape = SubResource("CircleShape2D_71axn")
 
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/Magnets/MagnetPowerUp3" unique_id=788057063]
@@ -1175,18 +1195,18 @@ scale = Vector2(2, 2)
 texture = ExtResource("27_s4s2h")
 
 [node name="StarPowerUp" parent="PowerUps" unique_id=780811464 instance=ExtResource("28_wtbvn")]
-position = Vector2(3032, 595)
+position = Vector2(507, -1152)
 
 [node name="ShieldPowerUp" type="Area2D" parent="PowerUps" unique_id=333111220]
 position = Vector2(1516, 188)
 script = ExtResource("29_f2dh5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PowerUps/ShieldPowerUp" unique_id=333111221]
-position = Vector2(-1, -8)
+position = Vector2(-1463, -1035)
 shape = SubResource("RectangleShape2D_nvn6m")
 
 [node name="Sprite2D" type="Sprite2D" parent="PowerUps/ShieldPowerUp" unique_id=890236044]
-position = Vector2(1.0000458, 0)
+position = Vector2(-1462, -1030)
 scale = Vector2(1.2187486, 1.171875)
 texture = ExtResource("30_hucu8")
 
@@ -1197,28 +1217,28 @@ position = Vector2(1335, 260)
 position = Vector2(79, -225)
 
 [node name="SwordPickup" parent="Pickups/Swords" unique_id=1829312997 instance=ExtResource("31_llt25")]
-position = Vector2(-30, 258)
+position = Vector2(899, -272)
 
 [node name="SwordPickup2" parent="Pickups/Swords" unique_id=924163623 instance=ExtResource("31_llt25")]
-position = Vector2(5153, -125)
+position = Vector2(-113, -519)
 
 [node name="Heart" type="Node2D" parent="Pickups" unique_id=795867905]
 position = Vector2(145, -223)
 
 [node name="HeartPickup" parent="Pickups/Heart" unique_id=1366131351 instance=ExtResource("32_4hc4l")]
-position = Vector2(4050, -30)
+position = Vector2(794, -459)
 
 [node name="HeartPickup2" parent="Pickups/Heart" unique_id=1305625851 instance=ExtResource("32_4hc4l")]
-position = Vector2(4789, 138)
+position = Vector2(-1404, -793)
 
 [node name="GrowthPickup" parent="." unique_id=90358124 instance=ExtResource("33_nhq2s")]
-position = Vector2(5136, 95)
+position = Vector2(649, -1050)
 
 [node name="Sprite2D" type="Sprite2D" parent="GrowthPickup" unique_id=990381118]
 texture_filter = 1
+position = Vector2(1, 0)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("34_qlev4")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="GrowthPickup" unique_id=1330731351]
-position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_efseb")
