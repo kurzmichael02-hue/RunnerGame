@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfdopn0o6i1w1"
-path="res://.godot/imported/Misha.png-11771876b3e73a5cca9f627f571acbbe.ctex"
+uid="uid://woi175lb1in3"
+path="res://.godot/imported/Mischa(selection).png-b2e464ffa12b565e3ad86fb1e1bc9605.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://leveldesign/Misha.png"
-dest_files=["res://.godot/imported/Misha.png-11771876b3e73a5cca9f627f571acbbe.ctex"]
+source_file="res://leveldesign/Mischa(selection).png"
+dest_files=["res://.godot/imported/Mischa(selection).png-b2e464ffa12b565e3ad86fb1e1bc9605.ctex"]
 
 [params]
 

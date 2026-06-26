@@ -2,109 +2,68 @@ using Godot;
 using System.Collections.Generic;
 
 // Alles rund um persistente daten – coins, charakter-auswahl, highscore.
-// Steht als eigenes file, weil player.cs sonst über 1000 zeilen wird und das
-// shop/profile-system saubere trennung verdient. partial-class teilt fields
-// mit der haupt-player.cs, calls bleiben player.coins / player.loadprofile usw.
+// Steht als eigenes file, weil Player.cs sonst zu groß wird.
 public partial class Player : CharacterBody2D
 {
 	// ===== HIGHSCORE / SESSION =====
 
-	// Score des letzten runs. Static damit der wert den scenewechsel zu gameover
-	// überlebt und dort als final score angezeigt werden kann.
 	public static int LastRunScore = 0;
 
-	// zuletzt gespieltes level – gameover restart lädt das gleiche level nach
 	public static string CurrentLevelPath = "res://Scenes/Levels/Level1.tscn";
 
-	// Höchster score in der laufenden process-session – resettet sobald das spiel
-	// geschlossen wird. Der alltime-rekord landet in user://highscore.dat.
 	public static int SessionHighscore = 0;
 
 	// ===== SHOP / CHARACTER =====
 
-	// Persistente shop-currency. Jeder coin pickup erhöht das, gespeichert in
-	// user://profile.cfg. Bartolmays mainmenu kann den wert direkt anzeigen.
 	public static int Coins = 0;
 
-	// Aktive charakter-id. Persistiert über sessions hinweg.
 	public static int SelectedCharacter = 0;
 
-	// Freigeschaltete charaktere. Default-figur (0) ist immer drin damit die
-	// auswahl nie leer wird, auch wenn die save kaputt ist.
 	public static HashSet<int> UnlockedCharacters = new() { 0 };
 
 	private const string ProfilePath = "user://profile.cfg";
 
-	// tints sind weiß damit nix mehr lila wird wenn Mischa gewählt — character-swap läuft
-	// über sprite-frames-tausch unten, nicht über farbe.
-private static readonly Color[] CharacterTints = {
-	new Color(1f, 1f, 1f),  // 0: default
-	new Color(1f, 1f, 1f),  // 1: Mischa
-	new Color(1f, 1f, 1f),  // 2: Tim
-};
-
-// Mischa-sprite cache. Schayan muss noch ein richtiges sprite-sheet liefern,
-// bis dahin statisches bild (player2.png — gleiches asset wie in der character selection)
-// für alle animations.
-private static SpriteFrames _mischaFrames;
-private static SpriteFrames GetMischaFrames()
-{
-	if (_mischaFrames != null) return _mischaFrames;
-	var tex = GD.Load<Texture2D>("res://leveldesign/player2.png");
-	_mischaFrames = new SpriteFrames();
-	string[] anims = { "still", "wallk", "jump_high", "jump_down", "attack", "duck" };
-	foreach (var a in anims)
-	{
-		_mischaFrames.AddAnimation(a);
-		_mischaFrames.AddFrame(a, tex);
-		_mischaFrames.SetAnimationLoop(a, true);
-		_mischaFrames.SetAnimationSpeed(a, 5);
-	}
-	return _mischaFrames;
-}
-
-private SpriteFrames _defaultFrames;
-private Vector2 _defaultMainScale;
-private Vector2 _defaultMainPos;
-private bool _scaleCached;
-
 	// ===== PROFILE LOAD / SAVE =====
 
-	// Liest coins, gewählten char und freigeschaltete liste aus profile.cfg.
-	// Fällt still auf defaults zurück wenn die datei fehlt oder corrupt ist.
 	public static void LoadProfile()
 	{
 		var config = new ConfigFile();
-		if (config.Load(ProfilePath) != Error.Ok) return;
+
+		if (config.Load(ProfilePath) != Error.Ok)
+			return;
 
 		Coins = (int)config.GetValue("currency", "coins", 0);
 		SelectedCharacter = (int)config.GetValue("character", "selected", 0);
 
 		string unlockStr = (string)config.GetValue("character", "unlocked", "0");
+
 		UnlockedCharacters.Clear();
+
 		foreach (var part in unlockStr.Split(','))
 		{
-			if (int.TryParse(part, out int id)) UnlockedCharacters.Add(id);
+			if (int.TryParse(part, out int id))
+				UnlockedCharacters.Add(id);
 		}
-		// Default-figur muss verfügbar bleiben, auch wenn die save kaputt war
+
+		// Default character muss immer verfügbar sein
 		UnlockedCharacters.Add(0);
 	}
 
 	public static void SaveProfile()
 	{
 		var config = new ConfigFile();
-		// Existierende sections behalten, falls noch andere kram drin steht
+
 		config.Load(ProfilePath);
+
 		config.SetValue("currency", "coins", Coins);
 		config.SetValue("character", "selected", SelectedCharacter);
 		config.SetValue("character", "unlocked", string.Join(",", UnlockedCharacters));
+
 		config.Save(ProfilePath);
 	}
 
 	// ===== SHOP API =====
 
-	// Preise pro charakter. Bartolmays ui ruft das beim rendern der shop-buttons.
-	// -1 = unbekannte id, kein gratis-fallback.
 	public static int GetCharacterPrice(int id)
 	{
 		return id switch
@@ -116,40 +75,54 @@ private bool _scaleCached;
 		};
 	}
 
-	// Returns true wenn der kauf durchging. Ui sollte danach den coin-counter refreshen.
 	public static bool BuyCharacter(int id)
 	{
-		if (UnlockedCharacters.Contains(id)) return false;
+		if (UnlockedCharacters.Contains(id))
+			return false;
+
 		int price = GetCharacterPrice(id);
-		if (price < 0 || Coins < price) return false;
+
+		if (price < 0 || Coins < price)
+			return false;
 
 		Coins -= price;
 		UnlockedCharacters.Add(id);
+
 		SaveProfile();
+
 		return true;
 	}
 
-	// Wechselt aktiven char nur wenn er freigeschaltet ist. Beim nächsten
-	// Game.tscn-load wird das im player._ready / applycharactertexture übernommen.
 	public static bool SelectCharacter(int id)
 	{
-		if (!UnlockedCharacters.Contains(id)) return false;
+		if (!UnlockedCharacters.Contains(id))
+			return false;
+
 		SelectedCharacter = id;
+
 		SaveProfile();
+
 		return true;
 	}
 
-	// ===== HIGHSCORE PERSISTENCE =====
+	// ===== HIGHSCORE =====
 
 	public static int LoadHighscore()
 	{
 		string path = "user://highscore.dat";
-		if (!FileAccess.FileExists(path)) return 0;
+
+		if (!FileAccess.FileExists(path))
+			return 0;
+
 		using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+
 		return (int)(uint)file.Get32();
 	}
 
-	public void SaveHighscorePublic() => SaveHighscore(_score);
+	public void SaveHighscorePublic()
+	{
+		SaveHighscore(_score);
+	}
 
 	private void SaveHighscore(int score)
 	{
@@ -171,8 +144,6 @@ private bool _scaleCached;
 
 	// ===== INSTANCE HELPERS =====
 
-	// Coin pickup entry – run-score + shop-coins gehen beide hoch. Profile wird
-	// direkt gespeichert damit ein crash mid-level keine münzen schluckt.
 	public void AddCoin(int amount)
 	{
 		AddScore(amount);
@@ -180,75 +151,24 @@ private bool _scaleCached;
 		SaveProfile();
 	}
 
-	// Direkter leben-pickup. Cap bei 9 weil das hud-label sonst überläuft.
 	public void AddLife()
 	{
 		_lives = Mathf.Min(_lives + 1, 9);
 	}
 
-	// Score wächst, jede 100er-stufe gibt ein extra leben (#41). Vergleich gegen
-	// die zähl-variable statt modulo, damit ein +6 stomp-bonus, der von 96 auf 102
-	// springt, das leben trotzdem auslöst.
 	public void AddScore(int amount)
 	{
 		_score += amount;
+
 		int earned = _score / 100;
+
 		while (_livesFromScoreGranted < earned)
 		{
 			_livesFromScoreGranted++;
 			_lives = Mathf.Min(_lives + 1, 9);
 		}
-		// Best-score in dieser session tracken
-		if (_score > SessionHighscore) SessionHighscore = _score;
-	}
 
-	private void ApplyCharacterTexture()
-	{
-		int idx = Mathf.Clamp(SelectedCharacter, 0, CharacterTints.Length - 1);
-		Color tint = CharacterTints[idx];
-		string[] nodes = { "AnimatedSprite2D", "AttackSprite", "DuckSprite" };
-		foreach (string name in nodes)
-		{
-			var node = GetNodeOrNull<CanvasItem>(name);
-			if (node != null) node.SelfModulate = tint;
-		}
-
-		// sprite-swap nur fürs haupt-AnimatedSprite2D — attack/duck bleiben default
-		// weil player2.png keine attack/duck-poses hat.
-		var main = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-		if (main == null) return;
-		if (_defaultFrames == null) _defaultFrames = main.SpriteFrames;
-		if (!_scaleCached)
-		{
-			_defaultMainScale = main.Scale;
-			_defaultMainPos = main.Position;
-			_scaleCached = true;
-		}
-
-		if (SelectedCharacter == 1)
-		{
-			main.SpriteFrames = GetMischaFrames();
-			// pixel-art scharf rendern, sonst sieht player2 verschwommen aus beim hochskalieren
-			main.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
-
-			// uniform scale basierend auf default-frame-höhe damit aspect-ratio stimmt.
-			var defTex = _defaultFrames.GetFrameTexture("still", 0);
-			var mTex = GetMischaFrames().GetFrameTexture("still", 0);
-			if (defTex != null && mTex != null)
-			{
-				float s = _defaultMainScale.Y * defTex.GetSize().Y / mTex.GetSize().Y;
-				main.Scale = new Vector2(s, s);
-			}
-			// Mischa nach unten verschieben damit füße am boden sind (player2.png
-			// hat anderes proportions-zentrum als die default-frames)
-			main.Position = new Vector2(_defaultMainPos.X, _defaultMainPos.Y + 30);
-		}
-		else
-		{
-			main.SpriteFrames = _defaultFrames;
-			main.Scale = _defaultMainScale;
-			main.Position = _defaultMainPos;
-			main.TextureFilter = CanvasItem.TextureFilterEnum.ParentNode;
-		}
+		if (_score > SessionHighscore)
+			SessionHighscore = _score;
 	}
 }

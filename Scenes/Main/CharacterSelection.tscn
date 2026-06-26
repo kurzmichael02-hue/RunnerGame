@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://50664odtjegd" path="res://Scripts/Core/CharacterSelection.cs" id="1_b6i7w"]
 [ext_resource type="Texture2D" uid="uid://dxweg8sfcxxl7" path="res://leveldesign/Deep Forest.png" id="1_hotlv"]
-[ext_resource type="Texture2D" uid="uid://bt45yxx6kqkko" path="res://leveldesign/player2.png" id="2_hotlv"]
 [ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="3_lu437"]
 [ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="3_t0ed0"]
 [ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="4_ogh4c"]
+[ext_resource type="Texture2D" uid="uid://woi175lb1in3" path="res://leveldesign/Mischa(selection).png" id="6_u5eno"]
 [ext_resource type="Texture2D" uid="uid://c7p7rapq81lil" path="res://leveldesign/padlock.png" id="7_u5eno"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hotlv"]
@@ -160,7 +160,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_hotlv")
+texture = ExtResource("6_u5eno")
 expand_mode = 1
 stretch_mode = 5
 

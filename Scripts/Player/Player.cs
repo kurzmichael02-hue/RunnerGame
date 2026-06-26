@@ -32,8 +32,6 @@ public partial class Player : CharacterBody2D
 
 	public bool IsDying = false;
 	public bool IsSmall = false;
-	private CollisionShape2D _standShape;
-	private CollisionShape2D _duckShape;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private bool _starActive = false;
@@ -60,10 +58,26 @@ public partial class Player : CharacterBody2D
 	private float _sprintTimer = 0f;
 	private float _lastRunDir = 0f;
 	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
+	private CollisionShape2D _standShape;
+	private CollisionShape2D _duckShape;
+
+	private CollisionShape2D _standPlayerShape;
+	private CollisionShape2D _duckPlayerShape;
+
+	private CollisionShape2D _standMischaShape;
+	private CollisionShape2D _duckMischaShape;
+
 	private AnimatedSprite2D _anim;
 	private AnimatedSprite2D _attackSprite;
 	private AnimatedSprite2D _duckSprite;
-	
+
+	private AnimatedSprite2D _normalPlayerSprite;
+	private AnimatedSprite2D _attackPlayerSprite;
+	private AnimatedSprite2D _duckPlayerSprite;
+
+	private AnimatedSprite2D _normalMischaSprite;
+	private AnimatedSprite2D _attackMischaSprite;
+	private AnimatedSprite2D _duckMischaSprite;
 	// Sword + fire flower fields liegen in Player.Combat.cs
 
 	// Camera shake
@@ -96,29 +110,41 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		AddToGroup("player");
-		// Player does not physically collide with enemies (Layer 2)
-		SetCollisionMaskValue(2, false);
-		_standShape = GetNode<CollisionShape2D>("StandShape");
-		_duckShape = GetNode<CollisionShape2D>("DuckShape");
-		_duckShape.Disabled = true;
-		_camera = GetNode<Camera2D>("Camera2D");
-		// Preload projectile scene so fireballs don't hitch the first time you swing
-		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
 
-		// Coins + selected character come from user://profile.cfg
+		// Player kollidiert nicht physisch mit enemies auf Layer 2
+		SetCollisionMaskValue(2, false);
+
+		// ===== COLLISION SHAPES =====
+
+		_standPlayerShape = GetNode<CollisionShape2D>("StandShape");
+		_duckPlayerShape = GetNode<CollisionShape2D>("DuckShape");
+
+		_standMischaShape = GetNode<CollisionShape2D>("StandShape_Mischa");
+		_duckMischaShape = GetNode<CollisionShape2D>("DuckShape2_Mischa");
+
+		// ===== PLAYER SPRITES =====
+
+		_normalPlayerSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_attackPlayerSprite = GetNode<AnimatedSprite2D>("AttackSprite");
+		_duckPlayerSprite = GetNode<AnimatedSprite2D>("DuckSprite");
+
+		// ===== MISCHA SPRITES =====
+		// Falls dein Node in Godot wirklich "AnimatedSprite2D_Misch" heißt,
+		// dann ändere unten den Namen genau so.
+
+		_normalMischaSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D_Mischa");
+		_attackMischaSprite = GetNode<AnimatedSprite2D>("AttackSprite_Mischa");
+		_duckMischaSprite = GetNode<AnimatedSprite2D>("DuckSprite_Mischa");
+
+		// Profil laden, damit SelectedCharacter richtig ist
 		LoadProfile();
-		
-		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
-		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
-		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-		_attackSprite = GetNode<AnimatedSprite2D>("AttackSprite");
-		_duckSprite = GetNode<AnimatedSprite2D>("DuckSprite");
-		
-		ApplyCharacterTexture();
-		
-		_duckSprite.Visible = false;
-		_anim.Play("still");
-		_attackSprite.Visible = false;
+
+		// Richtigen Character aktivieren
+		ApplySelectedCharacter();
+
+		_camera = GetNode<Camera2D>("Camera2D");
+
+		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
 
 		CreateBoundaryWalls();
 	}
@@ -144,81 +170,143 @@ public partial class Player : CharacterBody2D
 		wall.AddChild(shape);
 		return wall;
 	}
-	private void UpdateAnimation(float direction)
-{
-		if (_anim == null || _attackSprite == null || _duckSprite == null) return;
-		
-		
-		// DUCK (höchste Priorität)
-	if (_isDucking)
+	
+	private void ApplySelectedCharacter()
 	{
-		_anim.Visible = false;
-		_duckSprite.Visible = true;
+		HideAllCharacterSprites();
 
-		_duckSprite.FlipH = _facing < 0;
+		bool mischa = SelectedCharacter == 1;
 
-		if (_duckSprite.Animation != "duck")
-			_duckSprite.Play("duck");
+		// Aktive Sprite-Gruppe auswählen
+		_anim = mischa ? _normalMischaSprite : _normalPlayerSprite;
+		_attackSprite = mischa ? _attackMischaSprite : _attackPlayerSprite;
+		_duckSprite = mischa ? _duckMischaSprite : _duckPlayerSprite;
 
-		return;
+		// Aktive Collision-Gruppe auswählen
+		_standShape = mischa ? _standMischaShape : _standPlayerShape;
+		_duckShape = mischa ? _duckMischaShape : _duckPlayerShape;
+
+		// Alle CollisionShapes erstmal aus
+		_standPlayerShape.Disabled = true;
+		_duckPlayerShape.Disabled = true;
+		_standMischaShape.Disabled = true;
+		_duckMischaShape.Disabled = true;
+
+		// Nur aktive Stand-Collision an
+		_standShape.Disabled = false;
+		_duckShape.Disabled = true;
+
+		// Nur normales Sprite vom gewählten Character anzeigen
+		_anim.Visible = true;
+		_attackSprite.Visible = false;
+		_duckSprite.Visible = false;
+
+		if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("still"))
+			_anim.Play("still");
 	}
 
-	// zurück zu normal
-	_duckSprite.Visible = false;
-	_anim.Visible = true;
+	private void HideAllCharacterSprites()
+	{
+		_normalPlayerSprite.Visible = false;
+		_attackPlayerSprite.Visible = false;
+		_duckPlayerSprite.Visible = false;
+
+		_normalMischaSprite.Visible = false;
+		_attackMischaSprite.Visible = false;
+		_duckMischaSprite.Visible = false;
+	}
 	
 	
-		if (_attackLockout > 0f)
+	private void UpdateAnimation(float direction)
+	{
+		if (_anim == null || _attackSprite == null || _duckSprite == null)
+			return;
+
+		// ===== DUCK =====
+		if (_isDucking)
 		{
-			_anim.Visible = false;
-			_attackSprite.Visible = true;
+			HideAllCharacterSprites();
 
-			_attackSprite.FlipH = _facing < 0;
+			_duckSprite.Visible = true;
+			_duckSprite.FlipH = _facing < 0;
 
-			if (_attackSprite.Animation != "attack")
-				_attackSprite.Play("attack");
+			if (_duckSprite.SpriteFrames != null && _duckSprite.SpriteFrames.HasAnimation("duck"))
+			{
+				if (_duckSprite.Animation != "duck")
+					_duckSprite.Play("duck");
+			}
 
 			return;
 		}
 
-		_attackSprite.Visible = false;
+		// ===== ATTACK =====
+		if (_attackLockout > 0f)
+		{
+			HideAllCharacterSprites();
+
+			_attackSprite.Visible = true;
+			_attackSprite.FlipH = _facing < 0;
+
+			if (_attackSprite.SpriteFrames != null && _attackSprite.SpriteFrames.HasAnimation("attack"))
+			{
+				if (_attackSprite.Animation != "attack")
+					_attackSprite.Play("attack");
+			}
+
+			return;
+		}
+
+		// ===== NORMAL SPRITE =====
+		HideAllCharacterSprites();
+
 		_anim.Visible = true;
 
-	// In der Luft
-	if (!IsOnFloor())
-	{
-		_anim.FlipH = direction < 0;
-
-		// Springt nach oben
-		if (Velocity.Y < 0)
+		// ===== JUMP / FALL =====
+		if (!IsOnFloor())
 		{
-			if (_anim.Animation != "jump_high")
-				_anim.Play("jump_high");
+			if (direction != 0)
+				_anim.FlipH = direction < 0;
+
+			if (Velocity.Y < 0)
+			{
+				if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("jump_high"))
+				{
+					if (_anim.Animation != "jump_high")
+						_anim.Play("jump_high");
+				}
+			}
+			else
+			{
+				if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("jump_down"))
+				{
+					if (_anim.Animation != "jump_down")
+						_anim.Play("jump_down");
+				}
+			}
+
+			return;
 		}
-		// Fällt nach unten
+
+		// ===== WALK / STILL =====
+		if (direction != 0)
+		{
+			_anim.FlipH = direction < 0;
+
+			if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("wallk"))
+			{
+				if (_anim.Animation != "wallk")
+					_anim.Play("wallk");
+			}
+		}
 		else
 		{
-			if (_anim.Animation != "jump_down")
-				_anim.Play("jump_down");
+			if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("still"))
+			{
+				if (_anim.Animation != "still")
+					_anim.Play("still");
+			}
 		}
-
-		return;
 	}
-
-	// Am Boden
-	if (direction != 0)
-	{
-		_anim.FlipH = direction < 0;
-
-		if (_anim.Animation != "wallk")
-			_anim.Play("wallk");
-	}
-	else
-	{
-		if (_anim.Animation != "still")
-			_anim.Play("still");
-	}
-}
 
 	// ApplyCharacterTexture, LoadProfile etc. liegen in Player.Profile.cs
 

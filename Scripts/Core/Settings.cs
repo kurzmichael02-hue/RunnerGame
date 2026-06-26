@@ -17,7 +17,7 @@ public partial class Settings : Control
 
 	public override void _Ready()
 	{
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
+		SoundManager.Instance.SwitchMusic(SoundManager.Instance.SettingsMusic);
 		ProcessMode = ProcessModeEnum.Always;
 
 		// =========================

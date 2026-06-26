@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6j7m502mixjx"
-path="res://.godot/imported/Player animiert(rechts).png-11ec614d77639a3cab7ab438ee963753.ctex"
+uid="uid://bgh28hrbfsx30"
+path="res://.godot/imported/Klassendiagramm.drawio.png-fd63880a89b4c8d7a97ff22d6f9e5206.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://leveldesign/Player animiert(rechts).png"
-dest_files=["res://.godot/imported/Player animiert(rechts).png-11ec614d77639a3cab7ab438ee963753.ctex"]
+source_file="res://Doku/Klassendiagramm.drawio.png"
+dest_files=["res://.godot/imported/Klassendiagramm.drawio.png-fd63880a89b4c8d7a97ff22d6f9e5206.ctex"]
 
 [params]
 
