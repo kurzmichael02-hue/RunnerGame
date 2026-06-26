@@ -20,7 +20,3 @@ obj/
 .DS_Store
 Thumbs.db
 desktop.ini
-Export_Windows/
-*.zip
-*.exe
-*.pck
