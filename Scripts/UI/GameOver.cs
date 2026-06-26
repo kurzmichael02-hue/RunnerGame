@@ -3,10 +3,14 @@ using System;
 
 public partial class GameOver : Control
 {
+	private ConfirmationDialog _exitDialog;
+	
 	public override void _Ready()
 	{
-		SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameOverMusic);
-
+SoundManager.Instance?.SwitchMusic(SoundManager.Instance.GameOverMusic);
+		_exitDialog = GetNode<ConfirmationDialog>("ExitConfirmDialog");
+_exitDialog.Confirmed += OnExitConfirmed;
+		
 		// run/alltime/session zeile für zeile - sonst läuft das in einen unleserlichen
 		// mega-string. styling sitzt in der scene, hier nur text setzen
 		var finalLabel = GetNodeOrNull<Label>("FinalScoreLabel");
@@ -16,14 +20,14 @@ public partial class GameOver : Control
 			int best = Player.LoadHighscore();
 			int session = Player.SessionHighscore;
 
-			string topLine = (run > 0 && run >= best)
-				? $"Score:  {run}   ★ NEW HIGHSCORE ★"
-				: $"Score:  {run}";
+			string topLine = (run > 0 && run > best)
+				? $"Score: {run} ★ NEW HIGHSCORE ★"
+				: $"Score: {run}";
 
 			finalLabel.Text =
 				$"{topLine}\n" +
-				$"Alltime:  {best}\n" +
-				$"Session:  {session}";
+				$"Alltime: {best}\n" +
+				$"Session: {session}";
 		}
 
 		var vbox = GetNode<VBoxContainer>("VBoxContainer");
@@ -45,16 +49,12 @@ public partial class GameOver : Control
 		SoundManager.Instance.PlayMenuHover();
 	}
 
-		public override void _Process(double delta)
-		{
-		}
 
 		// RESTART BUTTON
 		private void _on_restart_pressed()
 		{
-			
 			SoundManager.Instance.PlayButton();
-			GetTree().ChangeSceneToFile("res://Scenes/Main/Game.tscn");
+			GetTree().ChangeSceneToFile(Player.CurrentLevelPath);
 		}
 
 		// Main Menu pressed
@@ -65,10 +65,16 @@ public partial class GameOver : Control
 		}
 
 		// EXIT BUTTON
+		
 		private void _on_exit_pressed()
-		{
-
-			SoundManager.Instance.PlayButton();
-			GetTree().Quit();
-		}
+	{
+		SoundManager.Instance.PlayButton();
+		_exitDialog.PopupCentered();
+	}
+	
+		//CONFIRM EXIT
+	private void OnExitConfirmed()
+	{
+		GetTree().Quit();
+	}
 }

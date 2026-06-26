@@ -32,8 +32,6 @@ public partial class Player : CharacterBody2D
 
 	public bool IsDying = false;
 	public bool IsSmall = false;
-	private CollisionShape2D _standShape;
-	private CollisionShape2D _duckShape;
 	private bool _shieldActive = false;
 	private float _shieldTimer = 0f;
 	private bool _starActive = false;
@@ -60,10 +58,26 @@ public partial class Player : CharacterBody2D
 	private float _sprintTimer = 0f;
 	private float _lastRunDir = 0f;
 	public float SprintCharge => Mathf.Clamp(_sprintTimer / 4.5f, 0f, 1f);
+	private CollisionShape2D _standShape;
+	private CollisionShape2D _duckShape;
+
+	private CollisionShape2D _standPlayerShape;
+	private CollisionShape2D _duckPlayerShape;
+
+	private CollisionShape2D _standMischaShape;
+	private CollisionShape2D _duckMischaShape;
+
 	private AnimatedSprite2D _anim;
 	private AnimatedSprite2D _attackSprite;
 	private AnimatedSprite2D _duckSprite;
-	
+
+	private AnimatedSprite2D _normalPlayerSprite;
+	private AnimatedSprite2D _attackPlayerSprite;
+	private AnimatedSprite2D _duckPlayerSprite;
+
+	private AnimatedSprite2D _normalMischaSprite;
+	private AnimatedSprite2D _attackMischaSprite;
+	private AnimatedSprite2D _duckMischaSprite;
 	// Sword + fire flower fields liegen in Player.Combat.cs
 
 	// Camera shake
@@ -96,112 +110,203 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		AddToGroup("player");
-		// Player does not physically collide with enemies (Layer 2)
+
+		// Player kollidiert nicht physisch mit enemies auf Layer 2
 		SetCollisionMaskValue(2, false);
-		_standShape = GetNode<CollisionShape2D>("StandShape");
-		_duckShape = GetNode<CollisionShape2D>("DuckShape");
-		_duckShape.Disabled = true;
+
+		// ===== COLLISION SHAPES =====
+
+		_standPlayerShape = GetNode<CollisionShape2D>("StandShape");
+		_duckPlayerShape = GetNode<CollisionShape2D>("DuckShape");
+
+		_standMischaShape = GetNode<CollisionShape2D>("StandShape_Mischa");
+		_duckMischaShape = GetNode<CollisionShape2D>("DuckShape2_Mischa");
+
+		// ===== PLAYER SPRITES =====
+
+		_normalPlayerSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_attackPlayerSprite = GetNode<AnimatedSprite2D>("AttackSprite");
+		_duckPlayerSprite = GetNode<AnimatedSprite2D>("DuckSprite");
+
+		// ===== MISCHA SPRITES =====
+		// Falls dein Node in Godot wirklich "AnimatedSprite2D_Misch" heißt,
+		// dann ändere unten den Namen genau so.
+
+		_normalMischaSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D_Mischa");
+		_attackMischaSprite = GetNode<AnimatedSprite2D>("AttackSprite_Mischa");
+		_duckMischaSprite = GetNode<AnimatedSprite2D>("DuckSprite_Mischa");
+
+		// Profil laden, damit SelectedCharacter richtig ist
+		LoadProfile();
+
+		// Richtigen Character aktivieren
+		ApplySelectedCharacter();
+
 		_camera = GetNode<Camera2D>("Camera2D");
-		// Preload projectile scene so fireballs don't hitch the first time you swing
+
 		_projectileScene = GD.Load<PackedScene>("res://Scenes/level_objects/projectile.tscn");
 
-		// Coins + selected character come from user://profile.cfg
-		LoadProfile();
-		ApplyCharacterTexture();
-		// GetNodeOrNull damit's nicht crasht wenn schayan/maksym mal die scene
-		// umbaut und das spritenode unbenennt – updateanimation hat sowieso null-check
-		_anim = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
-		_attackSprite = GetNode<AnimatedSprite2D>("AttackSprite");
-		_duckSprite = GetNode<AnimatedSprite2D>("DuckSprite");
-		
-		
-		_duckSprite.Visible = false;
-		_anim.Play("still");
-		_attackSprite.Visible = false;
+		CreateBoundaryWalls();
 	}
-	private void UpdateAnimation(float direction)
-{
-		if (_anim == null || _attackSprite == null || _duckSprite == null) return;
-		
-		
-		// DUCK (höchste Priorität)
-	if (_isDucking)
+
+	// Unsichtbare wand-StaticBody2D ganz am rand des world space — links bei X=0
+	// (terrain in Level1 startet ungefähr da) und rechts X=7270 (kurz hinter goal X=7168).
+	// Echte physik statt position-clamp damit der player wirklich blockiert wird.
+	private void CreateBoundaryWalls()
 	{
-		_anim.Visible = false;
-		_duckSprite.Visible = true;
-
-		_duckSprite.FlipH = _facing < 0;
-
-		if (_duckSprite.Animation != "duck")
-			_duckSprite.Play("duck");
-
-		return;
+		var parent = GetParent();
+		if (parent == null) return;
+		parent.CallDeferred(Node.MethodName.AddChild, MakeWall(-30));
+		parent.CallDeferred(Node.MethodName.AddChild, MakeWall(7270));
 	}
 
-	// zurück zu normal
-	_duckSprite.Visible = false;
-	_anim.Visible = true;
-	
-	
-		if (_attackLockout > 0f)
+	private static StaticBody2D MakeWall(float x)
+	{
+		var wall = new StaticBody2D { Position = new Vector2(x, 0), CollisionLayer = 1 };
+		var shape = new CollisionShape2D
 		{
-			_anim.Visible = false;
-			_attackSprite.Visible = true;
+			Shape = new RectangleShape2D { Size = new Vector2(20, 2000) }
+		};
+		wall.AddChild(shape);
+		return wall;
+	}
+	
+	private void ApplySelectedCharacter()
+	{
+		HideAllCharacterSprites();
 
-			_attackSprite.FlipH = _facing < 0;
+		bool mischa = SelectedCharacter == 1;
 
-			if (_attackSprite.Animation != "attack")
-				_attackSprite.Play("attack");
+		// Aktive Sprite-Gruppe auswählen
+		_anim = mischa ? _normalMischaSprite : _normalPlayerSprite;
+		_attackSprite = mischa ? _attackMischaSprite : _attackPlayerSprite;
+		_duckSprite = mischa ? _duckMischaSprite : _duckPlayerSprite;
 
-			return;
-		}
+		// Aktive Collision-Gruppe auswählen
+		_standShape = mischa ? _standMischaShape : _standPlayerShape;
+		_duckShape = mischa ? _duckMischaShape : _duckPlayerShape;
 
-		_attackSprite.Visible = false;
+		// Alle CollisionShapes erstmal aus
+		_standPlayerShape.Disabled = true;
+		_duckPlayerShape.Disabled = true;
+		_standMischaShape.Disabled = true;
+		_duckMischaShape.Disabled = true;
+
+		// Nur aktive Stand-Collision an
+		_standShape.Disabled = false;
+		_duckShape.Disabled = true;
+
+		// Nur normales Sprite vom gewählten Character anzeigen
 		_anim.Visible = true;
-		
-		
-		if (_isDucking)
-		{
-			if (_anim.Animation != "duck")
-				_anim.Play("duck");
-			return;
-		}
+		_attackSprite.Visible = false;
+		_duckSprite.Visible = false;
 
-	// In der Luft
-	if (!IsOnFloor())
-	{
-		_anim.FlipH = direction < 0;
-
-		// Springt nach oben
-		if (Velocity.Y < 0)
-		{
-			if (_anim.Animation != "jump_high")
-				_anim.Play("jump_high");
-		}
-		// Fällt nach unten
-		else
-		{
-			if (_anim.Animation != "jump_down")
-				_anim.Play("jump_down");
-		}
-
-		return;
-	}
-
-	// Am Boden
-	if (direction != 0)
-	{
-		_anim.FlipH = direction < 0;
-
-		if (_anim.Animation != "wallk")
-			_anim.Play("wallk");
-	}
-	else
-	{
-		if (_anim.Animation != "still")
+		if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("still"))
 			_anim.Play("still");
 	}
-}
+
+	private void HideAllCharacterSprites()
+	{
+		_normalPlayerSprite.Visible = false;
+		_attackPlayerSprite.Visible = false;
+		_duckPlayerSprite.Visible = false;
+
+		_normalMischaSprite.Visible = false;
+		_attackMischaSprite.Visible = false;
+		_duckMischaSprite.Visible = false;
+	}
+	
+	
+	private void UpdateAnimation(float direction)
+	{
+		if (_anim == null || _attackSprite == null || _duckSprite == null)
+			return;
+
+		// ===== DUCK =====
+		if (_isDucking)
+		{
+			HideAllCharacterSprites();
+
+			_duckSprite.Visible = true;
+			_duckSprite.FlipH = _facing < 0;
+
+			if (_duckSprite.SpriteFrames != null && _duckSprite.SpriteFrames.HasAnimation("duck"))
+			{
+				if (_duckSprite.Animation != "duck")
+					_duckSprite.Play("duck");
+			}
+
+			return;
+		}
+
+		// ===== ATTACK =====
+		if (_attackLockout > 0f)
+		{
+			HideAllCharacterSprites();
+
+			_attackSprite.Visible = true;
+			_attackSprite.FlipH = _facing < 0;
+
+			if (_attackSprite.SpriteFrames != null && _attackSprite.SpriteFrames.HasAnimation("attack"))
+			{
+				if (_attackSprite.Animation != "attack")
+					_attackSprite.Play("attack");
+			}
+
+			return;
+		}
+
+		// ===== NORMAL SPRITE =====
+		HideAllCharacterSprites();
+
+		_anim.Visible = true;
+
+		// ===== JUMP / FALL =====
+		if (!IsOnFloor())
+		{
+			if (direction != 0)
+				_anim.FlipH = direction < 0;
+
+			if (Velocity.Y < 0)
+			{
+				if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("jump_high"))
+				{
+					if (_anim.Animation != "jump_high")
+						_anim.Play("jump_high");
+				}
+			}
+			else
+			{
+				if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("jump_down"))
+				{
+					if (_anim.Animation != "jump_down")
+						_anim.Play("jump_down");
+				}
+			}
+
+			return;
+		}
+
+		// ===== WALK / STILL =====
+		if (direction != 0)
+		{
+			_anim.FlipH = direction < 0;
+
+			if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("wallk"))
+			{
+				if (_anim.Animation != "wallk")
+					_anim.Play("wallk");
+			}
+		}
+		else
+		{
+			if (_anim.SpriteFrames != null && _anim.SpriteFrames.HasAnimation("still"))
+			{
+				if (_anim.Animation != "still")
+					_anim.Play("still");
+			}
+		}
+	}
 
 	// ApplyCharacterTexture, LoadProfile etc. liegen in Player.Profile.cs
 
@@ -212,6 +317,47 @@ public partial class Player : CharacterBody2D
 		_shakeTimer = duration;
 	}
 
+	// Alle lebenden gegner auf ihre start-position zurücksetzen. Wird beim respawn
+	// gerufen damit kein gegner direkt über dem checkpoint hängt und insta-killt.
+	private void ResetEnemiesToStart()
+	{
+		foreach (Node n in GetTree().GetNodesInGroup("enemy"))
+		{
+			if (n is Enemy e) e.ResetToStart();
+		}
+	}
+
+	// Check ob der player aufstehen kann ohne in einem block über ihm festzustecken.
+	// GlobalTransform vom standShape benutzen damit player-scale (z.b. wenn klein/IsSmall)
+	// korrekt einberechnet wird — sonst denkt der check der player ist groß und blockt das aufstehen.
+	private bool CanStandUp()
+	{
+		if (_standShape?.Shape is not RectangleShape2D standRect) return true;
+		if (_duckShape?.Shape is not RectangleShape2D duckRect) return true;
+
+		// Nur den Raum ueber dem geduckten Kopf pruefen, nicht die volle Stand-Form.
+		// Wuerde man die ganze Stand-Form testen, ragt sie unten in den Boden und der
+		// Check schlaegt immer fehl -> der Spieler koennte nie wieder aufstehen.
+		Vector2 scale = GlobalScale;
+		float standTop = _standShape.GlobalPosition.Y - standRect.Size.Y * scale.Y * 0.5f;
+		float duckTop = _duckShape.GlobalPosition.Y - duckRect.Size.Y * scale.Y * 0.5f;
+		float gap = duckTop - standTop;
+		if (gap <= 1f) return true; // kaum hoehenunterschied -> aufstehen immer erlaubt
+
+		// schmale box knapp ueber dem geduckten kopf, deckt nur die aufricht-hoehe ab
+		var boxSize = new Vector2(standRect.Size.X * scale.X * 0.6f, gap);
+		var center = new Vector2(_standShape.GlobalPosition.X, standTop + gap * 0.5f);
+		var query = new PhysicsShapeQueryParameters2D
+		{
+			Shape = new RectangleShape2D { Size = boxSize },
+			Transform = new Transform2D(0f, center),
+			CollisionMask = CollisionMask,
+			Exclude = new Godot.Collections.Array<Godot.Rid> { GetRid() }
+		};
+		var hits = GetWorld2D().DirectSpaceState.IntersectShape(query, 1);
+		return hits.Count == 0;
+	}
+
 
 	// Pilz-Power-Up: player wächst wieder auf normale größe.
 	// Macht nur was wenn der player gerade klein ist (IsSmall=true).
@@ -220,7 +366,7 @@ public partial class Player : CharacterBody2D
 		if (!IsSmall) return;
 		IsSmall = false;
 		Scale = Vector2.One;
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		// kurze i-frames damit der player nicht sofort wieder getroffen wird
 		_invincibilityTimer = 1.0f;
 		// grünes blinken als visuelles feedback
@@ -284,7 +430,7 @@ public partial class Player : CharacterBody2D
 	// Reset size in case player was small before falling
 	IsSmall = false;
 	Scale = Vector2.One;
-	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+	_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 
 	// Falling into a pit burns the star – tim's request, feels fair because the pit already
 	// bypasses star invincibility so keeping it after respawn would be a free ride.
@@ -321,9 +467,11 @@ public partial class Player : CharacterBody2D
 	await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
 	Position = _checkpointPosition;
+	ResetEnemiesToStart();
 	Visible = true;
 	SetPhysicsProcess(true);
-	_invincibilityTimer = 1.5f;
+	// invincibility = enemy grace period damit beide synchron enden
+	_invincibilityTimer = 3f;
 	IsDying = false;
 	ResetAirState();
 
@@ -349,6 +497,12 @@ public partial class Player : CharacterBody2D
 		// Refill sword uses per life – pickups carry over during the life itself
 		_swordUses = 3;
 		Velocity = Vector2.Zero;
+
+		// Duck-State zuruecksetzen, sonst respawnt der Spieler geduckt und haengt fest,
+		// wenn er im Moment des Todes geduckt war.
+		_isDucking = false;
+		if (_standShape != null) _standShape.Disabled = false;
+		if (_duckShape != null) _duckShape.Disabled = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -433,9 +587,15 @@ if (wantDuck && !_isDucking)
 }
 else if (!Input.IsActionPressed("duck") && _isDucking)
 {
-	_isDucking = false;
-	_standShape.Disabled = false;
-	_duckShape.Disabled = true;
+	// nur aufstehen wenn über dem Player platz ist — sonst bleibt der player
+	// ducked weil sonst die stand-collision in einen block über uns reinrutscht
+	// und der player für immer im block feststeckt.
+	if (CanStandUp())
+	{
+		_isDucking = false;
+		_standShape.Disabled = false;
+		_duckShape.Disabled = true;
+	}
 }
 
 if (_isDucking)
@@ -444,10 +604,45 @@ if (_isDucking)
 	if (Input.IsActionPressed("move_left")) duckDir = -1;
 	else if (Input.IsActionPressed("move_right")) duckDir = 1;
 
+	// facing auch beim ducken updaten, sonst flipt der duck-sprite nicht
+	// wenn der player die richtung wechselt während er geduckt ist.
+	if (duckDir != 0)
+		_facing = duckDir > 0 ? 1 : -1;
+
 	_jumpBufferTimer = 0f;
 	Vector2 vel = Velocity;
+	
+	//Slowing down the player or making him slide when ducking depending on if he's on a slope or not
+	if (IsOnFloor())
+	{
+		Vector2 normal = GetFloorNormal();
+
+		float slopeAngle = Mathf.RadToDeg(
+			Mathf.Acos(normal.Dot(Vector2.Up))
+		);
+
+		// Only slide on actual slopes
+		if (slopeAngle > 10f)
+		{
+			// Determine downhill direction
+			float slideDirection = normal.X;
+
+			// Slide speed depends on slope steepness
+		float slideSpeed = slopeAngle * 220f;
+
+		vel.X = slideDirection * slideSpeed;
+	}
+	
 	// Ducking slows the player to 40% of max speed – feels heavier, harder to dodge
+	else 
+	{
+		vel.X = duckDir * MaxSpeed * 0.4f;
+	}
+}
+else
+{
 	vel.X = duckDir * MaxSpeed * 0.4f;
+}
 	if (!IsOnFloor()) vel.Y += FallGravity * dt;
 	vel.Y = Mathf.Min(vel.Y, MaxFallSpeed);
 	Velocity = vel;
@@ -481,11 +676,11 @@ if (_isDucking)
 		{
 		if (IsOnWall() && _wallJumpCooldown <= 0f)
 			{
-				// Wall jump: mehr laterale kraft (1.0f statt 0.85f), weniger höhe (0.75f statt 0.9f).
+				// Wall jump: mehr laterale kraft, runtergedreht auf 0.6 weil der player vorher zu hoch sprang.
 				// cooldown 0.5s verhindert spam – player muss sich erst von wand wegbewegen.
 				Vector2 wallNormal = GetWallNormal();
 				velocity.X = wallNormal.X * MaxSpeed * 1.0f;
-				velocity.Y = JumpVelocity * 0.75f;
+				velocity.Y = JumpVelocity * 0.6f;
 				_doubleJumpUsed = false;
 				_jumpBufferTimer = 0f;
 				JumpHoldTimer = JumpHoldTime * 0.7f;
@@ -521,8 +716,6 @@ if (_isDucking)
 
 		bool isTurning = (direction > 0 && velocity.X < -10) || (direction < 0 && velocity.X > 10);
 
-		// P-Speed charge: running same direction on the ground builds it, stopping or
-		// switching direction dumps it. In-air keeps whatever you built up on the ground.
 		if (IsOnFloor())
 		{
 			if (direction != 0 && direction == _lastRunDir)
@@ -538,7 +731,32 @@ if (_isDucking)
 
 		// Up to +15% max speed once fully charged (4.5s of clean running) – a nudge, not a dash
 		float effectiveMaxSpeed = MaxSpeed * (1f + SprintCharge * 0.15f);
+		
+		//Decrese speed if on slope
+		if (IsOnFloor())
+		{
+			Vector2 normal = GetFloorNormal();
 
+			// Angel of the Slope 
+			float slopeAngle = Mathf.RadToDeg(
+				Mathf.Acos(normal.Dot(Vector2.Up))
+			);
+
+			// The steeper the slower
+			float slopeFactor = Mathf.Clamp(
+				1f - (slopeAngle / 45f),
+				0.45f,
+				1f
+			);
+
+			// Check if player is going up
+			bool movingUpSlope =
+				(direction > 0 && normal.X < 0) ||
+				(direction < 0 && normal.X > 0);
+
+			if (movingUpSlope)
+				effectiveMaxSpeed *= slopeFactor;
+		}
 		// Swinging the sword puts a hard brake on you for ~0.25s so you can't
 		// dash-slash at full speed through enemies
 		if (_attackLockout > 0f)
@@ -559,10 +777,6 @@ if (_isDucking)
 			float decel = IsOnFloor() ? Deceleration : AirAcceleration;
 			velocity.X = Mathf.MoveToward(velocity.X, 0f, decel * dt);
 		}
-
-		// Left boundary
-		if (Position.X < 0)
-			Position = new Vector2(0, Position.Y);
 
 		Velocity = velocity;
 		MoveAndSlide();
@@ -655,10 +869,22 @@ if (_isDucking)
 			_starTimer -= dt;
 			_starInvincibilityTimer -= dt;
 
+			//if (_starTimer <= 0f && _starActive)
+			//{
+				//_starActive = false;
+				//SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+			//}
+
 			if (_starTimer <= 0f && _starActive)
 			{
 				_starActive = false;
-				SoundManager.Instance.SwitchMusic(SoundManager.Instance.GameMusic);
+
+				if (!LevelGoal.LevelCompleted)
+				{
+					SoundManager.Instance.SwitchMusic(
+						SoundManager.Instance.GameMusic
+					);
+				}
 			}
 
 			if (_starInvincibilityTimer <= 0f && _starInvincibilityActive)
@@ -744,13 +970,13 @@ if (_isDucking)
 		IsDying = true;
 		Shake(7f, 0.25f);
 
-		if (IsSmall)
-		{
-		_lives--;
-		_lives = Mathf.Max(_lives, 0);
-		}
+		//if (IsSmall)
+		//{
+		//_lives--;
+		//_lives = Mathf.Max(_lives, 0);
+		//}
 
-		if (_lives <= 0)
+		if (_lives <= 1)
 		{	
 			SoundManager.Instance.PlayPlayerDeath();
 			LastRunScore = _score;
@@ -765,10 +991,12 @@ if (_isDucking)
 	{
 		// First hit – shrink player, don't die yet
 		IsSmall = true;
-		_invincibilityTimer = 1.5f;
-		
+		// kurze i-frames damit player nicht direkt nochmal stirbt, aber nicht so lange
+		// dass man durch andere gegner durchläuft
+		_invincibilityTimer = 0.5f;
+
 		// Shrink collision and scale visually
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 30) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		Scale = new Vector2(0.6f, 0.6f);
 		
 		// Blink effect
@@ -781,11 +1009,13 @@ if (_isDucking)
 	}
 	else
 	{
+		_lives--;
+		_lives = Mathf.Max(_lives, 0);
 		// Second hit – actually die and respawn
 		SoundManager.Instance.PlayPlayerDeath();
 		IsSmall = false;
 		Scale = Vector2.One;
-		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 60) };
+		_standShape.Shape = new RectangleShape2D { Size = new Vector2(30, 90) };
 		
 		Visible = false;
 		SetPhysicsProcess(false);
@@ -794,9 +1024,11 @@ if (_isDucking)
 		await ToSignal(timer, SceneTreeTimer.SignalName.Timeout);
 
 		Position = _checkpointPosition;
+		ResetEnemiesToStart();
 		Visible = true;
 		SetPhysicsProcess(true);
-		_invincibilityTimer = 1.5f;
+		// kurze i-frames nach respawn, damit man nicht direkt wieder stirbt aber auch nicht zu lange wartet
+		_invincibilityTimer = 0.5f;
 		IsDying = false;
 		ResetAirState();
 

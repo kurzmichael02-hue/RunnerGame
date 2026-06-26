@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://bbhrncjr0o76p"]
 
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="1_7gq8y"]
 [ext_resource type="Script" uid="uid://50664odtjegd" path="res://Scripts/Core/CharacterSelection.cs" id="1_b6i7w"]
 [ext_resource type="Texture2D" uid="uid://dxweg8sfcxxl7" path="res://leveldesign/Deep Forest.png" id="1_hotlv"]
-[ext_resource type="Texture2D" uid="uid://bt45yxx6kqkko" path="res://leveldesign/player2.png" id="2_hotlv"]
 [ext_resource type="Texture2D" uid="uid://du8a3no1kigby" path="res://leveldesign/player.png" id="3_lu437"]
+[ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="3_t0ed0"]
+[ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="4_ogh4c"]
+[ext_resource type="Texture2D" uid="uid://woi175lb1in3" path="res://leveldesign/Mischa(selection).png" id="6_u5eno"]
+[ext_resource type="Texture2D" uid="uid://c7p7rapq81lil" path="res://leveldesign/padlock.png" id="7_u5eno"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hotlv"]
 texture = ExtResource("1_hotlv")
@@ -34,6 +36,15 @@ corner_radius_bottom_left = 35
 shadow_color = Color(0, 0, 0, 1)
 shadow_size = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s78y6"]
+bg_color = Color(0.24405202, 0.24405205, 0.24405202, 1)
+corner_radius_top_left = 45
+corner_radius_top_right = 45
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 7
+
 [node name="CharacterSelection" type="Control" unique_id=1077623174]
 layout_mode = 3
 anchors_preset = 15
@@ -45,7 +56,7 @@ script = ExtResource("1_b6i7w")
 
 [node name="Panel" type="Panel" parent="." unique_id=1063320490]
 modulate = Color(0.7581918, 0.7581918, 0.7581917, 1)
-self_modulate = Color(0.54497427, 0.5449743, 0.5449741, 1)
+self_modulate = Color(0.8431839, 0.8431839, 0.84318376, 1)
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -63,14 +74,38 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -578.0
-offset_top = -360.0
+offset_top = -323.0
 offset_right = 576.0
-offset_bottom = -179.0
+offset_bottom = -217.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("1_7gq8y")
-theme_override_font_sizes/font_size = 70
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.8980392, 1, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_fonts/font = ExtResource("3_t0ed0")
+theme_override_font_sizes/font_size = 55
 text = "Character Selection"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectedLabel" type="Label" parent="." unique_id=289650508]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -345.0
+offset_top = -226.0
+offset_right = 349.5
+offset_bottom = -158.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.8980392, 1, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_fonts/font = ExtResource("4_ogh4c")
+theme_override_font_sizes/font_size = 35
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -81,10 +116,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -348.5
-offset_top = -194.0
-offset_right = 348.5
-offset_bottom = 153.0
+offset_left = -322.25
+offset_top = -148.5
+offset_right = 322.25
+offset_bottom = 148.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
@@ -125,58 +160,133 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_hotlv")
+texture = ExtResource("6_u5eno")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HBoxContainer2" type="VBoxContainer" parent="." unique_id=311465264]
+[node name="LockIcon" type="TextureRect" parent="HBoxContainer/Button2" unique_id=1290412680]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 68.25
+offset_top = 51.5
+offset_right = -76.5
+offset_bottom = -69.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_u5eno")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PriceLabel" type="Label" parent="HBoxContainer/Button2" unique_id=710709684]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenu" type="Button" parent="." unique_id=750542043]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 592.0
+offset_right = 852.0
+offset_bottom = 651.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_ogh4c")
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_t0ed0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ogh4c")
+theme_override_styles/hover = SubResource("StyleBoxFlat_u5eno")
+text = "Main Menu"
+
+[node name="ConfirmPanel" type="Panel" parent="." unique_id=1652620902]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -268.5
-offset_top = 179.0
-offset_right = 268.5
-offset_bottom = 336.0
+offset_left = -415.0
+offset_top = -158.0
+offset_right = 415.0
+offset_bottom = 172.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
+theme_override_styles/panel = SubResource("StyleBoxFlat_s78y6")
 
-[node name="MainMenu" type="Button" parent="HBoxContainer2" unique_id=750542043]
+[node name="Label" type="Label" parent="ConfirmPanel" unique_id=650638390]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -151.0
+offset_right = 336.0
+offset_bottom = -76.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_ogh4c")
+theme_override_font_sizes/font_size = 30
+text = "Unlock Mischa for 100 Coins?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConfirmPanel" unique_id=389859488]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.25
+offset_top = -62.5
+offset_right = 288.25
+offset_bottom = 123.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="YesButton" type="Button" parent="ConfirmPanel/HBoxContainer" unique_id=1843605764]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("4_ogh4c")
+theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_t0ed0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ogh4c")
 theme_override_styles/hover = SubResource("StyleBoxFlat_u5eno")
-text = "Main Menu"
+text = "YES
+"
 
-[node name="Exit" type="Button" parent="HBoxContainer2" unique_id=1475705960]
+[node name="NoButton" type="Button" parent="ConfirmPanel/HBoxContainer" unique_id=1187046390]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("4_ogh4c")
+theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_t0ed0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_ogh4c")
 theme_override_styles/hover = SubResource("StyleBoxFlat_u5eno")
-text = "Exit"
+text = "NO"
 
-[node name="ExitConfirmDialog" type="ConfirmationDialog" parent="." unique_id=1442588969]
-oversampling_override = 1.0
-title = "Wichtig!"
-position = Vector2i(0, 36)
-size = Vector2i(351, 100)
-ok_button_text = "Ja"
-dialog_text = "Möchtest du dieses Spiel wirklich beenden?"
-cancel_button_text = "Nein"
-
-[connection signal="pressed" from="HBoxContainer2/MainMenu" to="." method="_on_main_menu_pressed"]
-[connection signal="pressed" from="HBoxContainer2/Exit" to="." method="_on_exit_pressed"]
-[connection signal="confirmed" from="ExitConfirmDialog" to="." method="_on_exit_confirmed"]
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="ConfirmPanel/HBoxContainer/YesButton" to="." method="_on_yes_button_pressed"]
+[connection signal="pressed" from="ConfirmPanel/HBoxContainer/NoButton" to="." method="_on_no_button_pressed"]

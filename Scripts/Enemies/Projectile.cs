@@ -57,6 +57,13 @@ public partial class Projectile : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
+		// Wände/Tiles – Projektil prallt ab und verschwindet
+		if (body is StaticBody2D or TileMapLayer)
+		{
+			QueueFree();
+			return;
+		}
+
 		if (body is Player player)
 		{
 			if (player.IsDying) return;

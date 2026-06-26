@@ -1,40 +1,41 @@
 [gd_scene format=3 uid="uid://o72w2w7efx82"]
 
 [ext_resource type="Script" uid="uid://o83bnx7iqeg" path="res://Scripts/UI/HighScores.cs" id="1_mp3kb"]
-[ext_resource type="Texture2D" uid="uid://1n0u5rrysw56" path="res://leveldesign/HighscoreBackground.png" id="2_vn51m"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="3_5uhc2"]
+[ext_resource type="Texture2D" uid="uid://3rr38xkuav7v" path="res://leveldesign/Background/Land.jpg" id="2_2ljt4"]
+[ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="3_lg4v5"]
+[ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="4_lg4v5"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
-texture = ExtResource("2_vn51m")
+texture = ExtResource("2_2ljt4")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bnhvo"]
-bg_color = Color(0.65882355, 0.33333334, 0.96862745, 1)
+bg_color = Color(0.18039216, 0.43529412, 0.4509804, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 1)
-shadow_size = 5
+shadow_size = 1
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_853f1"]
-bg_color = Color(0.49411765, 0.13333334, 0.80784315, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.2901961)
-shadow_size = 8
-shadow_offset = Vector2(0, 3.41)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8saeu"]
-bg_color = Color(0.7529412, 0.5176471, 0.9882353, 1)
+bg_color = Color(0.12156863, 0.30980393, 0.32156864, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 1)
-shadow_size = 8
+shadow_size = 2
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8saeu"]
+bg_color = Color(0.24705882, 0.54901963, 0.5686275, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 1
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_853f1"]
@@ -57,6 +58,19 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_853f1")
 
+[node name="GlobalTitle" type="Label" parent="." unique_id=1058196709]
+layout_mode = 0
+offset_left = 427.0
+offset_top = 232.0
+offset_right = 838.0
+offset_bottom = 345.0
+theme_override_colors/font_shadow_color = Color(0.18039216, 0.43529412, 0.4509804, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_fonts/font = ExtResource("4_lg4v5")
+theme_override_font_sizes/font_size = 45
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1643739957]
 layout_mode = 1
 anchors_preset = 8
@@ -64,41 +78,64 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -165.75
-offset_top = -85.0
-offset_right = 165.75
-offset_bottom = 230.0
+offset_left = -166.0
+offset_right = 165.5
+offset_bottom = 162.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 60
+theme_override_constants/separation = 4
 alignment = 1
 
 [node name="HighScoreLabel" type="Label" parent="VBoxContainer" unique_id=486319815]
-custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.18039216, 0.43529412, 0.4509804, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_fonts/font = ExtResource("3_lg4v5")
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BestTimeLabel" type="Label" parent="VBoxContainer" unique_id=486319816]
-custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.18039216, 0.43529412, 0.4509804, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_fonts/font = ExtResource("3_lg4v5")
 theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SessionHighScoreLabel" type="Label" parent="VBoxContainer" unique_id=1456465869]
-custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.18039216, 0.43529412, 0.4509804, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_fonts/font = ExtResource("3_lg4v5")
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MainMenu" type="Button" parent="VBoxContainer" unique_id=369666937]
-layout_mode = 2
+[node name="MainMenu" type="Button" parent="." unique_id=369666937]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -232.0
+offset_top = 220.0
+offset_right = 213.25
+offset_bottom = 274.5
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_lg4v5")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
@@ -114,18 +151,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -340.5
-offset_top = -274.0
-offset_right = 340.5
-offset_bottom = -105.0
+offset_left = -341.0
+offset_top = -309.0
+offset_right = 342.0
+offset_bottom = -111.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.18039216, 0.43529412, 0.4509804, 1)
+theme_override_colors/font_shadow_color = Color(0.12156863, 0.30980393, 0.32156864, 1)
+theme_override_constants/shadow_offset_x = 4
 theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("3_5uhc2")
+theme_override_fonts/font = ExtResource("4_lg4v5")
 theme_override_font_sizes/font_size = 70
 text = "Highscores"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="VBoxContainer/MainMenu" to="." method="_on_mainMenu_pressed"]
+[connection signal="pressed" from="MainMenu" to="." method="_on_mainMenu_pressed"]

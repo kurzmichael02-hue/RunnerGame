@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c0w7texd2bgdu"
-path="res://.godot/imported/DropShade-Shadow.ttf-bd8f87261d80c767a79d24d2c2b6dca3.fontdata"
+uid="uid://d32tcn4wxnfvv"
+path="res://.godot/imported/PixelOperator8-Bold.ttf-f1a0cf64a153ff5ca41bf6542be5110b.fontdata"
 
 [deps]
 
-source_file="res://Scenes/DropShade-Shadow.ttf"
-dest_files=["res://.godot/imported/DropShade-Shadow.ttf-bd8f87261d80c767a79d24d2c2b6dca3.fontdata"]
+source_file="res://leveldesign/Fonts/PixelOperator8-Bold.ttf"
+dest_files=["res://.godot/imported/PixelOperator8-Bold.ttf-f1a0cf64a153ff5ca41bf6542be5110b.fontdata"]
 
 [params]
 

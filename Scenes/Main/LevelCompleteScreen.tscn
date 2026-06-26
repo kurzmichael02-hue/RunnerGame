@@ -1,38 +1,41 @@
 [gd_scene format=3 uid="uid://bgnuo0ijn2qm2"]
 
 [ext_resource type="Script" uid="uid://ca3b4r1psh4cl" path="res://Scripts/Levels/LevelCompleteScreen.cs" id="1_6emyg"]
-[ext_resource type="Texture2D" uid="uid://by7uuaqidlxa1" path="res://leveldesign/Level Complete.png" id="2_crvh3"]
-[ext_resource type="FontFile" uid="uid://c0w7texd2bgdu" path="res://Scenes/DropShade-Shadow.ttf" id="3_x2xnx"]
+[ext_resource type="Texture2D" uid="uid://1ggvrliahv2i" path="res://leveldesign/Background/LevelComplete.png" id="2_mqnti"]
+[ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="3_4omfe"]
+[ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="4_nebfk"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k3l58"]
-texture = ExtResource("2_crvh3")
+texture = ExtResource("2_mqnti")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rv2dj"]
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(0.49019608, 0.6509804, 0.54509807, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 shadow_color = Color(0, 0, 0, 1)
-shadow_size = 5
+shadow_size = 1
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omxh7"]
-bg_color = Color(0.11764706, 0.6156863, 0.76862746, 1)
+bg_color = Color(0.30980393, 0.4509804, 0.3764706, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.2901961)
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 2
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_swncw"]
-bg_color = Color(0.003921569, 0.101960786, 0.101960786, 1)
+bg_color = Color(0.8509804, 0.70980394, 0.42745098, 1)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.22745098)
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 3
 shadow_offset = Vector2(0, 3.41)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oexwg"]
@@ -41,6 +44,7 @@ shadow_offset = Vector2(0, 3.41)
 script = ExtResource("1_6emyg")
 
 [node name="Panel" type="Panel" parent="." unique_id=1734984487]
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,31 +60,40 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -174.75
-offset_top = -72.0
+offset_top = -55.0
 offset_right = 174.75
-offset_bottom = 264.0
+offset_bottom = 265.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 22
+theme_override_constants/separation = 25
 alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1337723498]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_shadow_color = Color(0.49019608, 0.6509804, 0.54509807, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_fonts/font = ExtResource("3_4omfe")
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LivesLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1220991686]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_shadow_color = Color(0.49019608, 0.6509804, 0.54509807, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_fonts/font = ExtResource("3_4omfe")
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TimeLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1203162727]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_shadow_color = Color(0.49019608, 0.6509804, 0.54509807, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_fonts/font = ExtResource("3_4omfe")
 theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -88,10 +101,11 @@ vertical_alignment = 1
 [node name="Retry" type="Button" parent="Panel/VBoxContainer" unique_id=95648888]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_focus_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_pressed_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_hover_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_fonts/font = ExtResource("3_4omfe")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_rv2dj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_omxh7")
@@ -102,10 +116,11 @@ text = "Retry"
 [node name="MainMenu" type="Button" parent="Panel/VBoxContainer" unique_id=57995421]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_focus_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_pressed_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_hover_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_fonts/font = ExtResource("3_4omfe")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_rv2dj")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_omxh7")
@@ -114,34 +129,47 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_oexwg")
 text = "Main Menu
 "
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Panel" unique_id=1022669805]
+[node name="Congratulation" type="Label" parent="Panel" unique_id=86250705]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -340.5
-offset_top = -300.0
-offset_right = 340.5
-offset_bottom = -70.0
+offset_left = -340.0
+offset_top = -286.0
+offset_right = 341.0
+offset_bottom = -211.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Congratulation" type="Label" parent="Panel/VBoxContainer2" unique_id=86250705]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.9843137, 0.9529412, 0.8862745, 1)
+theme_override_colors/font_shadow_color = Color(0.8509804, 0.70980394, 0.42745098, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_fonts/font = ExtResource("4_nebfk")
 theme_override_font_sizes/font_size = 35
 text = "Well done!
 ~ Congratulations ~"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="Panel/VBoxContainer2" unique_id=535797207]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_x2xnx")
-theme_override_font_sizes/font_size = 55
+[node name="Label" type="Label" parent="Panel" unique_id=535797207]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -503.0
+offset_top = -192.0
+offset_right = 503.0
+offset_bottom = -69.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.49019608, 0.6509804, 0.54509807, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_fonts/font = ExtResource("4_nebfk")
+theme_override_font_sizes/font_size = 70
 text = "LEVEL COMPLETE!"
 horizontal_alignment = 1
 vertical_alignment = 1

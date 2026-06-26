@@ -19,6 +19,7 @@ public partial class SoundManager : Node
 	private AudioStreamPlayer _music;
 	private AudioStreamPlayer _gameOverMusic;
 	private AudioStreamPlayer _starMusic;
+	private AudioStreamPlayer _levelCompleteMusic;
 	private AudioStreamPlayer _playerDeath1;
 	private AudioStreamPlayer _playerDeath2;
 	private AudioStreamPlayer _playerDeath3;
@@ -38,9 +39,16 @@ public partial class SoundManager : Node
 	public AudioStreamPlayer StartScreenMusic => _startScreenMusic;
 	public AudioStreamPlayer GameOverMusic => _gameOverMusic;
 	public AudioStreamPlayer StarMusic => _starMusic;
+	public AudioStreamPlayer LevelCompleteMusic => _levelCompleteMusic;
 
 	public override void _Ready()
 	{
+		if (Instance != null && Instance != this)
+		{
+			QueueFree();
+			return;
+		}
+
 		Instance = this;
 		
 		//initialising the Audiostream Players
@@ -51,7 +59,6 @@ public partial class SoundManager : Node
 		_coin = GetNode<AudioStreamPlayer>("GameFX/CoinSound");
 		_enemy = GetNode<AudioStreamPlayer>("GameFX/EnemyDeathSound");
 		_checkpoint = GetNode<AudioStreamPlayer>("GameFX/CheckPointSound");
-
 
 		// ====================
 		// Player Sounds
@@ -64,7 +71,6 @@ public partial class SoundManager : Node
 		_playerDeath2 = GetNode<AudioStreamPlayer>("GameFX/PlayerDeathSound2");
 		_playerDeath3 = GetNode<AudioStreamPlayer>("GameFX/PlayerDeathSound3");
 
-
 		// ====================
 		// Music
 		// ====================
@@ -73,7 +79,7 @@ public partial class SoundManager : Node
 		_startScreenMusic = GetNode<AudioStreamPlayer>("Music/StartScreenMusic");
 		_gameOverMusic = GetNode<AudioStreamPlayer>("Music/GameOverMusic");
 		_starMusic = GetNode<AudioStreamPlayer>("Music/StarMusic");
-
+		_levelCompleteMusic = GetNode<AudioStreamPlayer>("Music/LevelCompleteMusic");
 
 		// ====================
 		// Menu Sounds
@@ -91,7 +97,6 @@ public partial class SoundManager : Node
 		
 		_rng.Randomize();
 		
-		
 		//Iterating over every object in the "Music" Node and adding them to our list of MusicPlayers
 		foreach (Node child in musicParent.GetChildren())
 		{
@@ -100,6 +105,7 @@ public partial class SoundManager : Node
 				_musicPlayers.Add(player);
 			}
 		}
+
 		foreach (Node parent in new[] { gameFxParent, menuFxParent })
 		{
 			foreach (Node child in parent.GetChildren())
@@ -113,146 +119,102 @@ public partial class SoundManager : Node
 
 		// Read master volume from settings.cfg straight away – otherwise the main-menu
 		// music starts at full volume and gets quieter the moment the player opens
-		// settings, which is the bug bartolmay flagged.
-		LoadMasterVolumeFromConfig();
+		// settings, which was the bug.
+		LoadAudioSettings();
 	}
 
-	private void LoadMasterVolumeFromConfig()
+	// ====================
+	// Audio Settings
+	// ====================
+	private void LoadAudioSettings()
 	{
 		var config = new ConfigFile();
-		if (config.Load("user://settings.cfg") != Error.Ok) return;
-		if (!config.HasSectionKey("audio", "master")) return;
 
-		double value = (double)config.GetValue("audio", "master", 100.0);
-		float linear = (float)(value / 100.0);
-		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
-		int bus = AudioServer.GetBusIndex("Master");
-		AudioServer.SetBusVolumeDb(bus, db);
+		if (config.Load("user://settings.cfg") != Error.Ok)
+			return;
+
+		AudioUtils.ApplyBusFromConfig(config, "master", "Master");
+		AudioUtils.ApplyBusFromConfig(config, "music", "Music");
+		AudioUtils.ApplyBusFromConfig(config, "gamefx", "GameFX");
+		AudioUtils.ApplyBusFromConfig(config, "menufx", "MenuFX");
 	}
-	
+
 	//Ingame Objects
-	public void PlayCoin()
-	{
-		_coin.Play();
-	}
+	public void PlayCoin() => _coin?.Play();
+	public void PlayJump() => _jump?.Play();
+	public void PlayEnemyDeath() => _enemy?.Play();
+	public void PlayCheckpoint() => _checkpoint?.Play();
+	public void PlaySwordAttack() => _swordAttack?.Play();
+	public void PlayNoSwordLeft() => _noSwordLeft?.Play();
 
-	public void PlayJump()
-	{
-		_jump.Play();
-	}
-
-	public void PlayEnemyDeath()
-	{
-		_enemy.Play();
-	}
-
-	public void PlayCheckpoint()
-	{
-		_checkpoint.Play();
-	}
-	
-	public void PlaySwordAttack()
-	{
-		_swordAttack.Play();
-	}
-	
-	public void PlayNoSwordLeft()
-	{
-		_noSwordLeft.Play();
-	}
-	
 	public void PlayPlayerDeath()
 	{
 		int roll = _rng.RandiRange(1, 3);
 
 		switch (roll)
 		{
-			case 1:
-				_playerDeath1.Play();
-				break;
-			case 2:
-				_playerDeath2.Play();
-				break;
-			case 3:
-				_playerDeath3.Play();
-				break;
+			case 1: _playerDeath1?.Play(); break;
+			case 2: _playerDeath2?.Play(); break;
+			case 3: _playerDeath3?.Play(); break;
 		}
 	}
 	
 	//Menu Sounds
-	public void PlayMenuHover()
-	{
-		_menuHover.Play();
-	}
+	public void PlayMenuHover() => _menuHover?.Play();
+	public void PlayButton() => _button?.Play();
 	
-	public void PlayButton()
-	{
-		_button.Play();
-	}
-	
-	//Music  start and stop functions, currently not really needed as we have switch music now
+	//Music start and stop functions
 	public void PlayMusic()
 	{
-		if (!_music.Playing)
+		if (_music != null && !_music.Playing)
 			_music.Play();
 	}
 
-	public void StopMusic()
-	{
-		_music.Stop();
-	}
-	
+	public void StopMusic() => _music?.Stop();
+
 	public void PlaySettingsMusic()
 	{
-		if (!_settingsMusic.Playing)
+		if (_settingsMusic != null && !_settingsMusic.Playing)
 			_settingsMusic.Play();
 	}
-	
-	public void StopSettingsMusic()
-	{
-		_settingsMusic.Stop();
-	}
+
+	public void StopSettingsMusic() => _settingsMusic?.Stop();
 	
 	//Switch Music Function Stops every music and switches to the Audio Stream Player, which is chosen as the parameter
 	public void SwitchMusic(AudioStreamPlayer target)
 	{
+		// Stop everything else
 		foreach (var music in _musicPlayers)
 		{
-			music.Stop();
+			if (music != null && music != target)
+				music.Stop();
 		}
+		
+		// If target already playing -> Do Nothing
+		if (target == null || target.Playing)
+			return;
 
 		target.Play();
 	}
 	
-	//Helper Function to implement public Functions for Ui Usage
-	private void SetBusVolume(string busName, float valuePercent)
-	{
-		float linear = valuePercent / 100f;
-		float db = linear <= 0.001f ? -80f : Mathf.LinearToDb(linear);
-
-		int busIndex = AudioServer.GetBusIndex(busName);
-		AudioServer.SetBusVolumeDb(busIndex, db);
-	}
-	
-	//public Wrapper Functions to use in UI
-	
+	//Helper Function for UI Volume Control
 	public void SetMasterVolume(float value)
 	{
-		SetBusVolume("Master", value);
+		AudioUtils.SetBusVolume("Master", value);
 	}
 
 	public void SetMusicVolume(float value)
 	{
-		SetBusVolume("Music", value);
+		AudioUtils.SetBusVolume("Music", value);
 	}
 
 	public void SetGameFxVolume(float value)
 	{
-		SetBusVolume("GameFX", value);
+		AudioUtils.SetBusVolume("GameFX", value);
 	}
 
 	public void SetMenuFxVolume(float value)
 	{
-		SetBusVolume("MenuFX", value);
+		AudioUtils.SetBusVolume("MenuFX", value);
 	}
 }

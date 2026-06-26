@@ -2,11 +2,20 @@ using Godot;
 
 public partial class Coin : Area2D
 {
+	private bool _initialOverlapChecked = false;
+
 	public override void _Ready()
 	{
 		BodyEntered += OnBodyEntered;
-		// "coin" group is used by the magnet power-up to pull coins toward the player
 		AddToGroup("coin");
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		if (_initialOverlapChecked) return;
+		_initialOverlapChecked = true;
+		foreach (var body in GetOverlappingBodies())
+			OnBodyEntered(body);
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -40,6 +49,14 @@ public partial class Coin : Area2D
 		var tween = GetTree().CreateTween();
 		tween.TweenProperty(wrap, "global_position", worldPos + new Vector2(0, -55), 0.6f);
 		tween.Parallel().TweenProperty(wrap, "modulate:a", 0f, 0.6f);
-		tween.TweenCallback(Callable.From(() => wrap.QueueFree()));
+		tween.TweenCallback(
+	Callable.From(() =>
+	{
+		if (IsInstanceValid(wrap))
+		{
+			wrap.QueueFree();
+		}
+	})
+);
 	}
 }

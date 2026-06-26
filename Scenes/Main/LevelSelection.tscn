@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://q6q60brxgtg"]
+
+[ext_resource type="Script" uid="uid://drk6jpcoqm4br" path="res://Scripts/UI/LevelSelection.cs" id="1_he45x"]
+[ext_resource type="Texture2D" uid="uid://cb0ym3uhbsoxq" path="res://leveldesign/Background/CastleOnTheMountains-Valrok.png" id="2_1cp38"]
+[ext_resource type="FontFile" uid="uid://diur3axqs2vxt" path="res://leveldesign/Fonts/PixelOperator8.ttf" id="3_1cp38"]
+[ext_resource type="FontFile" uid="uid://d32tcn4wxnfvv" path="res://leveldesign/Fonts/PixelOperator8-Bold.ttf" id="4_mm1d4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_853f1"]
+texture = ExtResource("2_1cp38")
+modulate_color = Color(0.77168405, 0.77168405, 0.7716839, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bnhvo"]
+bg_color = Color(0.29411766, 0.3647059, 0.54901963, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_853f1"]
+bg_color = Color(0.23137255, 0.2901961, 0.41960785, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8saeu"]
+bg_color = Color(0.43137255, 0.5294118, 0.7882353, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 5
+shadow_offset = Vector2(0, 3.41)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_853f1"]
+
+[node name="LevelSelection" type="Control" unique_id=1593566126]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_he45x")
+
+[node name="Panel" type="Panel" parent="." unique_id=1023448666]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_853f1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=485703894]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -279.0
+offset_top = -136.0
+offset_right = 280.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 17
+alignment = 1
+
+[node name="Level1" type="Button" parent="HBoxContainer" unique_id=1231151666]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_1cp38")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8saeu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
+text = "Level 1"
+
+[node name="Level 2" type="Button" parent="HBoxContainer" unique_id=1497075719]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_1cp38")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8saeu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
+text = "Level 2"
+
+[node name="Main Menu" type="Button" parent="." unique_id=341754521]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -204.0
+offset_top = 189.0
+offset_right = 199.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_1cp38")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_bnhvo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_853f1")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8saeu")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_853f1")
+text = "Main Menu"
+
+[node name="Label" type="Label" parent="." unique_id=1954159118]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -477.0
+offset_top = -313.0
+offset_right = 477.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0.29411766, 0.3647059, 0.54901963, 1)
+theme_override_constants/shadow_offset_y = 4
+theme_override_fonts/font = ExtResource("4_mm1d4")
+theme_override_font_sizes/font_size = 70
+text = "Level Selection"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/Level1" to="." method="_on_level1_pressed"]
+[connection signal="pressed" from="HBoxContainer/Level 2" to="." method="_on_testLevel_pressed"]
+[connection signal="pressed" from="Main Menu" to="." method="_on_exit_pressed"]

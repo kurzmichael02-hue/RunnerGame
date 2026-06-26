@@ -9,6 +9,7 @@ public partial class LevelCompleteScreen : CanvasLayer
 	private Label _scoreLabel;
 	private Label _livesLabel;
 	private Label _timeLabel;
+	private bool _changingScene = false;
 
 	private bool _shown = false;
 
@@ -28,19 +29,35 @@ public partial class LevelCompleteScreen : CanvasLayer
 		// Buttons verbinden
 		GetNode<Button>("Panel/VBoxContainer/MainMenu").Pressed += OnMainMenu;
 		GetNode<Button>("Panel/VBoxContainer/Retry").Pressed += OnRetry;
+		ConnectHoverRecursive(this);
 	}
 	
+	public enum MenuSource
+	{
+		PauseMenu,
+		Settings
+	}
+
 	public void ShowScreen()
 {
+
 	if (_shown) return;
 
 	_shown = true;
 	Visible = true;
+	
+	if (SoundManager.Instance != null)
+	{
+		SoundManager.Instance.SwitchMusic(
+			SoundManager.Instance.LevelCompleteMusic
+		);
+	}
 
 	_scoreLabel.Text = "Score: " + _player.Score;
 	_livesLabel.Text = "Lives: " + _player.Lives;
 
 	float time = _hud.ElapsedTime;
+	
 	int minutes = (int)(time / 60);
 	int seconds = (int)(time % 60);
 
@@ -48,17 +65,104 @@ public partial class LevelCompleteScreen : CanvasLayer
 }
 
 
-	private void OnMainMenu()
-	{
-		LevelGoal.Reset();
-		GetTree().Paused = false;
-		GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
-	}
 
-	private void OnRetry()
+
+private void OnMainMenu()
+{
+	ChangeSceneSafe(
+		"res://Scenes/Main/MainMenu.tscn"
+	);
+}
+
+private void ChangeSceneSafe(string path)
+{
+	if (_changingScene)
+		return;
+
+	_changingScene = true;
+
+	if (!IsInsideTree())
+		return;
+
+	if (SoundManager.Instance != null)
+		SoundManager.Instance.PlayButton();
+
+	LevelGoal.Reset();
+
+	GetTree().Paused = false;
+
+	CallDeferred(
+		nameof(DeferredSceneChange),
+		path
+	);
+}
+
+private void DeferredSceneChange(string path)
+{
+	if (!IsInsideTree())
+		return;
+
+	SceneTree tree = GetTree();
+
+	if (tree == null)
+		return;
+
+	tree.ChangeSceneToFile(path);
+}
+
+
+private void OnRetry()
+{
+	RetrySceneSafe();
+}
+
+private void RetrySceneSafe()
+{
+	if (_changingScene)
+		return;
+
+	_changingScene = true;
+
+	if (!IsInsideTree())
+		return;
+
+	if (SoundManager.Instance != null)
+		SoundManager.Instance.PlayButton();
+
+	LevelGoal.Reset();
+
+	GetTree().Paused = false;
+
+	CallDeferred(nameof(DeferredRetry));
+}
+
+private void DeferredRetry()
+{
+	if (!IsInsideTree())
+		return;
+
+	SceneTree tree = GetTree();
+
+	if (tree == null)
+		return;
+
+	tree.ReloadCurrentScene();
+}
+private void ConnectHoverRecursive(Node node)
+{
+	foreach (Node child in node.GetChildren())
 	{
-		LevelGoal.Reset();
-		GetTree().Paused = false;
-		GetTree().ReloadCurrentScene();
+		if (child is Button button)
+		{
+			button.MouseEntered += () =>
+			{
+				if (SoundManager.Instance != null)
+					SoundManager.Instance.PlayMenuHover();
+			};
+		}
+
+		ConnectHoverRecursive(child);
 	}
+}
+
 }
